@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KızılelmAI – Doğruluk Asistanı</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    />
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #050607;
+        --panel: #0f1419;
+        --panel-light: #212b36;
+        --text: #f5f7fb;
+        --muted: #97a2b3;
+        --accent: linear-gradient(120deg, #ff4d6d, #ff9f1c);
+        --accent-solid: #ff5f6d;
+        --border: rgba(255, 255, 255, 0.08);
+        --success: #46e59f;
+        --warning: #ffd166;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        background: radial-gradient(circle at top, #111c2b, #050607 55%);
+        color: var(--text);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 32px;
+        gap: 32px;
+      }
+
+      .shell {
+        width: min(1200px, 100%);
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 24px;
+      }
+
+      .card {
+        border-radius: 24px;
+        background: rgba(11, 17, 24, 0.9);
+        border: 1px solid var(--border);
+        padding: 32px;
+        overflow: hidden;
+        box-shadow: 0 25px 70px rgba(0, 0, 0, 0.45);
+        position: relative;
+      }
+
+      .hero {
+        grid-column: 1 / -1;
+        min-height: 320px;
+        background: radial-gradient(circle at top right, rgba(255, 77, 109, 0.25), transparent 55%),
+          rgba(10, 14, 22, 0.9);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 24px;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(255, 77, 109, 0.25), rgba(255, 159, 28, 0.15));
+        mix-blend-mode: screen;
+        opacity: 0.3;
+        pointer-events: none;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 4vw, 3.8rem);
+        margin: 0;
+        z-index: 1;
+      }
+
+      p {
+        margin: 0;
+        line-height: 1.6;
+        color: var(--muted);
+        z-index: 1;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        z-index: 1;
+      }
+
+      button.primary,
+      button.secondary {
+        border: none;
+        border-radius: 999px;
+        padding: 14px 28px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 200ms ease, box-shadow 200ms ease;
+      }
+
+      button.primary {
+        background: var(--accent);
+        color: #0d1117;
+        box-shadow: 0 15px 30px rgba(255, 77, 109, 0.35);
+      }
+
+      button.secondary {
+        background: rgba(255, 255, 255, 0.08);
+        color: var(--text);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      button.primary:hover,
+      button.secondary:hover {
+        transform: translateY(-2px);
+      }
+
+      .stat-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 18px;
+        z-index: 1;
+      }
+
+      .stat {
+        padding: 12px 18px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .stat .label {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+      }
+
+      .stat .value {
+        font-size: 1.25rem;
+        font-weight: 600;
+      }
+
+      .sources {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      .source-item {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 16px;
+        border-radius: 18px;
+        background: var(--panel);
+        border: 1px solid var(--border);
+      }
+
+      .source-item span {
+        font-weight: 600;
+      }
+
+      .status-pill {
+        margin-left: auto;
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: rgba(70, 229, 159, 0.15);
+        color: var(--success);
+        font-weight: 600;
+        font-size: 0.85rem;
+      }
+
+      .chat {
+        display: flex;
+        flex-direction: column;
+        height: 520px;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 28px;
+        overflow: hidden;
+      }
+
+      .chat-header {
+        padding: 20px 28px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .pulse-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--success);
+        position: relative;
+      }
+
+      .pulse-dot::after {
+        content: "";
+        position: absolute;
+        inset: -4px;
+        border-radius: inherit;
+        border: 2px solid rgba(70, 229, 159, 0.4);
+        animation: pulse 1.8s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(0.9);
+          opacity: 0.9;
+        }
+        100% {
+          transform: scale(1.5);
+          opacity: 0;
+        }
+      }
+
+      .chat-body {
+        flex: 1;
+        padding: 24px 28px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      .bubble {
+        max-width: 80%;
+        padding: 16px 20px;
+        border-radius: 22px;
+        line-height: 1.5;
+        font-size: 0.95rem;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+      }
+
+      .bubble.user {
+        align-self: flex-end;
+        background: var(--accent);
+        color: #1c1f24;
+      }
+
+      .bubble.ai {
+        align-self: flex-start;
+        background: var(--panel-light);
+        color: var(--text);
+      }
+
+      .bubble.ai strong {
+        color: var(--success);
+      }
+
+      .citation-pill {
+        display: inline-flex;
+        gap: 6px;
+        align-items: center;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        font-size: 0.85rem;
+        margin-top: 8px;
+      }
+
+      .chat-input {
+        padding: 20px 24px;
+        border-top: 1px solid var(--border);
+        display: flex;
+        gap: 14px;
+      }
+
+      .chat-input input {
+        flex: 1;
+        border: none;
+        border-radius: 18px;
+        padding: 16px 20px;
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--text);
+        font-size: 1rem;
+      }
+
+      .chat-input button {
+        border-radius: 18px;
+        border: none;
+        background: var(--accent);
+        padding: 0 28px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 180ms ease;
+      }
+
+      .chat-input button:hover {
+        transform: translateY(-1px);
+      }
+
+      footer {
+        width: min(1200px, 100%);
+        padding: 24px 32px;
+        border-radius: 24px;
+        border: 1px solid var(--border);
+        background: rgba(11, 17, 24, 0.8);
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      @media (max-width: 640px) {
+        body {
+          padding: 18px;
+        }
+
+        .card {
+          padding: 22px;
+        }
+
+        .chat {
+          height: 480px;
+        }
+
+        .chat-input {
+          flex-direction: column;
+        }
+
+        .chat-input button {
+          width: 100%;
+          padding: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="shell">
+      <article class="card hero">
+        <div>
+          <h1>KızılelmAI</h1>
+          <p>
+            Politika ve kamu söylemlerini yapay zekâ destekli olarak analiz ediyor, yanlış
+            alıntıları resmi kaynaklardan teyit ederek doğru bağlama oturtuyoruz.
+          </p>
+        </div>
+        <div class="hero-actions">
+          <button class="primary">Canlı Sohbete Başla</button>
+          <button class="secondary">Platformu Keşfet</button>
+        </div>
+        <div class="stat-grid">
+          <div class="stat">
+            <div class="label">Resmî Kaynak</div>
+            <div class="value">Resmî Gazete</div>
+          </div>
+          <div class="stat">
+            <div class="label">Doğrulama Süresi</div>
+            <div class="value">~47 sn</div>
+          </div>
+          <div class="stat">
+            <div class="label">Kayıtlı Vaka</div>
+            <div class="value">6.482+</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card sources">
+        <h2>Yetkili Kaynaklar</h2>
+        <div class="source-item">
+          <span>Resmî Gazete API</span>
+          <div class="status-pill">Aktif</div>
+        </div>
+        <div class="source-item">
+          <span>Anadolu Ajansı Akışı</span>
+          <div class="status-pill">Aktif</div>
+        </div>
+        <div class="source-item">
+          <span>İletişim Başkanlığı</span>
+          <div class="status-pill" style="background: rgba(255, 209, 102, 0.2); color: var(--warning)">
+            Güncelleniyor
+          </div>
+        </div>
+        <p>
+          KızılelmAI, Türkçe doğal dil işleme yetenekleriyle bağlamı korur ve doğrulanmış
+          içerikleri özetler.
+        </p>
+      </article>
+
+      <article class="chat">
+        <header class="chat-header">
+          <div class="pulse-dot"></div>
+          <div>
+            <strong>KızılelmAI Chatbot</strong>
+            <div style="color: var(--muted); font-size: 0.9rem">Resmî kaynak doğrulayıcısı</div>
+          </div>
+        </header>
+        <div class="chat-body" id="chatBody">
+          <div class="bubble user">
+            Şu anda tartışılan “Yeni enerji teşvik paketi” hakkında yanlış alıntılar var mı?
+          </div>
+          <div class="bubble ai">
+            Başbakanlık açıklamasının Anadolu Ajansı’nda <strong>same-day</strong> yayınlanan
+            versiyonuyla sosyal medyadaki alıntı eşleşiyor, ancak bazı cümleler bağlamından
+            koparılmış.
+            <div class="citation-pill">AA • 21.11.2025 14:32</div>
+          </div>
+        </div>
+        <form class="chat-input" id="chatForm">
+          <input type="text" id="chatInput" placeholder="Sorunu yaz, KızılelmAI doğrulasın..." />
+          <button type="submit">Gönder</button>
+        </form>
+      </article>
+    </section>
+
+    <footer>
+      <span>© 2025 KızılelmAI · Türkçe NLP Doğruluk Platformu</span>
+      <span>Şeffaflık Modu · Erişilebilirlik · KVKK Uyumlu</span>
+    </footer>
+
+    <script>
+      const chatForm = document.getElementById("chatForm");
+      const chatInput = document.getElementById("chatInput");
+      const chatBody = document.getElementById("chatBody");
+
+      const mockResponses = [
+        {
+          text:
+            "İfade, Resmî Gazete’de 22.11.2025 tarihli karar ile birebir uyuşuyor. Sosyal medya postunda çıkarılan paragraf ise bütçe aktarımının koşullu olduğunu belirtmiyor.",
+          citation: "Resmî Gazete • 22.11.2025",
+        },
+        {
+          text:
+            "AA’nın 09:45 bülteninde yer alan açıklamada, teşvik limitinin yalnızca KOBİ’ler için geçerli olduğu vurgulanmış. Haber portallarında limit tüm şirketlere genişletilmiş gibi aktarılmış.",
+          citation: "AA • 09:45 Bülteni",
+        },
+        {
+          text:
+            "İletişim Başkanlığı brifinginde kullanılan cümle, basın toplantısında “ön hazırlık” olarak tanımlanmış. Yani politikacı henüz nihai karar vermiş değil.",
+          citation: "İletişim Başkanlığı • Basın Notu",
+        },
+      ];
+
+      chatForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const message = chatInput.value.trim();
+        if (!message) return;
+
+        addBubble(message, "user");
+        chatInput.value = "";
+
+        setTimeout(() => {
+          const random = mockResponses[Math.floor(Math.random() * mockResponses.length)];
+          addBubble(`${random.text}`, "ai", random.citation);
+        }, 700);
+      });
+
+      function addBubble(text, role, citation) {
+        const bubble = document.createElement("div");
+        bubble.className = `bubble ${role}`;
+        bubble.textContent = text;
+
+        if (role === "ai" && citation) {
+          const pill = document.createElement("div");
+          pill.className = "citation-pill";
+          pill.textContent = citation;
+          bubble.appendChild(pill);
+        }
+
+        chatBody.appendChild(bubble);
+        chatBody.scrollTo({
+          top: chatBody.scrollHeight,
+          behavior: "smooth",
+        });
+      }
+    </script>
+  </body>
+</html>
+
