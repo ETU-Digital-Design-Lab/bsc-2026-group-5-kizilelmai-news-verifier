@@ -423,30 +423,21 @@
       <span>Şeffaflık Modu · Erişilebilirlik · KVKK Uyumlu</span>
     </footer>
 
+    <section class="card" style="width:min(930px,100%);margin:32px auto;background:#1b2535;">
+      <h2>Veri Seti Tablosu</h2>
+      <table id="datasetTable" style="width:100%;margin-top:24px;color:#e9e9ea;border-collapse:collapse;">
+        <thead></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
     <script>
       const chatForm = document.getElementById("chatForm");
       const chatInput = document.getElementById("chatInput");
       const chatBody = document.getElementById("chatBody");
 
-      const mockResponses = [
-        {
-          text:
-            "İfade, Resmî Gazete’de 22.11.2025 tarihli karar ile birebir uyuşuyor. Sosyal medya postunda çıkarılan paragraf ise bütçe aktarımının koşullu olduğunu belirtmiyor.",
-          citation: "Resmî Gazete • 22.11.2025",
-        },
-        {
-          text:
-            "AA’nın 09:45 bülteninde yer alan açıklamada, teşvik limitinin yalnızca KOBİ’ler için geçerli olduğu vurgulanmış. Haber portallarında limit tüm şirketlere genişletilmiş gibi aktarılmış.",
-          citation: "AA • 09:45 Bülteni",
-        },
-        {
-          text:
-            "İletişim Başkanlığı brifinginde kullanılan cümle, basın toplantısında “ön hazırlık” olarak tanımlanmış. Yani politikacı henüz nihai karar vermiş değil.",
-          citation: "İletişim Başkanlığı • Basın Notu",
-        },
-      ];
-
-      chatForm.addEventListener("submit", (event) => {
+      // Gerçek API ile chat sistemi
+      chatForm.addEventListener("submit", async (event) => {
         event.preventDefault();
         const message = chatInput.value.trim();
         if (!message) return;
@@ -454,10 +445,18 @@
         addBubble(message, "user");
         chatInput.value = "";
 
-        setTimeout(() => {
-          const random = mockResponses[Math.floor(Math.random() * mockResponses.length)];
-          addBubble(`${random.text}`, "ai", random.citation);
-        }, 700);
+        // Chat sorusu backend'e gönderiliyor
+        try {
+          const rsp = await fetch('http://127.0.0.1:5000/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query: message })
+          });
+          const data = await rsp.json();
+          addBubble(data.result, "ai");
+        } catch (err) {
+          addBubble('Cevap getirilemedi.', "ai");
+        }
       });
 
       function addBubble(text, role, citation) {
@@ -478,6 +477,27 @@
           behavior: "smooth",
         });
       }
+    // CSV'den gelen veriyi tabloya aktar
+      // Tabloya veri yüklenirken mesaj göster
+      const table = document.getElementById('datasetTable');
+      const thead = table.querySelector('thead');
+      const tbody = table.querySelector('tbody');
+      thead.innerHTML = '<tr><th colspan="99">Veri yükleniyor...</th></tr>';
+      fetch('http://127.0.0.1:5000/api/veri')
+        .then(rsp => rsp.json())
+        .then(data => {
+          if(!data || data.length === 0) {
+            thead.innerHTML = '<tr><th>Veri bulunamadı</th></tr>';
+            tbody.innerHTML = '';
+            return;
+          }
+          thead.innerHTML = '<tr>' + Object.keys(data[0]).map(k=>`<th>${k}</th>`).join('') + '</tr>';
+          tbody.innerHTML = data.map(row => '<tr>' + Object.values(row).map(v=>`<td>${v}</td>`).join('') + '</tr>').join('');
+        })
+        .catch(err => {
+          thead.innerHTML = '<tr><th colspan="99">Veri yüklenemedi!</th></tr>';
+          tbody.innerHTML = '';
+        });
     </script>
   </body>
 </html>
