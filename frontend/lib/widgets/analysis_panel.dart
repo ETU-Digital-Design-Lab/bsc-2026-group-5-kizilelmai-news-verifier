@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import '../constants.dart';
+import '../services/api_service.dart';
 
 /// Haber doğrulama ve analiz işlemlerinin yönetildiği ana panel bileşeni.
-/// Kullanıcıdan metin alır, analiz simülasyonu yapar ve sonuçları gösterir.
+/// Kullanıcıdan metin alır, gerçek backend API'ye (BERT tabanlı NLP) istek gönderir ve sonuçları gösterir.
 /// Web sürümünde "Split Layout" (İkiye Bölme), mobil sürümde dikey liste kullanır.
 class AnalysisPanel extends StatefulWidget {
   final bool isWeb;
@@ -21,49 +22,87 @@ class _AnalysisPanelState extends State<AnalysisPanel> {
   String? _analizSonucu;
   double _guvenSkoru = 0.0;
   
-  // --- Simülasyon Verileri ---
-  double _yalanOrani = 0.0;
-  double _manipulasyonOrani = 0.0;
-  String _aiAciklama = "";
+  // --- Backend Yanıt Verileri ---
+  String _backendResponse = "";
+  bool _isCorrect = false; // label 1 = doğru, 0 = yanlış
 
-  /// Yapay zeka analiz sürecini simüle eden fonksiyon.
-  /// 4 aşamalı bir bekleme süresi sonunda sahte bir rapor oluşturur.
+  /// Gerçek backend API'ye istek gönderen fonksiyon.
+  /// BERT tabanlı NLP doğrulama sistemi ile haber doğruluğunu kontrol eder.
   void _analizEt() async {
     FocusScope.of(context).unfocus(); // Klavyeyi kapat
 
-    if (_newsController.text.isEmpty) return;
+    if (_newsController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Lütfen analiz edilecek metni girin.'), backgroundColor: AppColors.primaryRed),
+      );
+      return;
+    }
 
     setState(() {
       _isLoading = true;
       _analizSonucu = null;
       _guvenSkoru = 0.0;
+      _backendResponse = "";
+      _loadingText = "BERT modeli sorgulanıyor...";
     });
 
-    // Kullanıcıya işlem yapıldığını hissettiren adımlar
-    List<String> steps = [
-      "NLP: Metin vektörleştiriliyor...",
-      "Resmi Gazete API sorgulanıyor...",
-      "Duygu analizi (Sentiment Analysis)...",
-      "Rapor oluşturuluyor..."
-    ];
+    try {
+      // Backend API'ye istek gönder
+      final response = await ApiService.sendChatQuery(_newsController.text.trim());
 
-    for (var step in steps) {
       if (!mounted) return;
-      setState(() => _loadingText = step);
-      await Future.delayed(const Duration(milliseconds: 600));
-    }
 
-    if (!mounted) return;
-    
-    // Simülasyon Sonucu
-    setState(() {
-      _isLoading = false;
-      _analizSonucu = "MANİPÜLASYON TESPİT EDİLDİ"; 
-      _guvenSkoru = 0.14; 
-      _yalanOrani = 0.86; 
-      _manipulasyonOrani = 0.92;
-      _aiAciklama = "Metinde yoğun duygusal tetikleyiciler (korku, öfke) tespit edilmiştir. Kaynak belirtilmeden 'kesinleşti' gibi ifadelerin kullanımı manipülasyon skorunu artırmıştır.";
-    });
+      // Backend yanıtını parse et
+      String result = response['result'] ?? 'Yanıt alınamadı.';
+      
+      // Backend'den gelen yanıtı analiz et
+      bool isCorrect = result.contains('Evet, bu haber doğru') || result.contains('✅');
+      bool isFalse = result.contains('Hayır, bu haber yanlış') || result.contains('❌');
+      
+      // Benzerlik skorunu çıkar (eğer varsa)
+      double similarity = 0.0;
+      RegExp similarityRegex = RegExp(r'Benzerlik:\s*(\d+\.?\d*)%');
+      Match? match = similarityRegex.firstMatch(result);
+      if (match != null) {
+        similarity = double.tryParse(match.group(1) ?? '0') ?? 0.0;
+        similarity = similarity / 100.0; // Yüzdeyi 0-1 aralığına çevir
+      }
+
+      setState(() {
+        _isLoading = false;
+        _backendResponse = result;
+        _isCorrect = isCorrect;
+        
+        if (isCorrect) {
+          _analizSonucu = "HABER DOĞRU";
+          _guvenSkoru = similarity > 0 ? similarity : 0.7; // Varsayılan güven skoru
+        } else if (isFalse) {
+          _analizSonucu = "HABER YANLIŞ";
+          _guvenSkoru = similarity > 0 ? similarity : 0.3; // Düşük güven skoru
+        } else {
+          _analizSonucu = "BİLGİ BULUNAMADI";
+          _guvenSkoru = 0.0;
+        }
+      });
+    } catch (e) {
+      if (!mounted) return;
+      
+      setState(() {
+        _isLoading = false;
+        _analizSonucu = "BAĞLANTI HATASI";
+        _guvenSkoru = 0.0;
+        _backendResponse = "Backend'e bağlanılamadı. Lütfen backend'in çalıştığından emin olun.\n\nHata: $e";
+      });
+      
+      // Kullanıcıya hata mesajı göster
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Backend bağlantı hatası: $e'),
+          backgroundColor: AppColors.primaryRed,
+          duration: const Duration(seconds: 4),
+        ),
+      );
+    }
   }
 
   /// Detaylı analiz raporunu gösteren Modal Dialog.
@@ -95,17 +134,26 @@ class _AnalysisPanelState extends State<AnalysisPanel> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _detailRow("Yalan Oranı", _yalanOrani, Colors.orange),
-                  const SizedBox(height: 15),
-                  _detailRow("Manipülasyon", _manipulasyonOrani, AppColors.primaryRed),
-                  const SizedBox(height: 25),
-                  const Text("YAPAY ZEKA AÇIKLAMASI:", style: TextStyle(color: Colors.grey, fontSize: 12, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 10),
+                  const Text("BACKEND YANITI:", style: TextStyle(color: Colors.grey, fontSize: 12, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 10),
                   Container(
                     width: double.infinity, 
                     padding: const EdgeInsets.all(15), 
-                    decoration: BoxDecoration(color: Colors.black26, borderRadius: BorderRadius.circular(8)), 
-                    child: Text(_aiAciklama, style: const TextStyle(color: Colors.white, fontSize: 14, height: 1.5, fontFamily: 'Courier'))
+                    decoration: BoxDecoration(
+                      color: Colors.black26, 
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Colors.white.withOpacity(0.1)),
+                    ), 
+                    child: SelectableText(
+                      _backendResponse.isNotEmpty ? _backendResponse : "Yanıt bekleniyor...",
+                      style: TextStyle(
+                        color: _isCorrect ? Colors.green : (_analizSonucu == "HABER YANLIŞ" ? AppColors.primaryRed : Colors.white),
+                        fontSize: 14, 
+                        height: 1.5, 
+                        fontFamily: 'Courier'
+                      )
+                    )
                   ),
                 ],
               ),
@@ -265,9 +313,24 @@ class _AnalysisPanelState extends State<AnalysisPanel> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(_analizSonucu!, style: const TextStyle(color: AppColors.resultBorder, fontWeight: FontWeight.w900, fontSize: 15, letterSpacing: 0.5)),
+                    Text(
+                      _analizSonucu!, 
+                      style: TextStyle(
+                        color: _isCorrect ? Colors.green : AppColors.resultBorder, 
+                        fontWeight: FontWeight.w900, 
+                        fontSize: 15, 
+                        letterSpacing: 0.5
+                      )
+                    ),
                     const SizedBox(height: 6),
-                    const Text("Manipülatif dil tespit edildi.", style: TextStyle(color: Colors.white, fontSize: 12)),
+                    Text(
+                      _isCorrect 
+                        ? "Veri setinde doğrulanmış kaynak bulundu." 
+                        : (_analizSonucu == "HABER YANLIŞ" 
+                          ? "Yanıltıcı içerik tespit edildi." 
+                          : "Bu konuda veri setinde bilgi bulunamadı."),
+                      style: const TextStyle(color: Colors.white, fontSize: 12),
+                    ),
                   ],
                 ),
               )

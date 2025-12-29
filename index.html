@@ -428,25 +428,8 @@
       const chatInput = document.getElementById("chatInput");
       const chatBody = document.getElementById("chatBody");
 
-      const mockResponses = [
-        {
-          text:
-            "İfade, Resmî Gazete’de 22.11.2025 tarihli karar ile birebir uyuşuyor. Sosyal medya postunda çıkarılan paragraf ise bütçe aktarımının koşullu olduğunu belirtmiyor.",
-          citation: "Resmî Gazete • 22.11.2025",
-        },
-        {
-          text:
-            "AA’nın 09:45 bülteninde yer alan açıklamada, teşvik limitinin yalnızca KOBİ’ler için geçerli olduğu vurgulanmış. Haber portallarında limit tüm şirketlere genişletilmiş gibi aktarılmış.",
-          citation: "AA • 09:45 Bülteni",
-        },
-        {
-          text:
-            "İletişim Başkanlığı brifinginde kullanılan cümle, basın toplantısında “ön hazırlık” olarak tanımlanmış. Yani politikacı henüz nihai karar vermiş değil.",
-          citation: "İletişim Başkanlığı • Basın Notu",
-        },
-      ];
-
-      chatForm.addEventListener("submit", (event) => {
+      // Gerçek backend API ile chat sistemi
+      chatForm.addEventListener("submit", async (event) => {
         event.preventDefault();
         const message = chatInput.value.trim();
         if (!message) return;
@@ -454,23 +437,27 @@
         addBubble(message, "user");
         chatInput.value = "";
 
-        setTimeout(() => {
-          const random = mockResponses[Math.floor(Math.random() * mockResponses.length)];
-          addBubble(`${random.text}`, "ai", random.citation);
-        }, 700);
+        // Backend API'ye istek gönder
+        try {
+          const response = await fetch('http://127.0.0.1:5000/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query: message })
+          });
+          const data = await response.json();
+          addBubble(data.result || 'Yanıt alınamadı.', "ai");
+        } catch (err) {
+          addBubble('Backend bağlantı hatası. Lütfen backend\'in çalıştığından emin olun.', "ai");
+        }
       });
 
-      function addBubble(text, role, citation) {
+      /// Chat mesajı balonu ekler
+      /// [text] - Gösterilecek metin
+      /// [role] - "user" veya "ai"
+      function addBubble(text, role) {
         const bubble = document.createElement("div");
         bubble.className = `bubble ${role}`;
         bubble.textContent = text;
-
-        if (role === "ai" && citation) {
-          const pill = document.createElement("div");
-          pill.className = "citation-pill";
-          pill.textContent = citation;
-          bubble.appendChild(pill);
-        }
 
         chatBody.appendChild(bubble);
         chatBody.scrollTo({
