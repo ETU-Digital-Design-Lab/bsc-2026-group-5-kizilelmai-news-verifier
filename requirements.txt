@@ -1,0 +1,11 @@
+flask
+flask-cors
+pandas
+sentence-transformers
+torch
+transformers
+numpy
+scikit-learn
+openpyxl
+protobuf 
+sentencepiece
