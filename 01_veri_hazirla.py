@@ -1,5 +1,7 @@
-import pandas as pd
 import os
+import pandas as pd
+
+from preprocess import preprocess
 
 # openpyxl kontrolü
 try:
@@ -47,7 +49,18 @@ def veri_hazirla():
     df_yalan['label'] = 0
 
     # 4. Birleştir
-    df_final = pd.concat([df_gercek[['text', 'label']], df_yalan[['text', 'label']]])
+    df_final = pd.concat([df_gercek[["text", "label"]], df_yalan[["text", "label"]]])
+
+    # 4b. Ön işleme (HTML temizleme, boşluk normalleştirme; stopword opsiyonel)
+    df_final["text"] = df_final["text"].apply(
+        lambda t: preprocess(
+            str(t) if pd.notna(t) else "",
+            strip_html_tags=True,
+            normalize_ws=True,
+            remove_stopwords_flag=False,
+        )
+    )
+    df_final = df_final[df_final["text"].str.len() > 0].reset_index(drop=True)
 
     # 5. Karıştır (Shuffle) - Çok önemli, yoksa model ezber yapar
     df_final = df_final.sample(frac=1).reset_index(drop=True)

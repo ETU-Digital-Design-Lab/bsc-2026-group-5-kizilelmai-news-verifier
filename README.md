@@ -44,6 +44,28 @@ python 03_model_test.py      # Eğitilmiş modeli yükleyip interaktif test aray
 - 02_veri_egit.py adımı internet gerektirir (model indirilecek).
 - Eğitim süresi donanımınıza göre değişir; GPU varsa otomatik kullanılır.
 - Model ve veri çıktıları .gitignore ile hariç tutulmuştur; herkes kendi makinesinde üretir.
+- **Canlı API:** Backend, resmi BERTurk (`dbmdz/bert-base-turkish-cased`) ile cümle embedding + benzerlik araması yapar. Eğitim (02) aynı BERTurk ile sınıflandırıcı üretir; CLI test `03_model_test.py` ile yapılır.
+
+## Adım 5: Backend API’yi çalıştır
+```bash
+python backend.py
+```
+API varsayılan olarak `http://127.0.0.1:5000` adresinde çalışır. İsteğe bağlı ortam değişkenleri için `.env.example` dosyasına bakın.
+
+### Ortam değişkenleri (opsiyonel)
+| Değişken | Açıklama | Varsayılan |
+|----------|----------|------------|
+| `KIZILELMAI_CSV_PATH` | Eğitim verisi CSV dosya yolu | `egitim_verisi_final.csv` |
+| `KIZILELMAI_EMBEDDING_MODEL` | Cümle embedding modeli. Varsayılan: resmi BERTurk (dbmdz) | `dbmdz/bert-base-turkish-cased` |
+| `KIZILELMAI_HOST` | Sunucu adresi | `127.0.0.1` |
+| `KIZILELMAI_PORT` | Port | `5000` |
+| `KIZILELMAI_MAX_QUERY_LENGTH` | Chat sorgusu max karakter | `2000` |
+| `KIZILELMAI_VERB_STEM_FILTER` | Sorgu fiil kökü filtresi: 1=açık, 0=kapalı. Web/büyük veri setinde gerekirse 0 yapılabilir | `1` |
+| `KIZILELMAI_CORS_ORIGINS` | İzin verilen origin’ler (virgülle ayrılmış). Production’da `*` yerine kendi domain’inizi kullanın | `*` |
+
+Metin ön işleme: `preprocess.py` (HTML, boşluk, stop words, kelime çapası) backend ve 01'de kullanılır. Opsiyonel: `KIZILELMAI_USE_PREPROCESS`, `KIZILELMAI_REMOVE_STOPWORDS`.
+
+**Sorgu–kaynak uyumu (fiil kökü filtresi):** Sorguda geçen fiil (kapandı, patladı, açıldı vb.) eşleşen cümlede yoksa sonuç elenir; böylece konu aynı olsa bile farklı eylem (örn. “kapandı mı” → “ödül aldı”) gösterilmez. Mantık fiil listesine dayanmaz, Türkçe fiil ekleriyle geneldir. Webden / büyük veri setlerinden besleme yapıldığında davranışı kapatmak için: `KIZILELMAI_VERB_STEM_FILTER=0`.
 
 ## Sorun giderme
 - `openpyxl kütüphanesi eksik` hatası: `pip install openpyxl`
