@@ -1,65 +1,45 @@
 import pandas as pd
-import os
+import re
+import string
 
-# openpyxl kontrolü
+def clean_text(text):
+    if not isinstance(text, str):
+        return ""
+    # Küçük harfe çevir
+    text = text.lower()
+    # Noktalama işaretlerini kaldır
+    text = text.translate(str.maketrans('', '', string.punctuation))
+    # Fazla boşlukları temizle
+    text = re.sub(r'\s+', ' ', text).strip()
+    return text
+
+print("Veriler birleştiriliyor ve temizleniyor...")
+
 try:
-    import openpyxl
-except ImportError:
-    print("❌ HATA: openpyxl kütüphanesi eksik.")
-    print("Lütfen şu komutu çalıştırın: pip install openpyxl")
-    print("Veya tüm kütüphaneler için: pip install -r requirements.txt")
-    exit(1)
+    # CSV dosyalarını oku
+    df_gercek = pd.read_csv("veriler/gercekler.csv", encoding='utf-8')
+    df_yalan = pd.read_csv("veriler/yalanlar.csv", encoding='utf-8')
 
-def veri_hazirla():
-    print("--- 1. ADIM: Veriler Okunuyor ---")
-    
-    # Dosya yolları (00_veri_uydur.py ile oluşturduğumuz dosyalar)
-    gercek_yol = "veriler/gercekler.xlsx"
-    yalan_yol = "veriler/yalanlar.csv"
-
-    # Dosyalar yerinde mi kontrol et
-    if not os.path.exists(gercek_yol) or not os.path.exists(yalan_yol):
-        print("HATA: 'veriler' klasöründe dosyalar bulunamadı.")
-        print("Lütfen önce '00_veri_uydur.py' kodunu çalıştır.")
-        return
-
-    # 1. Dosyaları Oku
-    print("Dosyalar okunuyor...")
-    try:
-        # Gerçek haberler Excel formatında
-        df_gercek = pd.read_excel(gercek_yol)
-        # Yalan haberler CSV formatında
-        df_yalan = pd.read_csv(yalan_yol)
-    except Exception as e:
-        print(f"❌ HATA: Dosyalar okunurken hata oluştu: {e}")
-        return
-
-    # 2. Sütun İsimlerini Düzelt ('text' yapacağız)
-    # 00_veri_uydur.py kodunda Excel sütununa 'Haber Metni' demiştik:
-    df_gercek = df_gercek.rename(columns={"Haber Metni": "text"})
-    
-    # Yalan haber dosyasında zaten 'text' var ama garanti olsun:
-    if 'text' not in df_yalan.columns:
-        df_yalan.columns = ['text']
-
-    # 3. Etiketle (1: Gerçek, 0: Yalan)
+    # Etiketle (1: Gerçek, 0: Yalan)
     df_gercek['label'] = 1
     df_yalan['label'] = 0
 
-    # 4. Birleştir
-    df_final = pd.concat([df_gercek[['text', 'label']], df_yalan[['text', 'label']]])
+    # Sütun isimlerini standartlaştır (Her ikisinde de 'text' olduğundan emin olalım)
+    # Eğer 00_veri_uydur.py düzgün çalıştıysa zaten 'text' olarak gelecektir.
+    
+    # Birleştir
+    df_final = pd.concat([df_gercek, df_yalan], ignore_index=True)
 
-    # 5. Karıştır (Shuffle) - Çok önemli, yoksa model ezber yapar
-    df_final = df_final.sample(frac=1).reset_index(drop=True)
+    # Temizle
+    df_final['text'] = df_final['text'].apply(clean_text)
 
-    # 6. Kaydet
-    try:
-        df_final.to_csv("egitim_verisi_final.csv", index=False)
-        print(f"\n✅ BAŞARILI: Toplam {len(df_final)} satır veri birleştirildi.")
-        print("'egitim_verisi_final.csv' dosyası oluşturuldu.")
-    except Exception as e:
-        print(f"❌ HATA: Dosya kaydedilirken hata oluştu: {e}")
-        return
+    # Karıştır (Shuffle)
+    df_final = df_final.sample(frac=1, random_state=42).reset_index(drop=True)
 
-if __name__ == "__main__":
-    veri_hazirla()
+    # Sonucu kaydet
+    df_final.to_csv("egitim_verisi_final.csv", index=False, encoding='utf-8')
+    print(f"✅ 'egitim_verisi_final.csv' başarıyla oluşturuldu! Toplam veri: {len(df_final)}")
+    print(df_final.head())
+
+except Exception as e:
+    print(f"❌ HATA: {e}")
