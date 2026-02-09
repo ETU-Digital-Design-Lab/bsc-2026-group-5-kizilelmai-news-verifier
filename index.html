@@ -460,17 +460,13 @@
         }
       });
 
-      function addBubble(text, role, citation) {
+      /// Chat mesajı balonu ekler
+      /// [text] - Gösterilecek metin
+      /// [role] - "user" veya "ai"
+      function addBubble(text, role) {
         const bubble = document.createElement("div");
         bubble.className = `bubble ${role}`;
         bubble.textContent = text;
-
-        if (role === "ai" && citation) {
-          const pill = document.createElement("div");
-          pill.className = "citation-pill";
-          pill.textContent = citation;
-          bubble.appendChild(pill);
-        }
 
         chatBody.appendChild(bubble);
         chatBody.scrollTo({
