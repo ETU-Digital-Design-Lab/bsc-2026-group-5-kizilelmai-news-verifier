@@ -41,9 +41,10 @@
       }
 
       .shell {
-        width: min(1200px, 100%);
+        width: min(1400px, 100%);
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        /* Sayfanın odağı sohbet olduğu için solda hero+chat, sağda daha dar kaynak kartı */
+        grid-template-columns: minmax(420px, 2fr) minmax(320px, 1fr);
         gap: 24px;
       }
 
@@ -58,7 +59,7 @@
       }
 
       .hero {
-        grid-column: 1 / -1;
+        grid-column: 1 / -1; /* Hero üstte tam genişlik */
         min-height: 320px;
         background: radial-gradient(circle at top right, rgba(255, 77, 109, 0.25), transparent 55%),
           rgba(10, 14, 22, 0.9);
@@ -185,12 +186,12 @@
       .chat {
         display: flex;
         flex-direction: column;
-        height: 520px;
+        height: 640px; /* Daha büyük sohbet alanı */
         background: var(--panel);
         border: 1px solid var(--border);
         border-radius: 28px;
         overflow: hidden;
-        grid-column: span 2;
+        grid-column: 1 / 2; /* Masaüstünde solda geniş alan kaplasın */
       }
 
       .chat-header {
@@ -326,8 +327,13 @@
           padding: 22px;
         }
 
+        .shell {
+          grid-template-columns: 1fr; /* Mobilde tekrar tek sütun */
+        }
+
         .chat {
           height: 480px;
+          grid-column: auto;
         }
 
         .chat-input {
@@ -371,28 +377,6 @@
         </div>
       </article>
 
-      <article class="card sources">
-        <h2>Yetkili Kaynaklar</h2>
-        <div class="source-item">
-          <span>Resmî Gazete API</span>
-          <div class="status-pill">Aktif</div>
-        </div>
-        <div class="source-item">
-          <span>Anadolu Ajansı Akışı</span>
-          <div class="status-pill">Aktif</div>
-        </div>
-        <div class="source-item">
-          <span>İletişim Başkanlığı</span>
-          <div class="status-pill" style="background: rgba(255, 209, 102, 0.2); color: var(--warning)">
-            Güncelleniyor
-          </div>
-        </div>
-        <p>
-          KızılelmAI, Türkçe doğal dil işleme yetenekleriyle bağlamı korur ve doğrulanmış
-          içerikleri özetler.
-        </p>
-      </article>
-
       <article class="chat">
         <header class="chat-header">
           <div class="pulse-dot"></div>
@@ -417,6 +401,28 @@
           <button type="submit">Gönder</button>
         </form>
       </article>
+
+      <article class="card sources">
+        <h2>Yetkili Kaynaklar</h2>
+        <div class="source-item">
+          <span>Resmî Gazete API</span>
+          <div class="status-pill">Aktif</div>
+        </div>
+        <div class="source-item">
+          <span>Anadolu Ajansı Akışı</span>
+          <div class="status-pill">Aktif</div>
+        </div>
+        <div class="source-item">
+          <span>İletişim Başkanlığı</span>
+          <div class="status-pill" style="background: rgba(255, 209, 102, 0.2); color: var(--warning)">
+            Güncelleniyor
+          </div>
+        </div>
+        <p>
+          KızılelmAI, Türkçe doğal dil işleme yetenekleriyle bağlamı korur ve doğrulanmış
+          içerikleri özetler.
+        </p>
+      </article>
     </section>
 
     <footer>
@@ -437,7 +443,15 @@
       const chatInput = document.getElementById("chatInput");
       const chatBody = document.getElementById("chatBody");
 
-      // Gerçek API ile chat sistemi
+      const API_BASE = window.KIZILELMAI_API_BASE || "http://127.0.0.1:5000";
+
+      function escapeHtml(str) {
+        if (str == null) return "";
+        const div = document.createElement("div");
+        div.textContent = String(str);
+        return div.innerHTML;
+      }
+
       chatForm.addEventListener("submit", async (event) => {
         event.preventDefault();
         const message = chatInput.value.trim();
@@ -446,54 +460,57 @@
         addBubble(message, "user");
         chatInput.value = "";
 
-        // Chat sorusu backend'e gönderiliyor
         try {
-          const rsp = await fetch('http://127.0.0.1:5000/api/chat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ query: message })
+          const rsp = await fetch(API_BASE + "/api/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ query: message }),
           });
           const data = await rsp.json();
+          if (!rsp.ok) {
+            addBubble(data.error || "Cevap getirilemedi.", "ai");
+            return;
+          }
           addBubble(data.result, "ai");
         } catch (err) {
-          addBubble('Cevap getirilemedi.', "ai");
+          addBubble("Cevap getirilemedi.", "ai");
         }
       });
 
-      /// Chat mesajı balonu ekler
-      /// [text] - Gösterilecek metin
-      /// [role] - "user" veya "ai"
       function addBubble(text, role) {
         const bubble = document.createElement("div");
         bubble.className = `bubble ${role}`;
         bubble.textContent = text;
-
         chatBody.appendChild(bubble);
-        chatBody.scrollTo({
-          top: chatBody.scrollHeight,
-          behavior: "smooth",
-        });
+        chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: "smooth" });
       }
-    // CSV'den gelen veriyi tabloya aktar
-      // Tabloya veri yüklenirken mesaj göster
-      const table = document.getElementById('datasetTable');
-      const thead = table.querySelector('thead');
-      const tbody = table.querySelector('tbody');
-      thead.innerHTML = '<tr><th colspan="99">Veri yükleniyor...</th></tr>';
-      fetch('http://127.0.0.1:5000/api/veri')
-        .then(rsp => rsp.json())
-        .then(data => {
-          if(!data || data.length === 0) {
-            thead.innerHTML = '<tr><th>Veri bulunamadı</th></tr>';
-            tbody.innerHTML = '';
+
+      const table = document.getElementById("datasetTable");
+      const thead = table.querySelector("thead");
+      const tbody = table.querySelector("tbody");
+      thead.innerHTML = "<tr><th colspan=\"99\">Veri yükleniyor...</th></tr>";
+      fetch(API_BASE + "/api/veri")
+        .then((rsp) => rsp.json())
+        .then((data) => {
+          if (!data || data.length === 0) {
+            thead.innerHTML = "<tr><th>Veri bulunamadı</th></tr>";
+            tbody.innerHTML = "";
             return;
           }
-          thead.innerHTML = '<tr>' + Object.keys(data[0]).map(k=>`<th>${k}</th>`).join('') + '</tr>';
-          tbody.innerHTML = data.map(row => '<tr>' + Object.values(row).map(v=>`<td>${v}</td>`).join('') + '</tr>').join('');
+          const keys = Object.keys(data[0]);
+          thead.innerHTML =
+            "<tr>" + keys.map((k) => "<th>" + escapeHtml(k) + "</th>").join("") + "</tr>";
+          tbody.innerHTML = data
+            .map((row) =>
+              "<tr>" +
+              keys.map((k) => "<td>" + escapeHtml(row[k]) + "</td>").join("") +
+              "</tr>"
+            )
+            .join("");
         })
-        .catch(err => {
-          thead.innerHTML = '<tr><th colspan="99">Veri yüklenemedi!</th></tr>';
-          tbody.innerHTML = '';
+        .catch(() => {
+          thead.innerHTML = "<tr><th colspan=\"99\">Veri yüklenemedi!</th></tr>";
+          tbody.innerHTML = "";
         });
     </script>
   </body>
