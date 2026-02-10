@@ -1,5 +1,6 @@
-# 🚀 KızılelmAI v2.0  
+# 🚀 KızılelmAI v2.1  
 ### Hibrit Mantık Motoru & Doğruluk Asistanı
+DÜZENLİ HALİ
 
 **KızılelmAI**, Türkçe haber metinlerini ve iddiaları doğrulayan,  
 **NLI (Natural Language Inference)** tabanlı hibrit bir yapay zeka asistanıdır.
