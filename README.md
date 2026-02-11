@@ -1,33 +1,73 @@
-# KızılelmaAI Backend Çalıştırma Rehberi
+# 🚀 KızılelmAI v2.1  
+### Hibrit Mantık Motoru & Doğruluk Asistanı
+DÜZENLİ HALİ
 
-Bu rehber, projeyi GitHub’dan çekip kendi bilgisayarında çalıştırmak için gerekli adımları özetler.
+**KızılelmAI**, Türkçe haber metinlerini ve iddiaları doğrulayan,  
+**NLI (Natural Language Inference)** tabanlı hibrit bir yapay zeka asistanıdır.
 
-## Gereksinimler
-- Python 3.8+
+---
+
+## ✨ v2.0 Güncellemesi ile Neler Geldi?
+
+### 🧠 Mantıksal Çıkarım (NLI)
+Sadece kelime benzerliğine değil, cümlelerin **mantıksal olarak birbirini doğrulayıp doğrulamadığına** bakar.
+
+### ⚓ Kelime Çapası (Keyword Anchor)
+"Uçak kazası" ararken "Uzaylı istilası" gibi alakasız sonuçlar getiren  
+**halüsinasyon problemi çözüldü.**
+
+### 🔍 Akıllı Fark Analizi
+"Mete Gazoz Dünya Şampiyonu" ile  
+"Mete Gazoz Avrupa Şampiyonu" arasındaki **anlamsal farkı yakalar**,  
+küçük gramer hatalarını ise **görmezden gelir**.
+
+### 🛡️ Şüpheci Mod
+Kullanıcının **"Bu yalan mı?"** gibi sorgularını algılar  
+ve yanıtlarını buna göre şekillendirir.
+
+---
+
+## 🛠️ Kurulum Rehberi
+
+Projeyi kendi bilgisayarında çalıştırmak için aşağıdaki adımları sırayla uygula.
+
+### 🔧 Gereksinimler
+- Python **3.8+**
 - Git
-- (Önerilir) Sanal ortam kullanımı
 
-## Adım 1: Depoyu klonla ve branch’e geç
-```bash
+---
+
+## 📥 Adım 1: Projeyi Klonla (Clone)
+
+bash
+#######################################################
 git clone https://github.com/mervenatlgn/kizilelmAI.git
 cd kizilelmAI
-git checkout kizilelmai_backend1
-```
+git checkout release/v2.0-stable
+#######################################################
 
-## Adım 2: Sanal ortam kur ve etkinleştir
-**Windows**
-```bash
+
+🧪 Adım 2: Sanal Ortam Oluştur (Venv)
+Kütüphanelerin sistemini kirletmemesi için sanal ortam kuruyoruz.
+
+Windows-bash
+###############################
 python -m venv venv
-venv\Scripts\activate
-```
-**macOS / Linux**
-```bash
+.\venv\Scripts\activate
+###############################
+
+macOS / Linux-bash
+###############################
 python3 -m venv venv
 source venv/bin/activate
-```
+###############################
 
-## Adım 3: Bağımlılıkları yükle
-```bash
+
+📦 Adım 3: Kütüphaneleri Yükle
+Yeni mimari için gerekli olan yapay zeka kütüphanelerini yüklüyoruz.
+
+bash
+###############################
 pip install -r requirements.txt
 ```
 
@@ -72,3 +112,4 @@ Metin ön işleme: `preprocess.py` (HTML, boşluk, stop words, kelime çapası) 
 - `ModuleNotFoundError`: `pip install -r requirements.txt`
 - Model indirme hatası: internet bağlantısını ve Hugging Face erişimini kontrol edin.
 
+© 2025 KızılelmAI Takımı
