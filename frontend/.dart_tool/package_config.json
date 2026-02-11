@@ -134,6 +134,18 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "http",
+      "rootUri": "file:///Users/erkamayhan/.pub-cache/hosted/pub.dev/http-1.6.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "http_parser",
+      "rootUri": "file:///Users/erkamayhan/.pub-cache/hosted/pub.dev/http_parser-4.1.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
       "name": "image",
       "rootUri": "file:///Users/erkamayhan/.pub-cache/hosted/pub.dev/image-4.7.2",
       "packageUri": "lib/",
@@ -272,6 +284,12 @@
       "languageVersion": "3.5"
     },
     {
+      "name": "web",
+      "rootUri": "file:///Users/erkamayhan/.pub-cache/hosted/pub.dev/web-1.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
       "name": "xml",
       "rootUri": "file:///Users/erkamayhan/.pub-cache/hosted/pub.dev/xml-6.6.1",
       "packageUri": "lib/",
@@ -291,8 +309,8 @@
     }
   ],
   "generator": "pub",
-  "generatorVersion": "3.10.4",
+  "generatorVersion": "3.10.8",
   "flutterRoot": "file:///Users/erkamayhan/Mobile/flutter",
-  "flutterVersion": "3.38.5",
+  "flutterVersion": "3.38.9",
   "pubCache": "file:///Users/erkamayhan/.pub-cache"
 }

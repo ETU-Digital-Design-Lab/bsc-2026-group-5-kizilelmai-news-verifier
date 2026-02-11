@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'constants.dart'; // Renk paletini buradan çekiyoruz
 import 'screens/home_page.dart'; // Ana sayfayı buradan çekiyoruz
+import 'screens/splash_screen.dart'; 
 
 void main() {
   runApp(const KizilelmaAIApp());
@@ -29,7 +30,7 @@ class KizilelmaAIApp extends StatelessWidget {
       ),
       
       // Uygulamanın başlangıç sayfası
-      home: const HomePage(),
+      home: const SplashScreen(),
     );
   }
 }

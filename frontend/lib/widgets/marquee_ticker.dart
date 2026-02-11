@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import '../constants.dart';
 
-/// Ekranın altında veya üstünde sürekli akan "Canlı Akış" şeridi.
-/// [ListView.builder] ve [Timer] kullanarak otomatik kaydırma (auto-scroll) animasyonu oluşturur.
+/// Ekranın altında akan "Canlı Akış" şeridi.
+/// Tema uyumlu (Light/Dark) ve Timer ile otomatik kayan yapı.
 class MarqueeTickerModule extends StatefulWidget {
   const MarqueeTickerModule({super.key});
 
@@ -15,24 +15,32 @@ class _MarqueeTickerModuleState extends State<MarqueeTickerModule> {
   final ScrollController _scrollController = ScrollController();
   Timer? _timer;
 
+  // Yeni Premium Mesaj Listesi
+  final List<String> _messages = [
+    "KIZILELM-AI SİSTEMİ DEVREDE...",
+    "RESMİ GAZETE VERİLERİ ANLIK TARANIYOR...",
+    "DEZENFORMASYON TESPİT ORANI %98.4...",
+    "SOSYAL MEDYA ANALİZİ AKTİF...",
+    "YAPAY ZEKA DESTEKLİ DOĞRULAMA...",
+  ];
+
   @override
   void initState() {
     super.initState();
-    // Widget render edildikten sonra animasyonu başlat
     WidgetsBinding.instance.addPostFrameCallback((_) => _startScrolling());
   }
 
-  /// Timer kullanarak listeyi belirli aralıklarla piksel piksel kaydırır.
   void _startScrolling() {
+    // 30ms'de bir 1 piksel kaydır (Akıcı olması için)
     _timer = Timer.periodic(const Duration(milliseconds: 30), (timer) {
       if (_scrollController.hasClients) {
         final double maxScroll = _scrollController.position.maxScrollExtent;
         final double currentScroll = _scrollController.position.pixels;
 
         if (currentScroll >= maxScroll) {
-          _scrollController.jumpTo(0); // Sona ulaşıldığında başa sar
+          _scrollController.jumpTo(0); // Sona gelince başa sar
         } else {
-          _scrollController.jumpTo(currentScroll + 1.0); // 1px ilerlet
+          _scrollController.jumpTo(currentScroll + 1.0);
         }
       }
     });
@@ -47,52 +55,85 @@ class _MarqueeTickerModuleState extends State<MarqueeTickerModule> {
 
   @override
   Widget build(BuildContext context) {
+    // TEMA KONTROLÜ
+    bool isLight = Theme.of(context).brightness == Brightness.light;
+
+    // RENK AYARLARI
+    // Light: Beyaz Zemin, Kırmızı Yazı
+    // Dark: Siyah Zemin, Matrix Yeşili Yazı
+    Color bgColor = isLight ? Colors.white : Colors.black;
+    Color textColor = isLight ? AppColors.primary : const Color(0xFF00FF41);
+    Color borderColor = isLight ? Colors.grey.shade300 : Colors.white10;
+    
+    // Etiket Ayarları
+    String labelText = isLight ? "SON DAKİKA" : "CANLI AKIŞ";
+    Color labelBg = isLight ? AppColors.primary : const Color(0xFF003300);
+
     return Container(
-      height: 34, 
-      color: Colors.black, // Zemin daima siyah (Sinematik etki)
+      height: 40, 
+      decoration: BoxDecoration(
+        color: bgColor,
+        border: Border(
+          top: BorderSide(color: borderColor, width: 1),
+        ),
+        boxShadow: isLight 
+          ? [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, -2))] 
+          : [],
+      ),
       child: Row(
         children: [
-          // Sol taraftaki sabit kırmızı etiket
+          // SOLDAKİ SABİT ETİKET
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12), 
-            color: AppColors.primaryRed, 
+            padding: const EdgeInsets.symmetric(horizontal: 16), 
+            color: labelBg, 
             height: double.infinity, 
             alignment: Alignment.center,
-            child: const Text(
-              "CANLI AKIŞ", 
-              style: TextStyle(
-                color: Colors.white, 
-                fontWeight: FontWeight.w900, 
-                fontSize: 10, 
-                letterSpacing: 1
-              )
+            child: Row(
+              children: [
+                // Yanıp sönen efekt hissi için nokta
+                Container(
+                  width: 8, height: 8,
+                  decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  labelText, 
+                  style: const TextStyle(
+                    color: Colors.white, 
+                    fontWeight: FontWeight.w900, 
+                    fontSize: 11, 
+                    letterSpacing: 1
+                  )
+                ),
+              ],
             ),
           ),
           
-          // Kayan yazı listesi
+          // KAYAN YAZI LİSTESİ
           Expanded(
             child: ListView.builder(
               controller: _scrollController, 
               scrollDirection: Axis.horizontal,
-              // itemExtent kullanılabilir performans için ama içerik değişken olduğu için esnek bıraktık.
               itemBuilder: (context, index) {
-                // Modulo operatörü ile sonsuz veri akışı simülasyonu
-                final logText = AppData.liveLogs[index % AppData.liveLogs.length];
+                // Modulo ile sonsuz döngü
+                final text = _messages[index % _messages.length];
                 
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Center(
                     child: Row(
                       children: [
-                        const Icon(Icons.circle, size: 6, color: AppColors.accentCyan), 
-                        const SizedBox(width: 8), 
+                        // Ayırıcı İkon
+                        Icon(Icons.circle, size: 5, color: isLight ? Colors.grey[400] : Colors.green[900]), 
+                        const SizedBox(width: 15), 
                         Text(
-                          logText, 
-                          style: const TextStyle(
-                            color: Colors.white, 
-                            fontFamily: 'Courier', // Terminal/Kod hissiyatı için monospaced font
-                            fontSize: 12, 
-                            fontWeight: FontWeight.w500
+                          text, 
+                          style: TextStyle(
+                            color: textColor, 
+                            fontFamily: isLight ? null : 'Courier', // Dark modda terminal fontu
+                            fontSize: 13, 
+                            fontWeight: isLight ? FontWeight.bold : FontWeight.w600,
+                            letterSpacing: 1.2
                           )
                         )
                       ]
