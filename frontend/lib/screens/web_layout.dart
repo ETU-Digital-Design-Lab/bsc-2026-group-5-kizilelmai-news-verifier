@@ -3,10 +3,8 @@ import '../constants.dart';
 import '../widgets/analysis_panel.dart';
 import '../widgets/sections.dart';
 import '../widgets/marquee_ticker.dart';
+import '../widgets/footer_section.dart'; 
 
-/// Web sürümü için ana yerleşim düzeni (Layout).
-/// Tek sayfa (One-Page) mantığıyla çalışır ve üst menüden ilgili bölümlere (Panel, Misyon, Ekip)
-/// yumuşak kaydırma (Smooth Scroll) ile geçiş sağlar.
 class WebLayout extends StatefulWidget {
   final VoidCallback onSettingsTap;
   const WebLayout({super.key, required this.onSettingsTap});
@@ -16,53 +14,47 @@ class WebLayout extends StatefulWidget {
 }
 
 class _WebLayoutState extends State<WebLayout> {
-  // Navigasyon için hedef anahtarları (Scroll Anchors)
   final GlobalKey _webPanelKey = GlobalKey();
   final GlobalKey _webMissionKey = GlobalKey();
   final GlobalKey _webTeamKey = GlobalKey();
 
-  /// Belirtilen GlobalKey'in bulunduğu widget'a yumuşak geçişle kaydırır.
   void _scrollToSection(GlobalKey key) {
     if (key.currentContext != null) {
-      Scrollable.ensureVisible(
-        key.currentContext!,
-        duration: const Duration(seconds: 1),
-        curve: Curves.easeInOut,
-      );
+      Scrollable.ensureVisible(key.currentContext!, duration: const Duration(seconds: 1), curve: Curves.easeInOut);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    // Ekran yüksekliğinden AppBar payını düşüyoruz
-    double screenHeight = MediaQuery.of(context).size.height - 60;
+    // Ekranın toplam yüksekliğini alıyoruz
+    double screenHeight = MediaQuery.of(context).size.height;
+    bool isLight = Theme.of(context).brightness == Brightness.light;
 
     return Scaffold(
-      appBar: _buildAppBar(),
+      backgroundColor: Colors.transparent, 
+      appBar: _buildAppBar(isLight),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // 1. Ana Panel (Logo + Slogan + Analiz Kutusu)
-            SizedBox(
+            // 1. ANA PANEL
+            // MinHeight ile esnek yapı korundu (Patlamaz)
+            Container(
               key: _webPanelKey,
-              // Minimum 800px yükseklik garanti edilir, ekran büyükse ekranı kaplar
-              height: screenHeight > 800 ? screenHeight : 800,
-              child: _buildPanelPage(),
+              constraints: BoxConstraints(
+                minHeight: screenHeight - 60, // AppBar payını düş
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 40), 
+              child: _buildPanelPage(isLight),
             ),
             
-            // 2. Misyon ve Teknoloji Bölümü
-            Container(
-              key: _webMissionKey, 
-              child: const MissionSection(isWeb: true)
-            ),
+            // 2. MİSYON BÖLÜMÜ
+            Container(key: _webMissionKey, child: const MissionSection(isWeb: true)),
             
-            // 3. Ekip Bölümü
-            Container(
-              key: _webTeamKey, 
-              child: const TeamSection(isWeb: true)
-            ),
+            // 3. EKİP BÖLÜMÜ
+            Container(key: _webTeamKey, child: const TeamSection(isWeb: true)),
             
-            const SizedBox(height: 50),
+            // 4. FOOTER (ALT BİLGİ)
+            const FooterSection(isWeb: true),
           ],
         ),
       ),
@@ -70,111 +62,117 @@ class _WebLayoutState extends State<WebLayout> {
     );
   }
 
-  /// Web için özel tasarlanmış AppBar
-  PreferredSizeWidget _buildAppBar() {
+  PreferredSizeWidget _buildAppBar(bool isLight) {
     return AppBar(
-      backgroundColor: AppColors.cardColor, // Tema rengine bağlandı
+      backgroundColor: isLight ? Colors.transparent : AppColors.cardDark,
       elevation: 0,
       automaticallyImplyLeading: false,
+      iconTheme: IconThemeData(color: isLight ? AppColors.primary : Colors.white),
       title: Row(
         children: [
-          Container(
-            height: 35, width: 35, 
-            padding: const EdgeInsets.all(2),
-            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
-            child: Image.asset('assets/images/new_logo_1.png'),
-          ),
+          isLight 
+            ? Image.asset('assets/images/new_logo_1.png', height: 40) 
+            : Container(
+                height: 35, width: 35, padding: const EdgeInsets.all(2),
+                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
+                child: Image.asset('assets/images/new_logo_1.png'),
+              ),
           const SizedBox(width: 12),
-          const Text(
-            "KIZILELM-AI", 
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, letterSpacing: 2, fontSize: 18)
+          // --- BRANDING GÜNCELLEMESİ ---
+          Text(
+            "KızılelmAI", // Eskisi: KIZILELM-AI
+            style: TextStyle(
+              color: isLight ? AppColors.primary : Colors.white,
+              fontWeight: FontWeight.w900, // Daha kalın (Logo fontuna yakın)
+              letterSpacing: 1, // Harf aralığı sıkılaştırıldı
+              fontSize: 20 // Bir tık büyütüldü
+            )
           ),
         ],
       ),
       actions: [
-        // Navigasyon Butonları
-        _navBtn("PANEL", _webPanelKey),
-        _navBtn("MİSYON", _webMissionKey),
-        _navBtn("EKİP", _webTeamKey),
+        _navBtn("PANEL", _webPanelKey, isLight),
+        _navBtn("MİSYON", _webMissionKey, isLight),
+        _navBtn("EKİP", _webTeamKey, isLight),
         const SizedBox(width: 20),
-        
-        // Ayarlar Butonu
         IconButton(
           onPressed: widget.onSettingsTap,
-          icon: const Icon(Icons.settings, color: AppColors.primaryRed),
-          tooltip: "Görünüm Ayarları",
+          icon: Icon(Icons.settings, color: isLight ? AppColors.primary : AppColors.primaryDark),
         ),
         const SizedBox(width: 10),
-        
-        // Online Durum Göstergesi
         Container(
           margin: const EdgeInsets.only(right: 24),
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.green.withOpacity(0.5)), 
-            borderRadius: BorderRadius.circular(4), 
-            color: Colors.green.withOpacity(0.1)
-          ),
-          child: const Row(
-            children: [
-              Icon(Icons.circle, size: 8, color: Colors.green), 
-              SizedBox(width: 6), 
-              Text("ONLINE", style: TextStyle(color: Colors.green, fontSize: 11, fontWeight: FontWeight.bold))
-            ],
-          ),
+          decoration: BoxDecoration(border: Border.all(color: Colors.green.withOpacity(0.5)), borderRadius: BorderRadius.circular(4), color: Colors.green.withOpacity(0.1)),
+          child: const Row(children: [Icon(Icons.circle, size: 8, color: Colors.green), SizedBox(width: 6), Text("ONLINE", style: TextStyle(color: Colors.green, fontSize: 11, fontWeight: FontWeight.bold))]),
         )
       ],
     );
   }
 
-  /// Üst menü butonlarını oluşturan yardımcı metot
-  Widget _navBtn(String title, GlobalKey targetKey) {
+  Widget _navBtn(String title, GlobalKey targetKey, bool isLight) {
     return TextButton(
       onPressed: () => _scrollToSection(targetKey),
-      style: TextButton.styleFrom(foregroundColor: Colors.white70),
-      child: Text(
-        title, 
-        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, letterSpacing: 1)
-      ),
+      style: TextButton.styleFrom(foregroundColor: isLight ? AppColors.secondary : Colors.white70),
+      child: Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, letterSpacing: 1)),
     );
   }
 
-  /// Sayfanın ortasındaki Hero (Karşılama) bölümü
-  Widget _buildPanelPage() {
+  Widget _buildPanelPage(bool isLight) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Parlayan Logo Efekti
+          
+          // --- LOGO BÖLÜMÜ ---
           Container(
-            height: 160, width: 160, 
-            padding: const EdgeInsets.all(4),
+            height: 280, width: 280,
             decoration: BoxDecoration(
-              color: Colors.white, 
-              shape: BoxShape.circle, 
+              shape: BoxShape.circle,
               boxShadow: [
-                BoxShadow(color: AppColors.primaryRed.withOpacity(0.6), blurRadius: 40, spreadRadius: 2)
+                BoxShadow(
+                  color: isLight 
+                    ? AppColors.primary.withOpacity(0.2) 
+                    : AppColors.primaryRed.withOpacity(0.4), 
+                  blurRadius: 60,
+                  spreadRadius: 10,
+                ),
               ]
             ),
             child: Image.asset('assets/images/new_logo_1.png'),
           ),
-          const SizedBox(height: 30),
-          
-          // Slogan
-          const Text(
-            "GELECEĞİN SAVAŞLARI\nALGI ÜZERİNDEN YÜRÜTÜLÜR.", 
-            textAlign: TextAlign.center, 
-            style: TextStyle(
-              fontSize: 26, 
-              fontWeight: FontWeight.w900, 
-              color: Colors.white, 
-              height: 1.1, 
-              letterSpacing: -1
-            )
-          ),
+            
           const SizedBox(height: 40),
           
-          // Analiz Paneli (Web modunda)
+          ShaderMask(
+            shaderCallback: (Rect bounds) {
+              return LinearGradient(
+                colors: isLight 
+                    ? [AppColors.secondary, AppColors.primary] 
+                    : [Colors.white, Colors.grey.shade400],    
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ).createShader(bounds);
+            },
+            child: const Text(
+              "GELECEĞİN SAVAŞLARI\nALGI ÜZERİNDEN YÜRÜTÜLÜR.", 
+              textAlign: TextAlign.center, 
+              style: TextStyle(
+                fontSize: 36, 
+                fontWeight: FontWeight.w900, 
+                color: Colors.white, 
+                height: 1.1, 
+                letterSpacing: -1
+              ),
+            ),
+          ),
+          
+          if (isLight) ...[
+            const SizedBox(height: 15),
+            Text("Yapay zeka destekli dezenformasyon tespit sistemi.", style: TextStyle(color: AppColors.secondary.withOpacity(0.7), fontSize: 16)),
+          ],
+
+          const SizedBox(height: 40),
           const AnalysisPanel(isWeb: true),
         ],
       ),
