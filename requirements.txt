@@ -10,3 +10,5 @@ scikit-learn
 openpyxl
 protobuf 
 sentencepiece
+google-generativeai
+rank-bm25

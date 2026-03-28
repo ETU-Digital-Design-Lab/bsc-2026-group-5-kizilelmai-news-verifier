@@ -1,0 +1,46 @@
+{
+  "greetings": [
+    "merhaba",
+    "selam",
+    "hey",
+    "nasıl gidiyor",
+    "nasılsın",
+    "yardım et",
+    "kimsin"
+  ],
+  "synonyms": {
+    "maraş": [
+      "kahramanmaraş",
+      "deprem",
+      "afad",
+      "sarsıntı"
+    ],
+    "istanbul": [
+      "megakent",
+      "marmara",
+      "isig"
+    ],
+    "ekonomi": [
+      "dolar",
+      "enflasyon",
+      "faiz",
+      "merkez bankası"
+    ],
+    "sağlık": [
+      "bakanlık",
+      "doktor",
+      "hastane",
+      "salgın"
+    ],
+    "eğitim": [
+      "meb",
+      "müfredat",
+      "okul",
+      "sınav"
+    ]
+  },
+  "responses": {
+    "greeting": "Merhaba! Ben KızılelmAI. Size nasıl yardımcı olabilirim? Doğruluğunu kontrol etmek istediğiniz bir iddia mı var?",
+    "not_found": "Üzgünüm, bu konu hakkında veri tabanımda henüz kesin bir bilgi bulunmuyor. Yeni veriler geldikçe kendimi geliştirmeye devam ediyorum."
+  }
+}
