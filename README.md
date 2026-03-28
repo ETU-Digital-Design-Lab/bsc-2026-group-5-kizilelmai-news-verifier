@@ -1,115 +1,94 @@
-# 🚀 KızılelmAI v2.1  
-### Hibrit Mantık Motoru & Doğruluk Asistanı
-DÜZENLİ HALİ
+<!-- START_BADGES -->
+<p align="center">
+  <img src="assets/logo.png" width="250" alt="KizilelmAI Logo">
+</p>
 
-**KızılelmAI**, Türkçe haber metinlerini ve iddiaları doğrulayan,  
-**NLI (Natural Language Inference)** tabanlı hibrit bir yapay zeka asistanıdır.
+# <p align="center">🛡️ KızılelmAI: Yerel Analiz ve Doğrulama Motoru (v2.0)</p>
 
----
-
-## ✨ v2.0 Güncellemesi ile Neler Geldi?
-
-### 🧠 Mantıksal Çıkarım (NLI)
-Sadece kelime benzerliğine değil, cümlelerin **mantıksal olarak birbirini doğrulayıp doğrulamadığına** bakar.
-
-### ⚓ Kelime Çapası (Keyword Anchor)
-"Uçak kazası" ararken "Uzaylı istilası" gibi alakasız sonuçlar getiren  
-**halüsinasyon problemi çözüldü.**
-
-### 🔍 Akıllı Fark Analizi
-"Mete Gazoz Dünya Şampiyonu" ile  
-"Mete Gazoz Avrupa Şampiyonu" arasındaki **anlamsal farkı yakalar**,  
-küçük gramer hatalarını ise **görmezden gelir**.
-
-### 🛡️ Şüpheci Mod
-Kullanıcının **"Bu yalan mı?"** gibi sorgularını algılar  
-ve yanıtlarını buna göre şekillendirir.
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.10+-blue?style=for-the-badge&logo=python" alt="Python">
+  <img src="https://img.shields.io/badge/Architecture-Asynchronous_FastAPI-009688?style=for-the-badge&logo=fastapi" alt="FastAPI">
+  <img src="https://img.shields.io/badge/Security-Protokol_V2-red?style=for-the-badge&logo=opsgenie" alt="Security Protocol">
+  <img src="https://img.shields.io/badge/Docs-Swagger_OpenAPI-00bfa5?style=for-the-badge&logo=swagger" alt="Swagger">
+</p>
 
 ---
 
-## 🛠️ Kurulum Rehberi
-
-Projeyi kendi bilgisayarında çalıştırmak için aşağıdaki adımları sırayla uygula.
-
-### 🔧 Gereksinimler
-- Python **3.8+**
-- Git
+## 🚀 Proje Vizyonu (Vision)
+**KızılelmAI**, modern dezenformasyon ve makamsal manipülasyon tehditlerine karşı geliştirilmiş, tamamen **yerel (offline)** çalışan bir analiz motorudur. Dış API bağımlılığı olmadan (Absolute Privacy), kendi içindeki hibrit sinir ağlarını kullanarak bilgiyi cerrahi bir hassasiyetle doğrular.
 
 ---
 
-## 📥 Adım 1: Projeyi Klonla (Clone)
+## 🧪 Hesaplama Matrisleri ve Analitik Metrikler
 
-bash
-#######################################################
-git clone https://github.com/mervenatlgn/kizilelmAI.git
-cd kizilelmAI
-git checkout release/v2.0-stable
-#######################################################
+KızılelmAI, bir iddianın doğruluğunu ölçmek için **Üçlü Onay Mekanizması (Triple-Check)** kullanır:
 
+### 1. Hibrit Skorlama Matrisi (Hybrid Scoring)
+Sistem, veriyi hem kelime bazlı Hem de anlamsal bazlı tarar:
+- **BM25 (Rank-BM25):** İsim, tarih ve rakam gibi kesin eşleşmeleri (Lexical Match) yakalar.
+- **Multi-lingual E5:** Cümlelerin anlamsal derinliğini (Semantic Similarity) vektör uzayında test eder.
+- **Ağırlıklandırma:** `(Lexical * 0.3) + (Semantic * 0.7)` hibrit formülü ile adaylar belirlenir.
 
-🧪 Adım 2: Sanal Ortam Oluştur (Venv)
-Kütüphanelerin sistemini kirletmemesi için sanal ortam kuruyoruz.
+### 2. Sniper Re-Ranking (Cross-Encoder)
+Adaylar, **BAAI/bge-reranker-v2-m3** modeliyle tekrar test edilir. Bu model, iddia ve kaynak arasındaki ilişkiyi logit-düzeyi (Deep Correlation) bir doğrulukla puanlar.
 
-Windows-bash
-###############################
-python -m venv venv
-.\venv\Scripts\activate
-###############################
+### 3. Doğruluk (Trust) ve Risk Matrisi
+- **Güven Skoru (%):** Rerank ve NLI (Natural Language Inference) sonuçlarının harmonize edilmesiyle hesaplanır.
+- **Risk Skoru (%):** İddia ile kaynak arasındaki mantıksal çelişki (Contradiction) olasılığına göre dinamik olarak artar.
 
-macOS / Linux-bash
-###############################
-python3 -m venv venv
-source venv/bin/activate
-###############################
+---
 
+## 🚨 GÜVENLİK PROTOKOLÜ (Surgical Veto)
 
-📦 Adım 3: Kütüphaneleri Yükle
-Yeni mimari için gerekli olan yapay zeka kütüphanelerini yüklüyoruz.
+Katman 6.5 ile birlikte sisteme eklenen **Güvenlik Protokolü**, makamsal manipülasyonları engellemek için tasarlanmıştır.
 
-bash
-###############################
-pip install -r requirements.txt
-```
+| Kategori | Protokol İşleyişi | Kritik List (Red-List) |
+| :--- | :--- | :--- |
+| **Makamsal Koruma** | Belirtilen unvanlarda en ufak bir sapma (Örn: Vali vs Bakan) anında **RED/VETO** durumuna geçer. | Cumhurbaşkanı, Vali, CEO, Kurucu, Belediye Başkanı, Rektör, Bakan. |
+| **Zaman Aşımı** | Tarihsel veriler (Yıl/Ay/Gün) RegEx motoruyla taranır. Fark tespit edilirse **ZAMAN AŞIMI** uyarısı verilir. | Dinamik Yıl/Ay/Gün Regex tespiti. |
+| **Cerrahi Analiz** | Yanıltma riski taşıyan "yakın yanlışlar" (Near-Miss) kategorik olarak raporlanır. | Kişi, Yer, Sayı, Olay, Unvan. |
 
-## Adım 4: Veri oluştur, hazırla, eğit ve test et
-Sırayla bu komutları çalıştır:
+---
+
+## 🏗️ Backend Mimarisi (FastAPI Ops)
+
+Sistem, endüstriyel standartlarda bir **FastAPI** asenkron yapısına taşınmıştır.
+
+- **Port Ataması:** Sistem varsayılan olarak `5000` portundan hizmet verir.
+- **Async Logic:** Tüm sorgular `async/await` yapısıyla paralel olarak işlenir, bu da milisaniyelere varan tepki süresi sağlar.
+- **Swagger UI:** API'ye dair tüm teknik detaylar ve test ekranı `http://127.0.0.1:5000/docs` adresindedir.
+
+### 🌐 Operasyonel Komut Rehberi
+
+| İşlem | Komut | Açıklama |
+| :--- | :--- | :--- |
+| **Sunucuyu Başlat** | `python src/backend/app.py` | FastAPI sunucusunu port 5000'de ateşler. |
+| **Sistemi Kapat (Hard)** | `Stop-Process -Name "python" -Force` | Arka plandaki tüm Python süreçlerini ve portları temizler. |
+| **PID Avı (Windows)** | `netstat -ano | findstr :5000` | Portu rehin alan hayalet süreci tespit eder. |
+
+---
+
+## 📂 Profesyonel Dosya Hiyerarşisi
+
 ```bash
-python 00_veri_uydur.py      # Örnek gerçek/yalan haber dosyalarını oluşturur
-python 01_veri_hazirla.py    # Verileri birleştirir ve egitim_verisi_final.csv üretir
-python 02_veri_egit.py       # Modeli indirir ve eğitir, kizilelma_model_v1/ içine kaydeder
-python 03_model_test.py      # Eğitilmiş modeli yükleyip interaktif test arayüzü açar
+kizilelmAI/
+├── 📁 src/ 
+│   ├── 📁 ai_core/engine/  # 🧠 Analitik Motor (Layer 6.5)
+│   └── 📁 backend/app.py   # 🌐 FastAPI Sunucusu (Port 5000)
+├── 📁 frontend/            # 🎨 Dashboard (Premium Dark Mode UI)
+├── 📁 data/processed/      # 📊 Knowledge Base (BM25 & CSV)
+├── 📁 tests/               # 🧪 Unit Tests (Sniper Logic)
+└── README.md               # 📄 Teknik Kılavuz (Buradasınız)
 ```
 
-### Notlar
-- 02_veri_egit.py adımı internet gerektirir (model indirilecek).
-- Eğitim süresi donanımınıza göre değişir; GPU varsa otomatik kullanılır.
-- Model ve veri çıktıları .gitignore ile hariç tutulmuştur; herkes kendi makinesinde üretir.
-- **Canlı API:** Backend, resmi BERTurk (`dbmdz/bert-base-turkish-cased`) ile cümle embedding + benzerlik araması yapar. Eğitim (02) aynı BERTurk ile sınıflandırıcı üretir; CLI test `03_model_test.py` ile yapılır.
+---
 
-## Adım 5: Backend API’yi çalıştır
-```bash
-python backend.py
-```
-API varsayılan olarak `http://127.0.0.1:5000` adresinde çalışır. İsteğe bağlı ortam değişkenleri için `.env.example` dosyasına bakın.
+## 🤝 İletişim & Katkı
 
-### Ortam değişkenleri (opsiyonel)
-| Değişken | Açıklama | Varsayılan |
-|----------|----------|------------|
-| `KIZILELMAI_CSV_PATH` | Eğitim verisi CSV dosya yolu | `egitim_verisi_final.csv` |
-| `KIZILELMAI_EMBEDDING_MODEL` | Cümle embedding modeli. Varsayılan: resmi BERTurk (dbmdz) | `dbmdz/bert-base-turkish-cased` |
-| `KIZILELMAI_HOST` | Sunucu adresi | `127.0.0.1` |
-| `KIZILELMAI_PORT` | Port | `5000` |
-| `KIZILELMAI_MAX_QUERY_LENGTH` | Chat sorgusu max karakter | `2000` |
-| `KIZILELMAI_VERB_STEM_FILTER` | Sorgu fiil kökü filtresi: 1=açık, 0=kapalı. Web/büyük veri setinde gerekirse 0 yapılabilir | `1` |
-| `KIZILELMAI_CORS_ORIGINS` | İzin verilen origin’ler (virgülle ayrılmış). Production’da `*` yerine kendi domain’inizi kullanın | `*` |
+Bu proje, yerel yapay zeka ve siber-doğrulama alanında bir devrim niteliğindedir. Katkıda bulunmak için lütfen iletişime geçin.
 
-Metin ön işleme: `preprocess.py` (HTML, boşluk, stop words, kelime çapası) backend ve 01'de kullanılır. Opsiyonel: `KIZILELMAI_USE_PREPROCESS`, `KIZILELMAI_REMOVE_STOPWORDS`.
-
-**Sorgu–kaynak uyumu (fiil kökü filtresi):** Sorguda geçen fiil (kapandı, patladı, açıldı vb.) eşleşen cümlede yoksa sonuç elenir; böylece konu aynı olsa bile farklı eylem (örn. “kapandı mı” → “ödül aldı”) gösterilmez. Mantık fiil listesine dayanmaz, Türkçe fiil ekleriyle geneldir. Webden / büyük veri setlerinden besleme yapıldığında davranışı kapatmak için: `KIZILELMAI_VERB_STEM_FILTER=0`.
-
-## Sorun giderme
-- `openpyxl kütüphanesi eksik` hatası: `pip install openpyxl`
-- `ModuleNotFoundError`: `pip install -r requirements.txt`
-- Model indirme hatası: internet bağlantısını ve Hugging Face erişimini kontrol edin.
-
-© 2025 KızılelmAI Takımı
+---
+<p align="center">
+  <b>KızılelmAI - Hakikatin Keskin Kılıcı</b><br>
+  <i>2026 © Proje Geliştirme Ekibi</i>
+</p>

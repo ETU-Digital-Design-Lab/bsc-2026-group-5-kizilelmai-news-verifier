@@ -1,12 +1,15 @@
 """
-KızılelmAI Backend API (App Layer)
-Yapay zeka mantığı 'src/ai_core/pipeline/logic.py' dosyasındadır.
-Burası sadece sunucudur.
+KızılelmAI Backend API (FastAPI Layer)
+Yapay zeka mantığı 'src/ai_core/engine/engine.py' dosyasındadır.
+Burası asenkron, yüksek performanslı API sunucusudur.
 """
 import os
 import sys
-from flask import Flask, jsonify, request, make_response
-from flask_cors import CORS
+import uvicorn # type: ignore
+from fastapi import FastAPI, HTTPException, Request # type: ignore
+from fastapi.middleware.cors import CORSMiddleware # type: ignore
+from pydantic import BaseModel # type: ignore
+from typing import List, Dict, Any
 
 # ---------------------------------------------------------
 # PATH AYARLAMALARI (Engine'i bulmak için)
@@ -17,57 +20,95 @@ sys.path.append(SRC_DIR)
 
 # Engine'i İçe Aktar (Beyni Çağır)
 try:
-    from ai_core.pipeline.logic import KizilelmaEngine
+    from ai_core.engine.engine import KizilelmaEngine # type: ignore
 except ImportError as e:
     print(f"❌ Kritik Hata: Logic modülü bulunamadı! {e}")
     sys.exit(1)
 
 # ---------------------------------------------------------
-# UYGULAMA BAŞLATMA
+# UYGULAMA YAPILANDIRMASI
 # ---------------------------------------------------------
-app = Flask(__name__)
+app = FastAPI(
+    title="KızılelmAI API",
+    description="Yerel Haber Doğrulama ve Analiz Motoru API",
+    version="2.0.0"
+)
 
-# CORS Ayarları
-CORS_ORIGINS = os.environ.get("KIZILELMAI_CORS_ORIGINS", "*").split(",")
-CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
+# CORS Ayarları (Frontend Erişimi İçin)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Güvenlik için gerçek ortamda kısıtlanmalı
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-# Motoru Başlat (Belleğe yükler - 10sn sürebilir)
+# Motoru Başlat (Belleğe yükler - 10-15sn sürebilir)
 engine = KizilelmaEngine()
 
 # ---------------------------------------------------------
-# API ENDPOINTLERİ
+# VERI MODELLERI (Pydantic)
+# ---------------------------------------------------------
+class ChatRequest(BaseModel):
+    query: str
+
+class ChatResponse(BaseModel):
+    result: str
+    status: str
+    msg: str
+    description: str
+    confidence: int
+    risk: int
+    category: str
+    source: str
+
+# ---------------------------------------------------------
+# API ENDPOINTLERI
 # ---------------------------------------------------------
 
-@app.route('/api/veri', methods=['GET'])
-def getir_veri():
+@app.get("/api/veri", response_model=List[Dict[str, Any]])
+async def getir_veri():
     """Tüm veri setini JSON olarak döndürür"""
     try:
-        return jsonify(engine.df.to_dict(orient='records'))
-    except Exception:
-        return jsonify({'error': 'Veri okunamadı.'}), 500
+        return engine.df.to_dict(orient='records')
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Veri okunamadı: {str(e)}")
 
-@app.route('/api/chat', methods=['POST', 'OPTIONS'])
-def chat():
-    """Sohbet Endpoint'i"""
-    # Preflight Request (CORS)
-    if request.method == 'OPTIONS':
-        resp = make_response()
-        resp.headers['Access-Control-Allow-Origin'] = '*'
-        resp.headers['Access-Control-Allow-Headers'] = 'Content-Type'
-        resp.headers['Access-Control-Allow-Methods'] = 'POST, OPTIONS'
-        return resp
-    
-    # Gelen isteği al
-    data = request.json
-    raw_query = data.get('query', '').strip()
+@app.post("/api/chat", response_model=ChatResponse)
+async def chat(request: ChatRequest):
+    """Sohbet Endpoint'i (Asenkron)"""
+    raw_query = request.query.strip()
 
     if not raw_query:
-        return jsonify({'result': 'Lütfen bir soru girin.'})
+        return { 
+            "result": "Lütfen geçerli bir iddia veya soru girin.",
+            "status": "RET", "msg": "⚠️ GEÇERSİZ GİRDİ", "description": "Boş sorgu.",
+            "confidence": 0, "risk": 0, "category": "YOK", "source": "-"
+        } # type: ignore
 
-    # MOTORU ÇALIŞTIR (Tek satır!)
-    result_text = engine.ask(raw_query)
+    try:
+        # Motoru Çalıştır (Sözlük Döner)
+        res = engine.ask(raw_query)
+        # Linter'ın hatalarını tamamen yok etmek için model yerine sözlük dönüyoruz.
+        # FastAPI 'response_model' sayesinde bu sözlüğü otomatik olarak doğrular.
+        return { 
+            "result": res['result'],
+            "status": res['status'],
+            "msg": res['msg'],
+            "description": res['description'],
+            "confidence": res['confidence'],
+            "risk": res['risk'],
+            "category": res['category'],
+            "source": res['source']
+        } # type: ignore
+    except Exception as e:
+        print(f"❌ Sunucu Hatası: {e}")
+        raise HTTPException(status_code=500, detail="İşlem sırasında bir hata oluştu.")
 
-    return jsonify({'result': result_text})
+@app.get("/")
+async def root():
+    return {"status": "online", "info": "KızılelmAI API Aktif. /docs adresine gidin."}
 
 if __name__ == '__main__':
-    app.run(debug=True, host='127.0.0.1', port=5000)
+    # Frontend uyumluluğu için 5000 portunda başlatıyoruz
+    uvicorn.run(app, host='127.0.0.1', port=5000)
