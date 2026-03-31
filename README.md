@@ -12,8 +12,6 @@
   <img src="https://img.shields.io/badge/DOCS-SWAGGER%20OPENAPI-green?style=for-the-badge&logo=swagger&logoColor=white" alt="Swagger">
 </p>
 
-![KızılelmAI Banner](assets/kizilelmai_banner.png)
-
 > "Bilgi kirliliğine karşı yerli ve milli bir kalkan."
 
 KızılelmAI, modern Doğal Dil İşleme (NLP) tekniklerini kullanarak haberlerin ve iddiaların doğruluğunu çok katmanlı bir süzgeçten geçiren, yüksek performanslı bir analitik motor ve görselleştirme dashboard'udur.
@@ -46,89 +44,82 @@ graph TD
 
 ---
 
-## 🚀 Kullanılan Teknolojiler ve Tercih Sebepleri
+## 📂 Proje Dosya Yapısı ve Açıklamalar
 
-Bu projede kullanılan her kütüphane ve framework, projenin "hızlı, yerel ve bağımsız" olma vizyonuna hizmet eder.
+Projenin tüm bileşenlerinin ne işe yaradığı aşağıda detaylandırılmıştır:
 
-### 1. Arka Plan (Backend) & NLP
-*   **FastAPI**: Python'un en hızlı web framework'üdür. Asenkron (async) yapısı sayesinde aynı anda binlerce talebi düşük gecikme ile işleyebilir.
-*   **Sentence Transformers (intfloat/multilingual-e5-small)**: Metinleri sayısal vektörlere dönüştürür. "Anlamsal arama" (Semantic Search) yapmamızı sağlar.
-*   **Cross-Encoders (BAAI/bge-reranker-v2-m3)**: "Keskin Nişancı" modelimizdir. Arama sonuçlarının iddianızla ne kadar örtüştüğünü milimetrik hassasiyetle ölçer.
-*   **Rank-BM25**: Anahtar kelime bazlı aramadır. Klasik "Google tarzı" aramayı vektörel arama ile birleştirerek (Hybrid Search) doğruluk payını artırır.
-*   **XLM-RoBERTa (XNLI)**: Doğal Dil Çıkarımı (NLI) modelimiz. İki cümle arasındaki mantıksal ilişkiyi (Destekliyor / Çelişiyor / Nötr) analiz eder.
+### ⚙️ Genel Dizindeki Dosyalar
+*   **`.venv/`**: Projenin izole bir ortamda çalışması için gerekli kütüphaneleri barındıran sanal çalışma alanı.
+*   **`assets/`**: Proje logoları ve dökümantasyon görsellerini barındıran medya klasörü.
+*   **`requirements.txt`**: Sistemin çalışması için gereken Python kütüphanelerinin listesi.
+*   **`ROADMAP.md`**: Projenin gelecek vizyonu ve geliştirilecek özellikler listesi.
 
-### 2. Ön Plan (Frontend)
-*   **Flutter**: Tek bir kod tabanıyla hem web hem mobil uygulama geliştirmemizi sağlar.
-*   **Dart**: Tip güvenliği ve hızı sayesinde veri yoğunluklu dashboard'lar için idealdir.
+### 🧠 `src/` (Kaynak Kodlar)
+*   **`src/ai_core/engine/engine.py`**: Sistemin beynidir. Tüm NLP modellerini, vektör arama algoritmalarını ve karar mantığını (Logic) içerir.
+*   **`src/ai_core/evaluate.py`**: Sistemin doğruluk performansını test etmek için kullanılan metrik dosyası.
+*   **`src/backend/app.py`**: FastAPI tabanlı sunucu dosyasıdır. Yapay zeka motoru ile arayüz arasındaki asenkron köprüyü kurar.
+*   **`src/shared/preprocess.py`**: Gelen ham verileri (metinleri) temizleyen, küçük harfe çeviren ve NLP işlemine uygun hale getiren yardımcı modüldür.
+
+### 📊 `data/` (Veri Katmanı)
+*   **`data/processed/egitim_verisi_final.csv`**: Sistemin temel bilgi birikimini oluşturan ana haber veri seti.
+*   **`data/processed/knowledge_base.json`**: Selamlaşmalar, eşanlamlı kelimeler ve özel chatbot yanıtlarını barındıran yerel sözlük.
+*   **`data/processed/knowledge_base_dynamic.csv`**: Sistem çalışırken "Dinamik Enjeksiyon" (Katman 10) ile eklenen anlık bilgilerin kaydedildiği dosya.
+
+### 📜 `scripts/` (Yardımcı Araçlar)
+*   **`doctor.ps1`**: Projenin sistem gereksinimlerini ve kütüphanelerini kontrol eden "doktor" kontrol betiği.
+*   **`download_models.py`**: Gerekli NLP modellerini yerel dizine indiren kurulum yardımcısı.
+
+### 🖥️ `frontend/` (Dashboard/Arayüz)
+*   **`lib/`**: Flutter arayüzünün kaynak kodları (Main, Screens, Services, Widgets).
+*   **`pubspec.yaml`**: Dashboard için gerekli Flutter paketlerinin listesi.
 
 ---
 
-## 🔍 Derin Analiz Hattı: 10 Katmanlı Süzgeç
+## 🚀 Kullanılım ve Teknik Komutlar
 
-![Analitik Katmanlar Görseli](assets/analytical_layers.png)
+### 🛡️ Port ve Uygulama Yönetimi
+Uygulamayı başlatırken veya sıfırlarken aşağıdaki komutlar hayati önem taşır:
+
+1.  **Arka Plandaki Python Süreçlerini Kapatma:**
+    Eğer sunucu hata verirse veya port (5000) meşgulse, açık kalan tüm Python servislerini kapatmak için:
+    ```powershell
+    # Windows (PowerShell)
+    taskkill /F /IM python.exe
+    ```
+
+2.  **API Sunucusunu Başlatma:**
+    ```bash
+    python src/backend/app.py
+    ```
+
+3.  **Swagger UI (Dokümantasyon) Erişimi:**
+    Backend ayağa kalktığında, tüm API uç noktalarını görsel olarak test etmek için Swagger arayüzüne şu port üzerinden ulaşabilirsiniz:
+    `http://127.0.0.1:5000/docs`
+
+4.  **Frontend (Dashboard) Başlatma:**
+    ```bash
+    cd frontend
+    flutter run -d web-server --web-port 8080
+    ```
+
+---
+
+## 🔍 Derin Analiz Hattı (10 Katmanlı Süzgeç)
 
 KızılelmAI'yi rakiplerinden ayıran en önemli özellik, bir iddiayı doğrularken geçtiği analitik aşamalardır:
 
 | Katman | Adı | İşlevi |
 | :--- | :--- | :--- |
-| **L1** | **Niyet Analizi** | Kullanıcı selam mı veriyor yoksa ciddi bir iddiada mı bulunuyor? (Greeting vs Claim) |
-| **L2** | **NLP Sorgu Genişletme** | "Maraş" yazıldığında sistem bunu otomatik olarak "Kahramanmaraş" olarak genişletir. |
-| **L3** | **Re-Ranking (The Sniper)** | Binlerce kayıt arasından en alakalı olanı seçen ve alakasızları veto eden "Keskin Nişancı" katmanı. |
-| **L4** | **Vektörel Benzerlik** | Kelimeler farklı olsa bile anlamın (context) aynı olup olmadığını ölçer. |
-| **L5** | **Kelime Çapası** | Cümledeki kritik anahtar kelimelerin kaynakta geçip geçmediğini manuel kontrol eder. |
-| **L6** | **Akıllı Fark Analizi** | Tarih asımı, sayısal hatalar ve unvan değişikliklerini (Örn: Vali vs Belediye Başkanı) yakalar. |
-| **L7** | **Konsept Birleştirici** | Önceki sorulardaki bağlamı hatırlar. "Peki ya Ankara?" dendiğinde konunun "deprem" olduğunu bilir. |
-| **L8** | **Otorite Ağırlığı** | Kaynağın güvenilirliğini (Resmi Gazete vs Blog) skora dahil eder. |
-| **L9** | **Çok Kaynaklı Konsensüs** | Birden fazla kaynağın aynı fikirde olup olmadığını, çelişki olup olmadığını denetler. |
-| **L10** | **Dinamik Enjeksiyon** | Sisteme yeniden başlatmadan, çalışma anında yeni bilgiler ("sıcak haberler") aşılanabilir. |
+| **L1** | **Niyet Analizi** | Kullanıcı niyetini belirler. (Greeting vs Claim) |
+| **L2** | **NLP Sorgu Genişletme** | Kelimeleri anlamsal olarak genişletir. (Maraş -> Kahramanmaraş) |
+| **L3** | **Re-Ranking Sniper** | Alakasız adayları veto eden ve en mantıklı olanı seçen keskin nişancı. |
+| **L4** | **Vektörel Benzerlik** | Cümleler arası anlamsal (embedding) örtüşmeyi ölçer. |
+| **L5** | **Kelime Çapası** | Kritik kelimelerin varlığını manuel olarak denetler. |
+| **L6** | **Akıllı Fark Analizi** | Tarih, sayı ve unvan (Vali/CEO) farklarını yakalar. |
+| **L7** | **Konsept Birleştirici** | Önceki sorulardaki bağlamı hatırlar (NLP Context). |
+| **L8** | **Otorite Ağırlığı** | Kaynak güvenilirliğini skora dahil eder. |
+| **L9** | **Çok Kaynaklı Konsensüs** | Kaynaklar arası çelişkiyi ve fikir birliğini denetler. |
+| **L10** | **Dinamik Enjeksiyon** | Çalışma anında yeni bilgiler aşılanabilir. |
 
 ---
-
-## 💻 Kod Derin Dalışı (Code Deep Dive)
-
-### 1. `engine.py` (Zeka Merkezi)
-Bu dosya sistemin kalbidir. `KizilelmaEngine` sınıfı tüm modelleri belleğe yükler ve `ask()` fonksiyonu ile süreci koordine eder.
-
-*   **`setup_paths`**: Veri yollarını ve yerel model dizinlerini dinamik olarak ayarlar.
-*   **`load_data`**: CSV ve JSON formatındaki bilgi tabanını yükler.
-*   **`karar_motoru`**: NLI modeli ve fark analizinden gelen verileri birleştirerek "DOĞRU", "YANLIŞ" veya "GÜNCEL DEĞİL" kararını verir.
-
-### 2. `app.py` (API Katmanı)
-FastAPI kullanarak dış dünyaya kapı açar.
-*   **`/api/chat`**: Flutter uygulamasından gelen soruları alır ve `run_in_threadpool` kullanarak CPU yoğunluklu analizi ana sistemi dondurmadan çalıştırır.
-*   **`/api/inject`**: Dışarıdan anlık veri girişi sağlar.
-
----
-
-## 🛠️ Kurulum ve Çalıştırma
-
-### Gereksinimler
-- Python 3.9+
-- CUDA destekli GPU (Tavsiye edilir ama zorunlu değildir)
-- 8GB+ RAM
-
-### backend Kurulumu
-1. Bağımlılıkları yükleyin:
-   ```bash
-   pip install -r requirements.txt
-   ```
-2. API Sunucusunu başlatın:
-   ```bash
-   python src/backend/app.py
-   ```
-
-### Frontend (Flutter) Başlatma
-```bash
-cd frontend
-flutter run -d web-server --web-port 8080
-```
-
----
-
-## 🎯 Projenin Amacı ve Geleceği
-Bu proje, akademik bir çalışma olarak geliştirilmiştir. Amacı, bilgi kirliliğinin (disinformation) yoğun olduğu günümüz sosyal medya çağında, kullanıcılara veriye dayalı, mantıksal ve şeffaf bir doğrulama aracı sunmaktır. 
-
-**KızılelmAI**, bir yapay zekadan daha fazlasıdır; o bir **hakikat bekçisidir.**
-
----
-
+*Hazırlayan: Sinan & Antigravity (KızılelmAI Team)*
