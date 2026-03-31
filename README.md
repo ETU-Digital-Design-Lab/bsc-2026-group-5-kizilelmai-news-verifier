@@ -55,10 +55,12 @@ Projenin tüm bileşenlerinin ne işe yaradığı aşağıda detaylandırılmı�
 *   **`ROADMAP.md`**: Projenin gelecek vizyonu ve geliştirilecek özellikler listesi.
 
 ### 🧠 `src/` (Kaynak Kodlar)
-*   **`src/ai_core/engine/engine.py`**: Sistemin beynidir. Tüm NLP modellerini, vektör arama algoritmalarını ve karar mantığını (Logic) içerir.
-*   **`src/ai_core/evaluate.py`**: Sistemin doğruluk performansını test etmek için kullanılan metrik dosyası.
-*   **`src/backend/app.py`**: FastAPI tabanlı sunucu dosyasıdır. Yapay zeka motoru ile arayüz arasındaki asenkron köprüyü kurar.
-*   **`src/shared/preprocess.py`**: Gelen ham verileri (metinleri) temizleyen, küçük harfe çeviren ve NLP işlemine uygun hale getiren yardımcı modüldür.
+*   **`src/ai_core/engine/engine.py`**: **Sistemin beyni.** 10 katmanlı analizi yöneten, modelleri koordine eden ve nihai kararı veren ana motor.
+*   **`src/ai_core/ingest/processor.py`**: **Veri hazırlama merkezi.** Ham CSV/Excel dosyalarını okur, temizler (Preprocessing), etiketler (Labeling) ve sisteme hazır hale getirir.
+*   **`src/ai_core/evaluate.py`**: Sistemin hata payını ve başarı oranını ölçen değerlendirme betiği.
+*   **`src/backend/app.py`**: **API Sunucusu.** Yapay zekayı dış dünyaya bağlayan, veriyi JSON formatında servis eden FastAPI katmanı.
+*   **`src/shared/preprocess.py`**: Tüm sistemde ortak kullanılan metin temizleme (küçük harf, noktalama, stop-word temizliği) fonksiyonları.
+*   **`src/shared/__init__.py`**: Klasörün bir Python paketi olarak tanınmasını sağlayan başlatıcı.
 
 ### 📊 `data/` (Veri Katmanı)
 *   **`data/processed/egitim_verisi_final.csv`**: Sistemin temel bilgi birikimini oluşturan ana haber veri seti.
@@ -70,8 +72,15 @@ Projenin tüm bileşenlerinin ne işe yaradığı aşağıda detaylandırılmı�
 *   **`download_models.py`**: Gerekli NLP modellerini yerel dizine indiren kurulum yardımcısı.
 
 ### 🖥️ `frontend/` (Dashboard/Arayüz)
-*   **`lib/`**: Flutter arayüzünün kaynak kodları (Main, Screens, Services, Widgets).
-*   **`pubspec.yaml`**: Dashboard için gerekli Flutter paketlerinin listesi.
+*   **`lib/`**: Flutter arayüzünün tüm kaynak kodları (Main, Screens, Services, Widgets).
+*   **`pubspec.yaml`**: Dashboard için gerekli Flutter paketlerinin ve bağımlılıklarının yönetildiği dosya.
+*   **`analysis_options.yaml`**: Flutter projesi için kod standartlarını ve linter kurallarını belirleyen dosya.
+*   **`index.html`**: Web çıktısı için temel HTML şablonu.
+
+### 🧪 `tests/` (Katman Doğrulaması)
+*   **`test_layer3.py`**: **Sniper (Re-ranker) Testi.** Alakasız ama "benzer kelimeler" içeren haberlerin sistem tarafından doğru elenip elenmediğini test eder.
+*   **`test_layer4.py`**: Vektörel (Semantic) aramanın başarısını ölçer.
+*   **`test_layer7_context_manual.py`**: Sistemin "bağlam" hatırlama yeteneğini (Context memory) denetler.
 
 ---
 
@@ -104,6 +113,36 @@ Uygulamayı başlatırken veya sıfırlarken aşağıdaki komutlar hayati önem 
 
 ---
 
+## 🛠️ Yazılım Teknolojileri ve Kütüphaneler (Deep Dive)
+
+Hoca "Neden bu kütüphaneyi seçtiniz?" dediğinde verebileceğiniz teknik cevaplar:
+
+| Kütüphane | Kullanım Amacı | Neden Seçildi? |
+| :--- | :--- | :--- |
+| **FastAPI** | Web API Sunucusu | Python'un en hızlı framework'üdür. `Async Pydantic` desteği ile veriyi anlık doğrular. |
+| **Rank-BM25** | Kelime Bazlı Arama | Klasik "Google tarzı" anahtar kelime eşleşmesi için en iyi algoritmadır (Lexical Search). |
+| **Sentence-Transformers** | Vektörel Arama | Cümleyi bir "anlam uzayına" taşır. Kelime farklı olsa da anlam aynıysa yakalar (Semantic Search). |
+| **BAAI (BGE-Reranker)** | Keskin Nişancı | Retrieval sonrası adayları çapraz sorgulayıp alakasız olanları elemede dünya lideridir. |
+| **XNLI (XLM-RoBERTa)** | Mantıksal Çıkarım | İki cümle arasındaki "Çelişki, Destekleme veya Nötr" ilişkisini anlayan devasa model. |
+| **Pandas / NumPy** | Veri Yönetimi | Milyonlarca satır veriyi bellek üzerinde süper hızlı işlemek için standart kütüphanelerdir. |
+| **PyTorch** | AI Backend | Tüm yapay zeka modellerinin üzerinde çalıştığı, GPU hızlandırması sağlayan temel katman. |
+| **Pydantic** | Veri Modeli | API giriş-çıkış verilerinin yapısını ve tiplerini %100 güvenli hale getirmek için. |
+
+---
+
+## 🔍 Algoritmik Mantık: İddialar Nasıl Doğrulanıyor?
+
+Kullanıcı bir şey yazdığında arka planda şu 3 ana NLP tekniği "Hibrit Analiz" olarak çalışır:
+
+1.  **Lexical Search (BM25)**: Kelime kelime eşleşme yapar. "Vampir" kelimesi doğrudan nerede geçiyor?
+2.  **Semantic Search (E5 small)**: Anlam eşleşmesi yapar. "Araba" yazarsan "Otomobil" geçen kayıtları da bulur.
+3.  **Cross-Encoding (Sniper)**: Arama sonuçlarından gelen ilk adayları alır ve "Tamam bunları buldum ama gerçekten bu iddiayla alakalı mı?" diye çapraz sorgular. Eşik puanın altındakileri **VETO** eder.
+
+**Karar Aşaması:** 
+En iyi kaynak bulunduktan sonra **NLI Modeli** devreye girer. Kaynak cümle ile iddiayı karşılaştırır ve "Evet, bu bunu destekliyor (+)" veya "Hayır, bu bunu net yalanlıyor (-)" diyerek son kararı verir.
+
+---
+
 ## 🔍 Derin Analiz Hattı (10 Katmanlı Süzgeç)
 
 KızılelmAI'yi rakiplerinden ayıran en önemli özellik, bir iddiayı doğrularken geçtiği analitik aşamalardır:
@@ -122,4 +161,4 @@ KızılelmAI'yi rakiplerinden ayıran en önemli özellik, bir iddiayı doğrula
 | **L10** | **Dinamik Enjeksiyon** | Çalışma anında yeni bilgiler aşılanabilir. |
 
 ---
-*Hazırlayan: Sinan & Antigravity (KızılelmAI Team)*
+
