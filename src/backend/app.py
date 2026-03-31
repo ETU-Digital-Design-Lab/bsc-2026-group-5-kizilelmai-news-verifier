@@ -10,6 +10,8 @@ from fastapi import FastAPI, HTTPException, Request # type: ignore
 from fastapi.middleware.cors import CORSMiddleware # type: ignore
 from pydantic import BaseModel # type: ignore
 from typing import List, Dict, Any
+from starlette.concurrency import run_in_threadpool # type: ignore
+import time
 
 # ---------------------------------------------------------
 # PATH AYARLAMALARI (Engine'i bulmak için)
@@ -52,6 +54,11 @@ engine = KizilelmaEngine()
 class ChatRequest(BaseModel):
     query: str
 
+class InjectRequest(BaseModel):
+    text: str
+    label: int
+    authority: float = 0.95
+
 class ChatResponse(BaseModel):
     result: str
     status: str
@@ -74,6 +81,29 @@ async def getir_veri():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Veri okunamadı: {str(e)}")
 
+@app.get("/api/status")
+async def get_status():
+    """Sistem kaynaklarını ve veri tabanı durumunu döner"""
+    return {
+        "status": "online",
+        "records": len(engine.df),
+        "engine_version": "3.0.0-Elite",
+        "uptime": "active",
+        "context_depth": len(engine.context_buffer),
+        "dynamic_records": len(engine.df) - 253 # 253 başlangıç verisiydi
+    }
+
+@app.post("/api/inject")
+async def inject_data(request: InjectRequest):
+    """Sisteme canlı bilgi enjekte eder (Katman 10)"""
+    try:
+        success = engine.inject_knowledge(request.text, request.label, request.authority)
+        if success:
+            return {"status": "success", "message": "Bilgi başarıyla enjekte edildi."}
+        return {"status": "error", "message": "Enjeksiyon başarısız."}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Hata: {str(e)}")
+
 @app.post("/api/chat", response_model=ChatResponse)
 async def chat(request: ChatRequest):
     """Sohbet Endpoint'i (Asenkron)"""
@@ -87,9 +117,9 @@ async def chat(request: ChatRequest):
         } # type: ignore
 
     try:
-        # Motoru Çalıştır (Sözlük Döner)
-        res = engine.ask(raw_query)
-        # Linter'ın hatalarını tamamen yok etmek için model yerine sözlük dönüyoruz.
+        # Motoru Çalıştır (Asenkron Thread Pool içinde) - Bloklamayı önler
+        res = await run_in_threadpool(engine.ask, raw_query)
+        
         # FastAPI 'response_model' sayesinde bu sözlüğü otomatik olarak doğrular.
         return { 
             "result": res['result'],

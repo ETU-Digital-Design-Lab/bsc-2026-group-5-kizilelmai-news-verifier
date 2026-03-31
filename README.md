@@ -1,94 +1,134 @@
-<!-- START_BADGES -->
 <p align="center">
-  <img src="assets/logo.png" width="250" alt="KizilelmAI Logo">
+  <img src="assets/logo.png" width="300" alt="KızılelmAI Logo">
 </p>
 
-# <p align="center">🛡️ KızılelmAI: Yerel Analiz ve Doğrulama Motoru (v2.0)</p>
+# 🛡️ KızılelmAI: Yerel Analiz ve Doğrulama Motoru (v3.0 Elite)
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Python-3.10+-blue?style=for-the-badge&logo=python" alt="Python">
-  <img src="https://img.shields.io/badge/Architecture-Asynchronous_FastAPI-009688?style=for-the-badge&logo=fastapi" alt="FastAPI">
-  <img src="https://img.shields.io/badge/Security-Protokol_V2-red?style=for-the-badge&logo=opsgenie" alt="Security Protocol">
-  <img src="https://img.shields.io/badge/Docs-Swagger_OpenAPI-00bfa5?style=for-the-badge&logo=swagger" alt="Swagger">
+  <img src="https://img.shields.io/badge/PYTHON-3.10%2B-blue?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/ARCHITECTURE-ASYNCHRONOUS%20FASTAPI-teal?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">
+  <img src="https://img.shields.io/badge/SECURITY-PROTOKOL%20V2-red?style=for-the-badge&logo=shield&logoColor=white" alt="Protocol">
+  <br>
+  <img src="https://img.shields.io/badge/DOCS-SWAGGER%20OPENAPI-green?style=for-the-badge&logo=swagger&logoColor=white" alt="Swagger">
 </p>
 
----
+![KızılelmAI Banner](assets/kizilelmai_banner.png)
+
+> "Bilgi kirliliğine karşı yerli ve milli bir kalkan."
+
+KızılelmAI, modern Doğal Dil İşleme (NLP) tekniklerini kullanarak haberlerin ve iddiaların doğruluğunu çok katmanlı bir süzgeçten geçiren, yüksek performanslı bir analitik motor ve görselleştirme dashboard'udur.
 
 ## 🚀 Proje Vizyonu (Vision)
-**KızılelmAI**, modern dezenformasyon ve makamsal manipülasyon tehditlerine karşı geliştirilmiş, tamamen **yerel (offline)** çalışan bir analiz motorudur. Dış API bağımlılığı olmadan (Absolute Privacy), kendi içindeki hibrit sinir ağlarını kullanarak bilgiyi cerrahi bir hassasiyetle doğrular.
+
+**KızılelmAI**, modern dezenformasyon ve makamsal manipülasyon tehditlerine karşı geliştirilmiş, tamamen yerel (offline) çalışan bir hakikat bekçisidir. Proje, sadece bir yapay zeka sohbet botu değil; her iddiayı 10 farklı analitik katmanda sorgulayan bir **doğrulama mühendisliği** ürünüdür.
 
 ---
 
-## 🧪 Hesaplama Matrisleri ve Analitik Metrikler
+## 🏛️ Mimari Bakış (Architecture)
 
-KızılelmAI, bir iddianın doğruluğunu ölçmek için **Üçlü Onay Mekanizması (Triple-Check)** kullanır:
+KızılelmAI, "Beyin" (Python/FastAPI) ve "Yüz" (Flutter) olmak üzere iki ana bileşenden oluşur. Aşağıdaki şema, bir kullanıcının gönderdiği iddianın sistem içerisinde nasıl bir yolculuk yaptığını göstermektedir.
 
-### 1. Hibrit Skorlama Matrisi (Hybrid Scoring)
-Sistem, veriyi hem kelime bazlı Hem de anlamsal bazlı tarar:
-- **BM25 (Rank-BM25):** İsim, tarih ve rakam gibi kesin eşleşmeleri (Lexical Match) yakalar.
-- **Multi-lingual E5:** Cümlelerin anlamsal derinliğini (Semantic Similarity) vektör uzayında test eder.
-- **Ağırlıklandırma:** `(Lexical * 0.3) + (Semantic * 0.7)` hibrit formülü ile adaylar belirlenir.
-
-### 2. Sniper Re-Ranking (Cross-Encoder)
-Adaylar, **BAAI/bge-reranker-v2-m3** modeliyle tekrar test edilir. Bu model, iddia ve kaynak arasındaki ilişkiyi logit-düzeyi (Deep Correlation) bir doğrulukla puanlar.
-
-### 3. Doğruluk (Trust) ve Risk Matrisi
-- **Güven Skoru (%):** Rerank ve NLI (Natural Language Inference) sonuçlarının harmonize edilmesiyle hesaplanır.
-- **Risk Skoru (%):** İddia ile kaynak arasındaki mantıksal çelişki (Contradiction) olasılığına göre dinamik olarak artar.
-
----
-
-## 🚨 GÜVENLİK PROTOKOLÜ (Surgical Veto)
-
-Katman 6.5 ile birlikte sisteme eklenen **Güvenlik Protokolü**, makamsal manipülasyonları engellemek için tasarlanmıştır.
-
-| Kategori | Protokol İşleyişi | Kritik List (Red-List) |
-| :--- | :--- | :--- |
-| **Makamsal Koruma** | Belirtilen unvanlarda en ufak bir sapma (Örn: Vali vs Bakan) anında **RED/VETO** durumuna geçer. | Cumhurbaşkanı, Vali, CEO, Kurucu, Belediye Başkanı, Rektör, Bakan. |
-| **Zaman Aşımı** | Tarihsel veriler (Yıl/Ay/Gün) RegEx motoruyla taranır. Fark tespit edilirse **ZAMAN AŞIMI** uyarısı verilir. | Dinamik Yıl/Ay/Gün Regex tespiti. |
-| **Cerrahi Analiz** | Yanıltma riski taşıyan "yakın yanlışlar" (Near-Miss) kategorik olarak raporlanır. | Kişi, Yer, Sayı, Olay, Unvan. |
-
----
-
-## 🏗️ Backend Mimarisi (FastAPI Ops)
-
-Sistem, endüstriyel standartlarda bir **FastAPI** asenkron yapısına taşınmıştır.
-
-- **Port Ataması:** Sistem varsayılan olarak `5000` portundan hizmet verir.
-- **Async Logic:** Tüm sorgular `async/await` yapısıyla paralel olarak işlenir, bu da milisaniyelere varan tepki süresi sağlar.
-- **Swagger UI:** API'ye dair tüm teknik detaylar ve test ekranı `http://127.0.0.1:5000/docs` adresindedir.
-
-### 🌐 Operasyonel Komut Rehberi
-
-| İşlem | Komut | Açıklama |
-| :--- | :--- | :--- |
-| **Sunucuyu Başlat** | `python src/backend/app.py` | FastAPI sunucusunu port 5000'de ateşler. |
-| **Sistemi Kapat (Hard)** | `Stop-Process -Name "python" -Force` | Arka plandaki tüm Python süreçlerini ve portları temizler. |
-| **PID Avı (Windows)** | `netstat -ano | findstr :5000` | Portu rehin alan hayalet süreci tespit eder. |
-
----
-
-## 📂 Profesyonel Dosya Hiyerarşisi
-
-```bash
-kizilelmAI/
-├── 📁 src/ 
-│   ├── 📁 ai_core/engine/  # 🧠 Analitik Motor (Layer 6.5)
-│   └── 📁 backend/app.py   # 🌐 FastAPI Sunucusu (Port 5000)
-├── 📁 frontend/            # 🎨 Dashboard (Premium Dark Mode UI)
-├── 📁 data/processed/      # 📊 Knowledge Base (BM25 & CSV)
-├── 📁 tests/               # 🧪 Unit Tests (Sniper Logic)
-└── README.md               # 📄 Teknik Kılavuz (Buradasınız)
+```mermaid
+graph TD
+    A[Kullanıcı Sorgusu] --> B{Katman 1: Niyet Analizi}
+    B -- Selamlaşma --> C[Bot Yanıtı]
+    B -- İddia/Soru --> D[Katman 2: Sorgu Genişletme]
+    D --> E[Hibrit Arama: Vektörel + BM25]
+    E --> F[Aday Kaynakların Çıkarılması]
+    F --> G{Katman 3: Re-Ranking Sniper}
+    G -- Veto --> H[Bulunamadı Yanıtı]
+    G -- Onay --> I[Katman 6-7-8: Derin Analiz Hattı]
+    I --> J{Katman 9: Konsensüs Kontrolü}
+    J --> K[Katman 10: Dinamik Bilgi Enjeksiyonu]
+    K --> L[Yapılandırılmış JSON Yanıtı]
+    L --> M[Flutter Dashboard Görselleştirme]
 ```
 
 ---
 
-## 🤝 İletişim & Katkı
+## 🚀 Kullanılan Teknolojiler ve Tercih Sebepleri
 
-Bu proje, yerel yapay zeka ve siber-doğrulama alanında bir devrim niteliğindedir. Katkıda bulunmak için lütfen iletişime geçin.
+Bu projede kullanılan her kütüphane ve framework, projenin "hızlı, yerel ve bağımsız" olma vizyonuna hizmet eder.
+
+### 1. Arka Plan (Backend) & NLP
+*   **FastAPI**: Python'un en hızlı web framework'üdür. Asenkron (async) yapısı sayesinde aynı anda binlerce talebi düşük gecikme ile işleyebilir.
+*   **Sentence Transformers (intfloat/multilingual-e5-small)**: Metinleri sayısal vektörlere dönüştürür. "Anlamsal arama" (Semantic Search) yapmamızı sağlar.
+*   **Cross-Encoders (BAAI/bge-reranker-v2-m3)**: "Keskin Nişancı" modelimizdir. Arama sonuçlarının iddianızla ne kadar örtüştüğünü milimetrik hassasiyetle ölçer.
+*   **Rank-BM25**: Anahtar kelime bazlı aramadır. Klasik "Google tarzı" aramayı vektörel arama ile birleştirerek (Hybrid Search) doğruluk payını artırır.
+*   **XLM-RoBERTa (XNLI)**: Doğal Dil Çıkarımı (NLI) modelimiz. İki cümle arasındaki mantıksal ilişkiyi (Destekliyor / Çelişiyor / Nötr) analiz eder.
+
+### 2. Ön Plan (Frontend)
+*   **Flutter**: Tek bir kod tabanıyla hem web hem mobil uygulama geliştirmemizi sağlar.
+*   **Dart**: Tip güvenliği ve hızı sayesinde veri yoğunluklu dashboard'lar için idealdir.
 
 ---
-<p align="center">
-  <b>KızılelmAI - Hakikatin Keskin Kılıcı</b><br>
-  <i>2026 © Proje Geliştirme Ekibi</i>
-</p>
+
+## 🔍 Derin Analiz Hattı: 10 Katmanlı Süzgeç
+
+![Analitik Katmanlar Görseli](assets/analytical_layers.png)
+
+KızılelmAI'yi rakiplerinden ayıran en önemli özellik, bir iddiayı doğrularken geçtiği analitik aşamalardır:
+
+| Katman | Adı | İşlevi |
+| :--- | :--- | :--- |
+| **L1** | **Niyet Analizi** | Kullanıcı selam mı veriyor yoksa ciddi bir iddiada mı bulunuyor? (Greeting vs Claim) |
+| **L2** | **NLP Sorgu Genişletme** | "Maraş" yazıldığında sistem bunu otomatik olarak "Kahramanmaraş" olarak genişletir. |
+| **L3** | **Re-Ranking (The Sniper)** | Binlerce kayıt arasından en alakalı olanı seçen ve alakasızları veto eden "Keskin Nişancı" katmanı. |
+| **L4** | **Vektörel Benzerlik** | Kelimeler farklı olsa bile anlamın (context) aynı olup olmadığını ölçer. |
+| **L5** | **Kelime Çapası** | Cümledeki kritik anahtar kelimelerin kaynakta geçip geçmediğini manuel kontrol eder. |
+| **L6** | **Akıllı Fark Analizi** | Tarih asımı, sayısal hatalar ve unvan değişikliklerini (Örn: Vali vs Belediye Başkanı) yakalar. |
+| **L7** | **Konsept Birleştirici** | Önceki sorulardaki bağlamı hatırlar. "Peki ya Ankara?" dendiğinde konunun "deprem" olduğunu bilir. |
+| **L8** | **Otorite Ağırlığı** | Kaynağın güvenilirliğini (Resmi Gazete vs Blog) skora dahil eder. |
+| **L9** | **Çok Kaynaklı Konsensüs** | Birden fazla kaynağın aynı fikirde olup olmadığını, çelişki olup olmadığını denetler. |
+| **L10** | **Dinamik Enjeksiyon** | Sisteme yeniden başlatmadan, çalışma anında yeni bilgiler ("sıcak haberler") aşılanabilir. |
+
+---
+
+## 💻 Kod Derin Dalışı (Code Deep Dive)
+
+### 1. `engine.py` (Zeka Merkezi)
+Bu dosya sistemin kalbidir. `KizilelmaEngine` sınıfı tüm modelleri belleğe yükler ve `ask()` fonksiyonu ile süreci koordine eder.
+
+*   **`setup_paths`**: Veri yollarını ve yerel model dizinlerini dinamik olarak ayarlar.
+*   **`load_data`**: CSV ve JSON formatındaki bilgi tabanını yükler.
+*   **`karar_motoru`**: NLI modeli ve fark analizinden gelen verileri birleştirerek "DOĞRU", "YANLIŞ" veya "GÜNCEL DEĞİL" kararını verir.
+
+### 2. `app.py` (API Katmanı)
+FastAPI kullanarak dış dünyaya kapı açar.
+*   **`/api/chat`**: Flutter uygulamasından gelen soruları alır ve `run_in_threadpool` kullanarak CPU yoğunluklu analizi ana sistemi dondurmadan çalıştırır.
+*   **`/api/inject`**: Dışarıdan anlık veri girişi sağlar.
+
+---
+
+## 🛠️ Kurulum ve Çalıştırma
+
+### Gereksinimler
+- Python 3.9+
+- CUDA destekli GPU (Tavsiye edilir ama zorunlu değildir)
+- 8GB+ RAM
+
+### backend Kurulumu
+1. Bağımlılıkları yükleyin:
+   ```bash
+   pip install -r requirements.txt
+   ```
+2. API Sunucusunu başlatın:
+   ```bash
+   python src/backend/app.py
+   ```
+
+### Frontend (Flutter) Başlatma
+```bash
+cd frontend
+flutter run -d web-server --web-port 8080
+```
+
+---
+
+## 🎯 Projenin Amacı ve Geleceği
+Bu proje, akademik bir çalışma olarak geliştirilmiştir. Amacı, bilgi kirliliğinin (disinformation) yoğun olduğu günümüz sosyal medya çağında, kullanıcılara veriye dayalı, mantıksal ve şeffaf bir doğrulama aracı sunmaktır. 
+
+**KızılelmAI**, bir yapay zekadan daha fazlasıdır; o bir **hakikat bekçisidir.**
+
+---
+
