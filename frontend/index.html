@@ -7,6 +7,7 @@
   <title>KızılelmAI – Profesyonel Doğrulama Paneli</title>
   <link rel="icon" href="assets/logo.png" type="image/png" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     :root {
       --bg: #050607;
@@ -30,10 +31,26 @@
       margin: 0;
       min-height: 100vh;
       font-family: "Inter", sans-serif;
-      background: radial-gradient(circle at top right, #1a2a3a, #050607 70%);
+      background: radial-gradient(circle at top right, #1a2a3a, #050607 90%);
       color: var(--text);
       overflow-x: hidden;
     }
+
+    /* HUD Stats */
+    .hud-container {
+      display: flex;
+      gap: 15px;
+      font-size: 0.75rem;
+      color: var(--muted);
+      background: rgba(255,255,255,0.03);
+      padding: 6px 14px;
+      border-radius: 99px;
+      border: 1px solid var(--border);
+    }
+
+    .hud-item { display: flex; align-items: center; gap: 5px; }
+    .hud-value { color: var(--success); font-weight: 700; }
+    .online-dot { width: 6px; height: 6px; background: var(--success); border-radius: 50%; box-shadow: 0 0 8px var(--success); }
 
     /* Navbar */
     nav {
@@ -187,6 +204,22 @@
     .status-KISMI { background: rgba(255, 159, 28, 0.15); color: var(--warning); }
     .status-RET { background: rgba(151, 162, 179, 0.15); color: var(--muted); }
 
+    .btn-download {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .btn-download:hover { background: var(--accent); color: #000; border-color: transparent; }
+
     .category-tag {
       font-size: 0.75rem;
       padding: 4px 10px;
@@ -194,6 +227,16 @@
       border: 1px solid var(--border);
       border-radius: 8px;
       color: var(--muted);
+    }
+
+    .consensus-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--success);
+      background: rgba(70, 229, 159, 0.1);
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(70, 229, 159, 0.2);
     }
 
     .stat-grid {
@@ -343,9 +386,17 @@
       <img src="assets/logo.png" alt="Logo" />
       <span>KızılelmAI</span>
     </div>
+    
+    <div class="hud-container" id="hud">
+      <div class="hud-item"><div class="online-dot"></div> <span id="statusText">SİSTEM AKTİF</span></div>
+      <div class="hud-item">📊 VERİ: <span class="hud-value" id="hudRecords">-</span> <span id="dynamicBadge" style="font-size: 0.6rem; background: var(--accent); color: #000; padding: 2px 5px; border-radius: 4px; display:none;">+YENİ</span></div>
+      <div class="hud-item">🧬 KONSEPT: <span class="hud-value" id="hudContext">-%</span></div>
+    </div>
+
     <div class="nav-links">
       <button class="nav-link active" id="btn-home" onclick="switchView('home')">Doğrulayıcı</button>
       <button class="nav-link" id="btn-data" onclick="switchView('data')">Veritabanı</button>
+      <button class="nav-link" id="btn-expert" onclick="switchView('expert')" style="border: 1px solid var(--danger); color: var(--danger);">Expert Mode</button>
     </div>
   </nav>
 
@@ -369,15 +420,33 @@
       </div>
     </section>
 
-    <!-- Veri Görünümü -->
-    <section id="view-data" class="view">
-      <div class="data-card">
-        <div style="overflow-x: auto;">
-          <table id="dataTable">
-            <thead id="tableHead"></thead>
-            <tbody id="tableBody"></tbody>
-          </table>
-        </div>
+    <!-- Expert Mode (Inject) -->
+    <section id="view-expert" class="view">
+      <div class="data-card" style="padding: 40px; max-width: 600px; margin: 0 auto;">
+        <h2 style="margin-top:0; color: var(--danger);">🛡️ Bilgi Enjeksiyonu (Katman 10)</h2>
+        <p style="color: var(--muted); font-size: 0.9rem;">Sistemin Sniper katmanına anlık yeni veriler aşılayın. Bu veriler anında analiz motoruna dahil edilir.</p>
+        
+        <form id="injectForm" style="display:flex; flex-direction:column; gap:20px;">
+          <div>
+            <label style="display:block; margin-bottom:8px; font-size:0.8rem;">DOGRULANACAK METIN / GERÇEK</label>
+            <textarea id="injectText" placeholder="Örn: Erzurum Teknik Üniversitesi 2010 yılında kurulmuştur." style="width:100%; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:12px; padding:15px; color:#fff; font-family:inherit; min-height:100px; outline:none;"></textarea>
+          </div>
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+            <div>
+              <label style="display:block; margin-bottom:8px; font-size:0.8rem;">ETİKET (LABEL)</label>
+              <select id="injectLabel" style="width:100%; background:rgba(0,0,0,0.3); color:#fff; border:1px solid var(--border); padding:10px; border-radius:8px;">
+                <option value="1">DOĞRU (1)</option>
+                <option value="0">YALAN (0)</option>
+              </select>
+            </div>
+            <div>
+              <label style="display:block; margin-bottom:8px; font-size:0.8rem;">OTORİTE (% - Üst Düzey Güven)</label>
+              <input type="number" id="injectAuth" value="95" min="1" max="100" style="width:100%; background:rgba(0,0,0,0.3); color:#fff; border:1px solid var(--border); padding:10px; border-radius:8px;">
+            </div>
+          </div>
+          <button type="submit" style="background:var(--accent); color:#000; font-weight:800; padding:15px; border:none; border-radius:12px; cursor:pointer;">SİSTEME ENJEKTE ET</button>
+        </form>
+        <div id="injectStatus" style="margin-top:20px; text-align:center; font-weight:bold;"></div>
       </div>
     </section>
   </main>
@@ -399,23 +468,33 @@
     function appendReportCard(data) {
       const card = document.createElement('div');
       card.className = 'report-card';
+      const cardId = 'report-' + Date.now();
+      card.id = cardId;
       
+      const consensusUI = data.consensus && data.consensus.is_consensus 
+        ? `<span class="consensus-tag">🛡️ KONSENSÜS SAĞLANDI (${data.consensus.agreement_count}/${data.consensus.total_sources})</span>`
+        : `<span class="consensus-tag" style="background:rgba(255,77,109,0.1); color:var(--danger); border-color:rgba(255,77,109,0.2);">⚠️ ÇELİŞKİLİ KAYNAKLAR</span>`;
+
       card.innerHTML = `
         <div class="card-header">
           <span class="status-badge status-${data.status}">${data.msg}</span>
-          <span class="category-tag">📁 ${data.category}</span>
+          <div style="display:flex; gap:8px; align-items:center;">
+             <span class="category-tag">📁 ${data.category}</span>
+             <button class="btn-download" onclick="downloadReport('${cardId}')">İNDİR</button>
+          </div>
         </div>
         <div style="font-size: 1.1rem; font-weight: 600; line-height: 1.4;">${data.description}</div>
+        <div style="margin-top: 5px;">${consensusUI}</div>
         <div class="stat-grid">
-          <div class="stat-item">
-            <span class="stat-label">GÜVENİLİRLİK</span>
+          <div class="stat-item" style="position:relative;">
+            <span class="stat-label">OTORİTE / GÜVEN</span>
             <div class="stat-bar-bg">
               <div class="stat-bar-fill" style="width: 0%; background: var(--success)" id="conf-${Date.now()}"></div>
             </div>
-            <div style="font-size: 0.8rem; margin-top: 6px; text-align: right; font-weight: 700;">%${data.confidence}</div>
+            <div style="font-size: 0.8rem; margin-top: 6px; text-align: right; font-weight: 700;">%${data.confidence} <span style="color:var(--muted); font-weight:400; font-size:0.6rem;">(Kaynak Otoritesi: %${data.authority})</span></div>
           </div>
           <div class="stat-item">
-            <span class="stat-label">HATA RİSKİ</span>
+            <span class="stat-label">MANİPÜLASYON RİSKİ</span>
             <div class="stat-bar-bg">
               <div class="stat-bar-fill" style="width: 0%; background: var(--danger)" id="risk-${Date.now()}"></div>
             </div>
@@ -439,6 +518,44 @@
         });
       }, 50);
     }
+
+    async function downloadReport(id) {
+       const element = document.getElementById(id);
+       const originalBackground = element.style.background;
+       element.style.background = "#0f1419"; // Export için koyu arka plan sabitle
+       
+       const canvas = await html2canvas(element, {
+          backgroundColor: "#050607",
+          scale: 2,
+          logging: false
+       });
+       
+       element.style.background = originalBackground;
+       const link = document.createElement('a');
+       link.download = `KizilelmalAI_Rapor_${id}.png`;
+       link.href = canvas.toDataURL("image/png");
+       link.click();
+    }
+
+    async function updateHUD() {
+       try {
+          const res = await fetch(API_BASE + '/api/status');
+          const data = await res.json();
+          document.getElementById('hudRecords').textContent = data.records;
+          if(data.dynamic_records > 0) {
+            document.getElementById('dynamicBadge').textContent = '+' + data.dynamic_records;
+            document.getElementById('dynamicBadge').style.display = 'inline-block';
+          }
+          document.getElementById('hudContext').textContent = (data.context_depth * 33) + '%';
+          document.getElementById('statusText').textContent = 'SİSTEM AKTİF (v' + data.engine_version + ')';
+       } catch(e) {
+          document.getElementById('statusText').textContent = 'SUNUCUYA ULAŞILAMIYOR';
+          document.getElementById('statusText').style.color = 'var(--danger)';
+       }
+    }
+    
+    setInterval(updateHUD, 5000);
+    updateHUD();
 
     chatForm.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -501,6 +618,41 @@
         errorB.className = 'bubble ai';
         errorB.textContent = "❌ Sunucuya ulaşılamıyor. Lütfen backend'in çalıştığından emin olun.";
         chatBody.appendChild(errorB);
+      }
+    });
+
+    // Expert Mode Injection Script
+    const injectForm = document.getElementById('injectForm');
+    injectForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const text = document.getElementById('injectText').value.trim();
+      const label = parseInt(document.getElementById('injectLabel').value);
+      const auth = parseFloat(document.getElementById('injectAuth').value) / 100;
+      const statusDiv = document.getElementById('injectStatus');
+
+      if(!text) return;
+      statusDiv.textContent = "⏳ Enjekte ediliyor...";
+      statusDiv.style.color = "var(--warning)";
+
+      try {
+        const res = await fetch(API_BASE + '/api/inject', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ text, label, authority: auth })
+        });
+        const data = await res.json();
+        if(res.ok) {
+          statusDiv.textContent = "✅ BAŞARILI: Bilgi sisteme dahil edildi.";
+          statusDiv.style.color = "var(--success)";
+          document.getElementById('injectText').value = '';
+          updateHUD();
+        } else {
+          statusDiv.textContent = "❌ HATA: " + data.detail;
+          statusDiv.style.color = "var(--danger)";
+        }
+      } catch(e) {
+        statusDiv.textContent = "❌ Sunucu hatası.";
+        statusDiv.style.color = "var(--danger)";
       }
     });
 

@@ -32,6 +32,8 @@ class KizilelmaEngine:
         self.SYNONYM_THRESHOLD = 0.85
         self.IRRELEVANT_THRESHOLD = 0.25
         self.SEMANTIC_SHIFT_THRESHOLD = 0.55
+        self.AUTHORITY_WEIGHT = 0.3 # Katman 8: Otorite ağırlığı
+        self.CONSENSUS_THRESHOLD = 2 # Katman 9: En az kaç kaynak aynı fikirde olmalı?
         self.STOP_WORDS = {
             'mi', 'mı', 'mu', 'mü', 'mıdır', 'midir', 'mudur', 'müdür', 'nin', 'nın', 'nun', 'nün', 'de', 'da', 'te', 'ta', 'den', 'dan',
             'ile', 've', 'veya', 'ki', 'bu', 'şu', 'o', 'bir', 'olan', 'eden', 'olarak',
@@ -51,6 +53,8 @@ class KizilelmaEngine:
         self.search_model = None # type: Any
         self.nli_model = None # type: Any
         self.rerank_model = None # type: Any
+        self.context_buffer = [] # type: List[Dict[str, Any]]
+        self.MAX_CONTEXT = 3
 
         # --- 3. Başlatma Sırası ---
         self.setup_paths()
@@ -69,6 +73,7 @@ class KizilelmaEngine:
         )
         self.local_model_path = os.path.join(self.root_dir, 'src', 'ai_core', 'models', 'kizilelma_model_v1')
         self.kb_path = os.path.join(self.root_dir, 'data', 'processed', 'knowledge_base.json')
+        self.dynamic_csv_path = os.path.join(self.root_dir, 'data', 'processed', 'knowledge_base_dynamic.csv')
 
 
 
@@ -76,6 +81,17 @@ class KizilelmaEngine:
         print(f"📂 Veri Yolu: {self.csv_path}")
         try:
             self.df = pd.read_csv(self.csv_path, encoding='utf-8-sig')
+            
+            # --- YENI: Dinamik Veri Ekleme (Katman 10) ---
+            if os.path.exists(self.dynamic_csv_path):
+                dynamic_df = pd.read_csv(self.dynamic_csv_path, encoding='utf-8-sig')
+                self.df = pd.concat([self.df, dynamic_df], ignore_index=True)
+                print(f"➕ Dinamik bilgi tabanı yüklendi: {len(dynamic_df)} yeni kayıt.")
+
+            # --- YENI: Otorite Skorlarını Başlat (Katman 8) ---
+            if 'authority' not in self.df.columns:
+                self.df['authority'] = 0.85 # Varsayılan yüksek güven
+            
             print(f"✅ Veri seti yüklendi: {len(self.df)} kayıt.")
             self.texts = self.df['text'].tolist()
             
@@ -126,9 +142,61 @@ class KizilelmaEngine:
         else:
             self.text_embeddings = []
 
+    def inject_knowledge(self, text, label, authority=0.95):
+        """
+        Katman 10: Çalışma zamanında yeni bilgi enjekte eder.
+        """
+        new_data = {'text': text, 'label': int(label), 'authority': float(authority)}
+        new_row = pd.DataFrame([new_data])
+        
+        # Belleği Güncelle
+        self.df = pd.concat([self.df, new_row], ignore_index=True)
+        self.texts.append(text)
+        
+        # Vektörleri Güncelle
+        new_emb = self.search_model.encode([f"passage: {text}"], convert_to_numpy=True)
+        self.text_embeddings = np.append(self.text_embeddings, new_emb, axis=0) # type: ignore
+        
+        # BM25 Güncelle (Yeniden oluşturmak gerekir çünkü BM25 kütüphanesi update desteklemez)
+        def tokenize(t): return re.findall(r'\w+', str(t).lower())
+        tokenized_corpus = [tokenize(doc) for doc in self.texts]
+        self.bm25 = BM25Okapi(tokenized_corpus)
+        
+        # Diske Kaydet
+        header = not os.path.exists(self.dynamic_csv_path)
+        new_row.to_csv(self.dynamic_csv_path, mode='a', index=False, header=header, encoding='utf-8-sig')
+        
+        print(f"💉 Katman 10 (Enjeksiyon): Yeni bilgi sisteme aşılandı -> {text[:30]}...")
+        return True
+
 
 
     # --- MANTIK FONKSİYONLARI ---
+
+    def context_merger(self, current_query):
+        """
+        NLP Konsept Birleştirici (Katman 7): Eğer yeni sorgu eksikse 
+        (örn: 'peki ya Ankara?'), önceki sorgunun bağlamıyla birleştirir.
+        """
+        if not self.context_buffer:
+            return current_query
+
+        q_clean = current_query.lower().strip()
+        tokens = q_clean.split()
+        
+        # Takip sorusu tetikleyicileri
+        follow_up_triggers = {'peki', 'ya', 've', 'kim', 'nerede', 'ne', 'nasıl', 'neden'}
+        
+        # Eğer sorgu çok kısaysa veya tetikleyici ile başlıyorsa bağlam ara
+        if len(tokens) <= 3 or (tokens and tokens[0] in follow_up_triggers):
+            last_query = self.context_buffer[-1]['query']
+            # Önceki sorgudan önemli anahtar kelimeleri (isimleri) çekmeye çalış
+            # (NLP Heuristic: Büyük harfle başlayanlar veya stop-word olmayanlar)
+            merged = f"{last_query} {current_query}"
+            print(f"🔗 NLP Katman 7 (Konsept Birleştirme): '{current_query}' -> '{merged}'")
+            return merged
+
+        return current_query
 
     def temizle_ve_normallestir(self, query):
         q = query.lower()
@@ -344,7 +412,7 @@ class KizilelmaEngine:
         
         # 0. Girdi Doğrulama
         alphanumeric_query = re.sub(r'[^\w\s]', '', raw_query)
-        if len(alphanumeric_query.strip()) < 3:
+        if len(alphanumeric_query.strip()) < 2: # 'Ya?' gibi kısa takipleri de artık kabul edebiliriz
             return {
                 "result": "⚠️ GEÇERSİZ GİRDİ: Lütfen doğrulamak istediğiniz iddiayı açıkça yazın.",
                 "status": "RET", "msg": "⚠️ GEÇERSİZ GİRDİ", 
@@ -352,8 +420,10 @@ class KizilelmaEngine:
                 "confidence": 0, "risk": 0, "category": "YOK", "source": "-"
             }
             
-        clean_query = self.temizle_ve_normallestir(raw_query)
-        print(f"\n📩 Gelen: {raw_query}")
+        # 0.1. Katman 7: Konsept Birleştirme
+        contextual_query = self.context_merger(raw_query)
+        clean_query = self.temizle_ve_normallestir(contextual_query)
+        print(f"\n📩 Gelen: {raw_query} | Analitik Bağlam: {contextual_query}")
 
         # 1. Niyet Analizi
         intent = self.intent_analyzer(clean_query)
@@ -403,33 +473,46 @@ class KizilelmaEngine:
         # Yeni skorlarla adayları tekrar eşleştir ve sırala
         ranked_candidates = []
         for i, idx in enumerate(top_indices):
+            # Katman 8: Otorite Ağırlıklandırması (Normalizasyon ile)
+            auth = self.df.iloc[idx].get('authority', 0.85)
+            
+            # Sigmoid Normalizasyonu: Rerank skorunu [0,1] arasına çeker
+            raw_rerank = float(rerank_scores[i])
+            sig_rerank = 1 / (1 + np.exp(-raw_rerank / 2)) # Yumuşatılmış sigmoid
+            
+            # Hibrit Skor = (Sigmoid(Rerank) * 0.7) + (Authority * 0.3)
+            weighted_score = (sig_rerank * (1 - self.AUTHORITY_WEIGHT)) + (auth * self.AUTHORITY_WEIGHT)
+            
             ranked_candidates.append({
-                'idx': int(idx), # type: ignore
-                'rerank_score': float(rerank_scores[i]), # type: ignore
-                'dense_sim': float(dense_sims[idx]), # type: ignore
-                'bm25_score': float(bm25_scores[idx]) # type: ignore
+                'idx': int(idx),
+                'rerank_score': raw_rerank,
+                'sig_rerank': sig_rerank,
+                'weighted_score': weighted_score,
+                'dense_sim': float(dense_sims[idx]),
+                'bm25_score': float(bm25_scores[idx]),
+                'authority': auth
             })
         
-        # Re-rank skoruna göre sırala (Azalan)
-        ranked_candidates = sorted(ranked_candidates, key=lambda x: x['rerank_score'], reverse=True)
+        # Ağırlıklı skora göre sırala
+        ranked_candidates = sorted(ranked_candidates, key=lambda x: x['weighted_score'], reverse=True)
         
         candidates = []
-        # Re-ranker veto eşiği: BGE-v2-m3 için -5 ile 10 arası döner. 
-        # 0.5'ten küçükse "Alakasız" kabul edelim.
-        RERANK_VETO_THRESHOLD = 0.50 # RADİKAL SIKILAŞTIRMA: %50'den düşük skorları alakasız sayar
+        # Re-ranker veto eşiği: Sigmoid sonrası 0.4 altı "Alakasız" kabul edelim
+        RERANK_VETO_THRESHOLD = 0.40 
 
         for cand in ranked_candidates:
-            idx = cand['idx'] # type: ignore
-            r_score = cand['rerank_score'] # type: ignore
+            idx = cand['idx']
+            s_score = cand['sig_rerank']
             
-            # Seçim Kriteri: Re-ranker onay verecek VE (E5 veya BM25 yeterli olacak)
-            if r_score > RERANK_VETO_THRESHOLD:
-                if cand['dense_sim'] > self.RETRIEVAL_THRESHOLD or cand['bm25_score'] > 2.0:
+            if s_score > RERANK_VETO_THRESHOLD:
+                if cand['dense_sim'] > self.RETRIEVAL_THRESHOLD or cand['bm25_score'] > 1.5:
                     candidates.append({
                         'text': self.df.iloc[idx]['text'], 
                         'label': int(self.df.iloc[idx]['label']), 
                         'sim': cand['dense_sim'],
-                        'rerank_score': r_score
+                        'rerank_score': cand['rerank_score'],
+                        'authority': cand['authority'],
+                        'sig_rerank': cand['sig_rerank']
                     })
 
         if not candidates:
@@ -439,8 +522,27 @@ class KizilelmaEngine:
                 "conf": 0, "risk": 0, "cat": "YOK"
             })
             
-        best_cand = candidates[0]
-        print(f"🎯 Sniper Seçimi: {best_cand['text'][:50]}... | Skor: {best_cand['rerank_score']:.2f}")
+        # Katman 9: Multi-Source Consensus (Konsensüs Analizi)
+        top_k = min(3, len(candidates))
+        top_sources = candidates[:top_k]
+        labels = [c['label'] for c in top_sources]
+        
+        most_common_label = max(set(labels), key=labels.count)
+        agreement_count = labels.count(most_common_label)
+        is_consensus = agreement_count == len(labels) if len(labels) >= 2 else True
+        has_conflict = not is_consensus and len(labels) >= 2
+        
+        best_cand = top_sources[0]
+        
+        consensus_info = {
+            "is_consensus": is_consensus,
+            "has_conflict": has_conflict,
+            "total_sources": len(top_sources),
+            "agreement_count": agreement_count,
+            "label": most_common_label
+        }
+        
+        print(f"🎯 Sniper Seçimi (Ağırlıklı): {best_cand['text'][:50]}... | Otorite: {best_cand['authority']}")
         
         # NLI Tahmini: Her zaman [Kaynak, Gelen Soru] sırasıyla çalışmalıdır (Asimetrik).
         input_pair = [best_cand['text'], clean_query]
@@ -451,7 +553,14 @@ class KizilelmaEngine:
 
         # Karar
         res = self.karar_motoru(raw_query, best_cand, probs, best_cand['sim'])
+        res['consensus'] = consensus_info # Konsensüs verisini ekle
         
+        # Katman 7: Context Güncelleme (Sadece geçerli iddiaları sakla)
+        if res.get('status') != 'RET':
+            self.context_buffer.append({"query": raw_query, "category": res.get('cat')})
+            if len(self.context_buffer) > self.MAX_CONTEXT:
+                self.context_buffer.pop(0)
+
         # Artık yapılandırılmış bir sözlük (dict) dönüyoruz
         return self.local_response_engine(raw_query, best_cand, res)
 
@@ -462,7 +571,15 @@ class KizilelmaEngine:
         trust = int(res.get('conf', 0))
         risk = int(res.get('risk', 0))
         cat = res.get('cat', 'GENEL')
-        source = cand['text']
+        source = cand.get('text', '-')
+        
+        # Katman 9 Bilgisi
+        cons = res.get('consensus', {})
+        cons_text = ""
+        if cons.get('is_consensus'):
+            cons_text = f" (Konsensüs: {cons.get('agreement_count')}/{cons.get('total_sources')} kaynak uyumlu)"
+        else:
+            cons_text = " (⚠️ Dikkat: Kaynaklar arasında çelişki tespit edildi!)"
 
         # Tipik bir chatbot baloncuğu için formatlanmış metin
         header = f"{status_msg}\n{detail}"
@@ -472,7 +589,7 @@ class KizilelmaEngine:
         elif res.get('status') == 'RED':
             extra = f"\n❌ **Not:** {cat} bazlı hatalar nedeniyle bu bilgi güvenilir kabul edilmemiştir."
 
-        formatted_text = f"{header}\n\n🔍 **DERİN ANALİZ RAPORU (Katman 5):**\n• **Hata Kategorisi:** {cat}\n• **Tespit Türü:** {'Doğrudan Çelişki' if risk > 50 else 'Semantik Örtüşme'}\n{extra}\n🛡️ **Doğruluk:** %{trust} | 📉 **Risk:** %{risk}\n-----------------------------\n📄 **Kaynak:** {source}"
+        formatted_text = f"{header}\n\n🔍 **DERİN ANALİZ RAPORU (v3.0):**\n• **Hata Kategorisi:** {cat}\n• **Otorite Puanı:** % {int(cand.get('authority', 0.85)*100)}\n• **Tespit Türü:** {'Doğrudan Çelişki' if risk > 50 else 'Semantik Örtüşme'}{cons_text}\n{extra}\n🛡️ **Doğruluk:** %{trust} | 📉 **Risk:** %{risk}\n-----------------------------\n📄 **Kaynak:** {source}"
 
         # YAPILANDIRILMIŞ ÇIKTI (Dashboard İçin)
         return {
