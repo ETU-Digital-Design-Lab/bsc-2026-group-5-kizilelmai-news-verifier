@@ -420,6 +420,22 @@
       </div>
     </section>
 
+    <!-- Veritabanı Görünümü -->
+    <section id="view-data" class="view">
+      <div class="data-card">
+        <div style="padding: 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+          <h2 style="margin:0; font-size: 1.2rem;">🗄️ Sistem Bilgi Tabanı</h2>
+          <button class="nav-link" onclick="fetchVeri()" style="font-size: 0.7rem; padding: 5px 15px;">YENİLE</button>
+        </div>
+        <div style="overflow-x: auto; max-height: 70vh;">
+          <table>
+            <thead id="tableHead"></thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
     <!-- Expert Mode (Inject) -->
     <section id="view-expert" class="view">
       <div class="data-card" style="padding: 40px; max-width: 600px; margin: 0 auto;">
