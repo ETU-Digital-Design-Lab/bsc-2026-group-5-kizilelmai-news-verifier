@@ -3,10 +3,8 @@ import '../constants.dart';
 import '../widgets/analysis_panel.dart';
 import '../widgets/sections.dart';
 import '../widgets/marquee_ticker.dart';
+import '../widgets/footer_section.dart'; 
 
-/// Mobil cihazlar (< 900px) için optimize edilmiş yerleşim düzeni.
-/// Alt navigasyon çubuğu (BottomAppBar) ve Docked FAB (Ortalanmış Buton) mimarisini kullanır.
-/// Sayfalar arası geçiş, [State] yönetimi ile aynı ekranda yapılır.
 class MobileLayout extends StatefulWidget {
   final VoidCallback onSettingsTap;
   const MobileLayout({super.key, required this.onSettingsTap});
@@ -16,176 +14,199 @@ class MobileLayout extends StatefulWidget {
 }
 
 class _MobileLayoutState extends State<MobileLayout> {
-  // Varsayılan olarak Ana Sayfa (Index 1) açılır
-  int _mobileIndex = 1;
+  // Kaydırma için Anahtarlar
+  final GlobalKey _panelKey = GlobalKey();
+  final GlobalKey _missionKey = GlobalKey();
+  final GlobalKey _teamKey = GlobalKey();
+
+  void _scrollToSection(GlobalKey key) {
+    Navigator.pop(context); // Menüyü kapat
+    if (key.currentContext != null) {
+      Scrollable.ensureVisible(
+        key.currentContext!, 
+        duration: const Duration(seconds: 1), 
+        curve: Curves.easeInOut
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Aktif sayfa seçimi
-    Widget activePage;
-    switch (_mobileIndex) {
-      case 0:
-        activePage = const SingleChildScrollView(child: MissionSection(isWeb: false));
-        break;
-      case 2:
-        activePage = const SingleChildScrollView(child: TeamSection(isWeb: false));
-        break;
-      case 1:
-      default:
-        activePage = _buildPanelPage();
-        break;
-    }
+    bool isLight = Theme.of(context).brightness == Brightness.light;
 
     return Scaffold(
-      // Klavye açıldığında UI'ın bozulmasını önler (Pixel Overflow koruması)
-      resizeToAvoidBottomInset: true, 
-      
-      body: SafeArea(
-        child: Stack(
+      backgroundColor: Colors.transparent, // Arkaplan HomePage'den geliyor
+      appBar: _buildAppBar(isLight),
+      drawer: _buildDrawer(isLight), // Yan Menü
+      body: SingleChildScrollView(
+        physics: const ClampingScrollPhysics(),
+        child: Column(
           children: [
-            Column(
-              children: [
-                // En üstte sabit kayan yazı
-                const MarqueeTickerModule(), 
-                // Altında değişen içerik alanı
-                Expanded(child: activePage),
-              ],
-            ),
+            const SizedBox(height: 20),
             
-            // Sağ üst köşedeki Ayarlar Butonu (Floating)
-            Positioned(
-              top: 50, // Marquee'nin hemen altına hizalar
-              right: 15,
-              child: FloatingActionButton.small(
-                heroTag: "settings_btn",
-                onPressed: widget.onSettingsTap,
-                backgroundColor: AppColors.cardColor,
-                elevation: 4,
-                child: const Icon(Icons.settings, color: AppColors.primaryRed),
-              ),
-            )
+            // 1. LOGO ALANI
+            _buildHeroSection(isLight),
+
+            // 2. ANALİZ PANELİ
+            SizedBox(key: _panelKey, child: const AnalysisPanel(isWeb: false)),
+
+            // 3. MİSYON BÖLÜMÜ
+            Container(key: _missionKey, child: const MissionSection(isWeb: false)),
+
+            // 4. EKİP BÖLÜMÜ
+            Container(key: _teamKey, child: const TeamSection(isWeb: false)),
+
+            // 5. FOOTER (ALT BİLGİ)
+            const FooterSection(isWeb: false),
           ],
         ),
       ),
+      bottomNavigationBar: const MarqueeTickerModule(),
+    );
+  }
 
-      // Ortadaki Büyük Logo Butonu (Ana Sayfaya Dönüş)
-      floatingActionButton: SizedBox(
-        width: 70, height: 70,
-        child: FloatingActionButton(
-          heroTag: "main_fab",
-          onPressed: () => setState(() => _mobileIndex = 1), 
-          backgroundColor: AppColors.primaryRed, 
-          elevation: 10,
-          shape: const CircleBorder(),
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Image.asset('assets/images/new_logo_1.png', color: Colors.white),
-          ),
+  PreferredSizeWidget _buildAppBar(bool isLight) {
+    return AppBar(
+      backgroundColor: isLight ? Colors.transparent : AppColors.cardDark.withOpacity(0.8),
+      elevation: 0,
+      centerTitle: true,
+      iconTheme: IconThemeData(color: isLight ? AppColors.primary : Colors.white),
+      title: Text(
+        "KızılelmAI", // DÜZELTİLDİ
+        style: TextStyle(
+          color: isLight ? AppColors.primary : Colors.white,
+          fontWeight: FontWeight.w900, // Logo fontu gibi kalın
+          letterSpacing: 1,
+          fontSize: 20 // Mobilde de okunur ve şık olsun
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
-      // Alt Navigasyon Menüsü
-      bottomNavigationBar: BottomAppBar(
-        color: AppColors.cardColor,
-        shape: const CircularNotchedRectangle(), // FAB için oyuk oluşturur
-        notchMargin: 8.0,
-        child: SizedBox(
-          height: 60,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _buildNavBtn(Icons.info_outline, Icons.info, "Misyon", 0),
-              // Ortada FAB için boşluk bırakıyoruz
-              const SizedBox(width: 40), 
-              _buildNavBtn(Icons.groups_outlined, Icons.groups, "Ekip", 2),
-            ],
-          ),
+      actions: [
+        IconButton(
+          onPressed: widget.onSettingsTap,
+          icon: const Icon(Icons.settings),
         ),
+        const SizedBox(width: 10),
+      ],
+    );
+  }
+
+  // YAN MENÜ (DRAWER)
+  Widget _buildDrawer(bool isLight) {
+    Color drawerBg = isLight ? Colors.white : const Color(0xFF1E293B);
+    Color textColor = isLight ? AppColors.secondary : Colors.white;
+
+    return Drawer(
+      backgroundColor: drawerBg,
+      child: Column(
+        children: [
+          DrawerHeader(
+            decoration: BoxDecoration(
+              color: isLight ? AppColors.primary.withOpacity(0.1) : Colors.black26,
+            ),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset('assets/images/new_logo_1.png', height: 80),
+                  const SizedBox(height: 10),
+                  // Yan menüdeki ismi de düzelttik
+                  Text(
+                    "KızılelmAI", 
+                    style: TextStyle(
+                      color: textColor, 
+                      fontWeight: FontWeight.w900, 
+                      letterSpacing: 1,
+                      fontSize: 18
+                    )
+                  ),
+                ],
+              ),
+            ),
+          ),
+          ListTile(
+            leading: Icon(Icons.analytics, color: isLight ? AppColors.primary : AppColors.primaryRed),
+            title: Text("Analiz Paneli", style: TextStyle(color: textColor)),
+            onTap: () => _scrollToSection(_panelKey),
+          ),
+          ListTile(
+            leading: Icon(Icons.rocket_launch, color: isLight ? AppColors.primary : AppColors.primaryRed),
+            title: Text("Teknoloji & Misyon", style: TextStyle(color: textColor)),
+            onTap: () => _scrollToSection(_missionKey),
+          ),
+          ListTile(
+            leading: Icon(Icons.groups, color: isLight ? AppColors.primary : AppColors.primaryRed),
+            title: Text("Ekip", style: TextStyle(color: textColor)),
+            onTap: () => _scrollToSection(_teamKey),
+          ),
+        ],
       ),
     );
   }
 
-  /// Alt menü butonlarını oluşturan yardımcı metot.
-  /// Aktif durumda rengi ve ikonu değiştirir.
-  Widget _buildNavBtn(IconData icon, IconData activeIcon, String label, int index) {
-    bool isActive = _mobileIndex == index;
-    return InkWell(
-      onTap: () => setState(() => _mobileIndex = index),
-      borderRadius: BorderRadius.circular(10),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              isActive ? activeIcon : icon, 
-              color: isActive ? AppColors.primaryRed : Colors.grey, 
-              size: 26
-            ),
-            Text(
-              label, 
-              style: TextStyle(
-                color: isActive ? AppColors.primaryRed : Colors.grey, 
-                fontSize: 11, 
-                fontWeight: isActive ? FontWeight.bold : FontWeight.normal
-              )
-            )
-          ],
+  Widget _buildHeroSection(bool isLight) {
+    return Column(
+      children: [
+        // LOGO
+        Container(
+          height: 180, width: 180,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: isLight 
+                  ? AppColors.primary.withOpacity(0.2) 
+                  : AppColors.primaryRed.withOpacity(0.4), 
+                blurRadius: 50,
+                spreadRadius: 5,
+              ),
+            ]
+          ),
+          child: Image.asset('assets/images/new_logo_1.png'),
         ),
-      ),
-    );
-  }
+        
+        const SizedBox(height: 30),
 
-  /// Ana Sayfa içeriği (Logo + Slogan + Analiz Paneli)
-  Widget _buildPanelPage() {
-    return Center(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(height: 10),
-            
-            // Logo Alanı
-            Container(
-              height: 120, width: 120,
-              decoration: BoxDecoration(
-                color: Colors.white, 
-                shape: BoxShape.circle, 
-                boxShadow: [
-                  BoxShadow(color: AppColors.primaryRed.withOpacity(0.4), blurRadius: 20, spreadRadius: 2)
-                ]
-              ),
-              child: ClipOval(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0), 
-                  child: Image.asset('assets/images/new_logo_1.png', fit: BoxFit.contain)
-                )
-              ),
-            ),
-            const SizedBox(height: 15),
-            
-            // Slogan
-            const Text(
-              "GELECEĞİN SAVAŞLARI ALGI ÜZERİNDEN YÜRÜTÜLÜR.", 
+        // GRADYAN BAŞLIK
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: ShaderMask(
+            shaderCallback: (Rect bounds) {
+              return LinearGradient(
+                colors: isLight 
+                    ? [AppColors.secondary, AppColors.primary] 
+                    : [Colors.white, Colors.grey.shade400],    
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ).createShader(bounds);
+            },
+            child: const Text(
+              "GELECEĞİN SAVAŞLARI\nALGI ÜZERİNDEN YÜRÜTÜLÜR.", 
               textAlign: TextAlign.center, 
               style: TextStyle(
-                fontSize: 14, 
-                fontWeight: FontWeight.w600, 
-                color: Colors.white70, 
-                letterSpacing: 0.5
-              )
+                fontSize: 24, 
+                fontWeight: FontWeight.w900, 
+                color: Colors.white, 
+                height: 1.2, 
+                letterSpacing: -0.5
+              ),
             ),
-            const SizedBox(height: 25),
-            
-            // Analiz Paneli (Mobil Modunda)
-            const AnalysisPanel(isWeb: false),
-            
-            const SizedBox(height: 20),
-          ],
+          ),
         ),
-      ),
+
+        const SizedBox(height: 10),
+
+        if (isLight)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Text(
+              "Yapay zeka destekli dezenformasyon tespit sistemi.",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: AppColors.secondary.withOpacity(0.7), fontSize: 14),
+            ),
+          ),
+        
+        const SizedBox(height: 30),
+      ],
     );
   }
 }

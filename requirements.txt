@@ -1,5 +1,6 @@
-flask
-flask-cors
+fastapi
+uvicorn
+pydantic
 pandas
 openpyxl
 sentence-transformers
@@ -7,6 +8,7 @@ torch
 transformers
 numpy
 scikit-learn
-openpyxl
-protobuf 
 sentencepiece
+rank-bm25
+starlette
+requests

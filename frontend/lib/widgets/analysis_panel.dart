@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../services/api_service.dart';
+import 'report_dialog.dart';
+import 'glass_box.dart';
 
-/// Haber doğrulama ve analiz işlemlerinin yönetildiği ana panel bileşeni.
-/// Kullanıcıdan metin alır, gerçek backend API'ye (BERT tabanlı NLP) istek gönderir ve sonuçları gösterir.
-/// Web sürümünde "Split Layout" (İkiye Bölme), mobil sürümde dikey liste kullanır.
 class AnalysisPanel extends StatefulWidget {
   final bool isWeb;
   const AnalysisPanel({super.key, required this.isWeb});
@@ -14,22 +13,17 @@ class AnalysisPanel extends StatefulWidget {
 }
 
 class _AnalysisPanelState extends State<AnalysisPanel> {
-  // --- Controller & State ---
   final TextEditingController _newsController = TextEditingController();
   
   bool _isLoading = false;
   String _loadingText = "Sistem Hazır";
   String? _analizSonucu;
   double _guvenSkoru = 0.0;
-  
-  // --- Backend Yanıt Verileri ---
   String _backendResponse = "";
-  bool _isCorrect = false; // label 1 = doğru, 0 = yanlış
+  bool _isCorrect = false; 
 
-  /// Gerçek backend API'ye istek gönderen fonksiyon.
-  /// BERT tabanlı NLP doğrulama sistemi ile haber doğruluğunu kontrol eder.
   void _analizEt() async {
-    FocusScope.of(context).unfocus(); // Klavyeyi kapat
+    FocusScope.of(context).unfocus(); 
 
     if (_newsController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -47,25 +41,19 @@ class _AnalysisPanelState extends State<AnalysisPanel> {
     });
 
     try {
-      // Backend API'ye istek gönder
       final response = await ApiService.sendChatQuery(_newsController.text.trim());
-
       if (!mounted) return;
 
-      // Backend yanıtını parse et
       String result = response['result'] ?? 'Yanıt alınamadı.';
-      
-      // Backend'den gelen yanıtı analiz et
       bool isCorrect = result.contains('Evet, bu haber doğru') || result.contains('✅');
       bool isFalse = result.contains('Hayır, bu haber yanlış') || result.contains('❌');
       
-      // Benzerlik skorunu çıkar (eğer varsa)
       double similarity = 0.0;
       RegExp similarityRegex = RegExp(r'Benzerlik:\s*(\d+\.?\d*)%');
       Match? match = similarityRegex.firstMatch(result);
       if (match != null) {
         similarity = double.tryParse(match.group(1) ?? '0') ?? 0.0;
-        similarity = similarity / 100.0; // Yüzdeyi 0-1 aralığına çevir
+        similarity = similarity / 100.0; 
       }
 
       setState(() {
@@ -75,10 +63,10 @@ class _AnalysisPanelState extends State<AnalysisPanel> {
         
         if (isCorrect) {
           _analizSonucu = "HABER DOĞRU";
-          _guvenSkoru = similarity > 0 ? similarity : 0.7; // Varsayılan güven skoru
+          _guvenSkoru = similarity > 0 ? similarity : 0.7; 
         } else if (isFalse) {
           _analizSonucu = "HABER YANLIŞ";
-          _guvenSkoru = similarity > 0 ? similarity : 0.3; // Düşük güven skoru
+          _guvenSkoru = similarity > 0 ? similarity : 0.3; 
         } else {
           _analizSonucu = "BİLGİ BULUNAMADI";
           _guvenSkoru = 0.0;
@@ -86,193 +74,135 @@ class _AnalysisPanelState extends State<AnalysisPanel> {
       });
     } catch (e) {
       if (!mounted) return;
-      
       setState(() {
         _isLoading = false;
         _analizSonucu = "BAĞLANTI HATASI";
         _guvenSkoru = 0.0;
-        _backendResponse = "Backend'e bağlanılamadı. Lütfen backend'in çalıştığından emin olun.\n\nHata: $e";
+        _backendResponse = "Hata: $e";
       });
-      
-      // Kullanıcıya hata mesajı göster
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Backend bağlantı hatası: $e'),
-          backgroundColor: AppColors.primaryRed,
-          duration: const Duration(seconds: 4),
-        ),
-      );
     }
   }
 
-  /// Detaylı analiz raporunu gösteren Modal Dialog.
   void _showReportDialog() {
+    AnalysisStatus status;
+    if (_analizSonucu == "HABER DOĞRU") status = AnalysisStatus.correct;
+    else if (_analizSonucu == "HABER YANLIŞ") status = AnalysisStatus.wrong;
+    else if (_analizSonucu == "BİLGİ BULUNAMADI" || _analizSonucu == "BAĞLANTI HATASI") status = AnalysisStatus.error;
+    else status = AnalysisStatus.partial;
+
     showDialog(
       context: context,
-      builder: (context) {
-        double screenHeight = MediaQuery.of(context).size.height;
-        
-        return AlertDialog(
-          backgroundColor: AppColors.cardColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16), 
-            side: BorderSide(color: Colors.white.withOpacity(0.1))
-          ),
-          title: const Row(
-            children: [
-              Icon(Icons.assessment, color: AppColors.accentCyan), 
-              SizedBox(width: 10), 
-              Flexible(child: Text("Detaylı Analiz Raporu", style: TextStyle(color: Colors.white, fontSize: 18)))
-            ],
-          ),
-          // İçerik taşmasını önlemek için Constraints ve ScrollView kullanıldı
-          content: Container(
-            width: widget.isWeb ? 600 : double.maxFinite,
-            constraints: BoxConstraints(maxHeight: screenHeight * 0.7),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 10),
-                  const Text("BACKEND YANITI:", style: TextStyle(color: Colors.grey, fontSize: 12, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 10),
-                  Container(
-                    width: double.infinity, 
-                    padding: const EdgeInsets.all(15), 
-                    decoration: BoxDecoration(
-                      color: Colors.black26, 
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.white.withOpacity(0.1)),
-                    ), 
-                    child: SelectableText(
-                      _backendResponse.isNotEmpty ? _backendResponse : "Yanıt bekleniyor...",
-                      style: TextStyle(
-                        color: _isCorrect ? Colors.green : (_analizSonucu == "HABER YANLIŞ" ? AppColors.primaryRed : Colors.white),
-                        fontSize: 14, 
-                        height: 1.5, 
-                        fontFamily: 'Courier'
-                      )
-                    )
-                  ),
-                ],
-              ),
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context), 
-              child: const Text("KAPAT", style: TextStyle(color: AppColors.accentCyan, fontWeight: FontWeight.bold))
-            )
-          ],
-        );
-      },
+      builder: (context) => DetailedReportDialog(status: status, resultTitle: _analizSonucu ?? "SONUÇ YOK"),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    // Web'de sonuç varsa ekranı ikiye böl (Overflow Fix)
     bool useSideBySide = widget.isWeb && _analizSonucu != null;
+    bool isLight = Theme.of(context).brightness == Brightness.light;
 
-    return Container(
-      width: widget.isWeb ? 900 : double.infinity, 
-      margin: const EdgeInsets.symmetric(horizontal: 24),
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: AppColors.cardColor,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white.withOpacity(0.1)),
-        boxShadow: [BoxShadow(color: AppColors.accentCyan.withOpacity(0.1), blurRadius: 40, spreadRadius: -10)],
+    return Center(
+      child: GlassBox(
+        width: widget.isWeb ? 900 : double.infinity,
+        opacity: isLight ? 0.6 : 0.08, 
+        borderRadius: BorderRadius.circular(20),
+        // --- DÜZELTME BURADA: SingleChildScrollView Eklendi ---
+        // Artık içerik sığmazsa taşmak yerine kaydırılabilir olacak.
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: useSideBySide 
+                ? _buildWebSplitLayout(isLight) 
+                : _buildStandardLayout(isLight),
+          ),
+        ),
       ),
-      child: useSideBySide 
-          ? _buildWebSplitLayout() // Web & Sonuç varsa yan yana
-          : _buildStandardLayout(), // Mobil veya sonuç yoksa alt alta
     );
   }
 
-  // --- Layout Builders ---
-
-  Widget _buildStandardLayout() {
+  Widget _buildStandardLayout(bool isLight) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
+      mainAxisSize: MainAxisSize.min, // İçerik kadar yer kapla
       children: [
-        _buildInputSection(),
-        if (_analizSonucu != null) ...[
-          const SizedBox(height: 30),
-          _buildResultSection(),
-        ]
+        _buildInputSection(isLight),
+        if (_analizSonucu != null) ...[const SizedBox(height: 30), _buildResultSection()],
       ],
     );
   }
 
-  Widget _buildWebSplitLayout() {
+  Widget _buildWebSplitLayout(bool isLight) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(flex: 5, child: _buildInputSection()),
+        Expanded(flex: 5, child: _buildInputSection(isLight)),
         const SizedBox(width: 30),
-        Expanded(
-          flex: 4, 
-          child: Column(
-            children: [
-              const SizedBox(height: 10), // Hizalama düzeltmesi
-              _buildResultSection()
-            ]
-          )
-        ),
+        Expanded(flex: 4, child: Column(children: [const SizedBox(height: 10), _buildResultSection()])),
       ],
     );
   }
 
-  // --- Bölüm Widget'ları ---
+  Widget _buildInputSection(bool isLight) {
+    Color textColor = isLight ? AppColors.secondary : Colors.white;
+    Color hintColor = isLight ? Colors.grey[600]! : Colors.grey[500]!;
+    Color inputFill = isLight ? Colors.white : const Color(0xFF2D3748);
+    Color titleColor = isLight ? AppColors.primary : Colors.white;
 
-  Widget _buildInputSection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text("HABER DOĞRULAMA PANELİ", style: TextStyle(color: AppColors.textWhite, fontWeight: FontWeight.bold, fontSize: 16)),
+        Text("HABER DOĞRULAMA PANELİ", style: TextStyle(color: titleColor, fontWeight: FontWeight.bold, fontSize: 16)),
         const SizedBox(height: 15),
         TextField(
           controller: _newsController,
           maxLines: widget.isWeb ? 4 : 5, 
-          style: const TextStyle(color: AppColors.textWhite, fontFamily: 'Courier'),
+          style: TextStyle(color: textColor, fontFamily: 'Courier'),
           decoration: InputDecoration(
             hintText: "// Analiz edilecek metni yapıştırın...",
-            hintStyle: TextStyle(color: Colors.grey[500], fontSize: 14),
+            hintStyle: TextStyle(color: hintColor, fontSize: 14),
             filled: true,
-            fillColor: const Color(0xFF2D3748),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide.none),
+            fillColor: inputFill,
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: isLight ? BorderSide(color: Colors.grey.shade300) : BorderSide.none),
+            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: isLight ? BorderSide(color: Colors.grey.shade300) : BorderSide.none),
+            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: AppColors.primary, width: 1.5)),
           ),
         ),
         const SizedBox(height: 20),
-        
-        // Kaynak Etiketleri Başlığı
-        Text(
-          "TARANAN HABER KAYNAKLARI:", 
-          style: TextStyle(color: Colors.grey[500], fontSize: 11, fontWeight: FontWeight.bold, letterSpacing: 1)
-        ),
+        Text("TARANAN HABER KAYNAKLARI:", style: TextStyle(color: isLight ? AppColors.secondary.withOpacity(0.7) : Colors.grey[500], fontSize: 11, fontWeight: FontWeight.bold, letterSpacing: 1)),
         const SizedBox(height: 8),
-        
-        Wrap(
-          spacing: 10, runSpacing: 10,
-          children: [_sourceTag("Resmi Gazete"), _sourceTag("AA Arşivi"), _sourceTag("TRT")],
-        ),
+        Wrap(spacing: 10, runSpacing: 10, children: [_sourceTag("Resmi Gazete", isLight), _sourceTag("AA Arşivi", isLight), _sourceTag("TRT", isLight)]),
         const SizedBox(height: 20),
         
-        // Analiz Butonu
-        SizedBox(
+        // --- GRADYAN BUTON ---
+        Container(
           width: double.infinity,
+          height: 55,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: isLight 
+                  ? [AppColors.primary, const Color(0xFFD72F53)] 
+                  : [AppColors.primaryDark, Colors.blueAccent], 
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(8),
+            boxShadow: [
+              BoxShadow(
+                color: (isLight ? AppColors.primary : AppColors.primaryDark).withOpacity(0.4),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              )
+            ]
+          ),
           child: ElevatedButton(
             onPressed: _isLoading ? null : _analizEt,
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primaryRed,
-              padding: const EdgeInsets.symmetric(vertical: 20),
+              backgroundColor: Colors.transparent, 
+              shadowColor: Colors.transparent,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             ),
             child: _isLoading 
-              ? Text(_loadingText, textAlign: TextAlign.center, style: const TextStyle(color: Colors.white, fontFamily: 'Courier', fontSize: 12)) 
+              ? Text(_loadingText, style: const TextStyle(color: Colors.white, fontFamily: 'Courier')) 
               : const Text("DOĞRULUĞU KONTROL ET", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white)),
           ),
         ),
@@ -294,43 +224,38 @@ class _AnalysisPanelState extends State<AnalysisPanel> {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Güven Skoru Göstergesi (Circular)
               SizedBox(
-                height: 50, width: 50,
+                height: 60, width: 60,
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    const CircularProgressIndicator(value: 1, color: Colors.black26, strokeWidth: 5),
-                    CircularProgressIndicator(value: _guvenSkoru, color: AppColors.resultBorder, strokeWidth: 5),
-                    Text("%${(_guvenSkoru*100).toInt()}", style: const TextStyle(color: AppColors.textWhite, fontWeight: FontWeight.bold, fontSize: 11)),
+                    const CircularProgressIndicator(value: 1, color: Colors.black26, strokeWidth: 6),
+                    ShaderMask(
+                      shaderCallback: (Rect bounds) {
+                        return LinearGradient(
+                          colors: [_isCorrect ? Colors.green : Colors.red, Colors.yellow],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ).createShader(bounds);
+                      },
+                      child: CircularProgressIndicator(
+                        value: _guvenSkoru, 
+                        valueColor: const AlwaysStoppedAnimation<Color>(Colors.white), 
+                        strokeWidth: 6
+                      ),
+                    ),
+                    Text("%${(_guvenSkoru*100).toInt()}", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13)),
                   ],
                 ),
               ),
               const SizedBox(width: 15),
-              
-              // Sonuç Metni
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      _analizSonucu!, 
-                      style: TextStyle(
-                        color: _isCorrect ? Colors.green : AppColors.resultBorder, 
-                        fontWeight: FontWeight.w900, 
-                        fontSize: 15, 
-                        letterSpacing: 0.5
-                      )
-                    ),
+                    Text(_analizSonucu!, style: TextStyle(color: _isCorrect ? Colors.greenAccent : (_analizSonucu == "HABER YANLIŞ" ? AppColors.primaryRed : Colors.white), fontWeight: FontWeight.w900, fontSize: 15, letterSpacing: 0.5)),
                     const SizedBox(height: 6),
-                    Text(
-                      _isCorrect 
-                        ? "Veri setinde doğrulanmış kaynak bulundu." 
-                        : (_analizSonucu == "HABER YANLIŞ" 
-                          ? "Yanıltıcı içerik tespit edildi." 
-                          : "Bu konuda veri setinde bilgi bulunamadı."),
-                      style: const TextStyle(color: Colors.white, fontSize: 12),
-                    ),
+                    Text(_isCorrect ? "Veri setinde doğrulanmış kaynak bulundu." : (_analizSonucu == "HABER YANLIŞ" ? "Yanıltıcı içerik tespit edildi." : "Bu konuda veri setinde bilgi bulunamadı."), style: const TextStyle(color: Colors.white70, fontSize: 12)),
                   ],
                 ),
               )
@@ -338,48 +263,25 @@ class _AnalysisPanelState extends State<AnalysisPanel> {
           ),
           const SizedBox(height: 15),
           const Divider(color: Colors.white24),
-          
-          // Detay Butonu
           TextButton.icon(
-            onPressed: _showReportDialog,
-            icon: const Icon(Icons.analytics_outlined, color: AppColors.accentCyan, size: 20),
-            label: const Text("DETAYLI RAPOR", style: TextStyle(color: AppColors.accentCyan, fontWeight: FontWeight.bold, fontSize: 13)),
+            onPressed: _showReportDialog, 
+            icon: const Icon(Icons.analytics_outlined, color: Colors.white, size: 20),
+            label: const Text("DETAYLI RAPOR", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13)),
           ),
         ],
       ),
     );
   }
 
-  // --- Yardımcı Widget'lar ---
-
-  Widget _sourceTag(String text) {
+  Widget _sourceTag(String text, bool isLight) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(color: Colors.white.withOpacity(0.1), borderRadius: BorderRadius.circular(6)),
-      child: Text(text, style: TextStyle(color: Colors.grey[300], fontSize: 12, fontWeight: FontWeight.w600)),
-    );
-  }
-
-  Widget _detailRow(String label, double value, Color color) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start, 
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween, 
-          children: [
-            Text(label, style: const TextStyle(color: Colors.white70, fontSize: 12)), 
-            Text("%${(value*100).toInt()}", style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: 12))
-          ]
-        ),
-        const SizedBox(height: 6),
-        LinearProgressIndicator(
-          value: value, 
-          backgroundColor: Colors.white10, 
-          color: color, 
-          minHeight: 6, 
-          borderRadius: BorderRadius.circular(3)
-        ),
-      ]
+      decoration: BoxDecoration(
+        color: isLight ? Colors.grey.shade200 : Colors.white.withOpacity(0.1), 
+        borderRadius: BorderRadius.circular(6),
+        border: isLight ? Border.all(color: Colors.grey.shade300) : null,
+      ),
+      child: Text(text, style: TextStyle(color: isLight ? Colors.black54 : Colors.grey[300], fontSize: 12, fontWeight: FontWeight.w600)),
     );
   }
 }
