@@ -9,8 +9,8 @@ Bu dosya, KızılelmAI projesinin bir "Akademik Prototip"ten "Uluslararası Öl�
 - [ ] **Bilgi Grafiği Entegrasyonu**: Neo4j ile olaylar ve kişiler arası anlamsal bağların kurulması.
 
 ## 💾 Veri Mimarisi & Ölçeklenebilirlik (Database)
-- [ ] **Vektör Veri Tabanı (Vector DB)**: ChromaDB veya Pinecone ile milyonlarca kayıt kapasitesine ulaşılması.
-- [ ] **Redis Caching**: Sık sorulan iddialar için milisaniyelik yanıt süresi sağlayan önbellek katmanı.
+- [x] **Vektör Veri Tabanı (Vector DB)**: ChromaDB veya Pinecone ile milyonlarca kayıt kapasitesine ulaşılması. (pgvector ile gerçekleştirildi)
+- [x] **Redis Caching**: Sık sorulan iddialar için milisaniyelik yanıt süresi sağlayan önbellek katmanı.
 - [ ] **Canlı Crawler**: Resmi Gazete, Anadolu Ajansı ve TRT Haber gibi kaynaklardan anlık bilgi beslemesi.
 
 ## 🎨 Kullanıcı Deneyimi & Arayüz (UI/UX)
@@ -21,10 +21,10 @@ Bu dosya, KızılelmAI projesinin bir "Akademik Prototip"ten "Uluslararası Öl�
 ## 🛡️ Güvenlik & Şeffaflık (Trust)
 - [ ] **Explainable AI (XAI)**: Yapay zekanın "neden bu kararı verdiğini" kanıtlarla gösteren şeffaflık arayüzü.
 - [ ] **Deepfake Tespiti**: Haberlerdeki fotoğraf ve videoların AI tarafından üretilip üretilmediğinin kontrolü.
-- [ ] **Admin Paneli**: Doğrulanmış verileri manuel onaylama ve red listesini yönetme arayüzü.
+- [x] **Admin Paneli**: Doğrulanmış verileri manuel onaylama ve red listesini yönetme arayüzü.
 
 ## 🚀 Dağıtım & Altyapı (DevOps)
-- [ ] **Dockerization**: Tüm backend ve veri tabanının tek komutla (docker-compose) her yerde çalıştırılabilmesi.
+- [x] **Dockerization**: Tüm backend ve veri tabanının tek komutla (docker-compose) her yerde çalıştırılabilmesi.
 - [ ] **CI/CD Pipeline**: GitHub Actions ile otomatik test ve deploy süreçlerinin kurulması.
 - [ ] **API Gateway**: Binlerce eşzamanlı kullanıcıyı yönetmek için Nginx veya Traefik konfigürasyonu.
 

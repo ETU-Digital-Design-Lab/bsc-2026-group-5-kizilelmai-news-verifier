@@ -12,3 +12,8 @@ sentencepiece
 rank-bm25
 starlette
 requests
+psycopg2-binary
+sqlalchemy
+pgvector
+protobuf
+redis

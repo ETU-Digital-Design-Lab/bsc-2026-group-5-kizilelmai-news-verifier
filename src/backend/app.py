@@ -6,10 +6,13 @@ Burası asenkron, yüksek performanslı API sunucusudur.
 import os
 import sys
 import uvicorn # type: ignore
+import redis
+import json
+import hashlib
 from fastapi import FastAPI, HTTPException, Request # type: ignore
 from fastapi.middleware.cors import CORSMiddleware # type: ignore
 from pydantic import BaseModel # type: ignore
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 from starlette.concurrency import run_in_threadpool # type: ignore
 import time
 
@@ -48,6 +51,19 @@ app.add_middleware(
 # Motoru Başlat (Belleğe yükler - 10-15sn sürebilir)
 engine = KizilelmaEngine()
 
+# Redis Bağlantısı (Önbellek Katmanı)
+try:
+    redis_client = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
+    redis_client.ping()
+    REDIS_AVAILABLE = True
+    print("⚡ Redis Önbellek Katmanı: Aktif!")
+except Exception:
+    redis_client = None
+    REDIS_AVAILABLE = False
+    print("⚠️  Redis bulunamadı, önbelleksiz devam ediliyor.")
+
+CACHE_TTL = 86400  # 24 saat (saniye cinsinden)
+
 # ---------------------------------------------------------
 # VERI MODELLERI (Pydantic)
 # ---------------------------------------------------------
@@ -73,13 +89,47 @@ class ChatResponse(BaseModel):
 # API ENDPOINTLERI
 # ---------------------------------------------------------
 
-@app.get("/api/veri", response_model=List[Dict[str, Any]])
-async def getir_veri():
-    """Tüm veri setini JSON olarak döndürür"""
+@app.get("/api/veri", response_model=Dict[str, Any])
+async def getir_veri(page: int = 1, limit: int = 50):
+    """Veri setini sayfalı (paginated) olarak döndürür"""
     try:
-        return engine.df.to_dict(orient='records')
+        total_records = len(engine.df)
+        start_idx = (page - 1) * limit
+        end_idx = start_idx + limit
+        
+        paginated_data = engine.df.iloc[start_idx:end_idx].to_dict(orient='records')
+        
+        return {
+            "total": total_records,
+            "page": page,
+            "limit": limit,
+            "total_pages": (total_records + limit - 1) // limit,
+            "data": paginated_data
+        }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Veri okunamadı: {str(e)}")
+
+@app.delete("/api/admin/veri/{record_id}")
+async def delete_record(record_id: int):
+    """Belirli bir kaydı siler (Admin)"""
+    try:
+        success = engine.delete_knowledge(record_id)
+        if success:
+            return {"status": "success", "message": f"{record_id} numaralı kayıt başarıyla silindi."}
+        raise HTTPException(status_code=404, detail="Kayıt bulunamadı.")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Hata: {str(e)}")
+
+@app.put("/api/admin/veri/{record_id}")
+async def update_record(record_id: int, request: InjectRequest):
+    """Belirli bir kaydı günceller (Admin)"""
+    try:
+        success = engine.update_knowledge(record_id, request.text, request.label, request.authority)
+        if success:
+            return {"status": "success", "message": f"{record_id} numaralı kayıt başarıyla güncellendi."}
+        raise HTTPException(status_code=404, detail="Kayıt bulunamadı.")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Hata: {str(e)}")
 
 @app.get("/api/status")
 async def get_status():
@@ -90,7 +140,8 @@ async def get_status():
         "engine_version": "3.0.0-Elite",
         "uptime": "active",
         "context_depth": len(engine.context_buffer),
-        "dynamic_records": len(engine.df) - 253 # 253 başlangıç verisiydi
+        "cache_status": "active" if REDIS_AVAILABLE else "disabled",
+        "dynamic_records": len(engine.df) - 251
     }
 
 @app.post("/api/inject")
@@ -106,22 +157,32 @@ async def inject_data(request: InjectRequest):
 
 @app.post("/api/chat", response_model=ChatResponse)
 async def chat(request: ChatRequest):
-    """Sohbet Endpoint'i (Asenkron)"""
+    """Sohbet Endpoint'i - Redis Önbellekli (Asenkron)"""
     raw_query = request.query.strip()
 
     if not raw_query:
-        return { 
+        return {
             "result": "Lütfen geçerli bir iddia veya soru girin.",
             "status": "RET", "msg": "⚠️ GEÇERSİZ GİRDİ", "description": "Boş sorgu.",
             "confidence": 0, "risk": 0, "category": "YOK", "source": "-"
         } # type: ignore
 
+    # --- Redis Önbellek Kontrolü ---
+    cache_key = "chat:" + hashlib.sha256(raw_query.lower().strip().encode()).hexdigest()
+    if REDIS_AVAILABLE and redis_client:
+        try:
+            cached = redis_client.get(cache_key)
+            if cached:
+                print(f"⚡ Önbellekten Yanıt: '{raw_query[:40]}...'")
+                return json.loads(cached)  # type: ignore
+        except Exception as e:
+            print(f"⚠️ Redis okuma hatası: {e}")
+
     try:
         # Motoru Çalıştır (Asenkron Thread Pool içinde) - Bloklamayı önler
         res = await run_in_threadpool(engine.ask, raw_query)
-        
-        # FastAPI 'response_model' sayesinde bu sözlüğü otomatik olarak doğrular.
-        return { 
+
+        response = {
             "result": res['result'],
             "status": res['status'],
             "msg": res['msg'],
@@ -130,7 +191,17 @@ async def chat(request: ChatRequest):
             "risk": res['risk'],
             "category": res['category'],
             "source": res['source']
-        } # type: ignore
+        }
+
+        # --- Redis Önbelleğe Yaz ---
+        if REDIS_AVAILABLE and redis_client:
+            try:
+                redis_client.setex(cache_key, CACHE_TTL, json.dumps(response, ensure_ascii=False))
+                print(f"💾 Önbelleğe Kaydedildi (24s): '{raw_query[:40]}...'")
+            except Exception as e:
+                print(f"⚠️ Redis yazma hatası: {e}")
+
+        return response  # type: ignore
     except Exception as e:
         print(f"❌ Sunucu Hatası: {e}")
         raise HTTPException(status_code=500, detail="İşlem sırasında bir hata oluştu.")

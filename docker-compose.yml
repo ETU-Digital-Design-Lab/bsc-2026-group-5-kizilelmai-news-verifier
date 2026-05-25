@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: kizilelmai_db
+    environment:
+      - POSTGRES_USER=kizilelmai_user
+      - POSTGRES_PASSWORD=kizilelmai_pass
+      - POSTGRES_DB=kizilelmai
+    ports:
+      - "5433:5432"
+    volumes:
+      - kizilelmai_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: kizilelmai_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - kizilelmai_redis_data:/data
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+
+volumes:
+  kizilelmai_data:
+  kizilelmai_redis_data:

@@ -8,6 +8,7 @@ import torch # type: ignore
 from sentence_transformers import SentenceTransformer, CrossEncoder, util # type: ignore
 from sklearn.metrics.pairwise import cosine_similarity # type: ignore
 from rank_bm25 import BM25Okapi # type: ignore
+from sqlalchemy import create_engine, text # type: ignore
 
 # import google.generativeai as genai  # KALDIRILDI: Dış API kullanılmayacak
 import warnings
@@ -49,6 +50,7 @@ class KizilelmaEngine:
         self.texts = [] # type: list[str]
         self.text_embeddings = [] # type: Any
         self.bm25 = None # type: Any
+        self.db_engine = create_engine("postgresql://kizilelmai_user:kizilelmai_pass@localhost:5433/kizilelmai")
         self.kb = {} # type: Any
         self.search_model = None # type: Any
         self.nli_model = None # type: Any
@@ -78,24 +80,15 @@ class KizilelmaEngine:
 
 
     def load_data(self):
-        print(f"📂 Veri Yolu: {self.csv_path}")
+        print("📂 PostgreSQL Veritabanına Bağlanılıyor...")
         try:
-            self.df = pd.read_csv(self.csv_path, encoding='utf-8-sig')
-            
-            # --- YENI: Dinamik Veri Ekleme (Katman 10) ---
-            if os.path.exists(self.dynamic_csv_path):
-                dynamic_df = pd.read_csv(self.dynamic_csv_path, encoding='utf-8-sig')
-                self.df = pd.concat([self.df, dynamic_df], ignore_index=True)
-                print(f"➕ Dinamik bilgi tabanı yüklendi: {len(dynamic_df)} yeni kayıt.")
-
-            # --- YENI: Otorite Skorlarını Başlat (Katman 8) ---
-            if 'authority' not in self.df.columns:
-                self.df['authority'] = 0.85 # Varsayılan yüksek güven
+            with self.db_engine.connect() as conn:
+                self.df = pd.read_sql("SELECT id, text, label, authority FROM knowledge_base ORDER BY id", conn)
             
             print(f"✅ Veri seti yüklendi: {len(self.df)} kayıt.")
             self.texts = self.df['text'].tolist()
             
-            # --- YENI: BM25 İndeksi Oluşturma ---
+            # BM25 İndeksi Oluşturma
             def tokenize(text):
                 return re.findall(r'\w+', str(text).lower())
             
@@ -104,8 +97,8 @@ class KizilelmaEngine:
             print("🔍 BM25 Kelime İndeksi hazırlandı.")
             
         except Exception as e:
-            print(f"❌ Hata: CSV dosyası bulunamadı! {e}")
-            self.df = pd.DataFrame(columns=['text', 'label'])
+            print(f"❌ Hata: Veritabanına bağlanılamadı veya tablo yok! {e}")
+            self.df = pd.DataFrame(columns=['id', 'text', 'label', 'authority'])
             self.texts = []
 
         # --- YENI: Knowledge Base (Öğrenme Dosyası) Yükleme ---
@@ -133,44 +126,110 @@ class KizilelmaEngine:
         print("⏳ Re-Ranker model yükleniyor (bge-reranker-v2-m3)...")
         self.rerank_model = CrossEncoder('BAAI/bge-reranker-v2-m3')
 
-        # Embeddings Hesapla
-        if self.texts and self.search_model is not None:
-            print("⏳ Vektörler oluşturuluyor...")
-            passage_texts = [f"passage: {str(t)}" for t in self.texts]
-            embeddings = self.search_model.encode(passage_texts, convert_to_numpy=True, show_progress_bar=False) # type: ignore
-            self.text_embeddings = embeddings if embeddings is not None else []
-        else:
-            self.text_embeddings = []
+        # Embeddings Hesapla (Artık PostgreSQL üzerinden yapıldığı için iptal edildi)
+        print("⏳ Vektörler artık PostgreSQL üzerinden aranacak, RAM'e yüklenmiyor.")
+        self.text_embeddings = []
 
-    def inject_knowledge(self, text, label, authority=0.95):
+    def inject_knowledge(self, input_text, label, authority=0.95):
         """
-        Katman 10: Çalışma zamanında yeni bilgi enjekte eder.
+        Katman 10: Çalışma zamanında yeni bilgi enjekte eder (PostgreSQL).
         """
-        new_data = {'text': text, 'label': int(label), 'authority': float(authority)}
+        new_emb = self.search_model.encode([f"passage: {input_text}"], convert_to_numpy=True)[0]
+        
+        # Veritabanına kaydet
+        with self.db_engine.connect() as conn:
+            query_emb_str = "[" + ",".join(map(str, new_emb.tolist())) + "]"
+            sql = text("INSERT INTO knowledge_base (text, label, authority, embedding) VALUES (:t, :l, :a, :e) RETURNING id")
+            result = conn.execute(sql, {"t": input_text, "l": int(label), "a": float(authority), "e": query_emb_str})
+            new_id = result.scalar()
+            conn.commit()
+            
+        new_data = {'id': new_id, 'text': input_text, 'label': int(label), 'authority': float(authority)}
         new_row = pd.DataFrame([new_data])
         
-        # Belleği Güncelle
+        # Belleği Güncelle (BM25 için)
         self.df = pd.concat([self.df, new_row], ignore_index=True)
-        self.texts.append(text)
+        self.texts.append(input_text)
         
-        # Vektörleri Güncelle
-        new_emb = self.search_model.encode([f"passage: {text}"], convert_to_numpy=True)
-        self.text_embeddings = np.append(self.text_embeddings, new_emb, axis=0) # type: ignore
-        
-        # BM25 Güncelle (Yeniden oluşturmak gerekir çünkü BM25 kütüphanesi update desteklemez)
         def tokenize(t): return re.findall(r'\w+', str(t).lower())
         tokenized_corpus = [tokenize(doc) for doc in self.texts]
         self.bm25 = BM25Okapi(tokenized_corpus)
         
-        # Diske Kaydet
-        header = not os.path.exists(self.dynamic_csv_path)
-        new_row.to_csv(self.dynamic_csv_path, mode='a', index=False, header=header, encoding='utf-8-sig')
-        
-        print(f"💉 Katman 10 (Enjeksiyon): Yeni bilgi sisteme aşılandı -> {text[:30]}...")
+        print(f"💉 Katman 10 (Enjeksiyon): Yeni bilgi veritabanına aşılandı -> {input_text[:30]}...")
         return True
 
+    def delete_knowledge(self, record_id):
+        """
+        Katman 10 (Admin): Belirli bir kaydı veritabanından ve bellekten siler.
+        """
+        try:
+            with self.db_engine.connect() as conn:
+                result = conn.execute(text("DELETE FROM knowledge_base WHERE id = :id"), {"id": int(record_id)})
+                conn.commit()
+                if result.rowcount == 0:
+                    return False
+            
+            # Belleği (RAM) Güncelle
+            if 'id' in self.df.columns:
+                deleted_rows = self.df[self.df['id'] == int(record_id)]
+                if not deleted_rows.empty:
+                    deleted_text = deleted_rows.iloc[0]['text']
+                    
+                    self.df = self.df[self.df['id'] != int(record_id)].reset_index(drop=True)
+                    
+                    if deleted_text in self.texts:
+                        self.texts.remove(deleted_text)
+                        
+                    def tokenize(t): return re.findall(r'\w+', str(t).lower())
+                    tokenized_corpus = [tokenize(doc) for doc in self.texts]
+                    if tokenized_corpus:
+                        self.bm25 = BM25Okapi(tokenized_corpus)
+                    else:
+                        self.bm25 = None
+            
+            print(f"🗑️ Katman 10 (Admin): {record_id} numaralı bilgi silindi.")
+            return True
+        except Exception as e:
+            print(f"❌ Hata (Silme): {e}")
+            return False
 
-
+    def update_knowledge(self, record_id, input_text, label, authority):
+        """
+        Katman 10 (Admin): Belirli bir kaydın içeriğini, etiketini ve otoritesini günceller.
+        """
+        try:
+            new_emb = self.search_model.encode([f"passage: {input_text}"], convert_to_numpy=True)[0]
+            query_emb_str = "[" + ",".join(map(str, new_emb.tolist())) + "]"
+            
+            with self.db_engine.connect() as conn:
+                sql = text("UPDATE knowledge_base SET text = :t, label = :l, authority = :a, embedding = :e WHERE id = :id")
+                result = conn.execute(sql, {"t": input_text, "l": int(label), "a": float(authority), "e": query_emb_str, "id": int(record_id)})
+                conn.commit()
+                if result.rowcount == 0:
+                    return False
+                    
+            # Belleği Güncelle
+            if 'id' in self.df.columns:
+                idx = self.df.index[self.df['id'] == int(record_id)].tolist()
+                if idx:
+                    old_text = self.df.at[idx[0], 'text']
+                    self.df.at[idx[0], 'text'] = input_text
+                    self.df.at[idx[0], 'label'] = int(label)
+                    self.df.at[idx[0], 'authority'] = float(authority)
+                    
+                    if old_text in self.texts:
+                        idx_text = self.texts.index(old_text)
+                        self.texts[idx_text] = input_text
+                    
+                    def tokenize(t): return re.findall(r'\w+', str(t).lower())
+                    tokenized_corpus = [tokenize(doc) for doc in self.texts]
+                    self.bm25 = BM25Okapi(tokenized_corpus)
+                    
+            print(f"🔄 Katman 10 (Admin): {record_id} numaralı bilgi güncellendi.")
+            return True
+        except Exception as e:
+            print(f"❌ Hata (Güncelleme): {e}")
+            return False
     # --- MANTIK FONKSİYONLARI ---
 
     def context_merger(self, current_query):
@@ -440,10 +499,24 @@ class KizilelmaEngine:
         search_query = self.query_expander(clean_query)
         print(f"🔍 Arama Sorgusu (Genişletilmiş): {search_query}")
 
-        # 1. DENSE RETRIEVAL (Semantic - Vektör Arama)
+        # 1. DENSE RETRIEVAL (Semantic - Vektör Arama PostgreSQL üzerinden)
         query_text = f"query: {search_query}"
-        query_emb = self.search_model.encode([query_text]) # type: ignore
-        dense_sims = cosine_similarity(query_emb, self.text_embeddings)[0]
+        query_emb = self.search_model.encode([query_text])[0] # type: ignore
+        
+        dense_sims = np.zeros(len(self.texts))
+        try:
+            with self.db_engine.connect() as conn:
+                query_emb_str = "[" + ",".join(map(str, query_emb.tolist())) + "]"
+                # pgvector <=> operatörü kosinüs mesafesi döndürür (1 - cosine_similarity). Biz benzerlik (sim) istiyoruz.
+                sql = text("SELECT id, 1 - (embedding <=> :q) as sim FROM knowledge_base")
+                result = conn.execute(sql, {"q": query_emb_str}).fetchall()
+                
+            id_to_idx = {row_id: idx for idx, row_id in enumerate(self.df['id'])}
+            for row in result:
+                if row.id in id_to_idx:
+                    dense_sims[id_to_idx[row.id]] = row.sim
+        except Exception as e:
+            print(f"Vektör arama hatası: {e}")
         
         # 2. SPARSE RETRIEVAL (Keyword - BM25 Arama)
         tokenized_query = re.findall(r'\w+', search_query.lower())
