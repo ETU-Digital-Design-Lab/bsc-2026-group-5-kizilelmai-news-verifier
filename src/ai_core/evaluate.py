@@ -4,7 +4,9 @@ import torch.nn.functional as F
 import os
 
 # Eğittiğimiz modelin klasörü
-MODEL_YOLU = "./kizilelma_model_v1"
+MODEL_YOLU = os.path.join(os.path.dirname(os.path.abspath(__file__)), "models", "kizilelma_classifier_v1")
+if not os.path.exists(MODEL_YOLU):
+    MODEL_YOLU = "./kizilelma_model_v1"
 
 def test_uygulamasi():
     print("--- 🧠 MODEL YÜKLENİYOR ---")

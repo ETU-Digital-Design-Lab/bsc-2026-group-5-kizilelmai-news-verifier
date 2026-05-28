@@ -21,7 +21,7 @@ class KizilelmaEngine:
     Veriyi yükler, modelleri hazırlar ve sorulara cevap üretir.
     """
     def __init__(self):
-        print("⚙️  KızılElma Motoru Başlatılıyor...")
+        print("[System] KizilElma Motoru Baslatiliyor...")
         
         # --- 1. Sabitler ve Ayarlar ---
         self.root_dir = "" # type: Any
@@ -74,6 +74,7 @@ class KizilelmaEngine:
             os.path.join(self.root_dir, 'data', 'processed', 'egitim_verisi_final.csv')
         )
         self.local_model_path = os.path.join(self.root_dir, 'src', 'ai_core', 'models', 'kizilelma_model_v1')
+        self.classifier_model_path = os.path.join(self.root_dir, 'src', 'ai_core', 'models', 'kizilelma_classifier_v1')
         self.kb_path = os.path.join(self.root_dir, 'data', 'processed', 'knowledge_base.json')
         self.dynamic_csv_path = os.path.join(self.root_dir, 'data', 'processed', 'knowledge_base_dynamic.csv')
 
@@ -81,25 +82,52 @@ class KizilelmaEngine:
 
     def load_data(self):
         print("📂 PostgreSQL Veritabanına Bağlanılıyor...")
+        self.db_connected = False
         try:
             with self.db_engine.connect() as conn:
                 self.df = pd.read_sql("SELECT id, text, label, authority FROM knowledge_base ORDER BY id", conn)
             
-            print(f"✅ Veri seti yüklendi: {len(self.df)} kayıt.")
+            print(f"✅ Veri seti yüklendi: {len(self.df)} kayıt (PostgreSQL).")
             self.texts = self.df['text'].tolist()
+            self.db_connected = True
             
-            # BM25 İndeksi Oluşturma
+        except Exception as e:
+            print(f"❌ Hata: Veritabanına bağlanılamadı veya tablo yok! {e}")
+            print("⚠️ ÇEVRİMDIŞI MOD: Yerel CSV dosyasından veri yükleniyor...")
+            
+            loaded = False
+            for path in [self.csv_path, os.path.join(self.root_dir, 'data', 'processed', 'egitim_verisi_30k.csv')]:
+                if os.path.exists(path):
+                    try:
+                        self.df = pd.read_csv(path)
+                        if 'id' not in self.df.columns:
+                            self.df['id'] = range(1, len(self.df) + 1)
+                        if 'authority' not in self.df.columns:
+                            self.df['authority'] = 0.85
+                        if 'label' not in self.df.columns:
+                            self.df['label'] = 1
+                        self.texts = self.df['text'].astype(str).tolist()
+                        print(f"✅ Veri seti yüklendi: {len(self.df)} kayıt (Yerel CSV: {os.path.basename(path)}).")
+                        loaded = True
+                        break
+                    except Exception as csv_err:
+                        print(f"⚠️ CSV yükleme hatası ({os.path.basename(path)}): {csv_err}")
+            
+            if not loaded:
+                print("❌ Kritik Hata: Yerel CSV dosyası da bulunamadı!")
+                self.df = pd.DataFrame(columns=['id', 'text', 'label', 'authority'])
+                self.texts = []
+
+        # BM25 İndeksi Oluşturma
+        if self.texts:
             def tokenize(text):
                 return re.findall(r'\w+', str(text).lower())
             
             tokenized_corpus = [tokenize(doc) for doc in self.texts]
             self.bm25 = BM25Okapi(tokenized_corpus)
             print("🔍 BM25 Kelime İndeksi hazırlandı.")
-            
-        except Exception as e:
-            print(f"❌ Hata: Veritabanına bağlanılamadı veya tablo yok! {e}")
-            self.df = pd.DataFrame(columns=['id', 'text', 'label', 'authority'])
-            self.texts = []
+        else:
+            print("⚠️ Uyarı: Metin bulunamadığı için BM25 İndeksi oluşturulamadı.")
 
         # --- YENI: Knowledge Base (Öğrenme Dosyası) Yükleme ---
         try:
@@ -126,89 +154,168 @@ class KizilelmaEngine:
         print("⏳ Re-Ranker model yükleniyor (bge-reranker-v2-m3)...")
         self.rerank_model = CrossEncoder('BAAI/bge-reranker-v2-m3')
 
-        # Embeddings Hesapla (Artık PostgreSQL üzerinden yapıldığı için iptal edildi)
-        print("⏳ Vektörler artık PostgreSQL üzerinden aranacak, RAM'e yüklenmiyor.")
-        self.text_embeddings = []
+        # --- YENI: Sınıflandırma Modeli Yükleme ---
+        self.classifier_model = None
+        self.classifier_tokenizer = None
+        if os.path.exists(self.classifier_model_path):
+            print(f"📂 Yerel sınıflandırma modeli yükleniyor: {self.classifier_model_path}")
+            from transformers import AutoTokenizer, AutoModelForSequenceClassification
+            try:
+                self.classifier_tokenizer = AutoTokenizer.from_pretrained(self.classifier_model_path)
+                self.classifier_model = AutoModelForSequenceClassification.from_pretrained(self.classifier_model_path)
+                self.classifier_model.eval()
+                print("✅ Sınıflandırma modeli hazır!")
+            except Exception as e:
+                print(f"⚠️ Sınıflandırma modeli yüklenirken hata oldu: {e}")
+
+        # Embeddings Hesapla (Eğer PostgreSQL bağlı değilse RAM'e yükle - Hızlı Başlangıç Önbellekli)
+        if not getattr(self, 'db_connected', False) and self.texts:
+            npy_path = self.csv_path.replace('.csv', '_embeddings.npy')
+            if os.path.exists(npy_path):
+                print(f"📂 Vektör önbelleği bulundu, RAM'e yükleniyor: {os.path.basename(npy_path)}")
+                try:
+                    self.text_embeddings = np.load(npy_path)
+                    if len(self.text_embeddings) == len(self.texts):
+                        print(f"✅ {len(self.text_embeddings)} vektör önbellekten başarıyla yüklendi (Anında açılış!).")
+                    else:
+                        print("⚠️ Vektör sayısı uyuşmuyor, yeniden hesaplanıyor...")
+                        self.text_embeddings = []
+                except Exception as cache_err:
+                    print(f"⚠️ Önbellek okunamadı: {cache_err}, yeniden hesaplanıyor...")
+                    self.text_embeddings = []
+            
+            if len(self.text_embeddings) == 0:
+                print("⏳ Çevrimdışı mod için vektörler RAM'e yükleniyor (Multilingual-E5-Small)...")
+                try:
+                    passage_texts = ["passage: " + str(t) for t in self.texts]
+                    self.text_embeddings = self.search_model.encode(passage_texts, convert_to_numpy=True, show_progress_bar=False)
+                    np.save(npy_path, self.text_embeddings)
+                    print(f"✅ {len(self.text_embeddings)} vektör RAM'e başarıyla yüklendi ve önbelleğe kaydedildi.")
+                except Exception as e:
+                    print(f"⚠️ Çevrimdışı modda vektörler hesaplanırken hata oluştu: {e}")
+                    self.text_embeddings = []
+        else:
+            print("⏳ Vektörler veritabanından sorgulanacak, RAM'e yüklenmiyor.")
+            self.text_embeddings = []
 
     def inject_knowledge(self, input_text, label, authority=0.95):
         """
-        Katman 10: Çalışma zamanında yeni bilgi enjekte eder (PostgreSQL).
+        Katman 10: Çalışma zamanında yeni bilgi enjekte eder (PostgreSQL ve/veya CSV).
         """
         new_emb = self.search_model.encode([f"passage: {input_text}"], convert_to_numpy=True)[0]
         
-        # Veritabanına kaydet
-        with self.db_engine.connect() as conn:
-            query_emb_str = "[" + ",".join(map(str, new_emb.tolist())) + "]"
-            sql = text("INSERT INTO knowledge_base (text, label, authority, embedding) VALUES (:t, :l, :a, :e) RETURNING id")
-            result = conn.execute(sql, {"t": input_text, "l": int(label), "a": float(authority), "e": query_emb_str})
-            new_id = result.scalar()
-            conn.commit()
-            
+        new_id = len(self.df) + 1
+        
+        if getattr(self, 'db_connected', False):
+            try:
+                # Veritabanına kaydet
+                with self.db_engine.connect() as conn:
+                    query_emb_str = "[" + ",".join(map(str, new_emb.tolist())) + "]"
+                    sql = text("INSERT INTO knowledge_base (text, label, authority, embedding) VALUES (:t, :l, :a, :e) RETURNING id")
+                    result = conn.execute(sql, {"t": input_text, "l": int(label), "a": float(authority), "e": query_emb_str})
+                    new_id = result.scalar()
+                    conn.commit()
+            except Exception as e:
+                print(f"⚠️ Veritabanına enjeksiyon hatası: {e}")
+                
         new_data = {'id': new_id, 'text': input_text, 'label': int(label), 'authority': float(authority)}
         new_row = pd.DataFrame([new_data])
         
-        # Belleği Güncelle (BM25 için)
+        # Belleği Güncelle (BM25 ve RAM embeddings için)
         self.df = pd.concat([self.df, new_row], ignore_index=True)
         self.texts.append(input_text)
+        
+        if not getattr(self, 'db_connected', False):
+            # Çevrimdışı modda CSV dosyasına yazarak kalıcı kıl
+            try:
+                self.df.to_csv(self.csv_path, index=False, encoding='utf-8')
+                # RAM'deki embeddings dizisini güncelle
+                if hasattr(self, 'text_embeddings') and len(self.text_embeddings) > 0:
+                    self.text_embeddings = np.vstack([self.text_embeddings, new_emb])
+                else:
+                    self.text_embeddings = np.array([new_emb])
+                print("💾 Çevrimdışı Mod: Yeni bilgi yerel CSV dosyasına kaydedildi.")
+            except Exception as csv_err:
+                print(f"⚠️ Yerel CSV güncellenirken hata oluştu: {csv_err}")
         
         def tokenize(t): return re.findall(r'\w+', str(t).lower())
         tokenized_corpus = [tokenize(doc) for doc in self.texts]
         self.bm25 = BM25Okapi(tokenized_corpus)
         
-        print(f"💉 Katman 10 (Enjeksiyon): Yeni bilgi veritabanına aşılandı -> {input_text[:30]}...")
+        print(f"💉 Katman 10 (Enjeksiyon): Yeni bilgi enjekte edildi -> {input_text[:30]}...")
         return True
 
     def delete_knowledge(self, record_id):
         """
-        Katman 10 (Admin): Belirli bir kaydı veritabanından ve bellekten siler.
+        Katman 10 (Admin): Belirli bir kaydı veritabanından veya yerel CSV'den ve bellekten siler.
         """
-        try:
-            with self.db_engine.connect() as conn:
-                result = conn.execute(text("DELETE FROM knowledge_base WHERE id = :id"), {"id": int(record_id)})
-                conn.commit()
-                if result.rowcount == 0:
-                    return False
+        deleted_from_db = False
+        if getattr(self, 'db_connected', False):
+            try:
+                with self.db_engine.connect() as conn:
+                    result = conn.execute(text("DELETE FROM knowledge_base WHERE id = :id"), {"id": int(record_id)})
+                    conn.commit()
+                    if result.rowcount > 0:
+                        deleted_from_db = True
+            except Exception as e:
+                print(f"⚠️ Veritabanından silme hatası: {e}")
             
-            # Belleği (RAM) Güncelle
+        # Belleği (RAM) Güncelle
+        try:
             if 'id' in self.df.columns:
-                deleted_rows = self.df[self.df['id'] == int(record_id)]
-                if not deleted_rows.empty:
-                    deleted_text = deleted_rows.iloc[0]['text']
-                    
+                idx = self.df.index[self.df['id'] == int(record_id)].tolist()
+                if idx:
+                    deleted_text = self.df.iloc[idx[0]]['text']
                     self.df = self.df[self.df['id'] != int(record_id)].reset_index(drop=True)
                     
                     if deleted_text in self.texts:
+                        idx_text = self.texts.index(deleted_text)
                         self.texts.remove(deleted_text)
-                        
+                        # RAM embeddings güncelle
+                        if hasattr(self, 'text_embeddings') and len(self.text_embeddings) > 0:
+                            self.text_embeddings = np.delete(self.text_embeddings, idx_text, axis=0)
+                            
+                    # BM25 güncelle
                     def tokenize(t): return re.findall(r'\w+', str(t).lower())
                     tokenized_corpus = [tokenize(doc) for doc in self.texts]
                     if tokenized_corpus:
                         self.bm25 = BM25Okapi(tokenized_corpus)
                     else:
                         self.bm25 = None
-            
-            print(f"🗑️ Katman 10 (Admin): {record_id} numaralı bilgi silindi.")
-            return True
+                    
+                    # Çevrimdışı modda yerel CSV'ye yaz
+                    if not getattr(self, 'db_connected', False):
+                        self.df.to_csv(self.csv_path, index=False, encoding='utf-8')
+                        
+                    print(f"🗑️ Katman 10 (Admin): {record_id} numaralı bilgi silindi.")
+                    return True
         except Exception as e:
             print(f"❌ Hata (Silme): {e}")
             return False
+            
+        return deleted_from_db
 
     def update_knowledge(self, record_id, input_text, label, authority):
         """
         Katman 10 (Admin): Belirli bir kaydın içeriğini, etiketini ve otoritesini günceller.
         """
-        try:
-            new_emb = self.search_model.encode([f"passage: {input_text}"], convert_to_numpy=True)[0]
-            query_emb_str = "[" + ",".join(map(str, new_emb.tolist())) + "]"
-            
-            with self.db_engine.connect() as conn:
-                sql = text("UPDATE knowledge_base SET text = :t, label = :l, authority = :a, embedding = :e WHERE id = :id")
-                result = conn.execute(sql, {"t": input_text, "l": int(label), "a": float(authority), "e": query_emb_str, "id": int(record_id)})
-                conn.commit()
-                if result.rowcount == 0:
-                    return False
+        new_emb = self.search_model.encode([f"passage: {input_text}"], convert_to_numpy=True)[0]
+        updated_in_db = False
+        
+        if getattr(self, 'db_connected', False):
+            try:
+                query_emb_str = "[" + ",".join(map(str, new_emb.tolist())) + "]"
+                with self.db_engine.connect() as conn:
+                    sql = text("UPDATE knowledge_base SET text = :t, label = :l, authority = :a, embedding = :e WHERE id = :id")
+                    result = conn.execute(sql, {"t": input_text, "l": int(label), "a": float(authority), "e": query_emb_str, "id": int(record_id)})
+                    conn.commit()
+                    if result.rowcount > 0:
+                        updated_in_db = True
+            except Exception as e:
+                print(f"⚠️ Veritabanı güncelleme hatası: {e}")
                     
-            # Belleği Güncelle
+        # Belleği Güncelle
+        try:
             if 'id' in self.df.columns:
                 idx = self.df.index[self.df['id'] == int(record_id)].tolist()
                 if idx:
@@ -220,16 +327,25 @@ class KizilelmaEngine:
                     if old_text in self.texts:
                         idx_text = self.texts.index(old_text)
                         self.texts[idx_text] = input_text
+                        # RAM embeddings güncelle
+                        if hasattr(self, 'text_embeddings') and len(self.text_embeddings) > 0:
+                            self.text_embeddings[idx_text] = new_emb
                     
                     def tokenize(t): return re.findall(r'\w+', str(t).lower())
                     tokenized_corpus = [tokenize(doc) for doc in self.texts]
                     self.bm25 = BM25Okapi(tokenized_corpus)
                     
-            print(f"🔄 Katman 10 (Admin): {record_id} numaralı bilgi güncellendi.")
-            return True
+                    # Çevrimdışı modda yerel CSV'ye yaz
+                    if not getattr(self, 'db_connected', False):
+                        self.df.to_csv(self.csv_path, index=False, encoding='utf-8')
+                        
+                    print(f"🔄 Katman 10 (Admin): {record_id} numaralı bilgi güncellendi.")
+                    return True
         except Exception as e:
             print(f"❌ Hata (Güncelleme): {e}")
             return False
+            
+        return updated_in_db
     # --- MANTIK FONKSİYONLARI ---
 
     def context_merger(self, current_query):
@@ -414,8 +530,8 @@ class KizilelmaEngine:
         score_contra, score_neutral, score_entail = nli_probs[0], nli_probs[1], nli_probs[2] # type: ignore
         confidence = max(score_contra, score_neutral, score_entail) * 100
         
-        # YENİ EKLENEN KONTROL: Eğer NLI modeli Nötr (Alakasız) diyorsa reddet
-        if score_neutral > 0.85:
+        # YENİ EKLENEN KONTROL: Eğer NLI modeli Nötr (Alakasız) diyorsa reddet (Halüsinasyon Engelleme için daha katı hale getirildi)
+        if score_neutral > 0.75:
             return {
                 "status": "RET", "msg": "ℹ️ **BULUNAMADI / ALAKASIZ**",
                 "desc": "Veri tabanımda bu iddiayı doğrulayacak veya yalanlayacak mantıksal bir kayıt yok.", "conf": 0, "risk": 0, "cat": "GENEL"
@@ -484,6 +600,24 @@ class KizilelmaEngine:
         clean_query = self.temizle_ve_normallestir(contextual_query)
         print(f"\n📩 Gelen: {raw_query} | Analitik Bağlam: {contextual_query}")
 
+        # Yerel sınıflandırma modelini çalıştır (varsa)
+        self.classifier_score_str = ""
+        if self.classifier_model and self.classifier_tokenizer:
+            try:
+                import torch.nn.functional as F
+                inputs = self.classifier_tokenizer(contextual_query, return_tensors="pt", truncation=True, padding=True, max_length=128)
+                with torch.no_grad():
+                    outputs = self.classifier_model(**inputs)
+                    logits = outputs.logits
+                probs = F.softmax(logits, dim=1)
+                yalan_olasilik = probs[0][0].item()
+                gercek_olasilik = probs[0][1].item()
+                pred_label = "GERÇEK" if gercek_olasilik > 0.5 else "YALAN"
+                pred_score = max(gercek_olasilik, yalan_olasilik) * 100
+                self.classifier_score_str = f"• **AI Sınıflandırıcı Tahmini:** % {pred_score:.1f} {pred_label}\n"
+            except Exception as e:
+                print(f"⚠️ Sınıflandırma tahmini hatası: {e}")
+
         # 1. Niyet Analizi
         intent = self.intent_analyzer(clean_query)
         if intent == "GREETING":
@@ -499,24 +633,31 @@ class KizilelmaEngine:
         search_query = self.query_expander(clean_query)
         print(f"🔍 Arama Sorgusu (Genişletilmiş): {search_query}")
 
-        # 1. DENSE RETRIEVAL (Semantic - Vektör Arama PostgreSQL üzerinden)
+        # 1. DENSE RETRIEVAL (Semantic - Vektör Arama PostgreSQL veya in-memory)
         query_text = f"query: {search_query}"
         query_emb = self.search_model.encode([query_text])[0] # type: ignore
         
         dense_sims = np.zeros(len(self.texts))
-        try:
-            with self.db_engine.connect() as conn:
-                query_emb_str = "[" + ",".join(map(str, query_emb.tolist())) + "]"
-                # pgvector <=> operatörü kosinüs mesafesi döndürür (1 - cosine_similarity). Biz benzerlik (sim) istiyoruz.
-                sql = text("SELECT id, 1 - (embedding <=> :q) as sim FROM knowledge_base")
-                result = conn.execute(sql, {"q": query_emb_str}).fetchall()
-                
-            id_to_idx = {row_id: idx for idx, row_id in enumerate(self.df['id'])}
-            for row in result:
-                if row.id in id_to_idx:
-                    dense_sims[id_to_idx[row.id]] = row.sim
-        except Exception as e:
-            print(f"Vektör arama hatası: {e}")
+        
+        if getattr(self, 'db_connected', False):
+            try:
+                with self.db_engine.connect() as conn:
+                    query_emb_str = "[" + ",".join(map(str, query_emb.tolist())) + "]"
+                    # pgvector <=> operatörü kosinüs mesafesi döndürür (1 - cosine_similarity). Biz benzerlik (sim) istiyoruz.
+                    sql = text("SELECT id, 1 - (embedding <=> :q) as sim FROM knowledge_base")
+                    result = conn.execute(sql, {"q": query_emb_str}).fetchall()
+                    
+                id_to_idx = {row_id: idx for idx, row_id in enumerate(self.df['id'])}
+                for row in result:
+                    if row.id in id_to_idx:
+                        dense_sims[id_to_idx[row.id]] = row.sim
+            except Exception as e:
+                print(f"Vektör arama hatası: {e}. RAM üzerinden aramaya geçiliyor...")
+                if hasattr(self, 'text_embeddings') and len(self.text_embeddings) > 0:
+                    dense_sims = cosine_similarity([query_emb], self.text_embeddings)[0]
+        else:
+            if hasattr(self, 'text_embeddings') and len(self.text_embeddings) > 0:
+                dense_sims = cosine_similarity([query_emb], self.text_embeddings)[0]
         
         # 2. SPARSE RETRIEVAL (Keyword - BM25 Arama)
         tokenized_query = re.findall(r'\w+', search_query.lower())
@@ -535,8 +676,8 @@ class KizilelmaEngine:
             score = (1 / (k + dense_rank[idx])) + (1 / (k + sparse_rank[idx]))
             fused_scores[idx] = score
             
-        # Hibrid skoruna göre en iyi 10 belgenin indeksini al (Re-ranking için geniş havuz)
-        top_indices = sorted(list(fused_scores.keys()), key=lambda x: fused_scores[x], reverse=True)[:10] # type: ignore
+        # Hibrid skoruna göre en iyi 3 belgenin indeksini al (Re-ranking yükünü azaltmak için)
+        top_indices = sorted(list(fused_scores.keys()), key=lambda x: fused_scores[x], reverse=True)[:3] # type: ignore
         
         # --- KATMAN 3: RE-RANKING (The Sniper) ---
         rerank_pairs = [[search_query, self.texts[idx]] for idx in top_indices]
@@ -570,8 +711,8 @@ class KizilelmaEngine:
         ranked_candidates = sorted(ranked_candidates, key=lambda x: x['weighted_score'], reverse=True)
         
         candidates = []
-        # Re-ranker veto eşiği: Sigmoid sonrası 0.4 altı "Alakasız" kabul edelim
-        RERANK_VETO_THRESHOLD = 0.40 
+        # Re-ranker veto eşiği: Sigmoid sonrası 0.55 altı "Alakasız" kabul edelim (Halüsinasyon Engelleme için 0.40'tan 0.55'e çekildi)
+        RERANK_VETO_THRESHOLD = 0.55 
 
         for cand in ranked_candidates:
             idx = cand['idx']
@@ -662,7 +803,11 @@ class KizilelmaEngine:
         elif res.get('status') == 'RED':
             extra = f"\n❌ **Not:** {cat} bazlı hatalar nedeniyle bu bilgi güvenilir kabul edilmemiştir."
 
-        formatted_text = f"{header}\n\n🔍 **DERİN ANALİZ RAPORU (v3.0):**\n• **Hata Kategorisi:** {cat}\n• **Otorite Puanı:** % {int(cand.get('authority', 0.85)*100)}\n• **Tespit Türü:** {'Doğrudan Çelişki' if risk > 50 else 'Semantik Örtüşme'}{cons_text}\n{extra}\n🛡️ **Doğruluk:** %{trust} | 📉 **Risk:** %{risk}\n-----------------------------\n📄 **Kaynak:** {source}"
+        classifier_line = ""
+        if hasattr(self, 'classifier_score_str') and self.classifier_score_str:
+            classifier_line = self.classifier_score_str
+
+        formatted_text = f"{header}\n\n🔍 **DERİN ANALİZ RAPORU (v3.0):**\n• **Hata Kategorisi:** {cat}\n{classifier_line}• **Otorite Puanı:** % {int(cand.get('authority', 0.85)*100)}\n• **Tespit Türü:** {'Doğrudan Çelişki' if risk > 50 else 'Semantik Örtüşme'}{cons_text}\n{extra}\n🛡️ **Doğruluk:** %{trust} | 📉 **Risk:** %{risk}\n-----------------------------\n📄 **Kaynak:** {source}"
 
         # YAPILANDIRILMIŞ ÇIKTI (Dashboard İçin)
         return {

@@ -1,164 +1,121 @@
-<p align="center">
-  <img src="assets/logo.png" width="300" alt="KızılelmAI Logo">
-</p>
-
-# 🛡️ KızılelmAI: Yerel Analiz ve Doğrulama Motoru (v3.0 Elite)
-
-<p align="center">
-  <img src="https://img.shields.io/badge/PYTHON-3.10%2B-blue?style=for-the-badge&logo=python&logoColor=white" alt="Python">
-  <img src="https://img.shields.io/badge/ARCHITECTURE-ASYNCHRONOUS%20FASTAPI-teal?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">
-  <img src="https://img.shields.io/badge/SECURITY-PROTOKOL%20V2-red?style=for-the-badge&logo=shield&logoColor=white" alt="Protocol">
-  <br>
-  <img src="https://img.shields.io/badge/DOCS-SWAGGER%20OPENAPI-green?style=for-the-badge&logo=swagger&logoColor=white" alt="Swagger">
-</p>
-
-> "Bilgi kirliliğine karşı yerli ve milli bir kalkan."
-
-KızılelmAI, modern Doğal Dil İşleme (NLP) tekniklerini kullanarak haberlerin ve iddiaların doğruluğunu çok katmanlı bir süzgeçten geçiren, yüksek performanslı bir analitik motor ve görselleştirme dashboard'udur.
-
-## 🚀 Proje Vizyonu (Vision)
-
-**KızılelmAI**, modern dezenformasyon ve makamsal manipülasyon tehditlerine karşı geliştirilmiş, tamamen yerel (offline) çalışan bir hakikat bekçisidir. Proje, sadece bir yapay zeka sohbet botu değil; her iddiayı 10 farklı analitik katmanda sorgulayan bir **doğrulama mühendisliği** ürünüdür.
+<div align="center">
+  <img src="frontend/public/logo.png" alt="KızılelmAI Logo" width="150" height="150">
+  <h1>KızılelmAI - Gelişmiş Haber Doğrulama Motoru</h1>
+  <p>Yerel ve milli imkanlarla geliştirilmiş, yapay zeka destekli %100 otonom haber ve iddia doğrulama (Fact-Checking) sistemi.</p>
+</div>
 
 ---
 
-## 🏛️ Mimari Bakış (Architecture)
+## 📌 Proje Nedir?
+KızılelmAI, sosyal medyada veya haber sitelerinde yayılan iddiaların, metinlerin ve haberlerin **gerçek mi yoksa yalan/clickbait mi** olduğunu saniyeler içinde analiz eden yapay zeka tabanlı bir doğrulama motorudur. Sadece kelimelere bakmaz; devasa bir vektörel veritabanında (Knowledge Base) bağlam taraması yapar, farklı kaynakları kıyaslar ve size net bir sonuç, doğruluk oranı ve risk skoru sunar.
 
-KızılelmAI, "Beyin" (Python/FastAPI) ve "Yüz" (Flutter) olmak üzere iki ana bileşenden oluşur. Aşağıdaki şema, bir kullanıcının gönderdiği iddianın sistem içerisinde nasıl bir yolculuk yaptığını göstermektedir.
+---
 
-```mermaid
-graph TD
-    A[Kullanıcı Sorgusu] --> B{Katman 1: Niyet Analizi}
-    B -- Selamlaşma --> C[Bot Yanıtı]
-    B -- İddia/Soru --> D[Katman 2: Sorgu Genişletme]
-    D --> E[Hibrit Arama: Vektörel + BM25]
-    E --> F[Aday Kaynakların Çıkarılması]
-    F --> G{Katman 3: Re-Ranking Sniper}
-    G -- Veto --> H[Bulunamadı Yanıtı]
-    G -- Onay --> I[Katman 6-7-8: Derin Analiz Hattı]
-    I --> J{Katman 9: Konsensüs Kontrolü}
-    J --> K[Katman 10: Dinamik Bilgi Enjeksiyonu]
-    K --> L[Yapılandırılmış JSON Yanıtı]
-    L --> M[Flutter Dashboard Görselleştirme]
+## 🚀 Başlangıç ve Kurulum Rehberi (Sıfırdan Başlayanlar İçin)
+
+Projenin çalışması için bilgisayarınızda **Python 3.10+**, **Docker** ve **Node.js** kurulu olmalıdır. Hiçbir yapay zeka modelini önceden indirmenize gerek yoktur, sistem kendi kendini kuracak şekilde tasarlanmıştır.
+
+### Adım 1: Projeyi Klonlayın
+```bash
+git clone <proje-git-linki>
+cd kizilelmAI
 ```
 
----
+### Adım 2: Altyapıyı (Veritabanı ve Önbellek) Başlatın
+Proje, vektör veritabanı için **PostgreSQL (pgvector)** ve hızlandırma için **Redis** kullanır. Bunları kurmak için Docker kullanılır.
+```bash
+docker-compose up -d
+```
+*(Bu komut arka planda boş bir veritabanı ve Redis sunucusu ayağa kaldırır. Hiçbir ayar yapmanıza gerek yoktur.)*
 
-## 📂 Proje Dosya Yapısı ve Açıklamalar
+### Adım 3: Gerekli Kütüphaneleri Yükleyin
+```bash
+pip install -r requirements.txt
+cd frontend
+npm install
+cd ..
+```
 
-Projenin tüm bileşenlerinin ne işe yaradığı aşağıda detaylandırılmıştır:
+### Adım 4: Veritabanını Doldurun (Sihirli Adım)
+Veritabanı şu an boş. Sistemin 30.000 adetlik dengeli bir haber havuzuna (Knowledge Base) sahip olması için otomatik veri hazırlama scriptini çalıştırın:
+```bash
+python src/ai_core/ingest/prep_30k_data.py
+```
+**Bu script ne yapar?**
+1. İnternetten açık kaynaklı haber veri setlerini indirir.
+2. Metinleri temizler (linkler, emojiler, fazla boşluklar silinir).
+3. 15.000 Gerçek ve 15.000 Yalan haberi dengeli bir şekilde seçer.
+4. `multilingual-e5-small` modelini kullanarak bu 30.000 haberi sayılara (vektörlere) dönüştürür.
+5. Bu sayıları Docker'daki PostgreSQL veritabanına kaydeder.
 
-### ⚙️ Genel Dizindeki Dosyalar
-*   **`.venv/`**: Projenin izole bir ortamda çalışması için gerekli kütüphaneleri barındıran sanal çalışma alanı.
-*   **`assets/`**: Proje logoları ve dökümantasyon görsellerini barındıran medya klasörü.
-*   **`requirements.txt`**: Sistemin çalışması için gereken Python kütüphanelerinin listesi.
-*   **`ROADMAP.md`**: Projenin gelecek vizyonu ve geliştirilecek özellikler listesi.
+### Adım 5: Sistemi Başlatın!
+Her şey hazır. İki ayrı terminal açıp hem arka ucu (Backend) hem de ön yüzü (Frontend) başlatın:
 
-### 🧠 `src/` (Kaynak Kodlar)
-*   **`src/ai_core/engine/engine.py`**: **Sistemin beyni.** 10 katmanlı analizi yöneten, modelleri koordine eden ve nihai kararı veren ana motor.
-*   **`src/ai_core/ingest/processor.py`**: **Veri hazırlama merkezi.** Ham CSV/Excel dosyalarını okur, temizler (Preprocessing), etiketler (Labeling) ve sisteme hazır hale getirir.
-*   **`src/ai_core/evaluate.py`**: Sistemin hata payını ve başarı oranını ölçen değerlendirme betiği.
-*   **`src/backend/app.py`**: **API Sunucusu.** Yapay zekayı dış dünyaya bağlayan, veriyi JSON formatında servis eden FastAPI katmanı.
-*   **`src/shared/preprocess.py`**: Tüm sistemde ortak kullanılan metin temizleme (küçük harf, noktalama, stop-word temizliği) fonksiyonları.
-*   **`src/shared/__init__.py`**: Klasörün bir Python paketi olarak tanınmasını sağlayan başlatıcı.
-
-### 📊 `data/` (Veri Katmanı)
-*   **`data/processed/egitim_verisi_final.csv`**: Sistemin temel bilgi birikimini oluşturan ana haber veri seti.
-*   **`data/processed/knowledge_base.json`**: Selamlaşmalar, eşanlamlı kelimeler ve özel chatbot yanıtlarını barındıran yerel sözlük.
-*   **`data/processed/knowledge_base_dynamic.csv`**: Sistem çalışırken "Dinamik Enjeksiyon" (Katman 10) ile eklenen anlık bilgilerin kaydedildiği dosya.
-
-### 📜 `scripts/` (Yardımcı Araçlar)
-*   **`doctor.ps1`**: Projenin sistem gereksinimlerini ve kütüphanelerini kontrol eden "doktor" kontrol betiği.
-*   **`download_models.py`**: Gerekli NLP modellerini yerel dizine indiren kurulum yardımcısı.
-
-### 🖥️ `frontend/` (Dashboard/Arayüz)
-*   **`lib/`**: Flutter arayüzünün tüm kaynak kodları (Main, Screens, Services, Widgets).
-*   **`pubspec.yaml`**: Dashboard için gerekli Flutter paketlerinin ve bağımlılıklarının yönetildiği dosya.
-*   **`analysis_options.yaml`**: Flutter projesi için kod standartlarını ve linter kurallarını belirleyen dosya.
-*   **`index.html`**: Web çıktısı için temel HTML şablonu.
-
-### 🧪 `tests/` (Katman Doğrulaması)
-*   **`test_layer3.py`**: **Sniper (Re-ranker) Testi.** Alakasız ama "benzer kelimeler" içeren haberlerin sistem tarafından doğru elenip elenmediğini test eder.
-*   **`test_layer4.py`**: Vektörel (Semantic) aramanın başarısını ölçer.
-*   **`test_layer7_context_manual.py`**: Sistemin "bağlam" hatırlama yeteneğini (Context memory) denetler.
-
----
-
-## 🚀 Kullanılım ve Teknik Komutlar
-
-### 🛡️ Port ve Uygulama Yönetimi
-Uygulamayı başlatırken veya sıfırlarken aşağıdaki komutlar hayati önem taşır:
-
-1.  **Arka Plandaki Python Süreçlerini Kapatma:**
-    Eğer sunucu hata verirse veya port (5000) meşgulse, açık kalan tüm Python servislerini kapatmak için:
-    ```powershell
-    # Windows (PowerShell)
-    taskkill /F /IM python.exe
-    ```
-
-2.  **API Sunucusunu Başlatma:**
-    ```bash
-    python src/backend/app.py
-    ```
-
-3.  **Swagger UI (Dokümantasyon) Erişimi:**
-    Backend ayağa kalktığında, tüm API uç noktalarını görsel olarak test etmek için Swagger arayüzüne şu port üzerinden ulaşabilirsiniz:
-    `http://127.0.0.1:5000/docs`
-
-4.  **Frontend (Dashboard) Başlatma:**
-    ```bash
-    cd frontend
-    flutter run -d web-server --web-port 8080
-    ```
+**Terminal 1 (Backend - Yapay Zeka ve API Sunucusu):**
+```bash
+uvicorn src.backend.app:app --reload --port 5000
+```
+**Terminal 2 (Frontend - Kullanıcı Arayüzü):**
+```bash
+cd frontend
+npm run dev
+```
+*(Tarayıcınızda açılan adrese giderek KızılelmAI'yi kullanmaya başlayabilirsiniz!)*
 
 ---
 
-## 🛠️ Yazılım Teknolojileri ve Kütüphaneler (Deep Dive)
+## ⚙️ Kullanılan Teknolojiler ve Nedenleri
 
-Hoca "Neden bu kütüphaneyi seçtiniz?" dediğinde verebileceğiniz teknik cevaplar:
-
-| Kütüphane | Kullanım Amacı | Neden Seçildi? |
+| Teknoloji / Kütüphane | Kullanım Amacı | Neden Seçtik? |
 | :--- | :--- | :--- |
-| **FastAPI** | Web API Sunucusu | Python'un en hızlı framework'üdür. `Async Pydantic` desteği ile veriyi anlık doğrular. |
-| **Rank-BM25** | Kelime Bazlı Arama | Klasik "Google tarzı" anahtar kelime eşleşmesi için en iyi algoritmadır (Lexical Search). |
-| **Sentence-Transformers** | Vektörel Arama | Cümleyi bir "anlam uzayına" taşır. Kelime farklı olsa da anlam aynıysa yakalar (Semantic Search). |
-| **BAAI (BGE-Reranker)** | Keskin Nişancı | Retrieval sonrası adayları çapraz sorgulayıp alakasız olanları elemede dünya lideridir. |
-| **XNLI (XLM-RoBERTa)** | Mantıksal Çıkarım | İki cümle arasındaki "Çelişki, Destekleme veya Nötr" ilişkisini anlayan devasa model. |
-| **Pandas / NumPy** | Veri Yönetimi | Milyonlarca satır veriyi bellek üzerinde süper hızlı işlemek için standart kütüphanelerdir. |
-| **PyTorch** | AI Backend | Tüm yapay zeka modellerinin üzerinde çalıştığı, GPU hızlandırması sağlayan temel katman. |
-| **Pydantic** | Veri Modeli | API giriş-çıkış verilerinin yapısını ve tiplerini %100 güvenli hale getirmek için. |
+| **Python & FastAPI** | Arka plan (Backend) API sunucusu. | Çok hızlıdır, asenkron (`async`) çalışır ve yapay zeka (Python) kütüphaneleriyle %100 uyumludur. |
+| **React & Vite** | Ön yüz (Frontend) kullanıcı arayüzü. | Sayfa yenilenmeden anında tepki veren, çok hızlı ve modern arayüzler geliştirmek için. |
+| **PostgreSQL & pgvector** | Vektör Veritabanı (Knowledge Base). | Metinleri kelime kelime değil, "anlamsal yakınlık" (kosinüs mesafesi) ile arayabilmek için. Yapay zekanın hafızasıdır. |
+| **Redis** | Önbellekleme (Caching). | Bir soru sorulduğunda cevabı hafızada tutar. Aynı soru tekrar sorulursa modelleri yormadan milisaniyeler içinde cevabı yapıştırır. |
+| **Docker** | Altyapı Konteynerizasyonu. | "Benim bilgisayarımda çalışıyor, sende niye çalışmıyor" sorununu yok eder. Herkeste aynı veritabanı sürümünün kurulmasını sağlar. |
+| **BeautifulSoup & Newspaper3k** | Web Kazıma (Scraping). | Arka planda resmi haber sitelerine girip, sayfalardaki gereksiz reklamları atıp sadece saf haber metnini ve başlığını almak için. |
+| **Sentence-Transformers** | Metinleri Vektöre Çevirme (Embedding). | İnsan dilini makinelerin anladığı sayısal dizilere dönüştürür. `multilingual-e5-small` modelini kullandık çünkü çok dilli ve inanılmaz hızlıdır. |
 
 ---
 
-## 🔍 Algoritmik Mantık: İddialar Nasıl Doğrulanıyor?
+## 🧠 Yapay Zeka Motoru Mimarisi (Katmanlar)
 
-Kullanıcı bir şey yazdığında arka planda şu 3 ana NLP tekniği "Hibrit Analiz" olarak çalışır:
+KızılelmAI basit bir "sor-cevap" botu değildir. Bir soru geldiğinde arka planda çalışan sofistike bir **RAG (Retrieval-Augmented Generation)** mimarisi vardır:
 
-1.  **Lexical Search (BM25)**: Kelime kelime eşleşme yapar. "Vampir" kelimesi doğrudan nerede geçiyor?
-2.  **Semantic Search (E5 small)**: Anlam eşleşmesi yapar. "Araba" yazarsan "Otomobil" geçen kayıtları da bulur.
-3.  **Cross-Encoding (Sniper)**: Arama sonuçlarından gelen ilk adayları alır ve "Tamam bunları buldum ama gerçekten bu iddiayla alakalı mı?" diye çapraz sorgular. Eşik puanın altındakileri **VETO** eder.
+1. **Ön Sezgi Sınıflandırıcısı (Kizilelma Classifier v1):**
+   * **Nasıl Çalışır:** Veritabanında arama yapmadan önce, sadece metnin dil yapısına (Clickbait tarzı kelimeler, aşırı ünlem vs.) bakarak "bu muhtemelen yalan" tahmini yapan ince ayarlı (fine-tuned) bir modeldir.
 
-**Karar Aşaması:** 
-En iyi kaynak bulunduktan sonra **NLI Modeli** devreye girer. Kaynak cümle ile iddiayı karşılaştırır ve "Evet, bu bunu destekliyor (+)" veya "Hayır, bu bunu net yalanlıyor (-)" diyerek son kararı verir.
+2. **Geri Getirme (Retrieval) - Vektör & BM25 Hibrit Arama:**
+   * **Nasıl Çalışır:** Gelen soru anında vektöre çevrilir. PostgreSQL'deki 30.000 haber içinde "anlamsal olarak" en çok benzeyenler bulunur. Ayrıca `rank-bm25` kullanılarak klasik anahtar kelime araması yapılır. İkisi harmanlanıp (Reciprocal Rank Fusion) en iyi sonuçlar çıkarılır.
+
+3. **Yeniden Sıralama (Re-Ranker) [Katman 3]:**
+   * **Teknoloji:** `BAAI/bge-reranker-v2-m3` (Cross-Encoder)
+   * **Neden Kullanıldı:** Vektör araması bazen alakasız ama benzer kelimeler içeren metinleri getirebilir. Re-ranker modeli, "Kullanıcının sorusu ile bulduğumuz haber GERÇEKTEN aynı bağlamda mı?" sorusunu sorarak listeyi keskin nişancı gibi daraltır ve sıralar.
+
+4. **Mantıksal Çıkarım (NLI - Natural Language Inference) [Katman 4]:**
+   * **Teknoloji:** `joeddav/xlm-roberta-large-xnli`
+   * **Nasıl Çalışır:** Re-ranker'ı geçen en güçlü haberi alır ve şu soruyu sorar: *"Kullanıcının iddia ettiği şey, veritabanımızdaki bu resmi haberle ÖRTÜŞÜYOR MU (Entailment), yoksa ÇELİŞİYOR MU (Contradiction)?"* Bu model KızılelmAI'nin net bir şekilde "Doğru" veya "Yalan" diyebilmesini sağlayan kalbidir.
 
 ---
 
-## 🔍 Derin Analiz Hattı (10 Katmanlı Süzgeç)
+## 🕷️ Otomatik Haber Scraper (Veri Toplayıcı)
 
-KızılelmAI'yi rakiplerinden ayıran en önemli özellik, bir iddiayı doğrularken geçtiği analitik aşamalardır:
+KızılelmAI'nin hafızası sabit değildir. Sistem çalıştığı sürece kendi kendini günceller.
+* **Dosya:** `src/ai_core/ingest/auto_scraper.py`
+* **Nasıl Çalışır:** Backend (`app.py`) ayağa kalktığında bu script arka planda bağımsız bir işlem (`subprocess`) olarak başlar.
+* **Periyot:** `schedule` kütüphanesi sayesinde **her 4 saatte bir** uyanır.
+* **Kaynaklar:** TRT Haber, İletişim Başkanlığı, TBMM, DHA ve İHA gibi doğruluk payı en yüksek olan resmi siteleri gezer.
+* **İşlem:** Yeni haber linkleri bulur (`BeautifulSoup`), bu linklerin içindeki metni çeker (`Newspaper3k`), vektörleştirir ve doğrudan PostgreSQL veritabanına yüksek "Güvenilirlik Otoritesi" ile kaydeder.
+* **Tekrarı Önleme:** İndirdiği linkleri `data/processed/scraped_urls.txt` dosyasına kaydeder ki bir sonraki sefer aynı haberi tekrar veritabanına basmasın.
 
-| Katman | Adı | İşlevi |
-| :--- | :--- | :--- |
-| **L1** | **Niyet Analizi** | Kullanıcı niyetini belirler. (Greeting vs Claim) |
-| **L2** | **NLP Sorgu Genişletme** | Kelimeleri anlamsal olarak genişletir. (Maraş -> Kahramanmaraş) |
-| **L3** | **Re-Ranking Sniper** | Alakasız adayları veto eden ve en mantıklı olanı seçen keskin nişancı. |
-| **L4** | **Vektörel Benzerlik** | Cümleler arası anlamsal (embedding) örtüşmeyi ölçer. |
-| **L5** | **Kelime Çapası** | Kritik kelimelerin varlığını manuel olarak denetler. |
-| **L6** | **Akıllı Fark Analizi** | Tarih, sayı ve unvan (Vali/CEO) farklarını yakalar. |
-| **L7** | **Konsept Birleştirici** | Önceki sorulardaki bağlamı hatırlar (NLP Context). |
-| **L8** | **Otorite Ağırlığı** | Kaynak güvenilirliğini skora dahil eder. |
-| **L9** | **Çok Kaynaklı Konsensüs** | Kaynaklar arası çelişkiyi ve fikir birliğini denetler. |
-| **L10** | **Dinamik Enjeksiyon** | Çalışma anında yeni bilgiler aşılanabilir. |
+---
+
+## 📁 Temel Dosya ve Klasör Yapısı
+
+* **`src/backend/app.py`**: Sunucunun beynidir. Gelen HTTP isteklerini (`/api/chat`, `/api/veri`) dinler, Redis önbelleğine bakar, Engine'i çağırır ve Scraper'ı arka planda başlatır (`lifespan` eventi ile).
+* **`src/ai_core/engine/engine.py`**: Bütün AI modellerinin yüklendiği, RAG mimarisinin, Re-ranker ve NLI modellerinin çalışıp karar ürettiği yerdir. Projenin kalbidir.
+* **`src/ai_core/ingest/prep_30k_data.py`**: Ekip arkadaşlarının projeyi klonladıktan sonra veritabanlarını 30 bin haberle doldurmasını sağlayan mucizevi kurulum dosyasıdır.
+* **`frontend/src/App.jsx`**: Kullanıcıların gördüğü, mesaj yazdığı, admin paneline girdiği, React ile yazılmış arayüz kodudur.
 
 ---
 

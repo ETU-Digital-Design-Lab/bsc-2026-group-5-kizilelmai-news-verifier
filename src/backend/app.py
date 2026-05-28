@@ -30,13 +30,31 @@ except ImportError as e:
     print(f"❌ Kritik Hata: Logic modülü bulunamadı! {e}")
     sys.exit(1)
 
+import subprocess
+from contextlib import asynccontextmanager
+
 # ---------------------------------------------------------
 # UYGULAMA YAPILANDIRMASI
 # ---------------------------------------------------------
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Uygulama başlarken arka plan scraper servisini başlat
+    print("🚀 Otomatik Haber Scraper servisi arka planda başlatılıyor...")
+    scraper_process = subprocess.Popen(
+        [sys.executable, os.path.join(SRC_DIR, "ai_core", "ingest", "auto_scraper.py")],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL
+    )
+    yield
+    # Uygulama kapanırken scraper servisini de kapat
+    print("🛑 Kapanış: Otomatik Haber Scraper servisi durduruluyor...")
+    scraper_process.terminate()
+
 app = FastAPI(
     title="KızılelmAI API",
     description="Yerel Haber Doğrulama ve Analiz Motoru API",
-    version="2.0.0"
+    version="2.0.0",
+    lifespan=lifespan
 )
 
 # CORS Ayarları (Frontend Erişimi İçin)
@@ -86,18 +104,140 @@ class ChatResponse(BaseModel):
     source: str
 
 # ---------------------------------------------------------
+# KIMLIK DOGRULAMA (AUTH) BAGLANTILARI
+# ---------------------------------------------------------
+import jwt
+from fastapi import Depends
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from src.backend.auth import (
+    get_db_connection, get_password_hash, verify_password,
+    create_access_token, generate_verification_code, send_verification_email,
+    SECRET_KEY, ALGORITHM
+)
+
+security = HTTPBearer()
+
+def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)):
+    token = credentials.credentials
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        email: str = payload.get("sub")
+        role: str = payload.get("role")
+        first_name: str = payload.get("first_name", "")
+        last_name: str = payload.get("last_name", "")
+        if email is None:
+            raise HTTPException(status_code=401, detail="Geçersiz token")
+        return {"email": email, "role": role, "first_name": first_name, "last_name": last_name}
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(status_code=401, detail="Token süresi dolmuş")
+    except jwt.InvalidTokenError:
+        raise HTTPException(status_code=401, detail="Geçersiz token")
+
+def require_admin(current_user: dict = Depends(get_current_user)):
+    if current_user.get("role") != "admin":
+        raise HTTPException(status_code=403, detail="Yalnızca admin yetkisine sahip kullanıcılar erişebilir")
+    return current_user
+
+class RegisterRequest(BaseModel):
+    email: str
+    password: str
+    first_name: str
+    last_name: str
+
+class VerifyRequest(BaseModel):
+    email: str
+    code: str
+
+class LoginRequest(BaseModel):
+    email: str
+    password: str
+
+@app.post("/api/auth/register")
+async def register_user(request: RegisterRequest):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM users WHERE email = ?", (request.email,))
+    if cursor.fetchone():
+        conn.close()
+        raise HTTPException(status_code=400, detail="Bu email adresi zaten kayıtlı.")
+        
+    code = generate_verification_code()
+    hashed_pw = get_password_hash(request.password)
+    
+    cursor.execute('''
+        INSERT INTO users (email, password_hash, is_verified, verify_code, first_name, last_name)
+        VALUES (?, ?, 0, ?, ?, ?)
+    ''', (request.email, hashed_pw, code, request.first_name, request.last_name))
+    conn.commit()
+    conn.close()
+    
+    # Send email
+    send_verification_email(request.email, code)
+    return {"status": "success", "message": "Kayıt başarılı. Lütfen email adresinize gelen kodu girin."}
+
+@app.post("/api/auth/verify")
+async def verify_user(request: VerifyRequest):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM users WHERE email = ? AND verify_code = ?", (request.email, request.code))
+    user = cursor.fetchone()
+    
+    if not user:
+        conn.close()
+        raise HTTPException(status_code=400, detail="Geçersiz doğrulama kodu veya email.")
+        
+    cursor.execute("UPDATE users SET is_verified = 1, verify_code = NULL WHERE email = ?", (request.email,))
+    conn.commit()
+    conn.close()
+    return {"status": "success", "message": "Hesabınız başarıyla doğrulandı. Giriş yapabilirsiniz."}
+
+@app.post("/api/auth/login")
+async def login_user(request: LoginRequest):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM users WHERE email = ?", (request.email,))
+    user = cursor.fetchone()
+    conn.close()
+    
+    if not user or not verify_password(request.password, user['password_hash']):
+        raise HTTPException(status_code=401, detail="Geçersiz email veya şifre.")
+        
+    if not user['is_verified']:
+        raise HTTPException(status_code=403, detail="Lütfen önce email adresinizi doğrulayın.")
+        
+    access_token = create_access_token(data={
+        "sub": user['email'], 
+        "role": user['role'],
+        "first_name": user['first_name'],
+        "last_name": user['last_name']
+    })
+    return {
+        "access_token": access_token, 
+        "token_type": "bearer", 
+        "role": user['role'],
+        "first_name": user['first_name'],
+        "last_name": user['last_name']
+    }
+
+# ---------------------------------------------------------
 # API ENDPOINTLERI
 # ---------------------------------------------------------
 
 @app.get("/api/veri", response_model=Dict[str, Any])
-async def getir_veri(page: int = 1, limit: int = 50):
+async def getir_veri(page: int = 1, limit: int = 50, sort: str = "oldest", user: dict = Depends(require_admin)):
     """Veri setini sayfalı (paginated) olarak döndürür"""
     try:
         total_records = len(engine.df)
         start_idx = (page - 1) * limit
         end_idx = start_idx + limit
         
-        paginated_data = engine.df.iloc[start_idx:end_idx].to_dict(orient='records')
+        # Sıralama
+        if sort == "newest":
+            df_sorted = engine.df.iloc[::-1]
+        else:
+            df_sorted = engine.df
+            
+        paginated_data = df_sorted.iloc[start_idx:end_idx].to_dict(orient='records')
         
         return {
             "total": total_records,
@@ -110,7 +250,7 @@ async def getir_veri(page: int = 1, limit: int = 50):
         raise HTTPException(status_code=500, detail=f"Veri okunamadı: {str(e)}")
 
 @app.delete("/api/admin/veri/{record_id}")
-async def delete_record(record_id: int):
+async def delete_record(record_id: int, user: dict = Depends(require_admin)):
     """Belirli bir kaydı siler (Admin)"""
     try:
         success = engine.delete_knowledge(record_id)
@@ -121,7 +261,7 @@ async def delete_record(record_id: int):
         raise HTTPException(status_code=500, detail=f"Hata: {str(e)}")
 
 @app.put("/api/admin/veri/{record_id}")
-async def update_record(record_id: int, request: InjectRequest):
+async def update_record(record_id: int, request: InjectRequest, user: dict = Depends(require_admin)):
     """Belirli bir kaydı günceller (Admin)"""
     try:
         success = engine.update_knowledge(record_id, request.text, request.label, request.authority)
@@ -145,7 +285,7 @@ async def get_status():
     }
 
 @app.post("/api/inject")
-async def inject_data(request: InjectRequest):
+async def inject_data(request: InjectRequest, user: dict = Depends(require_admin)):
     """Sisteme canlı bilgi enjekte eder (Katman 10)"""
     try:
         success = engine.inject_knowledge(request.text, request.label, request.authority)
@@ -159,6 +299,19 @@ async def inject_data(request: InjectRequest):
 async def chat(request: ChatRequest):
     """Sohbet Endpoint'i - Redis Önbellekli (Asenkron)"""
     raw_query = request.query.strip()
+    
+    # --- BASİT SOHBET KONTROLÜ (HIZLI YANIT) ---
+    import string
+    lower_query = raw_query.lower()
+    clean_query = lower_query.translate(str.maketrans('', '', string.punctuation))
+    greetings = ["merhaba", "selam", "naber", "nasılsın", "hello", "hi", "iyi misin", "selamlar"]
+    
+    if clean_query in greetings or clean_query.startswith("merhaba"):
+        return {
+            "result": "Merhaba! Ben KızılelmAI Doğrulama Asistanıyım. Size bir haberi veya iddiayı analiz etme konusunda yardımcı olabilirim. Lütfen doğrulamak istediğiniz metni yazın.",
+            "status": "SYS", "msg": "💬 SOHBET", "description": "Sistem Mesajı",
+            "confidence": 100, "risk": 0, "category": "GENEL", "source": "Sistem"
+        }
 
     if not raw_query:
         return {

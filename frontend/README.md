@@ -1,69 +1,16 @@
-🚀 KızılelmAI - Kurulum ve Çalıştırma Kılavuzu
-Bu proje, yapay zeka destekli dezenformasyon tespit sistemi olan KızılelmAI'nın Flutter tabanlı frontend ve mobil arayüzünü içermektedir.
+# React + Vite
 
-🛠️ Ön Hazırlık
-Projeyi çalıştırmadan önce sisteminizde aşağıdaki bileşenlerin yüklü olduğundan emin olun:
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Flutter SDK: Yükleme Kılavuzu (Stable Channel)
+Currently, two official plugins are available:
 
-Dart SDK: Flutter ile birlikte otomatik yüklenir.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-IDE: VS Code (Önerilen) veya Android Studio.
+## React Compiler
 
-Tarayıcı: Chrome veya Safari (Web testi için).
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-📥 Adım 1: Bağımlılıkları Yükleme
-Terminali açın ve projenin bulunduğu dizine girerek paketleri güncelleyin:
+## Expanding the ESLint configuration
 
-Bash
-cd frontend
-flutter pub get
-🌐 Adım 2: Web Platformunda Çalıştırma (Chrome / Safari)
-Tasarımı ve genel akışı test etmek için en hızlı yöntemdir.
-
-Cihaz Listesini Kontrol Edin:
-
-Bash
-flutter devices
-Chrome ile Başlatın:
-
-Bash
-flutter run -d chrome
-Safari ile Başlatın (macOS):
-
-Bash
-flutter run -d safari
-📱 Adım 3: Mobil Platformda Çalıştırma
-A. Emülatör / Simülatör (Sanal Cihaz)
-
-iOS Simülatörü (Sadece Mac): Xcode üzerinden bir simülatör açın ve çalıştırın:
-
-Bash
-flutter run -d ios
-Android Emulator: Android Studio üzerinden bir AVD (Android Virtual Device) başlatın:
-
-Bash
-flutter run -d android
-B. Fiziksel Telefon (Kendi Cihazınız)
-
-Android:
-
-Telefonunuzdan "Geliştirici Seçenekleri"ni ve "USB Hata Ayıklama"yı açın.
-
-Kablo ile bağlayın ve flutter run komutunu yazın.
-
-iOS (iPhone):
-
-iPhone'u Mac'e bağlayın.
-
-ios/Runner.xcworkspace dosyasını Xcode ile açın.
-
-Signing & Capabilities kısmından kendi Apple ID'niz ile bir "Team" seçin.
-
-Terminalden flutter run yazarak başlatın.
-
-⚠️ Önemli Notlar
-
-Hata Ayıklama (Debug): Eğer MyApp veya paket yollarıyla ilgili kırmızı hata alırsanız, VS Code üzerinden KizilelmaAIApp ismini kullandığınızdan emin olun.
-
-Bağlantı Sorunları: Eğer analiz paneli yanıt vermiyorsa, backend servisinin (src/backend/app.py) çalıştığından ve URL tanımlarının doğru olduğundan emin olun.
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.

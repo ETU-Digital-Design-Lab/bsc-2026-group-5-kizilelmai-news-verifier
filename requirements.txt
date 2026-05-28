@@ -17,3 +17,11 @@ sqlalchemy
 pgvector
 protobuf
 redis
+newspaper3k
+beautifulsoup4
+lxml
+schedule
+lxml_html_clean
+passlib[bcrypt]
+pyjwt
+python-dotenv

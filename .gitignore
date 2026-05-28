@@ -249,3 +249,10 @@ cache/
 Thumbs.db
 ehthumbs.db
 Desktop.ini
+
+# 4. Kızılelma Veri Setleri ve Önbellekler (Büyük / Geçici Dosyalar)
+data/raw/
+*.npy
+data/processed/egitim_verisi_30k.csv
+data/processed/etiketlenmis_haberler.csv
+data/processed/egitim_verisi_final_backup.csv
