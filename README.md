@@ -78,24 +78,42 @@ npm run dev
 
 ---
 
-## 🧠 Yapay Zeka Motoru Mimarisi (Katmanlar)
+## 🧠 Yapay Zeka Motoru Mimarisi (10 Katmanlı RAG Sistemi)
 
-KızılelmAI basit bir "sor-cevap" botu değildir. Bir soru geldiğinde arka planda çalışan sofistike bir **RAG (Retrieval-Augmented Generation)** mimarisi vardır:
+KızılelmAI basit bir "sor-cevap" botu değildir. Bir soru geldiğinde arka planda çalışan ve halüsinasyon riskini %0'a indirmeyi hedefleyen **10 Katmanlı RAG (Retrieval-Augmented Generation)** mimarisi vardır:
 
-1. **Ön Sezgi Sınıflandırıcısı (Kizilelma Classifier v1):**
-   * **Nasıl Çalışır:** Veritabanında arama yapmadan önce, sadece metnin dil yapısına (Clickbait tarzı kelimeler, aşırı ünlem vs.) bakarak "bu muhtemelen yalan" tahmini yapan ince ayarlı (fine-tuned) bir modeldir.
+1. **Katman 1: Giriş ve Niyet Analizi (Girdi Normalizasyon)**
+   * **İşlem:** Kullanıcının yazdığı metin temizlenir, imla hataları düzeltilir ve niyet (merhaba mı diyor, yoksa iddia mı sunuyor) anlaşılır. Gereksiz yapay zeka yükünü engeller.
 
-2. **Geri Getirme (Retrieval) - Vektör & BM25 Hibrit Arama:**
-   * **Nasıl Çalışır:** Gelen soru anında vektöre çevrilir. PostgreSQL'deki 30.000 haber içinde "anlamsal olarak" en çok benzeyenler bulunur. Ayrıca `rank-bm25` kullanılarak klasik anahtar kelime araması yapılır. İkisi harmanlanıp (Reciprocal Rank Fusion) en iyi sonuçlar çıkarılır.
+2. **Katman 2: Geri Getirme (Dense + Sparse Hibrit Arama)**
+   * **İşlem:** İddia anında vektöre çevrilir. PostgreSQL içindeki 30.000 haberde "anlamsal" (Kosinüs Mesafesi) arama yapılır. Eşzamanlı olarak `BM25` algoritması ile kelime (keyword) bazlı arama yapılır ve sonuçlar RRF (Reciprocal Rank Fusion) ile birleştirilir.
 
-3. **Yeniden Sıralama (Re-Ranker) [Katman 3]:**
+3. **Katman 3: Yeniden Sıralama (Re-Ranking - The Sniper)**
    * **Teknoloji:** `BAAI/bge-reranker-v2-m3` (Cross-Encoder)
-   * **Neden Kullanıldı:** Vektör araması bazen alakasız ama benzer kelimeler içeren metinleri getirebilir. Re-ranker modeli, "Kullanıcının sorusu ile bulduğumuz haber GERÇEKTEN aynı bağlamda mı?" sorusunu sorarak listeyi keskin nişancı gibi daraltır ve sıralar.
+   * **İşlem:** İlk aşamada bulunan yüzlerce alakasız haberi eler. Sorgu ile haberi çapraz okuyarak (Cross-Attention) sadece GERÇEKTEN aynı bağlamda olan ilk 3 haberi seçer.
 
-4. **Mantıksal Çıkarım (NLI - Natural Language Inference) [Katman 4]:**
+4. **Katman 4: Mantıksal Çıkarım (NLI - Natural Language Inference)**
    * **Teknoloji:** `joeddav/xlm-roberta-large-xnli`
-   * **Nasıl Çalışır:** Re-ranker'ı geçen en güçlü haberi alır ve şu soruyu sorar: *"Kullanıcının iddia ettiği şey, veritabanımızdaki bu resmi haberle ÖRTÜŞÜYOR MU (Entailment), yoksa ÇELİŞİYOR MU (Contradiction)?"* Bu model KızılelmAI'nin net bir şekilde "Doğru" veya "Yalan" diyebilmesini sağlayan kalbidir.
+   * **İşlem:** Re-ranker'ı geçen en güçlü haberi alır ve şu soruyu sorar: *"Kullanıcının iddiası, resmi haberle ÖRTÜŞÜYOR MU (Entailment), yoksa ÇELİŞİYOR MU (Contradiction)?"* Doğru/Yalan damgası burada vurulur.
 
+5. **Katman 5: Karar Motoru (Rule-Based Decision)**
+   * **İşlem:** Katman 4'ten gelen NLI skorları (Olasılık yüzdeleri) belirli matematiksel eşik değerlerine (Threshold) vurulur. Sonuç "Kesin Doğru", "Kesin Yalan" veya "Yetersiz Veri" olarak kategorize edilir.
+
+6. **Katman 6: Ön Sezgi Sınıflandırıcısı (Kizilelma Classifier v1)**
+   * **Teknoloji:** HuggingFace `AutoModelForSequenceClassification`
+   * **İşlem:** Veritabanına hiç bakmadan, sadece metnin dil yapısına (Clickbait jargonu, aşırı abartı vs.) bakarak saniyeler içinde "Bu metin %90 ihtimalle Yalan Haber formatında" tahmini yapar.
+
+7. **Katman 7: Konsept Birleştirici ve Bağlam Hafızası (Contextual Memory)**
+   * **İşlem:** Kullanıcı peş peşe soru sorduğunda (Örn: *Peki ya dün?*), bu katman bir önceki soruyu hatırlar ve yeni soruyu önceki bağlamla birleştirerek asıl arama sorgusunu ("Peki ya dünki deprem?") oluşturur.
+
+8. **Katman 8: Otorite Ağırlıklandırması (Authority Weighting)**
+   * **İşlem:** Katman 3'teki (Re-Ranker) sonuçları, kaynağın güvenilirliğine göre normalize eder. TRT Haber'den (Otorite: 0.95) gelen bir bilgi, anonim bir kaynaktan gelen bilgiye göre daha üst sıralara taşınır.
+
+9. **Katman 9: Multi-Source Consensus (Konsensüs Analizi)**
+   * **İşlem:** Karar vermeden önce birden çok kaynağa bakar. Bulunan haberlerin hepsi aynı fikirde mi? Yoksa kaynaklar birbiriyle çelişiyor mu? Analiz edilir.
+
+10. **Katman 10: Dinamik Enjeksiyon (Çalışma Zamanı Bilgi Yönetimi)**
+    * **İşlem:** KızılelmAI çalışırken, Admin Paneli veya Auto-Scraper aracılığıyla sisteme yeni bir haber enjekte edildiğinde motoru durdurmadan yeni bilgiyi anında vektörleştirir ve PostgreSQL'e kaydeder.
 ---
 
 ## 🕷️ Otomatik Haber Scraper (Veri Toplayıcı)
