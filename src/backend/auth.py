@@ -6,9 +6,10 @@ from email.mime.image import MIMEImage
 from passlib.context import CryptContext
 import jwt
 from datetime import datetime, timedelta
-import sqlite3
 import random
 from dotenv import load_dotenv
+import psycopg2
+from psycopg2.extras import DictCursor
 
 # Load env variables for SMTP
 load_dotenv()
@@ -21,33 +22,38 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7 # 1 week
 # Passlib Config
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-# DB Path
-DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "users.db")
+# DB Connection String
+DB_DSN = os.environ.get("DATABASE_URL", "postgresql://kizilelmai_user:kizilelmai_pass@localhost:5433/kizilelmai")
+
+def get_db_connection():
+    conn = psycopg2.connect(DB_DSN, cursor_factory=DictCursor)
+    return conn
 
 def init_db():
-    conn = sqlite3.connect(DB_PATH)
+    conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id SERIAL PRIMARY KEY,
             email TEXT UNIQUE NOT NULL,
             password_hash TEXT NOT NULL,
             role TEXT DEFAULT 'user',
-            is_verified BOOLEAN DEFAULT 0,
-            verify_code TEXT
+            is_verified BOOLEAN DEFAULT FALSE,
+            verify_code TEXT,
+            first_name TEXT,
+            last_name TEXT
         )
     ''')
     
-    # Yeni sütunları ekle (ALTER TABLE)
-    try:
-        cursor.execute("ALTER TABLE users ADD COLUMN first_name TEXT")
-    except sqlite3.OperationalError:
-        pass # Zaten varsa hata verir, yoksayarız
-        
-    try:
-        cursor.execute("ALTER TABLE users ADD COLUMN last_name TEXT")
-    except sqlite3.OperationalError:
-        pass
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS user_logs (
+            id SERIAL PRIMARY KEY,
+            user_email TEXT,
+            query TEXT NOT NULL,
+            response_status TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    ''')
 
     # Varsayılan admin hesabını ekle (eğer yoksa)
     cursor.execute("SELECT * FROM users WHERE email = 'admin'")
@@ -55,16 +61,11 @@ def init_db():
         hashed_pw = pwd_context.hash("1234")
         cursor.execute('''
             INSERT INTO users (email, password_hash, role, is_verified, first_name, last_name)
-            VALUES (?, ?, ?, ?, ?, ?)
-        ''', ("admin", hashed_pw, "admin", 1, "Sistem", "Yöneticisi"))
+            VALUES (%s, %s, %s, %s, %s, %s)
+        ''', ("admin", hashed_pw, "admin", True, "Sistem", "Yöneticisi"))
         
     conn.commit()
     conn.close()
-
-def get_db_connection():
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    return conn
 
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)

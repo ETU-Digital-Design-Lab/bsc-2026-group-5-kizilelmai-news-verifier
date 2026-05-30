@@ -24,6 +24,35 @@ services:
     restart: unless-stopped
     command: redis-server --appendonly yes
 
+  backend:
+    build: .
+    container_name: kizilelmai_backend
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_URL=postgresql://kizilelmai_user:kizilelmai_pass@db:5432/kizilelmai
+      - REDIS_HOST=redis
+      - HF_HOME=/app/.cache/huggingface
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+    restart: unless-stopped
+    volumes:
+      - ./data:/app/data
+      - kizilelmai_hf_cache:/app/.cache/huggingface
+
+  frontend:
+    build: ./frontend
+    container_name: kizilelmai_frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
 volumes:
   kizilelmai_data:
   kizilelmai_redis_data:
+  kizilelmai_hf_cache:

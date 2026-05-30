@@ -13,7 +13,7 @@ KızılelmAI, sosyal medyada veya haber sitelerinde yayılan iddiaların, metinl
 
 ## 🚀 Başlangıç ve Kurulum Rehberi (Sıfırdan Başlayanlar İçin)
 
-Projenin çalışması için bilgisayarınızda **Python 3.10+**, **Docker** ve **Node.js** kurulu olmalıdır. Hiçbir yapay zeka modelini önceden indirmenize gerek yoktur, sistem kendi kendini kuracak şekilde tasarlanmıştır.
+Projenin çalışması için bilgisayarınızda **sadece Docker** yüklü olması yeterlidir. Python, Node.js veya herhangi bir veritabanı kurmanıza gerek yoktur! Tüm sistem konteyner mimarisi ile paketlenmiştir.
 
 ### Adım 1: Projeyi Klonlayın
 ```bash
@@ -21,46 +21,24 @@ git clone <proje-git-linki>
 cd kizilelmAI
 ```
 
-### Adım 2: Altyapıyı (Veritabanı ve Önbellek) Başlatın
-Proje, vektör veritabanı için **PostgreSQL (pgvector)** ve hızlandırma için **Redis** kullanır. Bunları kurmak için Docker kullanılır.
+### Adım 2: Tüm Sistemi Tek Tuşla Başlatın
+Aşağıdaki komut Backend, Frontend (Nginx), PostgreSQL ve Redis sunucularını otomatik olarak derleyip ayağa kaldırır:
 ```bash
-docker-compose up -d
+docker-compose up -d --build
 ```
-*(Bu komut arka planda boş bir veritabanı ve Redis sunucusu ayağa kaldırır. Hiçbir ayar yapmanıza gerek yoktur.)*
+*(İlk çalıştırmada kütüphanelerin indirilmesi birkaç dakika sürebilir. Kurulum bittikten sonra tarayıcınızdan **`http://localhost`** adresine giderek KızılelmAI'yi kullanmaya başlayabilirsiniz!)*
 
-### Adım 3: Gerekli Kütüphaneleri Yükleyin
+### Adım 3: Veritabanını Doldurun (Sihirli Adım)
+Veritabanı şu an boş. Sistemin 30.000 adetlik dengeli bir haber havuzuna (Knowledge Base) sahip olması için Docker içerisindeki veri hazırlama scriptini çalıştırın:
 ```bash
-pip install -r requirements.txt
-cd frontend
-npm install
-cd ..
-```
-
-### Adım 4: Veritabanını Doldurun (Sihirli Adım)
-Veritabanı şu an boş. Sistemin 30.000 adetlik dengeli bir haber havuzuna (Knowledge Base) sahip olması için otomatik veri hazırlama scriptini çalıştırın:
-```bash
-python src/ai_core/ingest/prep_30k_data.py
+docker-compose exec backend python src/ai_core/ingest/prep_30k_data.py
 ```
 **Bu script ne yapar?**
 1. İnternetten açık kaynaklı haber veri setlerini indirir.
 2. Metinleri temizler (linkler, emojiler, fazla boşluklar silinir).
 3. 15.000 Gerçek ve 15.000 Yalan haberi dengeli bir şekilde seçer.
 4. `multilingual-e5-small` modelini kullanarak bu 30.000 haberi sayılara (vektörlere) dönüştürür.
-5. Bu sayıları Docker'daki PostgreSQL veritabanına kaydeder.
-
-### Adım 5: Sistemi Başlatın!
-Her şey hazır. İki ayrı terminal açıp hem arka ucu (Backend) hem de ön yüzü (Frontend) başlatın:
-
-**Terminal 1 (Backend - Yapay Zeka ve API Sunucusu):**
-```bash
-uvicorn src.backend.app:app --reload --port 5000
-```
-**Terminal 2 (Frontend - Kullanıcı Arayüzü):**
-```bash
-cd frontend
-npm run dev
-```
-*(Tarayıcınızda açılan adrese giderek KızılelmAI'yi kullanmaya başlayabilirsiniz!)*
+5. Bu sayıları PostgreSQL veritabanına kaydeder.
 
 ---
 

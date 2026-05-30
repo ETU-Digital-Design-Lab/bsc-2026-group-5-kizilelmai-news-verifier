@@ -50,7 +50,8 @@ class KizilelmaEngine:
         self.texts = [] # type: list[str]
         self.text_embeddings = [] # type: Any
         self.bm25 = None # type: Any
-        self.db_engine = create_engine("postgresql://kizilelmai_user:kizilelmai_pass@localhost:5433/kizilelmai")
+        db_url = os.environ.get("DATABASE_URL", "postgresql://kizilelmai_user:kizilelmai_pass@localhost:5433/kizilelmai")
+        self.db_engine = create_engine(db_url)
         self.kb = {} # type: Any
         self.search_model = None # type: Any
         self.nli_model = None # type: Any

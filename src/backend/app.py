@@ -71,7 +71,8 @@ engine = KizilelmaEngine()
 
 # Redis Bağlantısı (Önbellek Katmanı)
 try:
-    redis_client = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
+    redis_host = os.environ.get("REDIS_HOST", "localhost")
+    redis_client = redis.Redis(host=redis_host, port=6379, db=0, decode_responses=True)
     redis_client.ping()
     REDIS_AVAILABLE = True
     print("⚡ Redis Önbellek Katmanı: Aktif!")
@@ -156,7 +157,7 @@ class LoginRequest(BaseModel):
 async def register_user(request: RegisterRequest):
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM users WHERE email = ?", (request.email,))
+    cursor.execute("SELECT * FROM users WHERE email = %s", (request.email,))
     if cursor.fetchone():
         conn.close()
         raise HTTPException(status_code=400, detail="Bu email adresi zaten kayıtlı.")
@@ -166,7 +167,7 @@ async def register_user(request: RegisterRequest):
     
     cursor.execute('''
         INSERT INTO users (email, password_hash, is_verified, verify_code, first_name, last_name)
-        VALUES (?, ?, 0, ?, ?, ?)
+        VALUES (%s, %s, False, %s, %s, %s)
     ''', (request.email, hashed_pw, code, request.first_name, request.last_name))
     conn.commit()
     conn.close()
@@ -179,14 +180,14 @@ async def register_user(request: RegisterRequest):
 async def verify_user(request: VerifyRequest):
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM users WHERE email = ? AND verify_code = ?", (request.email, request.code))
+    cursor.execute("SELECT * FROM users WHERE email = %s AND verify_code = %s", (request.email, request.code))
     user = cursor.fetchone()
     
     if not user:
         conn.close()
         raise HTTPException(status_code=400, detail="Geçersiz doğrulama kodu veya email.")
         
-    cursor.execute("UPDATE users SET is_verified = 1, verify_code = NULL WHERE email = ?", (request.email,))
+    cursor.execute("UPDATE users SET is_verified = True, verify_code = NULL WHERE email = %s", (request.email,))
     conn.commit()
     conn.close()
     return {"status": "success", "message": "Hesabınız başarıyla doğrulandı. Giriş yapabilirsiniz."}
@@ -195,7 +196,7 @@ async def verify_user(request: VerifyRequest):
 async def login_user(request: LoginRequest):
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM users WHERE email = ?", (request.email,))
+    cursor.execute("SELECT * FROM users WHERE email = %s", (request.email,))
     user = cursor.fetchone()
     conn.close()
     
@@ -296,10 +297,21 @@ async def inject_data(request: InjectRequest, user: dict = Depends(require_admin
         raise HTTPException(status_code=500, detail=f"Hata: {str(e)}")
 
 @app.post("/api/chat", response_model=ChatResponse)
-async def chat(request: ChatRequest):
+async def chat(request: ChatRequest, req: Request):
     """Sohbet Endpoint'i - Redis Önbellekli (Asenkron)"""
     raw_query = request.query.strip()
     
+    # Kullanıcı kimliğini (opsiyonel) al
+    user_email = "anonim"
+    auth_header = req.headers.get("Authorization")
+    if auth_header and auth_header.startswith("Bearer "):
+        token = auth_header.split(" ")[1]
+        try:
+            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            user_email = payload.get("sub", "anonim")
+        except Exception:
+            pass
+            
     # --- BASİT SOHBET KONTROLÜ (HIZLI YANIT) ---
     import string
     lower_query = raw_query.lower()
@@ -353,6 +365,19 @@ async def chat(request: ChatRequest):
                 print(f"💾 Önbelleğe Kaydedildi (24s): '{raw_query[:40]}...'")
             except Exception as e:
                 print(f"⚠️ Redis yazma hatası: {e}")
+
+        # --- Veritabanına (PostgreSQL) Logla ---
+        try:
+            conn = get_db_connection()
+            cursor = conn.cursor()
+            cursor.execute('''
+                INSERT INTO user_logs (user_email, query, response_status)
+                VALUES (%s, %s, %s)
+            ''', (user_email, raw_query, response['status']))
+            conn.commit()
+            conn.close()
+        except Exception as e:
+            print(f"⚠️ PostgreSQL Log kaydı hatası: {e}")
 
         return response  # type: ignore
     except Exception as e:
