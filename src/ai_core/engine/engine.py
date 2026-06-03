@@ -199,6 +199,30 @@ class KizilelmaEngine:
             print("⏳ Vektörler veritabanından sorgulanacak, RAM'e yüklenmiyor.")
             self.text_embeddings = []
 
+    def sync_db(self):
+        """
+        Veritabanındaki yeni kayıtları bellekle senkronize eder.
+        """
+        if getattr(self, 'db_connected', False):
+            try:
+                max_id = int(self.df['id'].max()) if not self.df.empty else 0
+                with self.db_engine.connect() as conn:
+                    sql_new = text("SELECT id, text, label, authority FROM knowledge_base WHERE id > :max_id ORDER BY id")
+                    new_rows = pd.read_sql(sql_new, conn, params={"max_id": max_id})
+                
+                if not new_rows.empty:
+                    print(f"🔄 [Sync] Veritabanından {len(new_rows)} yeni kayıt belleğe yükleniyor...")
+                    self.df = pd.concat([self.df, new_rows], ignore_index=True)
+                    self.texts = self.df['text'].tolist()
+                    
+                    # BM25 güncelle
+                    def tokenize(t): return re.findall(r'\w+', str(t).lower())
+                    tokenized_corpus = [tokenize(doc) for doc in self.texts]
+                    self.bm25 = BM25Okapi(tokenized_corpus)
+                    print(f"✅ [Sync] BM25 indeksi güncellendi. Toplam kayıt: {len(self.df)}")
+            except Exception as e:
+                print(f"⚠️ [Sync] Veritabanı senkronizasyon hatası: {e}")
+
     def inject_knowledge(self, input_text, label, authority=0.95):
         """
         Katman 10: Çalışma zamanında yeni bilgi enjekte eder (PostgreSQL ve/veya CSV).
@@ -463,7 +487,8 @@ class KizilelmaEngine:
         s_nums = s_nums - s_dates
 
         if q_nums - s_nums:
-            return str(list(q_nums - s_nums)[0]), "DEĞER", 0.1, "SAYI" # type: ignore
+            s_val = list(s_nums)[0] if s_nums else "DEĞER"
+            return str(list(q_nums - s_nums)[0]), str(s_val), 0.1, "SAYI" # type: ignore
 
         user_diff = list(q_tokens - s_tokens)
         source_diff = list(s_tokens - q_tokens)
@@ -474,9 +499,9 @@ class KizilelmaEngine:
         q_entities = [w for w in user_diff if w[0].isupper()]
         s_entities = [w for w in source_diff if w[0].isupper()]
         
-        # Özel durum: Kullanıcı sorgusunda Kırmızı Liste unvanı geçiyorsa hassas davran
-        found_red_titles = [t for t in self.RED_LIST_TITLES if t in user_query.lower()]
-        source_red_titles = [t for t in self.RED_LIST_TITLES if t in db_source.lower()]
+        # Özel durum: Kullanıcı sorgusunda Kırmızı Liste unvanı geçiyorsa hassas davran (Kelime sınırı araması ile)
+        found_red_titles = [t for t in self.RED_LIST_TITLES if re.search(r'\b' + t + r'\b', user_query.lower())]
+        source_red_titles = [t for t in self.RED_LIST_TITLES if re.search(r'\b' + t + r'\b', db_source.lower())]
         
         if set(found_red_titles) != set(source_red_titles):
             # Unvan doğrudan değişmiş!
@@ -514,6 +539,37 @@ class KizilelmaEngine:
         if best_score < 0: return None, None, 1.0, "OLAY" 
         return best_pair_user, best_pair_source, best_score, "DETAY"
 
+    def detect_negation(self, text):
+        """Metindeki Türkçe olumsuzluk yapılarını tespit eder."""
+        text_lower = re.sub(r'[^\w\s]', '', text.lower())
+        
+        # Word boundaries for exact negation words
+        neg_words = {'değil', 'yok', 'asla', 'hiçbir'}
+        for word in neg_words:
+            if re.search(r'\b' + word + r'\b', text_lower):
+                return True
+                
+        # Suffix-based negations
+        neg_patterns = [
+            r'\w+ma(?:dı|dılar|dığı|dık|mış|yacak|makta|malı)\b',
+            r'\w+me(?:di|diler|diği|dik|miş|yecek|mekte|meli)\b',
+            r'\w+ma(?:z|zlar)\b',
+            r'\w+me(?:z|zler)\b',
+            r'\w+m(?:ı|i|u|ü)yor\b'
+        ]
+        for pat in neg_patterns:
+            matches = re.findall(pat, text_lower)
+            for match in matches:
+                # Filter out false positives
+                false_positives = {
+                    'malzeme', 'mama', 'maliyet', 'mavi', 'maya', 'mayıs', 'memnun', 'mermer', 
+                    'memur', 'merkez', 'mesaj', 'metal', 'meyve', 'mezun', 'memleket', 'medya', 
+                    'medeni', 'melodi', 'melek', 'merak', 'mezarlık'
+                }
+                if not any(fp in match for fp in false_positives):
+                    return True
+        return False
+
     def karar_motoru(self, user_query, db_record, nli_probs, sim_score):
         db_text = db_record['text']
         db_label = db_record['label']
@@ -531,7 +587,7 @@ class KizilelmaEngine:
         score_contra, score_neutral, score_entail = nli_probs[0], nli_probs[1], nli_probs[2] # type: ignore
         confidence = max(score_contra, score_neutral, score_entail) * 100
         
-        # YENİ EKLENEN KONTROL: Eğer NLI modeli Nötr (Alakasız) diyorsa reddet (Halüsinasyon Engelleme için daha katı hale getirildi)
+        # NLI modeli Nötr (Alakasız) diyorsa reddet
         if score_neutral > 0.75:
             return {
                 "status": "RET", "msg": "ℹ️ **BULUNAMADI / ALAKASIZ**",
@@ -545,23 +601,54 @@ class KizilelmaEngine:
 
         # --- LABEL 1: DOĞRU HABERLER ---
         if db_label == 1:
+            # A. Olumsuzluk farkı kontrolü
+            user_neg = self.detect_negation(user_query)
+            source_neg = self.detect_negation(db_text)
+            if user_neg != source_neg:
+                return {
+                    "status": "RED", "msg": "❌ **BİLGİ YANLIŞLIĞI**",
+                    "desc": f"İddianız kaynaklarla çelişiyor. Olayın olumluluk/olumsuzluk yapısı uyuşmuyor.{diff_msg}",
+                    "conf": 95, "risk": 85, "cat": "OLAY_OLUMSUZLUK"
+                }
+
+            # B. Kritik Fark Kontrolleri (NLI entailment'ını veto eder)
+            if diff_user and diff_source:
+                if diff_cat == "SAYI":
+                    return {
+                        "status": "RED", "msg": "❌ **BİLGİ YANLIŞLIĞI**",
+                        "desc": f"Sayısal değerlerde çelişki tespit edildi. {diff_msg}",
+                        "conf": 99, "risk": 75, "cat": "SAYI"
+                    }
+                elif diff_cat == "KRİTİK UNVAN":
+                    return {
+                        "status": "RED", "msg": "🚨 **KRİTİK UNVAN HATASI**",
+                        "desc": f"Kırmızı liste kapsamında olan bir unvanda fark tespit edildi! {diff_msg}",
+                        "conf": 95, "risk": 85, "cat": "KRİTİK UNVAN"
+                    }
+                elif diff_cat == "ZAMAN AŞIMI":
+                    return {
+                        "status": "KISMI", "msg": "⏳ **GÜNCEL DEĞİL / ZAMAN AŞIMI**",
+                        "desc": f"Bu bilgi artık geçerliliğini yitirmiş olabilir. {diff_msg}",
+                        "conf": 85, "risk": 45, "cat": "ZAMAN AŞIMI"
+                    }
+                elif diff_cat in ["YER", "KİŞİ", "KİŞİ/YER/UNVAN"]:
+                    return {
+                        "status": "RED", "msg": "❌ **BİLGİ YANLIŞLIĞI**",
+                        "desc": f"Kişi, yer veya unvan bilgisinde çelişki tespit edildi. {diff_msg}",
+                        "conf": 95, "risk": 70, "cat": diff_cat
+                    }
+
+            # C. NLI Kararı (Fark yoksa NLI modeline güvenebiliriz)
             if score_contra > 0.50:
                  return { "status": "RED", "msg": "❌ **BİLGİ YANLIŞLIĞI**", "desc": "İddianız kaynaklarla çelişiyor.", "conf": max(confidence, 85), "risk": 60, "cat": diff_cat }
             if score_entail > 0.45:
                 # DENGELİ RİSK: Onaylandığında risk düşük olmalı
                 return { "status": "ONAY", "msg": "✅ **DOĞRULANDI**", "desc": "Bilgi güvenilir kaynaklarla uyuşuyor.", "conf": confidence, "risk": max(10, 100 - confidence), "cat": diff_cat }
             elif sim_score > 0.60:
-                # ÖZEL MESAJ OVERRIDE (Katman 6.5)
+                # Diğer ufak anlamsal farklar
                 msg = "⚠️ **KISMİ DOĞRU / DETAY HATASI**"
                 desc = f"Olay doğru fakat detaylarda hata var.{diff_msg}"
                 
-                if diff_cat == "ZAMAN AŞIMI":
-                    msg = "⏳ **GÜNCEL DEĞİL / ZAMAN AŞIMI**"
-                    desc = f"Bu bilgi artık geçerliliğini yitirmiş olabilir. {diff_msg}"
-                elif diff_cat == "KRİTİK UNVAN":
-                    msg = "🚨 **KRİTİK UNVAN HATASI**"
-                    desc = f"Kırmızı liste kapsamında olan bir unvanda fark tespit edildi! {diff_msg}"
-
                 if diff_match_score > self.SEMANTIC_SHIFT_THRESHOLD:
                     return { "status": "KISMI", "msg": msg, "desc": desc, "conf": sim_score * 100, "risk": 45, "cat": diff_cat }
                 else:
@@ -571,6 +658,14 @@ class KizilelmaEngine:
 
         # --- LABEL 0: YALAN HABERLER ---
         else:
+            # A. Olumsuzluk farkı kontrolü (Yalan habere karşı olumsuzluk kontrolü)
+            user_neg = self.detect_negation(user_query)
+            source_neg = self.detect_negation(db_text)
+            if user_neg != source_neg:
+                # Yalan haberi "olumsuz" sorduysa (örn: yalanlanmış bir şeyi yapılmadı dedi) durum değişir
+                # Ancak güvenli tarafta kalıp uyarı göstermek mantıklıdır
+                pass
+
             user_is_skeptic = any(w in user_query.lower() for w in self.SKEPTIC_KEYWORDS)
             if user_is_skeptic and score_entail > 0.40:
                  return { "status": "ONAY", "msg": "✅ **DOĞRU TESPİT**", "desc": "Evet, şüpheleriniz haklı. Bu deryandaki haberin **YALAN** olduğu kayıtlıdır.", "conf": 95, "risk": 15, "cat": diff_cat }
@@ -585,6 +680,8 @@ class KizilelmaEngine:
 
     def ask(self, raw_query):
         """Dış dünyadan gelen soruya cevap veren ana fonksiyon"""
+        # Veritabanındaki yeni kayıtları senkronize et
+        self.sync_db()
         
         # 0. Girdi Doğrulama
         alphanumeric_query = re.sub(r'[^\w\s]', '', raw_query)
@@ -600,6 +697,16 @@ class KizilelmaEngine:
         contextual_query = self.context_merger(raw_query)
         clean_query = self.temizle_ve_normallestir(contextual_query)
         print(f"\n📩 Gelen: {raw_query} | Analitik Bağlam: {contextual_query}")
+
+        # Tek kelimelik anlamsız aramaları engelle (Eğer selamlaşma değilse)
+        # Sadece 1 kelime girildiyse (örn: "sinan"), bunu bir iddia olarak kabul etme.
+        if len(clean_query.split()) < 2 and clean_query not in self.kb.get("greetings", []):
+            return {
+                "result": "⚠️ Lütfen doğrulamak istediğiniz iddiayı tam bir cümle veya daha detaylı olarak yazın. Sadece isim veya tek bir kelime girdiğinizde doğrulama yapılamamaktadır.",
+                "status": "RET", "msg": "⚠️ EKSİK İDDİA", 
+                "description": "Sorgu tek kelimeden oluşuyor, geçerli bir iddia barındırmıyor.", 
+                "confidence": 0, "risk": 0, "category": "YOK", "source": "-"
+            }
 
         # Yerel sınıflandırma modelini çalıştır (varsa)
         self.classifier_score_str = ""

@@ -228,6 +228,7 @@ async def login_user(request: LoginRequest):
 async def getir_veri(page: int = 1, limit: int = 50, sort: str = "oldest", user: dict = Depends(require_admin)):
     """Veri setini sayfalı (paginated) olarak döndürür"""
     try:
+        engine.sync_db()
         total_records = len(engine.df)
         start_idx = (page - 1) * limit
         end_idx = start_idx + limit
@@ -275,6 +276,10 @@ async def update_record(record_id: int, request: InjectRequest, user: dict = Dep
 @app.get("/api/status")
 async def get_status():
     """Sistem kaynaklarını ve veri tabanı durumunu döner"""
+    try:
+        engine.sync_db()
+    except Exception:
+        pass
     return {
         "status": "online",
         "records": len(engine.df),
