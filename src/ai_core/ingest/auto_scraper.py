@@ -81,7 +81,7 @@ def scrape_and_inject():
     print("="*50)
     
     history = load_history()
-    engine = KizilelmaEngine()
+    engine = KizilelmaEngine(lazy_load=True)
     
     total_injected = 0
     

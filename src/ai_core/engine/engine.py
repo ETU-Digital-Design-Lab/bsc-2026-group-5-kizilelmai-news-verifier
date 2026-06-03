@@ -20,7 +20,7 @@ class KizilelmaEngine:
     KızılelmAI'nin tüm zekasını barındıran sınıf.
     Veriyi yükler, modelleri hazırlar ve sorulara cevap üretir.
     """
-    def __init__(self):
+    def __init__(self, lazy_load=False):
         print("[System] KizilElma Motoru Baslatiliyor...")
         
         # --- 1. Sabitler ve Ayarlar ---
@@ -62,8 +62,12 @@ class KizilelmaEngine:
         # --- 3. Başlatma Sırası ---
         self.setup_paths()
         self.load_data()
-        self.load_models()
-        print("🚀 Motor Hazır!")
+        if not lazy_load:
+            self.load_search_model()
+            self.load_heavy_models()
+            print("🚀 Motor Hazır!")
+        else:
+            print("💤 Tembel Yükleme Modu: Modeller ihtiyaç anında yüklenecek.")
 
     def setup_paths(self):
         # Bu dosya: src/ai_core/pipeline/logic.py
@@ -139,35 +143,17 @@ class KizilelmaEngine:
             print("⚠️ Uyarı: knowledge_base.json bulunamadı, varsayılan boş ayarlar kullanılacak.")
             self.kb = {"greetings": [], "synonyms": {}, "responses": {}} # type: ignore
 
-    def load_models(self):
-        print("⏳ Modeller yükleniyor (v2.1)...")
-        # Embedding Modeli
+    def load_search_model(self):
+        if self.search_model is not None:
+            return
+        print("⏳ Vektör Arama (Embedding) modeli yükleniyor...")
         if os.path.exists(self.local_model_path):
             print(f"📂 Yerel model kullanılıyor: {self.local_model_path}")
             self.search_model = SentenceTransformer(self.local_model_path)
         else:
             self.search_model = SentenceTransformer('intfloat/multilingual-e5-small')
-        
-        # NLI Modeli (Gerekçelendirme)
-        self.nli_model = CrossEncoder('joeddav/xlm-roberta-large-xnli')
-
-        # --- YENI: Layer 3 Re-Ranker Modeli (Keskin Nişancı) ---
-        print("⏳ Re-Ranker model yükleniyor (bge-reranker-v2-m3)...")
-        self.rerank_model = CrossEncoder('BAAI/bge-reranker-v2-m3')
-
-        # --- YENI: Sınıflandırma Modeli Yükleme ---
-        self.classifier_model = None
-        self.classifier_tokenizer = None
-        if os.path.exists(self.classifier_model_path):
-            print(f"📂 Yerel sınıflandırma modeli yükleniyor: {self.classifier_model_path}")
-            from transformers import AutoTokenizer, AutoModelForSequenceClassification
-            try:
-                self.classifier_tokenizer = AutoTokenizer.from_pretrained(self.classifier_model_path)
-                self.classifier_model = AutoModelForSequenceClassification.from_pretrained(self.classifier_model_path)
-                self.classifier_model.eval()
-                print("✅ Sınıflandırma modeli hazır!")
-            except Exception as e:
-                print(f"⚠️ Sınıflandırma modeli yüklenirken hata oldu: {e}")
+        self.search_model.half()
+        print("✅ Vektör Arama modeli hazır (FP16)!")
 
         # Embeddings Hesapla (Eğer PostgreSQL bağlı değilse RAM'e yükle - Hızlı Başlangıç Önbellekli)
         if not getattr(self, 'db_connected', False) and self.texts:
@@ -189,7 +175,7 @@ class KizilelmaEngine:
                 print("⏳ Çevrimdışı mod için vektörler RAM'e yükleniyor (Multilingual-E5-Small)...")
                 try:
                     passage_texts = ["passage: " + str(t) for t in self.texts]
-                    self.text_embeddings = self.search_model.encode(passage_texts, convert_to_numpy=True, show_progress_bar=False)
+                    self.text_embeddings = self.search_model.encode(passage_texts, convert_to_numpy=True, show_progress_bar=False).astype(np.float32)
                     np.save(npy_path, self.text_embeddings)
                     print(f"✅ {len(self.text_embeddings)} vektör RAM'e başarıyla yüklendi ve önbelleğe kaydedildi.")
                 except Exception as e:
@@ -198,6 +184,38 @@ class KizilelmaEngine:
         else:
             print("⏳ Vektörler veritabanından sorgulanacak, RAM'e yüklenmiyor.")
             self.text_embeddings = []
+
+    def load_heavy_models(self):
+        if self.nli_model is not None and self.rerank_model is not None:
+            return
+        print("⏳ Ağır Akıl Yürütme ve Reranker modelleri yükleniyor...")
+        
+        # NLI Modeli (Gerekçelendirme)
+        self.nli_model = CrossEncoder('joeddav/xlm-roberta-large-xnli')
+        if hasattr(self.nli_model, 'model') and self.nli_model.model:
+            self.nli_model.model.half()
+
+        # --- YENI: Layer 3 Re-Ranker Modeli (Keskin Nişancı) ---
+        print("⏳ Re-Ranker model yükleniyor (bge-reranker-v2-m3)...")
+        self.rerank_model = CrossEncoder('BAAI/bge-reranker-v2-m3')
+        if hasattr(self.rerank_model, 'model') and self.rerank_model.model:
+            self.rerank_model.model.half()
+
+        # --- YENI: Sınıflandırma Modeli Yükleme ---
+        self.classifier_model = None
+        self.classifier_tokenizer = None
+        if os.path.exists(self.classifier_model_path):
+            print(f"📂 Yerel sınıflandırma modeli yükleniyor: {self.classifier_model_path}")
+            from transformers import AutoTokenizer, AutoModelForSequenceClassification
+            try:
+                self.classifier_tokenizer = AutoTokenizer.from_pretrained(self.classifier_model_path)
+                self.classifier_model = AutoModelForSequenceClassification.from_pretrained(self.classifier_model_path)
+                self.classifier_model = self.classifier_model.half()
+                self.classifier_model.eval()
+                print("✅ Sınıflandırma modeli hazır (FP16)!")
+            except Exception as e:
+                print(f"⚠️ Sınıflandırma modeli yüklenirken hata oldu: {e}")
+        print("✅ Tüm Akıl Yürütme modelleri hazır!")
 
     def sync_db(self):
         """
@@ -227,7 +245,8 @@ class KizilelmaEngine:
         """
         Katman 10: Çalışma zamanında yeni bilgi enjekte eder (PostgreSQL ve/veya CSV).
         """
-        new_emb = self.search_model.encode([f"passage: {input_text}"], convert_to_numpy=True)[0]
+        self.load_search_model()
+        new_emb = self.search_model.encode([f"passage: {input_text}"], convert_to_numpy=True)[0].astype(np.float32)
         
         new_id = len(self.df) + 1
         
@@ -741,6 +760,9 @@ class KizilelmaEngine:
         # Veritabanındaki yeni kayıtları senkronize et
         self.sync_db()
         
+        self.load_search_model()
+        self.load_heavy_models()
+        
         # 0. Girdi Doğrulama
         alphanumeric_query = re.sub(r'[^\w\s]', '', raw_query)
         if len(alphanumeric_query.strip()) < 2: # 'Ya?' gibi kısa takipleri de artık kabul edebiliriz
@@ -801,7 +823,7 @@ class KizilelmaEngine:
 
         # 1. DENSE RETRIEVAL (Semantic - Vektör Arama PostgreSQL veya in-memory)
         query_text = f"query: {search_query}"
-        query_emb = self.search_model.encode([query_text])[0] # type: ignore
+        query_emb = self.search_model.encode([query_text])[0].astype(np.float32)
         
         dense_sims = np.zeros(len(self.texts))
         
@@ -927,7 +949,7 @@ class KizilelmaEngine:
         # NLI Tahmini: Her zaman [Kaynak, Gelen Soru] sırasıyla çalışmalıdır (Asimetrik).
         input_pair = [best_cand['text'], clean_query]
         logits = self.nli_model.predict([input_pair])[0] # type: ignore
-        probs = torch.nn.functional.softmax(torch.tensor(logits), dim=0).numpy()
+        probs = torch.nn.functional.softmax(torch.tensor(logits, dtype=torch.float32), dim=0).numpy()
         
         print(f"🔍 Kaynak: {best_cand['text']} | Sim: {best_cand['sim']:.2f} | NLI: {probs}")
 
