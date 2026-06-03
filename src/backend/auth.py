@@ -15,7 +15,7 @@ from psycopg2.extras import DictCursor
 load_dotenv()
 
 # JWT Config
-SECRET_KEY = "kizilelma_super_secret_jwt_key_please_change_in_production"
+SECRET_KEY = os.environ.get("JWT_SECRET_KEY", "kizilelma_super_secret_jwt_key_please_change_in_production")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7 # 1 week
 

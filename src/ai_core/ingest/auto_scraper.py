@@ -121,7 +121,7 @@ def scrape_and_inject():
                     history.add(link)
                     total_injected += 1
             except Exception as e:
-                pass
+                print(f"⚠️ Makale işleme/enjeksiyon hatası ({link[:50]}): {e}")
                 
     print("\n" + "="*50)
     print(f"[OK] Islem Tamamlandi. Toplam asilanan yeni bilgi sayisi: {total_injected}")

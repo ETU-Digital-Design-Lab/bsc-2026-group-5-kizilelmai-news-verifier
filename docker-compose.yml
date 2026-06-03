@@ -42,6 +42,12 @@ services:
     volumes:
       - ./data:/app/data
       - kizilelmai_hf_cache:/app/.cache/huggingface
+    deploy:
+      resources:
+        limits:
+          memory: 8G
+        reservations:
+          memory: 4G
 
   frontend:
     build: ./frontend
