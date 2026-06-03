@@ -456,6 +456,42 @@ class KizilelmaEngine:
             if not missing_words: missing_words = list(q_keys)
             return False, missing_words
 
+    def find_matching_source_number(self, q_num, user_query, db_source, s_nums):
+        """Kullanıcı sorgusundaki hatalı sayının kaynaktaki hangi sayı ile çeliştiğini bağlam penceresiyle bulur."""
+        q_tokens = re.findall(r'\b\w+\b', user_query.lower())
+        try:
+            q_idx = q_tokens.index(q_num)
+            start = max(0, q_idx - 3)
+            end = min(len(q_tokens), q_idx + 4)
+            q_context = set(q_tokens[start:q_idx] + q_tokens[q_idx+1:end])
+        except ValueError:
+            q_context = set()
+
+        best_s_num = None
+        max_overlap = -1
+        
+        s_tokens = re.findall(r'\b\w+\b', db_source.lower())
+        
+        for s_num in s_nums:
+            s_indices = [i for i, x in enumerate(s_tokens) if x == str(s_num)]
+            for s_idx in s_indices:
+                start_s = max(0, s_idx - 3)
+                end_s = min(len(s_tokens), s_idx + 4)
+                s_context = set(s_tokens[start_s:s_idx] + s_tokens[s_idx+1:end_s])
+                
+                # Stop words ve sayıları bağlam kelimelerinden çıkaralım
+                s_context_clean = s_context - self.STOP_WORDS
+                q_context_clean = q_context - self.STOP_WORDS
+                
+                overlap = len(q_context_clean.intersection(s_context_clean))
+                if overlap > max_overlap:
+                    max_overlap = overlap
+                    best_s_num = s_num
+                    
+        if best_s_num and max_overlap > 0:
+            return best_s_num
+        return None
+
     def akilli_fark_analizi(self, user_query, db_source):
         """
         Kişi, Yer, Tarih, Sayı, Unvan ve Olay farklarını yakalar.
@@ -487,8 +523,11 @@ class KizilelmaEngine:
         s_nums = s_nums - s_dates
 
         if q_nums - s_nums:
-            s_val = list(s_nums)[0] if s_nums else "DEĞER"
-            return str(list(q_nums - s_nums)[0]), str(s_val), 0.1, "SAYI" # type: ignore
+            mismatched_q_num = list(q_nums - s_nums)[0]
+            s_val = self.find_matching_source_number(mismatched_q_num, user_query, db_source, s_nums)
+            if not s_val:
+                s_val = list(s_nums)[0] if s_nums else "DEĞER"
+            return str(mismatched_q_num), str(s_val), 0.1, "SAYI" # type: ignore
 
         user_diff = list(q_tokens - s_tokens)
         source_diff = list(s_tokens - q_tokens)
@@ -607,7 +646,7 @@ class KizilelmaEngine:
             if user_neg != source_neg:
                 return {
                     "status": "RED", "msg": "❌ **BİLGİ YANLIŞLIĞI**",
-                    "desc": f"İddianız kaynaklarla çelişiyor. Olayın olumluluk/olumsuzluk yapısı uyuşmuyor.{diff_msg}",
+                    "desc": "İddianız kaynaklarla çelişiyor. Olayın olumluluk/olumsuzluk yapısı (geldi/gelmedi vb.) uyuşmuyor.",
                     "conf": 95, "risk": 85, "cat": "OLAY_OLUMSUZLUK"
                 }
 
@@ -616,7 +655,7 @@ class KizilelmaEngine:
                 if diff_cat == "SAYI":
                     return {
                         "status": "RED", "msg": "❌ **BİLGİ YANLIŞLIĞI**",
-                        "desc": f"Sayısal değerlerde çelişki tespit edildi. {diff_msg}",
+                        "desc": f"Sayısal değerlerde çelişki tespit edildi. Siz **'{diff_user}'** dediniz, kaynakta **'{diff_source}'** geçiyor.",
                         "conf": 99, "risk": 75, "cat": "SAYI"
                     }
                 elif diff_cat == "KRİTİK UNVAN":
