@@ -307,3 +307,23 @@
   max-width: 500px;
   line-height: 1.5;
 }
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.spin {
+  animation: spin 1s linear infinite;
+}
+.message-bubble .action-icon-btn.refresh {
+  opacity: 0.4;
+  transition: opacity 0.2s ease;
+}
+.message-bubble:hover .action-icon-btn.refresh {
+  opacity: 0.8;
+}
+.message-bubble:hover .action-icon-btn.refresh:hover {
+  opacity: 1;
+  color: var(--accent-orange) !important;
+}
+

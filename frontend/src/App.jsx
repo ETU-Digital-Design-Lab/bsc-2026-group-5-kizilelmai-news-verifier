@@ -72,6 +72,18 @@ function App() {
   useEffect(() => {
     checkStatus();
     const interval = setInterval(checkStatus, 15000);
+    
+    // Detect reload to bypass cache
+    try {
+      const navEntries = performance.getEntriesByType("navigation");
+      if (navEntries.length > 0 && navEntries[0].type === "reload") {
+        sessionStorage.setItem("kizilelma_bypass_cache_once", "true");
+        console.log("⚡ Ctrl+F5 or reload detected, cache bypass armed.");
+      }
+    } catch (e) {
+      console.warn("Navigation performance API not supported", e);
+    }
+    
     return () => clearInterval(interval);
   }, []);
 
@@ -124,27 +136,59 @@ function App() {
     localStorage.setItem('kizilelma_chat_history', JSON.stringify(newHistory));
   };
 
-  const handleSendMessage = async (e) => {
+  const handleSendMessage = async (e, forcedQuery = null) => {
     if (e) e.preventDefault();
-    if (!query.trim()) return;
+    const activeQuery = forcedQuery || query;
+    if (!activeQuery.trim()) return;
     
-    const userText = query.trim();
-    const newUserMsg = { id: Date.now(), role: 'user', text: userText };
-    setMessages(prev => [...prev, newUserMsg]);
-    setQuery('');
+    const userText = activeQuery.trim();
+    
+    if (!forcedQuery) {
+      const newUserMsg = { id: Date.now(), role: 'user', text: userText };
+      setMessages(prev => [...prev, newUserMsg]);
+      setQuery('');
+    }
+    
     setChatLoading(true);
+
+    // Önbellek baypas kontrolü
+    let forceRefresh = false;
+    if (sessionStorage.getItem("kizilelma_bypass_cache_once") === "true") {
+      forceRefresh = true;
+      sessionStorage.removeItem("kizilelma_bypass_cache_once");
+    }
+    if (forcedQuery) {
+      forceRefresh = true;
+    }
 
     try {
       const res = await fetch('http://127.0.0.1:5000/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: userText })
+        body: JSON.stringify({ 
+          query: userText,
+          force_refresh: forceRefresh
+        })
       });
       
       if (res.ok) {
         const data = await res.json();
-        const newAiMsg = { id: Date.now() + 1, role: 'ai', result: data };
-        setMessages(prev => [...prev, newAiMsg]);
+        const newAiMsg = { id: Date.now() + 1, role: 'ai', result: data, originalQuery: userText };
+        
+        if (forcedQuery) {
+          setMessages(prev => {
+            const updated = [...prev];
+            for (let i = updated.length - 1; i >= 0; i--) {
+              if (updated[i].role === 'ai' && (updated[i].originalQuery === userText || updated[i].result?.source === data.source)) {
+                updated[i] = newAiMsg;
+                break;
+              }
+            }
+            return updated;
+          });
+        } else {
+          setMessages(prev => [...prev, newAiMsg]);
+        }
         checkStatus(); // Refresh status
       } else {
         setMessages(prev => [...prev, { id: Date.now() + 1, role: 'error', text: 'Analiz sırasında sunucu hatası oluştu.' }]);
@@ -570,7 +614,30 @@ function App() {
                     ) : msg.role === 'error' ? (
                       <div className="message-bubble" style={{ color: 'var(--color-fake)' }}>{msg.text}</div>
                     ) : (
-                      <div className="message-bubble">
+                      <div className="message-bubble" style={{ position: 'relative' }}>
+                        {msg.originalQuery && (
+                          <button 
+                            onClick={() => handleSendMessage(null, msg.originalQuery)}
+                            className="action-icon-btn refresh"
+                            style={{ 
+                              position: 'absolute', 
+                              top: '12px', 
+                              right: '12px', 
+                              background: 'transparent',
+                              border: 'none',
+                              color: 'var(--text-muted)',
+                              cursor: 'pointer',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '4px',
+                              fontSize: '0.8rem'
+                            }}
+                            title="Önbelleği temizle ve yeniden sorgula"
+                          >
+                            <RefreshCw size={12} className={chatLoading ? 'spin' : ''} />
+                            <span>Yenile</span>
+                          </button>
+                        )}
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem', fontWeight: 'bold' }}>
                           {msg.result.status === 'ONAY' && <CheckCircle size={20} color="var(--color-real)" />}
                           {msg.result.status === 'RED' && <XCircle size={20} color="var(--color-fake)" />}

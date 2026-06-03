@@ -488,9 +488,26 @@ class KizilelmaEngine:
                     max_overlap = overlap
                     best_s_num = s_num
                     
-        if best_s_num and max_overlap > 0:
-            return best_s_num
-        return None
+    def get_relevant_sentences(self, query, document, top_n=1):
+        """Metin içerisinden sorgu ile en çok örtüşen cümle(leri) seçer."""
+        if not document or document == '-':
+            return document
+            
+        # Türkçe cümle sınırlarına göre böl (nokta, ünlem, soru işareti ardından boşluk)
+        sentences = re.split(r'(?<=[.!?])\s+', document.strip())
+        if not sentences:
+            return document
+            
+        q_words = set(re.findall(r'\w+', query.lower()))
+        scored_sentences = []
+        for sent in sentences:
+            sent_words = set(re.findall(r'\w+', sent.lower()))
+            overlap = len(q_words.intersection(sent_words))
+            scored_sentences.append((overlap, sent))
+            
+        scored_sentences.sort(key=lambda x: x[0], reverse=True)
+        selected = [s[1] for s in scored_sentences[:top_n]]
+        return " ".join(selected)
 
     def akilli_fark_analizi(self, user_query, db_source):
         """
@@ -642,7 +659,8 @@ class KizilelmaEngine:
         if db_label == 1:
             # A. Olumsuzluk farkı kontrolü
             user_neg = self.detect_negation(user_query)
-            source_neg = self.detect_negation(db_text)
+            source_relevant_text = self.get_relevant_sentences(user_query, db_text, top_n=1)
+            source_neg = self.detect_negation(source_relevant_text)
             if user_neg != source_neg:
                 return {
                     "status": "RED", "msg": "❌ **BİLGİ YANLIŞLIĞI**",
@@ -699,7 +717,8 @@ class KizilelmaEngine:
         else:
             # A. Olumsuzluk farkı kontrolü (Yalan habere karşı olumsuzluk kontrolü)
             user_neg = self.detect_negation(user_query)
-            source_neg = self.detect_negation(db_text)
+            source_relevant_text = self.get_relevant_sentences(user_query, db_text, top_n=1)
+            source_neg = self.detect_negation(source_relevant_text)
             if user_neg != source_neg:
                 # Yalan haberi "olumsuz" sorduysa (örn: yalanlanmış bir şeyi yapılmadı dedi) durum değişir
                 # Ancak güvenli tarafta kalıp uyarı göstermek mantıklıdır

@@ -88,6 +88,7 @@ CACHE_TTL = 86400  # 24 saat (saniye cinsinden)
 # ---------------------------------------------------------
 class ChatRequest(BaseModel):
     query: str
+    force_refresh: Optional[bool] = False
 
 class InjectRequest(BaseModel):
     text: str
@@ -339,7 +340,16 @@ async def chat(request: ChatRequest, req: Request):
 
     # --- Redis Önbellek Kontrolü ---
     cache_key = "chat:" + hashlib.sha256(raw_query.lower().strip().encode()).hexdigest()
-    if REDIS_AVAILABLE and redis_client:
+    
+    # Check headers and body for force-refresh / no-cache requests
+    bypass_cache = False
+    cache_control = req.headers.get("Cache-Control", "").lower()
+    pragma = req.headers.get("Pragma", "").lower()
+    if "no-cache" in cache_control or "no-cache" in pragma or request.force_refresh:
+        bypass_cache = True
+        print(f"🔄 Cache Bypass tetiklendi (Header/Parametre): '{raw_query[:40]}...'")
+
+    if REDIS_AVAILABLE and redis_client and not bypass_cache:
         try:
             cached = redis_client.get(cache_key)
             if cached:
