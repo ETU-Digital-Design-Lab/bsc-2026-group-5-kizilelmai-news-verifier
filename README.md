@@ -48,11 +48,18 @@ docker-compose exec backend python src/ai_core/ingest/prep_30k_data.py
 | :--- | :--- | :--- |
 | **Python & FastAPI** | Arka plan (Backend) API sunucusu. | Çok hızlıdır, asenkron (`async`) çalışır ve yapay zeka (Python) kütüphaneleriyle %100 uyumludur. |
 | **React & Vite** | Ön yüz (Frontend) kullanıcı arayüzü. | Sayfa yenilenmeden anında tepki veren, çok hızlı ve modern arayüzler geliştirmek için. |
-| **PostgreSQL & pgvector** | Vektör Veritabanı (Knowledge Base). | Metinleri kelime kelime değil, "anlamsal yakınlık" (kosinüs mesafesi) ile arayabilmek için. Yapay zekanın hafızasıdır. |
+| **PostgreSQL 16 & pgvector (pg16)** | Vektör Veritabanı (Knowledge Base). | Metinleri kelime kelime değil, "anlamsal yakınlık" (kosinüs mesafesi) ile arayabilmek için. Yapay zekanın hafızasıdır. Dockerize edilmiş pg16 sürümünü kullandık. |
 | **Redis** | Önbellekleme (Caching). | Bir soru sorulduğunda cevabı hafızada tutar. Aynı soru tekrar sorulursa modelleri yormadan milisaniyeler içinde cevabı yapıştırır. |
-| **Docker** | Altyapı Konteynerizasyonu. | "Benim bilgisayarımda çalışıyor, sende niye çalışmıyor" sorununu yok eder. Herkeste aynı veritabanı sürümünün kurulmasını sağlar. |
+| **Docker & Nginx** | Altyapı Konteynerizasyonu ve Web Sunucusu. | Taşınabilirlik sağlar ve Nginx ile React uygulamasını statik olarak sunup API isteklerini backend'e güvenli şekilde yönlendirir. |
 | **BeautifulSoup & Newspaper3k** | Web Kazıma (Scraping). | Arka planda resmi haber sitelerine girip, sayfalardaki gereksiz reklamları atıp sadece saf haber metnini ve başlığını almak için. |
 | **Sentence-Transformers** | Metinleri Vektöre Çevirme (Embedding). | İnsan dilini makinelerin anladığı sayısal dizilere dönüştürür. `multilingual-e5-small` modelini kullandık çünkü çok dilli ve inanılmaz hızlıdır. |
+| **HuggingFace Transformers** | Yeniden Sıralama (Re-Ranker) ve Doğrulama (NLI). | `bge-reranker-v2-m3` ve `xlm-roberta-large-xnli` modellerini yerel olarak yükleyip yapay zeka mantıksal çıkarım katmanlarını yönetmek için. |
+| **FP16 Yarı Hassasiyet (AMP)** | Model Çalışma Zamanı Hızlandırması. | PyTorch modellerinde (`.half()` / AMP) float16 yarı hassasiyet kullanarak GPU bellek kullanımını yarıya indirir, Tensor Cores desteğiyle çıkarım ve eğitimi hızlandırır. |
+| **Rank-BM25** | Hibrit Arama Aşaması (Sparse Retrieval). | Vektörel aramanın yanında kelime bazlı (lexical) arama yaparak hibrit arama mimarisini kurmak ve doğruluğu artırmak için. |
+| **SQLAlchemy** | Veritabanı ORM Katmanı. | Python ile PostgreSQL arasında güvenli, asenkron ve ölçeklenebilir veritabanı sorguları ve tablo yönetimini sağlamak için. |
+| **PyJWT & Bcrypt** | Admin Kimlik Doğrulama ve Güvenlik. | Admin paneli şifrelerini güvenli hash'lemek (bcrypt) ve oturum yönetimini JWT (JSON Web Token) ile korumak için. |
+| **Schedule** | Arka Plan Görev Zamanlayıcı. | Sunucu çalışırken asenkron olarak otomatik haber scraper modülünü her 4 saatte bir tetiklemek için. |
+| **Lucide React** | Vektörel İkon Seti. | Ön yüzde kullanılan modern, responsive ve premium tasarımlı vektör ikon bileşenleri için. |
 
 ---
 
