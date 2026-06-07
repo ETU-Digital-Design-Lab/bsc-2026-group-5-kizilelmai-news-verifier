@@ -658,7 +658,10 @@ function App() {
                         
                         {msg.result.status !== 'RET' && (
                           <div style={{ background: 'rgba(0,0,0,0.2)', padding: '1rem', borderRadius: '12px', border: '1px solid var(--border-color)', marginBottom: '1rem' }}>
-                            <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.5rem', textTransform: 'uppercase' }}>Vektörel Kaynak Eşleşmesi</div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.5rem', textTransform: 'uppercase' }}>
+                              <span>Vektörel Kaynak Eşleşmesi</span>
+                              <span style={{ color: 'var(--accent-orange)', fontWeight: 'bold' }}>{msg.result.source_channel || 'Doğrulanmış Kaynak'}</span>
+                            </div>
                             <div style={{ fontStyle: 'italic', color: 'var(--text-secondary)' }}>"{msg.result.source}"</div>
                           </div>
                         )}

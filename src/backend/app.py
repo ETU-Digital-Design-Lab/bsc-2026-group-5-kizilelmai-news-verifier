@@ -104,6 +104,7 @@ class ChatResponse(BaseModel):
     risk: int
     category: str
     source: str
+    source_channel: Optional[str] = "Belirlenemedi"
 
 # ---------------------------------------------------------
 # KIMLIK DOGRULAMA (AUTH) BAGLANTILARI
@@ -370,7 +371,8 @@ async def chat(request: ChatRequest, req: Request):
             "confidence": res['confidence'],
             "risk": res['risk'],
             "category": res['category'],
-            "source": res['source']
+            "source": res['source'],
+            "source_channel": res.get('source_channel', 'Belirlenemedi')
         }
 
         # --- Redis Önbelleğe Yaz ---

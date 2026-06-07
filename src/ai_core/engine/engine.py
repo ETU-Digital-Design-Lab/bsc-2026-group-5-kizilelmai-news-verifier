@@ -966,6 +966,40 @@ class KizilelmaEngine:
         # Artık yapılandırılmış bir sözlük (dict) dönüyoruz
         return self.local_response_engine(raw_query, best_cand, res)
 
+    def detect_source_channel(self, text):
+        """Metin içerisinden haber kaynağını/kanalını tespit etmeye çalışır."""
+        if not text or text == '-':
+            return "Belirlenemedi"
+            
+        text_lower = text.lower()
+        
+        # Check explicit prefix we inject (e.g. "[Kaynak: TRT Haber] ...")
+        match = re.match(r'^\[Kaynak:\s*([^\]]+)\]', text)
+        if match:
+            return match.group(1).strip()
+            
+        # Agency and website keywords mapping
+        if "ihlas haber ajansı" in text_lower or "iha" in text_lower:
+            return "İhlas Haber Ajansı (İHA)"
+        if "demirören haber ajansı" in text_lower or "dha" in text_lower:
+            return "Demirören Haber Ajansı (DHA)"
+        if "anadolu ajansı" in text_lower or "aa" in text_lower:
+            return "Anadolu Ajansı (AA)"
+        if "trt haber" in text_lower or "trt" in text_lower:
+            return "TRT Haber"
+        if "türkiye büyük millet meclisi" in text_lower or "tbmm" in text_lower:
+            return "TBMM"
+        if "iletişim başkanlığı" in text_lower or "dezenformasyon" in text_lower:
+            return "T.C. İletişim Başkanlığı"
+            
+        # Domain name extraction from URLs if present in text
+        urls = re.findall(r'https?://[^\s]+', text)
+        if urls:
+            domain = urls[0].replace('https://', '').replace('http://', '').replace('www.', '').split('/')[0]
+            return domain.upper()
+            
+        return "Resmi / Doğrulanmış Haber Kaynağı"
+
     def local_response_engine(self, query, cand, res):
         """Dış API olmadan profesyonel Türkçe yanıt üretir ve detaylı metadata döner."""
         status_msg = res['msg']
@@ -975,6 +1009,16 @@ class KizilelmaEngine:
         cat = res.get('cat', 'GENEL')
         source = cand.get('text', '-')
         
+        # Haber kanalını/kaynağını tespit et
+        source_channel = self.detect_source_channel(source)
+        
+        # Kaynak metinden [Kaynak: ...] önekini temizleyerek daha temiz gösterelim
+        display_source = source
+        if display_source.startswith(f"[Kaynak: {source_channel}]"):
+            display_source = display_source[len(f"[Kaynak: {source_channel}]"):].strip()
+        else:
+            display_source = re.sub(r'^\[Kaynak:[^\]]+\]\s*', '', display_source)
+
         # Katman 9 Bilgisi
         cons = res.get('consensus', {})
         cons_text = ""
@@ -995,7 +1039,7 @@ class KizilelmaEngine:
         if hasattr(self, 'classifier_score_str') and self.classifier_score_str:
             classifier_line = self.classifier_score_str
 
-        formatted_text = f"{header}\n\n🔍 **DERİN ANALİZ RAPORU (v3.0):**\n• **Hata Kategorisi:** {cat}\n{classifier_line}• **Otorite Puanı:** % {int(cand.get('authority', 0.85)*100)}\n• **Tespit Türü:** {'Doğrudan Çelişki' if risk > 50 else 'Semantik Örtüşme'}{cons_text}\n{extra}\n🛡️ **Doğruluk:** %{trust} | 📉 **Risk:** %{risk}\n-----------------------------\n📄 **Kaynak:** {source}"
+        formatted_text = f"{header}\n\n🔍 **DERİN ANALİZ RAPORU (v3.0):**\n• **Kaynak Kanalı:** {source_channel}\n• **Hata Kategorisi:** {cat}\n{classifier_line}• **Otorite Puanı:** % {int(cand.get('authority', 0.85)*100)}\n• **Tespit Türü:** {'Doğrudan Çelişki' if risk > 50 else 'Semantik Örtüşme'}{cons_text}\n{extra}\n🛡️ **Doğruluk:** %{trust} | 📉 **Risk:** %{risk}\n-----------------------------\n📄 **Kaynak Metin:** {display_source}"
 
         # YAPILANDIRILMIŞ ÇIKTI (Dashboard İçin)
         return {
@@ -1006,5 +1050,6 @@ class KizilelmaEngine:
             "confidence": trust,
             "risk": risk,
             "category": cat,
-            "source": source
+            "source": display_source,
+            "source_channel": source_channel
         }

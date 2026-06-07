@@ -108,8 +108,8 @@ def scrape_and_inject():
                 title = article.title.strip()
                 
                 if len(text) > 100: # Ignore very short texts
-                    # Construct a solid text for KB
-                    full_text = f"{title}. {text}"
+                    # Construct a solid text for KB with source name prefix
+                    full_text = f"[Kaynak: {source['name']}] {title}. {text}"
                     # Keep it concise for RAG (e.g. first 1000 chars)
                     full_text = full_text[:1000] 
                     
