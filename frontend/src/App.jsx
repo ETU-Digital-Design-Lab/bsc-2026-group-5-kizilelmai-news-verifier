@@ -683,19 +683,28 @@ function App() {
                           {msg.result.status === 'UYARI' && <AlertTriangle size={20} color="var(--color-fake)" />}
                           {msg.result.status === 'KISMI' && <Info size={20} color="var(--color-partial)" />}
                           {msg.result.status === 'RET' && <Info size={20} color="var(--color-info)" />}
+                          {msg.result.status === 'SYS' && <Info size={20} color="var(--accent-orange)" />}
                           <span style={{ 
                             color: msg.result.status === 'ONAY' ? 'var(--color-real)' : 
                                    msg.result.status === 'KISMI' ? 'var(--color-partial)' : 
-                                   msg.result.status === 'RET' ? 'var(--color-info)' : 'var(--color-fake)'
+                                   msg.result.status === 'RET' ? 'var(--color-info)' :
+                                   msg.result.status === 'SYS' ? 'var(--accent-orange)' : 'var(--color-fake)'
                           }}>
                             {msg.result.msg}
                           </span>
                         </div>
-                        <div style={{ marginBottom: '1.5rem', lineHeight: '1.6' }}>
+                        {/* Açıklama satırı */}
+                        <div style={{ marginBottom: '1.5rem', lineHeight: '1.6', color: 'var(--text-primary)', fontSize: '0.95rem' }}>
                           {msg.result.description}
                         </div>
-                        
-                        {msg.result.status !== 'RET' && (
+                        {/* Asıl yanıt metni - sadece ABOUT/GREETING/SYS için göster */}
+                        {msg.result.result && (msg.result.category === 'ABOUT' || msg.result.category === 'GREETING' || msg.result.status === 'SYS') && (
+                          <div style={{ marginBottom: '1.5rem', lineHeight: '1.75', color: 'var(--text-primary)', fontSize: '0.95rem' }}>
+                            {msg.result.result}
+                          </div>
+                        )}
+
+                        {msg.result.status !== 'RET' && msg.result.category !== 'ABOUT' && msg.result.category !== 'GREETING' && msg.result.source !== '-' && msg.result.source !== 'Sistem' && (
                           <div style={{ background: 'rgba(0,0,0,0.2)', padding: '1rem', borderRadius: '12px', border: '1px solid var(--border-color)', marginBottom: '1rem' }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.5rem', textTransform: 'uppercase' }}>
                               <span>Vektörel Kaynak Eşleşmesi</span>
@@ -705,18 +714,20 @@ function App() {
                           </div>
                         )}
 
-                        <div style={{ display: 'flex', gap: '2rem', marginTop: '1rem', borderTop: '1px solid var(--border-color)', paddingTop: '1rem' }}>
-                           <CircularProgress 
-                            value={msg.result.confidence} 
-                            label="Güven" 
-                            color={msg.result.status === 'ONAY' ? 'var(--color-real)' : msg.result.status === 'KISMI' ? 'var(--color-partial)' : msg.result.status === 'RET' ? 'var(--color-info)' : 'var(--color-fake)'} 
-                          />
-                          <CircularProgress 
-                            value={msg.result.risk} 
-                            label="Risk" 
-                            color={msg.result.risk > 70 ? 'var(--color-fake)' : msg.result.risk > 40 ? 'var(--color-partial)' : 'var(--color-real)'} 
-                          />
-                        </div>
+                        {msg.result.category !== 'ABOUT' && msg.result.category !== 'GREETING' && msg.result.status !== 'SYS' && (
+                          <div style={{ display: 'flex', gap: '2rem', marginTop: '1rem', borderTop: '1px solid var(--border-color)', paddingTop: '1rem' }}>
+                            <CircularProgress 
+                              value={msg.result.confidence} 
+                              label="Güven" 
+                              color={msg.result.status === 'ONAY' ? 'var(--color-real)' : msg.result.status === 'KISMI' ? 'var(--color-partial)' : msg.result.status === 'RET' ? 'var(--color-info)' : 'var(--color-fake)'} 
+                            />
+                            <CircularProgress 
+                              value={msg.result.risk} 
+                              label="Risk" 
+                              color={msg.result.risk > 70 ? 'var(--color-fake)' : msg.result.risk > 40 ? 'var(--color-partial)' : 'var(--color-real)'} 
+                            />
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>

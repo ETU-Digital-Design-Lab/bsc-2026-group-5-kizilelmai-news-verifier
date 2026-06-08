@@ -22,6 +22,16 @@ def turkish_lower(text):
         text = str(text)
     return text.replace('İ', 'i').replace('I', 'ı').lower()
 
+def to_ascii_tr(text):
+    """Türkçe özel karakterleri ASCII karşılıklarına dönüştürür (encoding güvenliği için)"""
+    if not text:
+        return ""
+    tr_map = str.maketrans(
+        'çÇğĞıIİöÖşŞüÜâÂêÊîÎûÛ',
+        'cCgGiIioosSuUaAeEiIuU'
+    )
+    return text.translate(tr_map).lower()
+
 def split_numbers_letters(text):
     if not text:
         return ""
@@ -490,15 +500,24 @@ class KizilelmaEngine:
     def intent_analyzer(self, query):
         """Kullanıcın niyetini belirler: Selamlaşma mı, Proje Tanıtımı mı yoksa İddia mı?"""
         query_norm = turkish_lower(query)
-        if "kızılelma" in query_norm or "kizilelma" in query_norm:
-            about_keywords = {"nedir", "ne", "kim", "amaç", "amac", "geliştir", "gelistir", "yapan", "yapmıştır", "yapmistir", "kimdir"}
-            tokens = re.findall(r'\b\w+\b', query_norm)
-            if any(token in about_keywords for token in tokens):
+        query_ascii = to_ascii_tr(query)  # Encoding güvenliği için ASCII versiyon
+
+        # KızılelmAI hakkında sorular (hem Türkçe hem ASCII kontrol)
+        kizil_variants = ["kızılelma", "kizilelma", "kizilelmA", "kzlelma"]
+        has_kizil = any(v in query_norm for v in kizil_variants) or "kizilelma" in query_ascii
+        if has_kizil:
+            about_keywords = {"nedir", "ne", "kim", "amac", "gelistir", "yapan", "yapmistir", "kimdir", "hakkinda", "hakkında", "anlat", "tanitim"}
+            tokens_ascii = re.findall(r'\b\w+\b', query_ascii)
+            tokens_norm = re.findall(r'\b\w+\b', query_norm)
+            all_tokens = set(tokens_ascii) | set(tokens_norm)
+            if any(token in about_keywords for token in all_tokens):
                 return "ABOUT"
 
-        tokens = query_norm.split()
-        for token in tokens:
-            if token in self.kb.get("greetings", []):
+        # Selamlaşma kontrolü
+        greetings_list = self.kb.get("greetings", [])
+        tokens_norm = query_norm.split()
+        for token in tokens_norm:
+            if token in greetings_list:
                 return "GREETING"
         return "CLAIM"
 
@@ -858,7 +877,7 @@ class KizilelmaEngine:
             if user_neg != source_neg:
                 return {
                     "status": "RED", "msg": "❌ **BİLGİ YANLIŞLIĞI**",
-                    "desc": "İddianız kaynaklarla çelişiyor. Olayın olumluluk/olumsuzluk yapısı (geldi/gelmedi vb.) uyuşmuyor.",
+                    "desc": "Yalanlandı, iddianızın olumluluk/olumsuzluk yapısı kaynakla örtüşmüyor.",
                     "conf": 95, "risk": 85, "cat": "OLAY_OLUMSUZLUK"
                 }
 
@@ -866,7 +885,7 @@ class KizilelmaEngine:
             if not diff_user and not diff_source:
                 return {
                     "status": "ONAY", "msg": "✅ **DOĞRULANDI**",
-                    "desc": "Bilgi güvenilir kaynaklarla uyuşuyor.",
+                    "desc": "Doğrulandı, bilgi güvenilir kaynaklarla uyuşuyor.",
                     "conf": max(int(sim_score * 100), 95), "risk": 5, "cat": "GENEL"
                 }
 
@@ -875,45 +894,45 @@ class KizilelmaEngine:
                 if diff_cat == "SAYI":
                     return {
                         "status": "RED", "msg": "❌ **BİLGİ YANLIŞLIĞI**",
-                        "desc": f"Sayısal değerlerde çelişki tespit edildi. Siz **'{diff_user}'** dediniz, kaynakta **'{diff_source}'** geçiyor.",
+                        "desc": f"Yalanlandı, sayısal değerde hata var. Siz '{diff_user}' dediniz, kaynakta '{diff_source}' geçiyor.",
                         "conf": 99, "risk": 75, "cat": "SAYI"
                     }
                 elif diff_cat == "KRİTİK UNVAN":
                     return {
                         "status": "RED", "msg": "🚨 **KRİTİK UNVAN HATASI**",
-                        "desc": f"Kırmızı liste kapsamında olan bir unvanda fark tespit edildi! {diff_msg}",
+                        "desc": f"Yalanlandı, unvanda kritik hata tespit edildi. {diff_msg}",
                         "conf": 95, "risk": 85, "cat": "KRİTİK UNVAN"
                     }
                 elif diff_cat == "ZAMAN AŞIMI":
                     return {
                         "status": "KISMI", "msg": "⏳ **GÜNCEL DEĞİL / ZAMAN AŞIMI**",
-                        "desc": f"Bu bilgi artık geçerliliğini yitirmiş olabilir. {diff_msg}",
+                        "desc": f"Kısmen doğru, ancak bu bilgi artık geçerliliğini yitirmiş olabilir. {diff_msg}",
                         "conf": 85, "risk": 45, "cat": "ZAMAN AŞIMI"
                     }
                 elif diff_cat in ["YER", "KİŞİ", "KİŞİ/YER/UNVAN"]:
                     return {
                         "status": "RED", "msg": "❌ **BİLGİ YANLIŞLIĞI**",
-                        "desc": f"Kişi, yer veya unvan bilgisinde çelişki tespit edildi. {diff_msg}",
+                        "desc": f"Yalanlandı, kişi, yer veya unvan bilgisinde hata var. {diff_msg}",
                         "conf": 95, "risk": 70, "cat": diff_cat
                     }
 
             # C. NLI Kararı (Fark yoksa NLI modeline güvenebiliriz)
             if score_contra > 0.50:
-                 return { "status": "RED", "msg": "❌ **BİLGİ YANLIŞLIĞI**", "desc": "İddianız kaynaklarla çelişiyor.", "conf": max(confidence, 85), "risk": 60, "cat": diff_cat }
+                 return { "status": "RED", "msg": "❌ **BİLGİ YANLIŞLIĞI**", "desc": "Yalanlandı, bilgi güvenilir kaynaklarla çelişiyor.", "conf": max(confidence, 85), "risk": 60, "cat": diff_cat }
             if score_entail > 0.45:
                 # DENGELİ RİSK: Onaylandığında risk düşük olmalı
-                return { "status": "ONAY", "msg": "✅ **DOĞRULANDI**", "desc": "Bilgi güvenilir kaynaklarla uyuşuyor.", "conf": confidence, "risk": max(10, 100 - confidence), "cat": diff_cat }
+                return { "status": "ONAY", "msg": "✅ **DOĞRULANDI**", "desc": "Doğrulandı, bilgi güvenilir kaynaklarla uyuşuyor.", "conf": confidence, "risk": max(10, 100 - confidence), "cat": diff_cat }
             elif sim_score > 0.60:
                 # Diğer ufak anlamsal farklar
                 msg = "⚠️ **KISMİ DOĞRU / DETAY HATASI**"
-                desc = f"Olay doğru fakat detaylarda hata var.{diff_msg}"
+                desc = f"Kısmen doğru, ancak detaylarda hata var.{diff_msg}"
                 
                 if diff_match_score > self.SEMANTIC_SHIFT_THRESHOLD:
                     return { "status": "KISMI", "msg": msg, "desc": desc, "conf": sim_score * 100, "risk": 45, "cat": diff_cat }
                 else:
-                     return { "status": "RED", "msg": "❌ **BİLGİ YANLIŞLIĞI**", "desc": "Detaylar uyuşmuyor.", "conf": 80, "risk": 65, "cat": diff_cat }
+                     return { "status": "RED", "msg": "❌ **BİLGİ YANLIŞLIĞI**", "desc": "Yalanlandı, detaylar güvenilir kaynaklarla uyuşmuyor.", "conf": 80, "risk": 65, "cat": diff_cat }
             else:
-                 return { "status": "RET", "msg": "ℹ️ **BULUNAMADI**", "desc": "Olay tam örtüşmüyor.", "conf": 0, "risk": 0, "cat": "BELİRSİZ" }
+                 return { "status": "RET", "msg": "ℹ️ **BULUNAMADI**", "desc": "Kaynaklarda eşleşme bulunamadı.", "conf": 0, "risk": 0, "cat": "BELİRSİZ" }
 
         # --- LABEL 0: YALAN HABERLER ---
         else:
@@ -932,27 +951,27 @@ class KizilelmaEngine:
                 if user_is_skeptic:
                     return {
                         "status": "ONAY", "msg": "✅ **DOĞRU TESPİT**",
-                        "desc": "Evet, şüpheleriniz haklı. Bu haberin **ASILSIZ/YALAN** olduğu teyit edilmiştir.",
+                        "desc": "Doğrulandı, şüpheleriniz haklı. Bu haber aslısız/yalan olarak teyit edilmiştir.",
                         "conf": 99, "risk": 10, "cat": "GENEL"
                     }
                 else:
                     return {
                         "status": "UYARI", "msg": "❌ **HAYIR / ASILSIZ İDDİA**",
-                        "desc": "Hayır, bu iddia gerçeği yansıtmamaktadır. Kaynaklar bu bilginin **ASILSIZ/YALAN** olduğunu göstermektedir.",
+                        "desc": "Yalanlandı, bu iddia gerçeği yansıtmıyor. Kaynaklar bu bilginin aslısız olduğunu gösteriyor.",
                         "conf": 99, "risk": 95, "cat": "GENEL"
                     }
 
             user_is_skeptic = any(w in turkish_lower(user_query) for w in self.SKEPTIC_KEYWORDS)
             if user_is_skeptic and score_entail > 0.40:
-                 return { "status": "ONAY", "msg": "✅ **DOĞRU TESPİT**", "desc": "Evet, şüpheleriniz haklı. Bu deryandaki haberin **YALAN** olduğu kayıtlıdır.", "conf": 95, "risk": 15, "cat": diff_cat }
+                 return { "status": "ONAY", "msg": "✅ **DOĞRU TESPİT**", "desc": "Doğrulandı, şüpheleriniz haklı. Bu haberin yalan olduğu kaynakta kayıtlıdır.", "conf": 95, "risk": 15, "cat": diff_cat }
             
             if score_entail > 0.45:
-                return { "status": "UYARI", "msg": "❌ **HAYIR / ASILSIZ İDDİA**", "desc": "Hayır, bu durum gerçeği yansıtmamaktadır. Bu iddia **YALAN HABER** olarak işaretlenmiştir.", "conf": 99, "risk": 90, "cat": diff_cat }
+                return { "status": "UYARI", "msg": "❌ **HAYIR / ASILSIZ İDDİA**", "desc": "Yalanlandı, bu bilgi aslısız haber olarak işaretlenmiştir.", "conf": 99, "risk": 90, "cat": diff_cat }
             
             if score_contra > 0.45:
-                return { "status": "ONAY", "msg": "✅ **DOĞRU TESPİT**", "desc": "Tebrikler. Savunduğunuz tez doğru. Karşı çıktığınız iddia zaten **YALAN HABER** olarak işaretlenmiştir.", "conf": 99, "risk": 10, "cat": diff_cat }
+                return { "status": "ONAY", "msg": "✅ **DOĞRU TESPİT**", "desc": "Doğrulandı, karşı çıktığınız iddia zaten aslısız haber olarak işaretlenmiştir.", "conf": 99, "risk": 10, "cat": diff_cat }
             
-            return { "status": "RET", "msg": "ℹ️ **YETERLİ VERİ YOK**", "desc": "Net doğrulama yapılamadı.", "conf": 50, "risk": 40, "cat": "YOK" }
+            return { "status": "RET", "msg": "ℹ️ **YETERLİ VERİ YOK**", "desc": "Kaynaklarda net eşleşme bulunamadı.", "conf": 50, "risk": 40, "cat": "YOK" }
 
     def ask(self, raw_query):
         """Dış dünyadan gelen soruya cevap veren ana fonksiyon"""
