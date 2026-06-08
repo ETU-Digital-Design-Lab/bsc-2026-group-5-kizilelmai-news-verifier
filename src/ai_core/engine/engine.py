@@ -15,6 +15,22 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
+def turkish_lower(text):
+    if not text:
+        return ""
+    if not isinstance(text, str):
+        text = str(text)
+    return text.replace('İ', 'i').replace('I', 'ı').lower()
+
+def split_numbers_letters(text):
+    if not text:
+        return ""
+    # Sayılardan sonra gelen harfleri ayır (örn: 25saatte -> 25 saatte)
+    text = re.sub(r'(\d+)([^\d\s\W]+)', r'\1 \2', text)
+    # Harflerden sonra gelen sayıları ayır (örn: saat25 -> saat 25)
+    text = re.sub(r'([^\d\s\W]+)(\d+)', r'\1 \2', text)
+    return text
+
 class KizilelmaEngine:
     """
     KızılelmAI'nin tüm zekasını barındıran sınıf.
@@ -126,7 +142,7 @@ class KizilelmaEngine:
         # BM25 İndeksi Oluşturma
         if self.texts:
             def tokenize(text):
-                return re.findall(r'\w+', str(text).lower())
+                return re.findall(r'\w+', turkish_lower(text))
             
             tokenized_corpus = [tokenize(doc) for doc in self.texts]
             self.bm25 = BM25Okapi(tokenized_corpus)
@@ -240,6 +256,46 @@ class KizilelmaEngine:
                     print(f"✅ [Sync] BM25 indeksi güncellendi. Toplam kayıt: {len(self.df)}")
             except Exception as e:
                 print(f"⚠️ [Sync] Veritabanı senkronizasyon hatası: {e}")
+        else:
+            # ÇEVRİMDIŞI MOD: Yerel CSV dosyasından yeni kayıtları senkronize et
+            try:
+                if os.path.exists(self.csv_path):
+                    csv_df = pd.read_csv(self.csv_path)
+                    if len(csv_df) > len(self.df):
+                        new_rows = csv_df.iloc[len(self.df):]
+                        print(f"🔄 [Sync-Offline] CSV dosyasından {len(new_rows)} yeni kayıt belleğe yükleniyor...")
+                        
+                        # Eksik kolonları ayarla
+                        if 'id' not in new_rows.columns:
+                            new_rows['id'] = range(len(self.df) + 1, len(csv_df) + 1)
+                        if 'authority' not in new_rows.columns:
+                            new_rows['authority'] = 0.85
+                        if 'label' not in new_rows.columns:
+                            new_rows['label'] = 1
+                            
+                        self.df = pd.concat([self.df, new_rows], ignore_index=True)
+                        new_texts = new_rows['text'].astype(str).tolist()
+                        self.texts.extend(new_texts)
+                        
+                        # BM25 güncelle
+                        def tokenize(t): return re.findall(r'\w+', str(t).lower())
+                        tokenized_corpus = [tokenize(doc) for doc in self.texts]
+                        self.bm25 = BM25Okapi(tokenized_corpus)
+                        
+                        # Vektör önbelleğini (embeddings) güncelle
+                        if new_texts:
+                            self.load_search_model()
+                            passage_texts = ["passage: " + str(t) for t in new_texts]
+                            new_embs = self.search_model.encode(passage_texts, convert_to_numpy=True, show_progress_bar=False).astype(np.float32)
+                            
+                            if hasattr(self, 'text_embeddings') and len(self.text_embeddings) > 0:
+                                self.text_embeddings = np.vstack([self.text_embeddings, new_embs])
+                            else:
+                                self.text_embeddings = new_embs
+                                
+                        print(f"✅ [Sync-Offline] BM25 ve Vektörler güncellendi. Toplam kayıt: {len(self.df)}")
+            except Exception as e:
+                print(f"⚠️ [Sync-Offline] CSV senkronizasyon hatası: {e}")
 
     def inject_knowledge(self, input_text, label, authority=0.95):
         """
@@ -400,17 +456,22 @@ class KizilelmaEngine:
         if not self.context_buffer:
             return current_query
 
-        q_clean = current_query.lower().strip()
+        q_clean = turkish_lower(current_query).strip()
         tokens = q_clean.split()
         
         # Takip sorusu tetikleyicileri
         follow_up_triggers = {'peki', 'ya', 've', 'kim', 'nerede', 'ne', 'nasıl', 'neden'}
         
-        # Eğer sorgu çok kısaysa veya tetikleyici ile başlıyorsa bağlam ara
-        if len(tokens) <= 3 or (tokens and tokens[0] in follow_up_triggers):
+        # Sadece takip sorusu tetikleyicisi varsa veya sorgu çok kısaysa ve bir soru eki/takip belirtisi barındırıyorsa bağlam ara
+        is_follow_up = False
+        if tokens:
+            if tokens[0] in follow_up_triggers:
+                is_follow_up = True
+            elif len(tokens) <= 2 and any(t in q_clean for t in ['ya', 'peki', 've', 'ki', 'mu', 'mi', 'mı', 'mü']):
+                is_follow_up = True
+
+        if is_follow_up:
             last_query = self.context_buffer[-1]['query']
-            # Önceki sorgudan önemli anahtar kelimeleri (isimleri) çekmeye çalış
-            # (NLP Heuristic: Büyük harfle başlayanlar veya stop-word olmayanlar)
             merged = f"{last_query} {current_query}"
             print(f"🔗 NLP Katman 7 (Konsept Birleştirme): '{current_query}' -> '{merged}'")
             return merged
@@ -418,7 +479,7 @@ class KizilelmaEngine:
         return current_query
 
     def temizle_ve_normallestir(self, query):
-        q = query.lower()
+        q = turkish_lower(query)
         # Noktalama işaretlerini kaldır (Sorgu genişletme için temiz hal lazım)
         q = re.sub(r'[^\w\s]', '', q)
         q = re.sub(r'\s+(mi|mı|mu|mü)$', '', q)
@@ -428,7 +489,7 @@ class KizilelmaEngine:
     
     def intent_analyzer(self, query):
         """Kullanıcın niyetini belirler: Selamlaşma mı yoksa İddia mı?"""
-        tokens = query.lower().split()
+        tokens = turkish_lower(query).split()
         for token in tokens:
             if token in self.kb.get("greetings", []):
                 return "GREETING"
@@ -437,7 +498,7 @@ class KizilelmaEngine:
     def query_expander(self, query):
         """Sözlük tabanlı sorgu genişletme (Örn: Maraş -> Kahramanmaraş)"""
         expanded_terms = []
-        tokens = query.lower().split()
+        tokens = turkish_lower(query).split()
         
         for token in tokens:
             expanded_terms.append(token)
@@ -453,7 +514,7 @@ class KizilelmaEngine:
 
     def kelime_capasi_kontrolu(self, query, source, sim_score):
         def get_keywords(text):
-            words = re.findall(r'\w+', text.lower())
+            words = re.findall(r'\w+', turkish_lower(text))
             return set([w for w in words if w not in self.STOP_WORDS and len(w) > 2])
 
         if sim_score > self.SAFE_SIMILARITY_ZONE: return True, []
@@ -462,22 +523,28 @@ class KizilelmaEngine:
         s_keys = get_keywords(source)
         if not q_keys: return True, [] 
 
-        match_found = False
+        # En az kaç kelime eşleşmeli? (Kısa sorgularda en az 1, uzunlarda en az 2 veya %35'i)
+        required_matches = 1
+        if len(q_keys) >= 3:
+            required_matches = max(2, int(len(q_keys) * 0.35))
+
+        matches = []
         for q_word in q_keys:
             for s_word in s_keys:
                 if q_word in s_word or s_word in q_word:
-                    match_found = True; break
-            if match_found: break
-        
-        if match_found: return True, []
+                    matches.append(q_word)
+                    break
+
+        if len(matches) >= required_matches:
+            return True, []
         else:
-            missing_words = list(q_keys - s_keys)
+            missing_words = list(q_keys - set(matches))
             if not missing_words: missing_words = list(q_keys)
             return False, missing_words
 
     def find_matching_source_number(self, q_num, user_query, db_source, s_nums):
         """Kullanıcı sorgusundaki hatalı sayının kaynaktaki hangi sayı ile çeliştiğini bağlam penceresiyle bulur."""
-        q_tokens = re.findall(r'\b\w+\b', user_query.lower())
+        q_tokens = re.findall(r'\b\w+\b', turkish_lower(user_query))
         try:
             q_idx = q_tokens.index(q_num)
             start = max(0, q_idx - 3)
@@ -489,7 +556,7 @@ class KizilelmaEngine:
         best_s_num = None
         max_overlap = -1
         
-        s_tokens = re.findall(r'\b\w+\b', db_source.lower())
+        s_tokens = re.findall(r'\b\w+\b', turkish_lower(db_source))
         
         for s_num in s_nums:
             s_indices = [i for i, x in enumerate(s_tokens) if x == str(s_num)]
@@ -506,6 +573,83 @@ class KizilelmaEngine:
                 if overlap > max_overlap:
                     max_overlap = overlap
                     best_s_num = s_num
+        return best_s_num
+
+    def get_original_case(self, word, text):
+        """Metin içerisindeki kelimenin orijinal cased (büyük/küçük harf) halini bulur."""
+        pattern = r'\b' + re.escape(word) + r'\b'
+        matches = re.findall(pattern, text, re.IGNORECASE)
+        if matches:
+            return matches[0]
+        return word
+
+    def find_best_matching_word(self, q_word, user_query, db_source, s_words):
+        """
+        Sorgudaki bir kelimenin kaynaktaki hangi kelime ile çeliştiğini 
+        hem semantik benzerlik, hem bağlam örtüşmesi, hem de göreceli pozisyon kullanarak bulur.
+        """
+        q_tokens = re.findall(r'\b\w+\b', turkish_lower(user_query))
+        try:
+            q_idx = q_tokens.index(turkish_lower(q_word))
+            rel_q = q_idx / len(q_tokens) if q_tokens else 0.0
+            start = max(0, q_idx - 3)
+            end = min(len(q_tokens), q_idx + 4)
+            q_context = set(q_tokens[start:q_idx] + q_tokens[q_idx+1:end]) - self.STOP_WORDS
+        except ValueError:
+            q_context = set()
+            rel_q = 0.0
+
+        s_tokens = re.findall(r'\b\w+\b', turkish_lower(db_source))
+        
+        best_word = None
+        best_score = -1.0
+        
+        # Kelimeleri semantik olarak karşılaştırmak için embedding alalım
+        try:
+            q_emb = self.search_model.encode([q_word], convert_to_numpy=True)[0]
+            s_embs = self.search_model.encode(s_words, convert_to_numpy=True)
+        except Exception:
+            # Hata durumunda boş/dummy embedding kullan
+            q_emb = np.zeros(384)
+            s_embs = [np.zeros(384)] * len(s_words)
+        
+        for idx, s_word in enumerate(s_words):
+            # 1. Semantik benzerlik (0 ile 1 arasında normalize edilmiş)
+            norm_q = np.linalg.norm(q_emb)
+            norm_s = np.linalg.norm(s_embs[idx])
+            if norm_q > 0 and norm_s > 0:
+                sem_sim = np.dot(q_emb, s_embs[idx]) / (norm_q * norm_s)
+            else:
+                sem_sim = 0.0
+            sem_sim = max(0.1, float(sem_sim)) # Sıfıra bölünmeyi önlemek ve taban sağlamak için minimum 0.1
+            
+            # 2. Bağlam örtüşmesi ve Pozisyon analizi
+            s_indices = [i for i, x in enumerate(s_tokens) if x == turkish_lower(s_word)]
+            best_word_score = -1.0
+            for s_idx in s_indices:
+                start_s = max(0, s_idx - 3)
+                end_s = min(len(s_tokens), s_idx + 4)
+                s_context = set(s_tokens[start_s:s_idx] + s_tokens[s_idx+1:end_s]) - self.STOP_WORDS
+                overlap = len(q_context.intersection(s_context))
+                
+                # Pozisyon benzerliği (relative position closeness)
+                rel_s = s_idx / len(s_tokens) if s_tokens else 0.0
+                pos_sim = 1.0 - abs(rel_q - rel_s)
+                
+                # Mutlak pozisyon yakınlığı (slot eşleşmelerini güçlendirir)
+                abs_pos_sim = 1.0 / (1.0 + abs(q_idx - s_idx))
+                
+                combined_pos_sim = (pos_sim + abs_pos_sim) / 2.0
+                score = sem_sim * (1.0 + overlap) * (combined_pos_sim ** 2)
+                
+                if score > best_word_score:
+                    best_word_score = score
+            
+            if best_word_score > best_score:
+                best_score = best_word_score
+                best_word = s_word
+                
+        return best_word
                     
     def get_relevant_sentences(self, query, document, top_n=1):
         """Metin içerisinden sorgu ile en çok örtüşen cümle(leri) seçer."""
@@ -517,10 +661,10 @@ class KizilelmaEngine:
         if not sentences:
             return document
             
-        q_words = set(re.findall(r'\w+', query.lower()))
+        q_words = set(re.findall(r'\w+', turkish_lower(query)))
         scored_sentences = []
         for sent in sentences:
-            sent_words = set(re.findall(r'\w+', sent.lower()))
+            sent_words = set(re.findall(r'\w+', turkish_lower(sent)))
             overlap = len(q_words.intersection(sent_words))
             scored_sentences.append((overlap, sent))
             
@@ -534,13 +678,12 @@ class KizilelmaEngine:
         6 Kritik Problem Odaklı Analiz.
         Returns: (diff_user, diff_source, score, category)
         """
-        def get_tokens(text):
-            # Büyük harfle başlayan kelimeleri (Entities) ve sayıları koru
-            words = re.findall(r'\b[A-ZÇĞİÖŞÜ][a-zçğıöşü]*\b|\b\d+\b|\b\w+\b', text)
-            return set([w for w in words if w.lower() not in self.STOP_WORDS and len(w) > 1])
+        # [Kaynak: ...] önekini analizden önce temizle
+        db_source = re.sub(r'^\[Kaynak:[^\]]+\]\s*', '', db_source)
 
-        q_tokens = get_tokens(user_query)
-        s_tokens = get_tokens(db_source)
+        # Sayı-harf bitişik yazımlarını düzelt (örn: 25saatte -> 25 saatte)
+        user_query = split_numbers_letters(user_query)
+        db_source = split_numbers_letters(db_source)
 
         # 1. TARİH ANALİZİ (Zaman Aşımı / Güncel Değil)
         date_pattern = r'\b\d{1,4}[./-]\d{1,2}[./-]\d{2,4}\b|\b\d{4}\b'
@@ -565,18 +708,23 @@ class KizilelmaEngine:
                 s_val = list(s_nums)[0] if s_nums else "DEĞER"
             return str(mismatched_q_num), str(s_val), 0.1, "SAYI" # type: ignore
 
-        user_diff = list(q_tokens - s_tokens)
-        source_diff = list(s_tokens - q_tokens)
+        # 3. KELİME VE ÖZEL İSİM FARK KONTROLÜ
+        # Gürültüyü engellemek için her şeyi lowercase yapıyoruz
+        def get_words_lower(text):
+            words = re.findall(r'\b\w+\b', turkish_lower(text))
+            return set([w for w in words if w not in self.STOP_WORDS and len(w) > 1])
 
-        if not user_diff or not source_diff: return None, None, 0, "GENEL"
+        q_words = get_words_lower(user_query) - q_nums - q_dates
+        s_words = get_words_lower(db_source) - s_nums - s_dates
 
-        # 3. KIRMIZI LİSTE (KRİTİK UNVAN) VE ÖZEL İSİM KONTROLÜ
-        q_entities = [w for w in user_diff if w[0].isupper()]
-        s_entities = [w for w in source_diff if w[0].isupper()]
-        
-        # Özel durum: Kullanıcı sorgusunda Kırmızı Liste unvanı geçiyorsa hassas davran (Kelime sınırı araması ile)
-        found_red_titles = [t for t in self.RED_LIST_TITLES if re.search(r'\b' + t + r'\b', user_query.lower())]
-        source_red_titles = [t for t in self.RED_LIST_TITLES if re.search(r'\b' + t + r'\b', db_source.lower())]
+        user_diff = list(q_words - s_words)
+        source_diff = list(s_words - q_words)
+
+        if not user_diff or not source_diff: return None, None, 1.0, "GENEL"
+
+        # Kritik kırmızı liste unvan kontrolü (case-insensitive)
+        found_red_titles = [t for t in self.RED_LIST_TITLES if re.search(r'\b' + t + r'\b', turkish_lower(user_query))]
+        source_red_titles = [t for t in self.RED_LIST_TITLES if re.search(r'\b' + t + r'\b', turkish_lower(db_source))]
         
         if set(found_red_titles) != set(source_red_titles):
             # Unvan doğrudan değişmiş!
@@ -584,39 +732,59 @@ class KizilelmaEngine:
             src_t = source_red_titles[0] if source_red_titles else "BİLİNMİYOR"
             return diff_t.upper(), src_t.upper(), 0.01, "KRİTİK UNVAN"
 
-        if q_entities and s_entities:
-             # Kategori tespiti
-             cat = "KİŞİ/YER/UNVAN"
-             if any(w in user_query.upper() for w in ['ŞEHİR', 'ÜLKE', 'YER', 'KÖY', 'İL']): cat = "YER"
-             elif any(w in user_query.upper() for w in ['KİM', 'KİŞİ', 'ADAM', 'KADIN']): cat = "KİŞİ"
-             return q_entities[0], s_entities[0], 0.2, cat
-
-        # 3. GENEL ANLAMSAL FARK (Embedding)
-        q_emb = self.search_model.encode(user_diff, convert_to_tensor=True) # type: ignore
-        s_emb = self.search_model.encode(source_diff, convert_to_tensor=True) # type: ignore
-        cosine_scores = util.cos_sim(q_emb, s_emb)
+        # Farklı kelimelerden en iyi eşleşeni bulalım
+        # Sorgudaki ilk farklı kelimeyi baz alıp kaynaktaki en yakın karşılığını arıyoruz
+        mismatched_q_lower = user_diff[0]
+        mismatched_s_lower = self.find_best_matching_word(mismatched_q_lower, user_query, db_source, source_diff)
         
-        best_pair_user = ""
-        best_pair_source = ""
-        best_score = -1.0
-        scores_list = cosine_scores.tolist()
+        if not mismatched_s_lower:
+            mismatched_s_lower = source_diff[0]
 
-        for i in range(len(user_diff)):
-            for j in range(len(source_diff)):
-                score = scores_list[i][j]
-                if score > self.SYNONYM_THRESHOLD: continue     # Eşanlamlı
-                if score < self.IRRELEVANT_THRESHOLD: continue  # Alakasız
-                if score > best_score:
-                    best_score = float(score)
-                    best_pair_user = str(user_diff[i]) # type: ignore
-                    best_pair_source = str(source_diff[j]) # type: ignore
+        # Orijinal harf büyüklüklerini (cased) geri yükleyelim
+        diff_user = self.get_original_case(mismatched_q_lower, user_query)
+        diff_source = self.get_original_case(mismatched_s_lower, db_source)
 
-        if best_score < 0: return None, None, 1.0, "OLAY" 
-        return best_pair_user, best_pair_source, best_score, "DETAY"
+        # Eğer taraflardan biri veya her ikisi özel isimse (Entity) KİŞİ/YER/UNVAN sınıfına sokalım
+        def is_originally_capitalized(word, text):
+            pattern = r'\b' + re.escape(word) + r'\b'
+            matches = re.findall(pattern, text, re.IGNORECASE)
+            for m in matches:
+                if m and m[0].isupper():
+                    return True
+            return False
+
+        is_entity = is_originally_capitalized(mismatched_q_lower, user_query) or is_originally_capitalized(mismatched_s_lower, db_source)
+
+        if is_entity:
+            # Kategori tespiti
+            cat = "KİŞİ/YER/UNVAN"
+            if any(w in user_query.upper() for w in ['ŞEHİR', 'ÜLKE', 'YER', 'KÖY', 'İL', 'GAZZE', 'İSRAİL', 'ABD']): cat = "YER"
+            elif any(w in user_query.upper() for w in ['KİM', 'KİŞİ', 'ADAM', 'KADIN', 'CUMHURBAŞKANI', 'BAKAN']): cat = "KİŞİ"
+            return diff_user, diff_source, 0.2, cat
+
+        # Eğer özel isim değilse, genel semantik fark (Olay/Detay)
+        # Kelimelerin semantik benzerliğine bakalım
+        try:
+            q_emb = self.search_model.encode([mismatched_q_lower], convert_to_numpy=True)[0]
+            s_emb = self.search_model.encode([mismatched_s_lower], convert_to_numpy=True)[0]
+            score = np.dot(q_emb, s_emb) / (np.linalg.norm(q_emb) * np.linalg.norm(s_emb))
+            score = float(score)
+        except Exception:
+            score = 0.5
+
+        if score > self.SYNONYM_THRESHOLD:
+            # Eşanlamlı ise çelişki sayılmaz, genel kategorisinde devam et
+            return None, None, 1.0, "GENEL"
+            
+        if score < self.IRRELEVANT_THRESHOLD:
+            # Tamamen alakasız bir kelime ise
+            return diff_user, diff_source, score, "OLAY"
+            
+        return diff_user, diff_source, score, "DETAY"
 
     def detect_negation(self, text):
         """Metindeki Türkçe olumsuzluk yapılarını tespit eder."""
-        text_lower = re.sub(r'[^\w\s]', '', text.lower())
+        text_lower = re.sub(r'[^\w\s]', '', turkish_lower(text))
         
         # Word boundaries for exact negation words
         neg_words = {'değil', 'yok', 'asla', 'hiçbir'}
@@ -687,7 +855,15 @@ class KizilelmaEngine:
                     "conf": 95, "risk": 85, "cat": "OLAY_OLUMSUZLUK"
                 }
 
-            # B. Kritik Fark Kontrolleri (NLI entailment'ını veto eder)
+            # B. Hiçbir fark bulunamadıysa doğrudan doğrula!
+            if not diff_user and not diff_source:
+                return {
+                    "status": "ONAY", "msg": "✅ **DOĞRULANDI**",
+                    "desc": "Bilgi güvenilir kaynaklarla uyuşuyor.",
+                    "conf": max(int(sim_score * 100), 95), "risk": 5, "cat": "GENEL"
+                }
+
+            # C. Kritik Fark Kontrolleri (NLI entailment'ını veto eder)
             if diff_user and diff_source:
                 if diff_cat == "SAYI":
                     return {
@@ -743,7 +919,23 @@ class KizilelmaEngine:
                 # Ancak güvenli tarafta kalıp uyarı göstermek mantıklıdır
                 pass
 
-            user_is_skeptic = any(w in user_query.lower() for w in self.SKEPTIC_KEYWORDS)
+            # B. Hiçbir fark bulunamadıysa (kullanıcı yalan haberi aynen tekrarlıyorsa)
+            if not diff_user and not diff_source:
+                user_is_skeptic = any(w in turkish_lower(user_query) for w in self.SKEPTIC_KEYWORDS)
+                if user_is_skeptic:
+                    return {
+                        "status": "ONAY", "msg": "✅ **DOĞRU TESPİT**",
+                        "desc": "Evet, şüpheleriniz haklı. Bu haberin **ASILSIZ/YALAN** olduğu teyit edilmiştir.",
+                        "conf": 99, "risk": 10, "cat": "GENEL"
+                    }
+                else:
+                    return {
+                        "status": "UYARI", "msg": "❌ **HAYIR / ASILSIZ İDDİA**",
+                        "desc": "Hayır, bu iddia gerçeği yansıtmamaktadır. Kaynaklar bu bilginin **ASILSIZ/YALAN** olduğunu göstermektedir.",
+                        "conf": 99, "risk": 95, "cat": "GENEL"
+                    }
+
+            user_is_skeptic = any(w in turkish_lower(user_query) for w in self.SKEPTIC_KEYWORDS)
             if user_is_skeptic and score_entail > 0.40:
                  return { "status": "ONAY", "msg": "✅ **DOĞRU TESPİT**", "desc": "Evet, şüpheleriniz haklı. Bu deryandaki haberin **YALAN** olduğu kayıtlıdır.", "conf": 95, "risk": 15, "cat": diff_cat }
             
@@ -757,6 +949,7 @@ class KizilelmaEngine:
 
     def ask(self, raw_query):
         """Dış dünyadan gelen soruya cevap veren ana fonksiyon"""
+        raw_query = split_numbers_letters(raw_query)
         # Veritabanındaki yeni kayıtları senkronize et
         self.sync_db()
         
@@ -848,7 +1041,7 @@ class KizilelmaEngine:
                 dense_sims = cosine_similarity([query_emb], self.text_embeddings)[0]
         
         # 2. SPARSE RETRIEVAL (Keyword - BM25 Arama)
-        tokenized_query = re.findall(r'\w+', search_query.lower())
+        tokenized_query = re.findall(r'\w+', turkish_lower(search_query))
         bm25_scores = self.bm25.get_scores(tokenized_query)
         
         # 3. RECIPROCAL RANK FUSION (Hibrit Harmanlama)

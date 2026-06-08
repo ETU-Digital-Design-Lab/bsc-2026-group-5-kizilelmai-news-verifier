@@ -378,8 +378,13 @@ async def chat(request: ChatRequest, req: Request):
         # --- Redis Önbelleğe Yaz ---
         if REDIS_AVAILABLE and redis_client:
             try:
-                redis_client.setex(cache_key, CACHE_TTL, json.dumps(response, ensure_ascii=False))
-                print(f"💾 Önbelleğe Kaydedildi (24s): '{raw_query[:40]}...'")
+                # Eger durum "RET" ise (Bulunamadı), önbellekte uzun süre kalmasın (30 saniye TTL)
+                if response.get("status") == "RET":
+                    redis_client.setex(cache_key, 30, json.dumps(response, ensure_ascii=False))
+                    print(f"💾 Bulunamadı durumu kısa süreli (30sn) önbelleğe kaydedildi: '{raw_query[:40]}...'")
+                else:
+                    redis_client.setex(cache_key, CACHE_TTL, json.dumps(response, ensure_ascii=False))
+                    print(f"💾 Önbelleğe Kaydedildi (24s): '{raw_query[:40]}...'")
             except Exception as e:
                 print(f"⚠️ Redis yazma hatası: {e}")
 
@@ -400,6 +405,16 @@ async def chat(request: ChatRequest, req: Request):
     except Exception as e:
         print(f"❌ Sunucu Hatası: {e}")
         raise HTTPException(status_code=500, detail="İşlem sırasında bir hata oluştu.")
+
+@app.post("/api/chat/clear")
+async def clear_chat():
+    """Sohbet bağlamını temizler (Yeni doğrulama başlatıldığında)"""
+    try:
+        engine.context_buffer = []
+        print("🧹 Sohbet bağlamı (context_buffer) temizlendi.")
+        return {"status": "success", "message": "Sohbet bağlamı başarıyla temizlendi."}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Temizleme hatası: {str(e)}")
 
 @app.get("/")
 async def root():

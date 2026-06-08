@@ -18,6 +18,7 @@ import {
   Menu,
   MessageSquare,
   Send,
+  Square,
   LogOut,
   User,
   Mail,
@@ -25,9 +26,18 @@ import {
   Key
 } from 'lucide-react';
 
+const isReload = () => {
+  try {
+    const navEntries = performance.getEntriesByType("navigation");
+    return navEntries.length > 0 && navEntries[0].type === "reload";
+  } catch (e) {
+    return false;
+  }
+};
+
 function App() {
   const [activeTab, setActiveTab] = useState(() => {
-    const saved = localStorage.getItem('kizilelma_auth');
+    const saved = sessionStorage.getItem('kizilelma_auth');
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -96,6 +106,7 @@ function App() {
   const [chatHistory, setChatHistory] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const messagesEndRef = useRef(null);
+  const abortControllerRef = useRef(null);
 
   // Load chat history from localStorage on mount
   useEffect(() => {
@@ -123,10 +134,17 @@ function App() {
       localStorage.setItem('kizilelma_chat_history', JSON.stringify(newHistory));
     }
     setMessages([]);
+    setActiveTab('analiz');
+    // Clear backend context buffer
+    fetch('http://127.0.0.1:5000/api/chat/clear', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' }
+    }).catch(err => console.error("Failed to clear backend context:", err));
   };
 
   const loadHistoryItem = (historyItem) => {
     setMessages(historyItem.messages);
+    setActiveTab('analiz');
   };
 
   const deleteHistoryItem = (e, id) => {
@@ -138,6 +156,15 @@ function App() {
 
   const handleSendMessage = async (e, forcedQuery = null) => {
     if (e) e.preventDefault();
+    
+    // Eğer halihazırda bir sorgu yapılıyorsa ve butona tekrar basıldıysa işlemi iptal et (Stop/Cancel)
+    if (chatLoading) {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+      return;
+    }
+
     const activeQuery = forcedQuery || query;
     if (!activeQuery.trim()) return;
     
@@ -150,6 +177,10 @@ function App() {
     }
     
     setChatLoading(true);
+
+    // Yeni istek için AbortController oluştur
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
 
     // Önbellek baypas kontrolü
     let forceRefresh = false;
@@ -165,6 +196,7 @@ function App() {
       const res = await fetch('http://127.0.0.1:5000/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        signal: controller.signal,
         body: JSON.stringify({ 
           query: userText,
           force_refresh: forceRefresh
@@ -194,9 +226,14 @@ function App() {
         setMessages(prev => [...prev, { id: Date.now() + 1, role: 'error', text: 'Analiz sırasında sunucu hatası oluştu.' }]);
       }
     } catch (err) {
-      setMessages(prev => [...prev, { id: Date.now() + 1, role: 'error', text: 'Sunucuya bağlanılamadı. Lütfen backend uygulamasının çalıştığından emin olun.' }]);
+      if (err.name === 'AbortError') {
+        setMessages(prev => [...prev, { id: Date.now() + 1, role: 'error', text: 'Analiz kullanıcı tarafından durduruldu.' }]);
+      } else {
+        setMessages(prev => [...prev, { id: Date.now() + 1, role: 'error', text: 'Sunucuya bağlanılamadı. Lütfen backend uygulamasının çalıştığından emin olun.' }]);
+      }
     } finally {
       setChatLoading(false);
+      abortControllerRef.current = null;
     }
   };
 
@@ -204,7 +241,9 @@ function App() {
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      handleSendMessage();
+      if (!chatLoading) {
+        handleSendMessage();
+      }
     }
   };
 
@@ -232,7 +271,7 @@ function App() {
   // AUTHENTICATION LOGIC
   // ----------------------------------------------------
   const [auth, setAuth] = useState(() => {
-    const saved = localStorage.getItem('kizilelma_auth');
+    const saved = sessionStorage.getItem('kizilelma_auth');
     return saved ? JSON.parse(saved) : null;
   });
   
@@ -244,7 +283,7 @@ function App() {
 
   const logout = () => {
     setAuth(null);
-    localStorage.removeItem('kizilelma_auth');
+    sessionStorage.removeItem('kizilelma_auth');
     setActiveTab('analiz');
   };
 
@@ -280,7 +319,7 @@ function App() {
         if (authMode === 'login') {
           const authData = { token: data.access_token, role: data.role, email: authForm.email, firstName: data.first_name, lastName: data.last_name };
           setAuth(authData);
-          localStorage.setItem('kizilelma_auth', JSON.stringify(authData));
+          sessionStorage.setItem('kizilelma_auth', JSON.stringify(authData));
           if (data.role === 'admin') setActiveTab('admin');
           else setActiveTab('analiz');
         } else if (authMode === 'register') {
@@ -707,11 +746,11 @@ function App() {
                   rows={1}
                 />
                 <button 
-                  className="chat-submit-btn" 
+                  className={`chat-submit-btn ${chatLoading ? 'stop-btn' : ''}`} 
                   onClick={handleSendMessage}
-                  disabled={!query.trim() || chatLoading}
+                  disabled={!query.trim() && !chatLoading}
                 >
-                  <Send size={18} />
+                  {chatLoading ? <Square size={18} fill="currentColor" /> : <Send size={18} />}
                 </button>
               </div>
               <div style={{ textAlign: 'center', fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.75rem' }}>

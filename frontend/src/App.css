@@ -327,3 +327,11 @@
   color: var(--accent-orange) !important;
 }
 
+.chat-submit-btn.stop-btn {
+  background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+}
+
+.chat-submit-btn.stop-btn:hover {
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
+}
+
