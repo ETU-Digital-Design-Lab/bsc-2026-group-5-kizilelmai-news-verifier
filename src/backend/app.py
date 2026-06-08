@@ -327,7 +327,7 @@ async def chat(request: ChatRequest, req: Request):
     
     if clean_query in greetings or clean_query.startswith("merhaba"):
         return {
-            "result": "Merhaba! Ben KızılelmAI Doğrulama Asistanıyım. Size bir haberi veya iddiayı analiz etme konusunda yardımcı olabilirim. Lütfen doğrulamak istediğiniz metni yazın.",
+            "result": "Merhaba! Ben KızılelmAI, nasıl yardımcı olabilirim?",
             "status": "SYS", "msg": "💬 SOHBET", "description": "Sistem Mesajı",
             "confidence": 100, "risk": 0, "category": "GENEL", "source": "Sistem"
         }

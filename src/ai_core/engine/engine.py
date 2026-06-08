@@ -488,8 +488,15 @@ class KizilelmaEngine:
     # --- KATMAN 1: GİRİŞ VE NİYET ANALİZİ ---
     
     def intent_analyzer(self, query):
-        """Kullanıcın niyetini belirler: Selamlaşma mı yoksa İddia mı?"""
-        tokens = turkish_lower(query).split()
+        """Kullanıcın niyetini belirler: Selamlaşma mı, Proje Tanıtımı mı yoksa İddia mı?"""
+        query_norm = turkish_lower(query)
+        if "kızılelma" in query_norm or "kizilelma" in query_norm:
+            about_keywords = {"nedir", "ne", "kim", "amaç", "amac", "geliştir", "gelistir", "yapan", "yapmıştır", "yapmistir", "kimdir"}
+            tokens = re.findall(r'\b\w+\b', query_norm)
+            if any(token in about_keywords for token in tokens):
+                return "ABOUT"
+
+        tokens = query_norm.split()
         for token in tokens:
             if token in self.kb.get("greetings", []):
                 return "GREETING"
@@ -1001,6 +1008,19 @@ class KizilelmaEngine:
 
         # 1. Niyet Analizi
         intent = self.intent_analyzer(clean_query)
+        if intent == "ABOUT":
+            about_text = (
+                "KızılelmAI'nin amacı, internette ve sosyal medyada yayılan haber ve iddiaların doğruluğunu "
+                "pgvector (vektörel arama) ve BM25 (kelime bazlı arama) hibrit algoritmalarıyla resmi ve "
+                "güvenilir kaynaklardan saniyeler içinde teyit etmektir. Bu proje, 3 üniversite öğrencisi olan "
+                "İbrahim Sinan AKBULUT, Doğukan KILIÇ ve Merve ATILGAN tarafından geliştirilmiştir."
+            )
+            return {
+                "result": about_text,
+                "status": "ONAY", "msg": "🛡️ KIZILELMAI HAKKINDA",
+                "description": "Proje amacı ve geliştirici ekibi hakkında bilgilendirme.",
+                "confidence": 100, "risk": 0, "category": "ABOUT", "source": "-"
+            }
         if intent == "GREETING":
             greet_text = self.kb["responses"].get("greeting", "Merhaba! Size nasıl yardımcı olabilirim?")
             return {

@@ -60,7 +60,7 @@
     ]
   },
   "responses": {
-    "greeting": "Merhaba! Ben KızılelmAI. Size nasıl yardımcı olabilirim? Doğruluğunu kontrol etmek istediğiniz bir iddia mı var?",
+    "greeting": "Merhaba! Ben KızılelmAI, nasıl yardımcı olabilirim?",
     "not_found": "Üzgünüm, bu konu hakkında veri tabanımda henüz kesin bir bilgi bulunmuyor. Yeni veriler geldikçe kendimi geliştirmeye devam ediyorum."
   }
 }
