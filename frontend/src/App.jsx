@@ -97,6 +97,182 @@ function App() {
     return () => clearInterval(interval);
   }, []);
 
+  // Reports State
+  const [showReportModal, setShowReportModal] = useState(false);
+  const [reportReason, setReportReason] = useState('');
+  const [selectedNewsToReport, setSelectedNewsToReport] = useState({ query: '', description: '', source_id: null });
+  const [reportSubmitting, setReportSubmitting] = useState(false);
+  const [reportError, setReportError] = useState('');
+  const [reportSuccess, setReportSuccess] = useState('');
+
+  const [reports, setReports] = useState([]);
+  const [reportsLoading, setReportsLoading] = useState(false);
+  const [reportsPage, setReportsPage] = useState(1);
+  const [reportsTotalPages, setReportsTotalPages] = useState(1);
+  const [reportsTotal, setReportsTotal] = useState(0);
+  const [reportsStatusFilter, setReportsStatusFilter] = useState('all');
+
+  const [showRespondModal, setShowRespondModal] = useState(false);
+  const [selectedReportToRespond, setSelectedReportToRespond] = useState(null);
+  const [adminResponseText, setAdminResponseText] = useState('');
+  const [adminResponseStatus, setAdminResponseStatus] = useState('resolved');
+  const [respondSubmitting, setRespondSubmitting] = useState(false);
+
+  const [myReports, setMyReports] = useState([]);
+  const [myReportsLoading, setMyReportsLoading] = useState(false);
+  const [myReportsPage, setMyReportsPage] = useState(1);
+  const [myReportsTotalPages, setMyReportsTotalPages] = useState(1);
+  const [myReportsTotal, setMyReportsTotal] = useState(0);
+
+  const fetchMyReports = async () => {
+    if (activeTab !== 'my_reports') return;
+    setMyReportsLoading(true);
+    try {
+      const res = await fetch(`http://127.0.0.1:5000/api/reports/my?page=${myReportsPage}&limit=50`, {
+        headers: getAuthHeaders()
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setMyReports(data.data);
+        setMyReportsTotalPages(data.total_pages);
+        setMyReportsTotal(data.total);
+      }
+    } catch (err) {
+      console.error("Failed to fetch my reports:", err);
+    } finally {
+      setMyReportsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchMyReports();
+  }, [activeTab, myReportsPage]);
+
+
+  const fetchReports = async () => {
+    if (activeTab !== 'sikayetler') return;
+    setReportsLoading(true);
+    try {
+      const res = await fetch(`http://127.0.0.1:5000/api/admin/reports?page=${reportsPage}&limit=50&status=${reportsStatusFilter}`, {
+        headers: getAuthHeaders()
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setReports(data.data);
+        setReportsTotalPages(data.total_pages);
+        setReportsTotal(data.total);
+      }
+    } catch (err) {
+      console.error("Failed to fetch reports:", err);
+    } finally {
+      setReportsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchReports();
+  }, [activeTab, reportsPage, reportsStatusFilter]);
+
+  const openReportModal = (msg) => {
+    setSelectedNewsToReport({
+      query: msg.originalQuery || "Bilinmeyen Sorgu",
+      description: msg.result?.description || msg.result?.result || "",
+      source_id: msg.result?.source_id || null
+    });
+    setReportReason('');
+    setReportError('');
+    setReportSuccess('');
+    setShowReportModal(true);
+  };
+
+  const handleReportSubmit = async (e) => {
+    e.preventDefault();
+    setReportSubmitting(true);
+    setReportError('');
+    setReportSuccess('');
+
+    try {
+      const res = await fetch('http://127.0.0.1:5000/api/reports', {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({
+          news_query: selectedNewsToReport.query,
+          news_details: selectedNewsToReport.description,
+          report_reason: reportReason,
+          source_id: selectedNewsToReport.source_id
+        })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setReportSuccess(data.message || 'Şikayetiniz başarıyla iletildi.');
+        setReportReason('');
+        setTimeout(() => {
+          setShowReportModal(false);
+          setReportSuccess('');
+        }, 2000);
+      } else {
+        setReportError(data.detail || 'Şikayet iletilemedi.');
+      }
+    } catch (err) {
+      setReportError('Sunucuya bağlanılamadı.');
+    } finally {
+      setReportSubmitting(false);
+    }
+  };
+
+  const openRespondModal = (rep) => {
+    setSelectedReportToRespond(rep);
+    setAdminResponseText(rep.admin_response || '');
+    setAdminResponseStatus(rep.status === 'pending' ? 'resolved' : rep.status);
+    setRespondSubmitting(false);
+    setShowRespondModal(true);
+  };
+
+  const handleRespondSubmit = async (e) => {
+    e.preventDefault();
+    setRespondSubmitting(true);
+    try {
+      const res = await fetch(`http://127.0.0.1:5000/api/admin/reports/${selectedReportToRespond.id}/respond`, {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({
+          admin_response: adminResponseText,
+          status: adminResponseStatus
+        })
+      });
+      if (res.ok) {
+        setShowRespondModal(false);
+        fetchReports();
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setRespondSubmitting(false);
+    }
+  };
+
+  const handleEditRelatedNews = async (sourceId) => {
+    try {
+      const res = await fetch(`http://127.0.0.1:5000/api/veri/${sourceId}`, {
+        headers: getAuthHeaders()
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setSelectedRecord(data);
+        setFormText(data.text);
+        setFormLabel(data.label);
+        setFormAuthority(data.authority);
+        setShowRespondModal(false);
+        setShowEditModal(true);
+      } else {
+        alert("İlişkili haber kaydı veritabanında bulunamadı.");
+      }
+    } catch (err) {
+      alert("Haber kaydı yüklenirken bir hata oluştu.");
+    }
+  };
+
+
   // ----------------------------------------------------
   // TAB 1: CONTINUOUS CHAT LOGIC (Gemini-like)
   // ----------------------------------------------------
@@ -604,15 +780,23 @@ function App() {
                 <button className={`tab-btn ${activeTab === 'analiz' ? 'active' : ''}`} onClick={() => setActiveTab('analiz')}>
                   <ShieldAlert size={16} /> Doğrulama Modu
                 </button>
+                <button className={`tab-btn ${activeTab === 'my_reports' ? 'active' : ''}`} onClick={() => { setActiveTab('my_reports'); setMyReportsPage(1); }}>
+                  <MessageSquare size={16} /> Şikayetlerim
+                </button>
                 <button className={`tab-btn ${activeTab === 'status' ? 'active' : ''}`} onClick={() => setActiveTab('status')}>
                   <Settings size={16} /> Sistem Durumu
                 </button>
               </>
             )}
             {auth.role === 'admin' && (
-              <button className={`tab-btn ${activeTab === 'admin' ? 'active' : ''}`} onClick={() => setActiveTab('admin')}>
-                <Database size={16} /> Yönetim Paneli
-              </button>
+              <>
+                <button className={`tab-btn ${activeTab === 'admin' ? 'active' : ''}`} onClick={() => setActiveTab('admin')}>
+                  <Database size={16} /> Yönetim Paneli
+                </button>
+                <button className={`tab-btn ${activeTab === 'sikayetler' ? 'active' : ''}`} onClick={() => { setActiveTab('sikayetler'); setReportsPage(1); }}>
+                  <ShieldAlert size={16} /> Şikayetler
+                </button>
+              </>
             )}
           </nav>
 
@@ -654,29 +838,49 @@ function App() {
                       <div className="message-bubble" style={{ color: 'var(--color-fake)' }}>{msg.text}</div>
                     ) : (
                       <div className="message-bubble" style={{ position: 'relative' }}>
-                        {msg.originalQuery && (
-                          <button 
-                            onClick={() => handleSendMessage(null, msg.originalQuery)}
-                            className="action-icon-btn refresh"
-                            style={{ 
-                              position: 'absolute', 
-                              top: '12px', 
-                              right: '12px', 
-                              background: 'transparent',
-                              border: 'none',
-                              color: 'var(--text-muted)',
-                              cursor: 'pointer',
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '4px',
-                              fontSize: '0.8rem'
-                            }}
-                            title="Önbelleği temizle ve yeniden sorgula"
-                          >
-                            <RefreshCw size={12} className={chatLoading ? 'spin' : ''} />
-                            <span>Yenile</span>
-                          </button>
-                        )}
+                        <div style={{ position: 'absolute', top: '12px', right: '12px', display: 'flex', gap: '8px' }}>
+                          {msg.originalQuery && (
+                            <button 
+                              onClick={() => handleSendMessage(null, msg.originalQuery)}
+                              className="action-icon-btn refresh"
+                              style={{ 
+                                background: 'transparent',
+                                border: 'none',
+                                color: 'var(--text-muted)',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '4px',
+                                fontSize: '0.8rem'
+                              }}
+                              title="Önbelleği temizle ve yeniden sorgula"
+                            >
+                              <RefreshCw size={12} className={chatLoading ? 'spin' : ''} />
+                              <span>Yenile</span>
+                            </button>
+                          )}
+                          {msg.result && msg.result.status !== 'SYS' && (
+                            <button 
+                              onClick={() => openReportModal(msg)}
+                              className="action-icon-btn report"
+                              style={{ 
+                                background: 'transparent',
+                                border: 'none',
+                                color: 'var(--color-fake)',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '4px',
+                                fontSize: '0.8rem',
+                                opacity: 0.8
+                              }}
+                              title="Bu haber doğrulaması hakkında hata bildir"
+                            >
+                              <AlertTriangle size={12} />
+                              <span>Hata Bildir</span>
+                            </button>
+                          )}
+                        </div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem', fontWeight: 'bold' }}>
                           {msg.result.status === 'ONAY' && <CheckCircle size={20} color="var(--color-real)" />}
                           {msg.result.status === 'RED' && <XCircle size={20} color="var(--color-fake)" />}
@@ -919,6 +1123,215 @@ function App() {
       </div>
     )}
 
+        {/* TAB 2.5: REPORTS PANEL */}
+        {activeTab === 'sikayetler' && (
+          <div className="glass-card" style={{ margin: '2rem', display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0 }}>
+            {auth.role !== 'admin' ? (
+              <div className="empty-state">
+                <AlertTriangle size={64} color="var(--color-fake)" />
+                <h2 className="empty-title">Yetkisiz Erişim</h2>
+                <p className="empty-subtitle">Sadece yetkili yöneticiler bu alana erişebilir.</p>
+              </div>
+            ) : (
+              <>
+                <div className="admin-header">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Filtrele:</span>
+                    <select 
+                      className="form-input" 
+                      style={{ width: 'auto', padding: '0.4rem 1rem' }}
+                      value={reportsStatusFilter}
+                      onChange={(e) => { setReportsStatusFilter(e.target.value); setReportsPage(1); }}
+                    >
+                      <option value="all">Tüm Şikayetler</option>
+                      <option value="pending">Bekleyenler</option>
+                      <option value="resolved">Çözülenler</option>
+                      <option value="rejected">Reddedilenler</option>
+                    </select>
+                  </div>
+                  
+                  <button className="admin-action-btn" onClick={fetchReports} title="Yenile" style={{ marginLeft: 'auto' }}>
+                    <RefreshCw size={16} /> Yenile
+                  </button>
+                </div>
+
+                {reportsLoading ? (
+                  <div className="loader-container">
+                    <div className="spinner" style={{ width: '40px', height: '40px' }} />
+                    <span>Şikayetler yükleniyor...</span>
+                  </div>
+                ) : (
+                  <>
+                    <div className="table-wrapper" style={{ overflowY: 'auto', flex: 1, minHeight: '400px', borderBottom: '1px solid var(--border-color)', marginBottom: '1rem' }}>
+                      <table className="admin-table">
+                        <thead>
+                          <tr>
+                            <th style={{ width: '60px' }}>ID</th>
+                            <th style={{ width: '150px' }}>Kullanıcı</th>
+                            <th>Haber İddiası</th>
+                            <th>Şikayet Sebebi</th>
+                            <th style={{ width: '120px' }}>Durum</th>
+                            <th style={{ width: '120px' }}>İşlemler</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {reports.map((rep) => (
+                            <tr key={rep.id}>
+                              <td>#{rep.id}</td>
+                              <td title={rep.user_email}>{rep.user_email}</td>
+                              <td title={rep.news_query}>{rep.news_query}</td>
+                              <td title={rep.report_reason}>{rep.report_reason}</td>
+                              <td>
+                                <span className={`table-badge`} style={{
+                                  background: rep.status === 'pending' ? 'rgba(245, 158, 11, 0.12)' : rep.status === 'resolved' ? 'rgba(16, 185, 129, 0.12)' : 'rgba(239, 68, 68, 0.12)',
+                                  color: rep.status === 'pending' ? 'var(--color-partial)' : rep.status === 'resolved' ? 'var(--color-real)' : 'var(--color-fake)',
+                                  border: rep.status === 'pending' ? '1px solid rgba(245, 158, 11, 0.2)' : rep.status === 'resolved' ? '1px solid rgba(16, 185, 129, 0.2)' : '1px solid rgba(239, 68, 68, 0.2)'
+                                }}>
+                                  {rep.status === 'pending' ? 'Bekliyor' : rep.status === 'resolved' ? 'Çözüldü' : 'Reddedildi'}
+                                </span>
+                              </td>
+                              <td>
+                                <button className="admin-action-btn" style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem' }} onClick={() => openRespondModal(rep)}>
+                                  {rep.status === 'pending' ? 'Cevapla' : 'Gör/Cevapla'}
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                          {reports.length === 0 && (
+                            <tr>
+                              <td colSpan="6" style={{ textAlign: 'center', color: 'var(--text-secondary)', padding: '2rem' }}>
+                                Şikayet bulunamadı.
+                              </td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div className="pagination">
+                      <span className="pagination-info">
+                        Toplam <strong>{reportsTotal}</strong> şikayetten <strong>{reports.length}</strong> tanesi listeleniyor
+                      </span>
+
+                      <div className="pagination-controls" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <button 
+                          className="pag-btn" 
+                          onClick={() => setReportsPage(p => Math.max(1, p - 1))}
+                          disabled={reportsPage === 1}
+                        >
+                          <ChevronLeft size={18} />
+                        </button>
+                        <span className="page-num">{reportsPage} / {reportsTotalPages || 1}</span>
+                        <button 
+                          className="pag-btn" 
+                          onClick={() => setReportsPage(p => Math.min(reportsTotalPages, p + 1))}
+                          disabled={reportsPage === reportsTotalPages || reportsTotalPages === 0}
+                        >
+                          <ChevronRight size={18} />
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </>
+            )}
+          </div>
+        )}
+
+        {/* TAB 2.7: MY REPORTS PANEL */}
+        {activeTab === 'my_reports' && (
+          <div className="glass-card" style={{ margin: '2rem', display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0 }}>
+            <div className="admin-header">
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>Şikayetlerim ve Geri Bildirimler</h3>
+              <button className="admin-action-btn" onClick={fetchMyReports} title="Yenile" style={{ marginLeft: 'auto' }}>
+                <RefreshCw size={16} /> Yenile
+              </button>
+            </div>
+
+            {myReportsLoading ? (
+              <div className="loader-container">
+                <div className="spinner" style={{ width: '40px', height: '40px' }} />
+                <span>Şikayetleriniz yükleniyor...</span>
+              </div>
+            ) : (
+              <>
+                <div className="table-wrapper" style={{ overflowY: 'auto', flex: 1, minHeight: '400px', borderBottom: '1px solid var(--border-color)', marginBottom: '1rem' }}>
+                  <table className="admin-table">
+                    <thead>
+                      <tr>
+                        <th style={{ width: '60px' }}>ID</th>
+                        <th>Haber İddiası</th>
+                        <th>Şikayet Sebebi</th>
+                        <th>Admin Cevabı</th>
+                        <th style={{ width: '120px' }}>Durum</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {myReports.map((rep) => (
+                        <tr key={rep.id}>
+                          <td>#{rep.id}</td>
+                          <td title={rep.news_query}>{rep.news_query}</td>
+                          <td title={rep.report_reason}>{rep.report_reason}</td>
+                          <td title={rep.admin_response || 'Henüz cevaplanmadı'}>
+                            {rep.admin_response ? (
+                              <div style={{ color: 'var(--color-real)', fontWeight: '500' }}>
+                                {rep.admin_response}
+                              </div>
+                            ) : (
+                              <span style={{ color: 'var(--text-secondary)', fontStyle: 'italic' }}>Cevap Bekliyor...</span>
+                            )}
+                          </td>
+                          <td>
+                            <span className={`table-badge`} style={{
+                              background: rep.status === 'pending' ? 'rgba(245, 158, 11, 0.12)' : rep.status === 'resolved' ? 'rgba(16, 185, 129, 0.12)' : 'rgba(239, 68, 68, 0.12)',
+                              color: rep.status === 'pending' ? 'var(--color-partial)' : rep.status === 'resolved' ? 'var(--color-real)' : 'var(--color-fake)',
+                              border: rep.status === 'pending' ? '1px solid rgba(245, 158, 11, 0.2)' : rep.status === 'resolved' ? '1px solid rgba(16, 185, 129, 0.2)' : '1px solid rgba(239, 68, 68, 0.2)'
+                            }}>
+                              {rep.status === 'pending' ? 'Bekliyor' : rep.status === 'resolved' ? 'Çözüldü' : 'Reddedildi'}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                      {myReports.length === 0 && (
+                        <tr>
+                          <td colSpan="5" style={{ textAlign: 'center', color: 'var(--text-secondary)', padding: '2rem' }}>
+                            Henüz bir şikayet bildiriminiz bulunmuyor.
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+
+                <div className="pagination">
+                  <span className="pagination-info">
+                    Toplam <strong>{myReportsTotal}</strong> şikayetten <strong>{myReports.length}</strong> tanesi listeleniyor
+                  </span>
+
+                  <div className="pagination-controls" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <button 
+                      className="pag-btn" 
+                      onClick={() => setMyReportsPage(p => Math.max(1, p - 1))}
+                      disabled={myReportsPage === 1}
+                    >
+                      <ChevronLeft size={18} />
+                    </button>
+                    <span className="page-num">{myReportsPage} / {myReportsTotalPages || 1}</span>
+                    <button 
+                      className="pag-btn" 
+                      onClick={() => setMyReportsPage(p => Math.min(myReportsTotalPages, p + 1))}
+                      disabled={myReportsPage === myReportsTotalPages || myReportsTotalPages === 0}
+                    >
+                      <ChevronRight size={18} />
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        )}
+
+
         {/* TAB 3: SYSTEM STATUS */}
         {activeTab === 'status' && (
           <div className="analysis-panel" style={{ margin: '2rem' }}>
@@ -1089,6 +1502,114 @@ function App() {
           </div>
         </div>
       )}
+
+      {/* 3. REPORT INCORRECT NEWS MODAL */}
+      {showReportModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h3>Yanlış Haber / Hata Bildirimi</h3>
+              <button className="modal-close-btn" onClick={() => setShowReportModal(false)}>×</button>
+            </div>
+            <form onSubmit={handleReportSubmit}>
+              <div className="modal-body">
+                <div className="form-group" style={{ background: 'rgba(255,255,255,0.02)', padding: '1rem', borderRadius: '10px', border: '1px solid var(--border-color)', marginBottom: '1.5rem' }}>
+                  <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 'bold', textTransform: 'uppercase' }}>Şikayet Edilen Haber / İddia:</span>
+                  <div style={{ marginTop: '0.5rem', fontWeight: '500', color: 'var(--text-primary)' }}>{selectedNewsToReport.query}</div>
+                  <div style={{ marginTop: '0.5rem', fontSize: '0.85rem', color: 'var(--text-secondary)', borderLeft: '3px solid var(--accent-orange)', paddingLeft: '0.75rem' }}>{selectedNewsToReport.description}</div>
+                </div>
+
+                <div className="form-group">
+                  <label>Hata veya Yanlış Bilgi Nedir? (Açıklayınız)</label>
+                  <textarea 
+                    className="form-textarea" 
+                    placeholder="Lütfen bu haber doğrulamasında yer alan hangi bilginin yanlış olduğunu ve doğrusunun ne olması gerektiğini detaylıca belirtin..."
+                    required
+                    rows={4}
+                    value={reportReason}
+                    onChange={(e) => setReportReason(e.target.value)}
+                  />
+                </div>
+
+                {reportError && <div style={{ color: 'var(--color-fake)', fontSize: '0.85rem', padding: '0.75rem', background: 'rgba(239, 68, 68, 0.1)', borderRadius: '8px', border: '1px solid rgba(239, 68, 68, 0.2)', marginBottom: '1rem' }}>{reportError}</div>}
+                {reportSuccess && <div style={{ color: 'var(--color-real)', fontSize: '0.85rem', padding: '0.75rem', background: 'rgba(16, 185, 129, 0.1)', borderRadius: '8px', border: '1px solid rgba(16, 185, 129, 0.2)', marginBottom: '1rem' }}>{reportSuccess}</div>}
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn-secondary" onClick={() => setShowReportModal(false)}>İptal</button>
+                <button type="submit" className="admin-action-btn" disabled={reportSubmitting}>
+                  {reportSubmitting ? <div className="spinner" /> : 'Gönder'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* 4. RESPOND TO REPORT MODAL */}
+      {showRespondModal && selectedReportToRespond && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h3>Şikayet Cevapla / Detaylar (#{selectedReportToRespond.id})</h3>
+              <button className="modal-close-btn" onClick={() => setShowRespondModal(false)}>×</button>
+            </div>
+            <form onSubmit={handleRespondSubmit}>
+              <div className="modal-body">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', background: 'rgba(255,255,255,0.02)', padding: '1.2rem', borderRadius: '12px', border: '1px solid var(--border-color)', marginBottom: '1.5rem' }}>
+                  <div>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 'bold', textTransform: 'uppercase' }}>Gönderen Kullanıcı:</span>
+                    <div style={{ marginTop: '0.2rem', fontWeight: '500' }}>{selectedReportToRespond.user_email}</div>
+                  </div>
+                  <div>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 'bold', textTransform: 'uppercase' }}>Haber / İddia:</span>
+                    <div style={{ marginTop: '0.2rem', fontWeight: '500' }}>{selectedReportToRespond.news_query}</div>
+                  </div>
+                  <div>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 'bold', textTransform: 'uppercase' }}>Hata / Şikayet Nedeni:</span>
+                    <div style={{ marginTop: '0.2rem', color: 'var(--color-fake)', fontWeight: '500' }}>{selectedReportToRespond.report_reason}</div>
+                  </div>
+                  {selectedReportToRespond.source_id && (
+                    <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1rem', marginTop: '0.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Bu şikayet veritabanındaki bir haber kaydıyla eşleşiyor.</span>
+                      <button type="button" className="admin-action-btn" style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem' }} onClick={() => handleEditRelatedNews(selectedReportToRespond.source_id)}>
+                        Haberi Düzenle
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                <div className="form-group">
+                  <label>Admin Cevabı</label>
+                  <textarea 
+                    className="form-textarea" 
+                    placeholder="Şikayete yanıtınızı buraya yazın..."
+                    required
+                    rows={3}
+                    value={adminResponseText}
+                    onChange={(e) => setAdminResponseText(e.target.value)}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Şikayet Durumu</label>
+                  <select className="form-select" value={adminResponseStatus} onChange={(e) => setAdminResponseStatus(e.target.value)}>
+                    <option value="resolved">Çözüldü (Resolved)</option>
+                    <option value="rejected">Reddedildi (Rejected)</option>
+                    <option value="pending">Beklemede (Pending)</option>
+                  </select>
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn-secondary" onClick={() => setShowRespondModal(false)}>İptal</button>
+                <button type="submit" className="admin-action-btn" disabled={respondSubmitting}>
+                  {respondSubmitting ? <div className="spinner" /> : 'Kaydet'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
 
     </div>
   );

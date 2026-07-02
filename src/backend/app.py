@@ -5,6 +5,7 @@ Burası asenkron, yüksek performanslı API sunucusudur.
 """
 import os
 import sys
+import string
 import uvicorn # type: ignore
 import redis
 import json
@@ -105,6 +106,17 @@ class ChatResponse(BaseModel):
     category: str
     source: str
     source_channel: Optional[str] = "Belirlenemedi"
+    source_id: Optional[int] = None
+
+class ReportRequest(BaseModel):
+    news_query: str
+    news_details: Optional[str] = None
+    report_reason: str
+    source_id: Optional[int] = None
+
+class ReportResponseRequest(BaseModel):
+    admin_response: str
+    status: str  # 'resolved', 'rejected', 'pending'
 
 # ---------------------------------------------------------
 # KIMLIK DOGRULAMA (AUTH) BAGLANTILARI
@@ -275,6 +287,25 @@ async def update_record(record_id: int, request: InjectRequest, user: dict = Dep
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Hata: {str(e)}")
 
+@app.get("/api/veri/{record_id}")
+async def get_record(record_id: int, user: dict = Depends(require_admin)):
+    """Belirli bir kaydı döndürür (Admin)"""
+    try:
+        engine.sync_db()
+        row = engine.df[engine.df['id'] == record_id]
+        if not row.empty:
+            record = row.iloc[0].to_dict()
+            return {
+                "id": int(record["id"]),
+                "text": str(record["text"]),
+                "label": int(record["label"]),
+                "authority": float(record["authority"])
+            }
+        raise HTTPException(status_code=404, detail="Kayıt bulunamadı.")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Hata: {str(e)}")
+
+
 @app.get("/api/status")
 async def get_status():
     """Sistem kaynaklarını ve veri tabanı durumunu döner"""
@@ -289,7 +320,7 @@ async def get_status():
         "uptime": "active",
         "context_depth": len(engine.context_buffer),
         "cache_status": "active" if REDIS_AVAILABLE else "disabled",
-        "dynamic_records": len(engine.df) - 251
+        "dynamic_records": max(0, len(engine.df) - engine.baseline_records)
     }
 
 @app.post("/api/inject")
@@ -307,7 +338,15 @@ async def inject_data(request: InjectRequest, user: dict = Depends(require_admin
 async def chat(request: ChatRequest, req: Request):
     """Sohbet Endpoint'i - Redis Önbellekli (Asenkron)"""
     raw_query = request.query.strip()
-    
+
+    # --- BOŞ SORGU KONTROLÜ (En üstte olmalı) ---
+    if not raw_query:
+        return {
+            "result": "Lütfen geçerli bir iddia veya soru girin.",
+            "status": "RET", "msg": "⚠️ GEÇERSİZ GİRDİ", "description": "Boş sorgu.",
+            "confidence": 0, "risk": 0, "category": "YOK", "source": "-"
+        }  # type: ignore
+
     # Kullanıcı kimliğini (opsiyonel) al
     user_email = "anonim"
     auth_header = req.headers.get("Authorization")
@@ -318,26 +357,18 @@ async def chat(request: ChatRequest, req: Request):
             user_email = payload.get("sub", "anonim")
         except Exception:
             pass
-            
+
     # --- BASİT SOHBET KONTROLÜ (HIZLI YANIT) ---
-    import string
     lower_query = raw_query.lower()
     clean_query = lower_query.translate(str.maketrans('', '', string.punctuation))
     greetings = ["merhaba", "selam", "naber", "nasılsın", "hello", "hi", "iyi misin", "selamlar"]
-    
+
     if clean_query in greetings or clean_query.startswith("merhaba"):
         return {
             "result": "Merhaba! Ben KızılelmAI, nasıl yardımcı olabilirim?",
             "status": "SYS", "msg": "💬 SOHBET", "description": "Sistem Mesajı",
             "confidence": 100, "risk": 0, "category": "GENEL", "source": "Sistem"
         }
-
-    if not raw_query:
-        return {
-            "result": "Lütfen geçerli bir iddia veya soru girin.",
-            "status": "RET", "msg": "⚠️ GEÇERSİZ GİRDİ", "description": "Boş sorgu.",
-            "confidence": 0, "risk": 0, "category": "YOK", "source": "-"
-        } # type: ignore
 
     # --- Redis Önbellek Kontrolü ---
     cache_key = "chat:" + hashlib.sha256(raw_query.lower().strip().encode()).hexdigest()
@@ -372,7 +403,8 @@ async def chat(request: ChatRequest, req: Request):
             "risk": res['risk'],
             "category": res['category'],
             "source": res['source'],
-            "source_channel": res.get('source_channel', 'Belirlenemedi')
+            "source_channel": res.get('source_channel', 'Belirlenemedi'),
+            "source_id": res.get('source_id')
         }
 
         # --- Redis Önbelleğe Yaz ---
@@ -419,6 +451,165 @@ async def clear_chat():
 @app.get("/")
 async def root():
     return {"status": "online", "info": "KızılelmAI API Aktif. /docs adresine gidin."}
+
+@app.post("/api/reports")
+async def create_report(request: ReportRequest, req: Request):
+    user_email = "anonim"
+    auth_header = req.headers.get("Authorization")
+    if auth_header and auth_header.startswith("Bearer "):
+        token = auth_header.split(" ")[1]
+        try:
+            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            user_email = payload.get("sub", "anonim")
+        except Exception:
+            pass
+            
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('''
+            INSERT INTO reports (user_email, news_query, news_details, report_reason, source_id)
+            VALUES (%s, %s, %s, %s, %s)
+        ''', (user_email, request.news_query, request.news_details, request.report_reason, request.source_id))
+        conn.commit()
+        conn.close()
+        return {"status": "success", "message": "Şikayetiniz başarıyla iletildi."}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Şikayet iletilemedi: {str(e)}")
+
+@app.get("/api/reports/my")
+async def get_my_reports(page: int = 1, limit: int = 50, current_user: dict = Depends(get_current_user)):
+    try:
+        user_email = current_user.get("email")
+        if not user_email:
+            raise HTTPException(status_code=400, detail="Kullanıcı e-posta adresi bulunamadı.")
+            
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        cursor.execute("SELECT COUNT(*) FROM reports WHERE user_email = %s", (user_email,))
+        total_records = cursor.fetchone()[0]
+        
+        offset = (page - 1) * limit
+        cursor.execute('''
+            SELECT id, user_email, news_query, news_details, report_reason, admin_response, status, source_id, created_at, updated_at
+            FROM reports
+            WHERE user_email = %s
+            ORDER BY id DESC
+            LIMIT %s OFFSET %s
+        ''', (user_email, limit, offset))
+            
+        rows = cursor.fetchall()
+        conn.close()
+        
+        reports_data = []
+        for row in rows:
+            reports_data.append({
+                "id": row["id"],
+                "user_email": row["user_email"],
+                "news_query": row["news_query"],
+                "news_details": row["news_details"],
+                "report_reason": row["report_reason"],
+                "admin_response": row["admin_response"],
+                "status": row["status"],
+                "source_id": row["source_id"],
+                "created_at": row["created_at"].isoformat() if row["created_at"] else None,
+                "updated_at": row["updated_at"].isoformat() if row["updated_at"] else None
+            })
+            
+        return {
+            "total": total_records,
+            "page": page,
+            "limit": limit,
+            "total_pages": (total_records + limit - 1) // limit,
+            "data": reports_data
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Şikayetleriniz yüklenemedi: {str(e)}")
+
+
+@app.get("/api/admin/reports")
+async def get_reports(page: int = 1, limit: int = 50, status: Optional[str] = None, user: dict = Depends(require_admin)):
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        if status and status != 'all':
+            cursor.execute("SELECT COUNT(*) FROM reports WHERE status = %s", (status,))
+            total_records = cursor.fetchone()[0]
+            
+            offset = (page - 1) * limit
+            cursor.execute('''
+                SELECT id, user_email, news_query, news_details, report_reason, admin_response, status, source_id, created_at, updated_at
+                FROM reports
+                WHERE status = %s
+                ORDER BY id DESC
+                LIMIT %s OFFSET %s
+            ''', (status, limit, offset))
+        else:
+            cursor.execute("SELECT COUNT(*) FROM reports")
+            total_records = cursor.fetchone()[0]
+            
+            offset = (page - 1) * limit
+            cursor.execute('''
+                SELECT id, user_email, news_query, news_details, report_reason, admin_response, status, source_id, created_at, updated_at
+                FROM reports
+                ORDER BY id DESC
+                LIMIT %s OFFSET %s
+            ''', (limit, offset))
+            
+        rows = cursor.fetchall()
+        conn.close()
+        
+        reports_data = []
+        for row in rows:
+            reports_data.append({
+                "id": row["id"],
+                "user_email": row["user_email"],
+                "news_query": row["news_query"],
+                "news_details": row["news_details"],
+                "report_reason": row["report_reason"],
+                "admin_response": row["admin_response"],
+                "status": row["status"],
+                "source_id": row["source_id"],
+                "created_at": row["created_at"].isoformat() if row["created_at"] else None,
+                "updated_at": row["updated_at"].isoformat() if row["updated_at"] else None
+            })
+            
+        return {
+            "total": total_records,
+            "page": page,
+            "limit": limit,
+            "total_pages": (total_records + limit - 1) // limit,
+            "data": reports_data
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Şikayetler yüklenemedi: {str(e)}")
+
+@app.post("/api/admin/reports/{report_id}/respond")
+async def respond_report(report_id: int, request: ReportResponseRequest, user: dict = Depends(require_admin)):
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM reports WHERE id = %s", (report_id,))
+        if not cursor.fetchone():
+            conn.close()
+            raise HTTPException(status_code=404, detail="Şikayet kaydı bulunamadı.")
+            
+        cursor.execute('''
+            UPDATE reports
+            SET admin_response = %s, status = %s, updated_at = CURRENT_TIMESTAMP
+            WHERE id = %s
+        ''', (request.admin_response, request.status, report_id))
+        conn.commit()
+        conn.close()
+        return {"status": "success", "message": "Şikayet başarıyla güncellendi."}
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Hata: {str(e)}")
 
 if __name__ == '__main__':
     # Frontend uyumluluğu için 5000 portunda başlatıyoruz

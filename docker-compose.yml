@@ -41,6 +41,8 @@ services:
     restart: unless-stopped
     volumes:
       - ./data:/app/data
+      - ./src:/app/src
+      - ./tests:/app/tests
       - kizilelmai_hf_cache:/app/.cache/huggingface
     deploy:
       resources:
@@ -48,6 +50,10 @@ services:
           memory: 8G
         reservations:
           memory: 4G
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
 
   frontend:
     build: ./frontend

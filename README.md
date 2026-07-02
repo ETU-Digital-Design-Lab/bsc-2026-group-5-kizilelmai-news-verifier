@@ -6,119 +6,159 @@
 
 ---
 
-## 📌 Proje Nedir?
-KızılelmAI, sosyal medyada veya haber sitelerinde yayılan iddiaların, metinlerin ve haberlerin **gerçek mi yoksa yalan/clickbait mi** olduğunu saniyeler içinde analiz eden yapay zeka tabanlı bir doğrulama motorudur. Sadece kelimelere bakmaz; devasa bir vektörel veritabanında (Knowledge Base) bağlam taraması yapar, farklı kaynakları kıyaslar ve size net bir sonuç, doğruluk oranı ve risk skoru sunar.
+## 📌 Proje Hakkında ve Amaç
+KızılelmAI, internette ve sosyal medyada yayılan haberlerin, iddiaların veya metinlerin **gerçek mi yoksa yalan/dezenformasyon mu** olduğunu saniyeler içinde analiz eden yapay zeka tabanlı bir doğrulama (Fact-Checking) motorudur. 
+
+Sistem sadece basit bir kelime eşleşmesi veya arama motoru sorgusu yapmaz; arka planda çalışan devasa bir **Vektörel Veritabanı (Knowledge Base)** yardımıyla iddiaları anlamsal olarak tarar, resmi ve doğrulanmış haber kaynaklarıyla karşılaştırır ve mantıksal çıkarım yaparak bir doğruluk yüzdesi ile risk skoru hesaplar.
+
+### Proje Amaçları:
+*   **Dezenformasyonla Mücadele:** Sosyal medyadaki bilgi kirliliğini ve yalan haberlerin yayılma hızını en aza indirmek.
+*   **Otonom Doğrulama:** Manuel teyit mekanizmalarını yapay zeka ile hızlandırarak otomatik hale getirmek.
+*   **Hibrit Arama (RAG):** Hem anlamsal (vektörel) hem de kelime bazlı (BM25) aramayı birleştirerek en doğru resmi haber kaynaklarına ulaşmak.
 
 ---
 
-## 🚀 Başlangıç ve Kurulum Rehberi (Sıfırdan Başlayanlar İçin)
+## 🏗️ Sistem Mimarisi (Architecture)
 
-Projenin çalışması için bilgisayarınızda **sadece Docker** yüklü olması yeterlidir. Python, Node.js veya herhangi bir veritabanı kurmanıza gerek yoktur! Tüm sistem konteyner mimarisi ile paketlenmiştir.
+KızılelmAI, modern bir **Retrieval-Augmented Generation (RAG)** ve **Doğal Dil Çıkarımı (NLI)** mimarisi üzerine kurulmuştur. Sistem mimarisinin veri akış diyagramı aşağıda gösterilmiştir:
+
+```mermaid
+graph TD
+    A[Kullanıcı Girişi / İddia] --> B[Katman 1: Niyet & Girdi Temizleme]
+    B --> C{Arama Aşaması}
+    C -->|Dense - Vektörel Arama| D[(PostgreSQL + pgvector)]
+    C -->|Sparse - Kelime Bazlı| E[Rank-BM25 Algoritması]
+    D --> F[Reciprocal Rank Fusion - RRF]
+    E --> F
+    F --> G[Katman 3: Re-Ranking <br/> BAAI/bge-reranker-v2-m3]
+    G --> H[Katman 4: Mantıksal Çıkarım <br/> xlm-roberta-large-xnli]
+    H --> I[Katman 5: Karar & Eşik Motoru]
+    I --> J[Kullanıcı Arayüzü / Sonuç & Risk Skoru]
+
+    subgraph Bilgi Güncelleme Sistemi
+        K[Resmi Haber Ajansları / RSS] -->|Her 4 Saatte Bir| L[Auto-Scraper]
+        L -->|Metin Çıkarma| M[Newspaper3k]
+        M -->|Vektörleştirme| N[multilingual-e5-small]
+        N -->|Dinamik Enjeksiyon| D
+    end
+```
+
+### 🧠 10 Katmanlı Yapay Zeka Motoru Çalışma Prensibi
+
+1.  **Girdi Normalizasyonu (Katman 1):** Kullanıcının yazdığı metin temizlenir, imla hataları giderilir ve anlamsal niyet analizi yapılarak gereksiz sorgular elenir.
+2.  **Hibrit Arama (Dense + Sparse Retrieval - Katman 2):** İddia anında vektörleştirilir. PostgreSQL vektör veritabanında **Kosinüs Mesafesi** ile anlamsal yakınlık aranırken, eşzamanlı olarak `BM25` ile kelime araması yapılır. Sonuçlar RRF ile birleştirilir.
+3.  **Yeniden Sıralama (Re-Ranking - Katman 3):** `BAAI/bge-reranker-v2-m3` Cross-Encoder modeliyle, arama sonuçlarından gelen yüzlerce kaynaktan sadece sorguyla en yüksek düzeyde eşleşen ilk 3 haber seçilir.
+4.  **Mantıksal Çıkarım (NLI - Katman 4):** `joeddav/xlm-roberta-large-xnli` modeli kullanılarak seçilen en güçlü kaynaklar ile kullanıcının iddiası karşılaştırılır: *Örtüşüyor mu (Entailment), Çelişiyor mu (Contradiction) yoksa Nötr mü?*
+5.  **Karar Motoru (Katman 5):** NLI olasılık skorları matematiksel eşik değerlerinden geçirilerek nihai "Doğru", "Yalan" veya "Şüpheli" kararı verilir.
+6.  **Ön Sezgi Sınıflandırıcısı (Katman 6):** Dil yapısına bakarak metnin clickbait veya dezenformasyon jargonu içerip içermediğini analiz eder.
+7.  **Bağlam Hafızası (Katman 7):** Peş peşe gelen sohbet geçmişini (örneğin "Peki ya bu?") hafızasında tutarak arama sorgularını genişletir.
+8.  **Otorite Ağırlıklandırması (Katman 8):** Resmi ve güvenilir kaynaklardan gelen haberlere daha yüksek güvenilirlik puanı atar.
+9.  **Konsensüs Analizi (Katman 9):** Elde edilen çoklu kaynakların birbiriyle çelişip çelişmediğini kontrol eder.
+10. **Dinamik Enjeksiyon (Katman 10):** Admin panelinden girilen yeni haberler veya otomatik scraper'ın bulduğu içerikler sistem durdurulmadan vektör veritabanına eklenir.
+
+---
+
+## 📁 Repository Dosya Yapısı
+
+Repository yapısı, proje standartlarına uygun olarak aşağıdaki gibi organize edilmiştir:
+
+```text
+├── README.md                 # Projeyi ve kurulumu anlatan ana dosya (Bu dosya)
+├── report.pdf                # Projenin teknik tasarım ve analiz raporu
+├── docker-compose.yml        # Tüm servisleri tek tuşla ayağa kaldıran konfigürasyon
+├── Dockerfile                # Backend uygulamasının Docker imaj dosyası
+├── requirements.txt          # Python bağımlılık listesi
+├── .dockerignore             # Docker imajına dahil edilmeyecek dosyalar listesi
+├── docs/                     # Projeye ait ek dokümantasyonlar, API dökümanları
+├── simulations/              # Yapay zeka modelleri ve veri seti test simülasyonları
+├── results/                  # Test sonuçları, grafikler ve performans raporları
+├── presentation/             # Proje sunum dosyaları (slaytlar, videolar)
+├── src/                      # Backend ve Yapay Zeka motorunun ana kaynak kodları
+│   ├── backend/              # FastAPI API Sunucusu ve yönlendiriciler
+│   ├── ai_core/              # Yapay zeka motoru, RAG, NLI ve Scraper katmanları
+│   └── shared/               # Ortak kullanılan veritabanı bağlantı ve yardımcı modülleri
+└── frontend/                 # React & Vite ile yazılmış Nginx sunuculu kullanıcı arayüzü
+```
+
+---
+
+## 🚀 Adım Adım Kurulum ve Çalıştırma Rehberi
+
+KızılelmAI, konteyner teknolojisi ile paketlenmiştir. Bu sayede yerel bilgisayarınızda Python, Node.js veya PostgreSQL kurulu olmasına gerek kalmadan **sadece Docker** kullanarak tüm sistemi ayağa kaldırabilirsiniz.
+
+### Gereksinimler:
+*   [Docker Desktop](https://www.docker.com/products/docker-desktop/) (Windows/macOS/Linux için kurulu ve çalışır durumda olmalıdır).
+
+---
 
 ### Adım 1: Projeyi Klonlayın
+Öncelikle terminal veya komut satırını açarak projeyi yerel bilgisayarınıza indirin ve proje dizinine girin:
+
 ```bash
-git clone <proje-git-linki>
-cd kizilelmAI
+git clone https://github.com/ETU-Digital-Design-Lab/bsc-2026-group-5-kizilelmai-news-verifier.git
+cd bsc-2026-group-5-kizilelmai-news-verifier
 ```
 
-### Adım 2: Tüm Sistemi Tek Tuşla Başlatın
-Aşağıdaki komut Backend, Frontend (Nginx), PostgreSQL ve Redis sunucularını otomatik olarak derleyip ayağa kaldırır:
-```bash
-docker-compose up -d --build
-```
-*(İlk çalıştırmada kütüphanelerin indirilmesi birkaç dakika sürebilir. Kurulum bittikten sonra tarayıcınızdan **`http://localhost`** adresine giderek KızılelmAI'yi kullanmaya başlayabilirsiniz!)*
+### Adım 2: Docker Konteynırlarını Ayağa Kaldırın
+Aşağıdaki komut, arka planda PostgreSQL (pgvector ile), Redis, Python FastAPI (Backend) ve React/Nginx (Frontend) konteynırlarını otomatik olarak derler ve çalıştırır:
 
-### Adım 3: Veritabanını Doldurun (Sihirli Adım)
-Veritabanı şu an boş. Sistemin 30.000 adetlik dengeli bir haber havuzuna (Knowledge Base) sahip olması için Docker içerisindeki veri hazırlama scriptini çalıştırın:
 ```bash
-docker-compose exec backend python src/ai_core/ingest/prep_30k_data.py
+docker compose up --build -d
 ```
-**Bu script ne yapar?**
-1. İnternetten açık kaynaklı haber veri setlerini indirir.
-2. Metinleri temizler (linkler, emojiler, fazla boşluklar silinir).
-3. 15.000 Gerçek ve 15.000 Yalan haberi dengeli bir şekilde seçer.
-4. `multilingual-e5-small` modelini kullanarak bu 30.000 haberi sayılara (vektörlere) dönüştürür.
-5. Bu sayıları PostgreSQL veritabanına kaydeder.
+
+*   **Derleme Süresi:** İlk çalıştırmada yapay zeka modelleri (HuggingFace cache) ve python kütüphaneleri indirileceği için internet hızınıza bağlı olarak bu işlem 5-10 dakika sürebilir.
+*   **İzleme:** Docker Desktop arayüzünden veya `docker ps` komutuyla konteynırların durumunu takip edebilirsiniz.
+
+### Adım 3: Vektörel Veritabanını Doldurun (Haber Kaynakları Enjeksiyonu)
+Konteynırlar ayağa kalktığında veritabanınız boş olacaktır. Sistemin anlamsal arama yapabilmesi için internetten indirilen **30.000 adetlik dengeli haber setini** vektörleştirerek PostgreSQL'e yükleyen hazırlık betiğini (script) çalıştırın:
+
+```bash
+docker compose exec backend python src/ai_core/ingest/prep_30k_data.py
+```
+
+*   Bu betik internetten 15.000 gerçek, 15.000 yalan haberi indirir.
+*   Metinleri temizler ve `multilingual-e5-small` modeliyle 384 boyutlu vektörlere dönüştürerek veritabanına yazar.
+*   Bu işlem bilgisayarınızın donanım gücüne göre birkaç dakika sürebilir.
+
+### Adım 4: Arayüze Bağlanın
+Kurulum başarıyla tamamlandıktan sonra tarayıcınızı açıp aşağıdaki adreslere gidebilirsiniz:
+
+*   **Kullanıcı Arayüzü (Frontend):** [http://localhost](http://localhost)
+*   **API Dökümantasyonu (Swagger UI):** [http://localhost:5000/docs](http://localhost:5000/docs)
 
 ---
 
-## ⚙️ Kullanılan Teknolojiler ve Nedenleri
+## 🛠️ Kullanılan Teknolojiler ve Tercih Nedenleri
 
-| Teknoloji / Kütüphane | Kullanım Amacı | Neden Seçtik? |
+| Teknoloji / Kütüphane | Kullanım Amacı | Tercih Nedeni |
 | :--- | :--- | :--- |
-| **Python & FastAPI** | Arka plan (Backend) API sunucusu. | Çok hızlıdır, asenkron (`async`) çalışır ve yapay zeka (Python) kütüphaneleriyle %100 uyumludur. |
-| **React & Vite** | Ön yüz (Frontend) kullanıcı arayüzü. | Sayfa yenilenmeden anında tepki veren, çok hızlı ve modern arayüzler geliştirmek için. |
-| **PostgreSQL 16 & pgvector (pg16)** | Vektör Veritabanı (Knowledge Base). | Metinleri kelime kelime değil, "anlamsal yakınlık" (kosinüs mesafesi) ile arayabilmek için. Yapay zekanın hafızasıdır. Dockerize edilmiş pg16 sürümünü kullandık. |
-| **Redis** | Önbellekleme (Caching). | Bir soru sorulduğunda cevabı hafızada tutar. Aynı soru tekrar sorulursa modelleri yormadan milisaniyeler içinde cevabı yapıştırır. |
-| **Docker & Nginx** | Altyapı Konteynerizasyonu ve Web Sunucusu. | Taşınabilirlik sağlar ve Nginx ile React uygulamasını statik olarak sunup API isteklerini backend'e güvenli şekilde yönlendirir. |
-| **BeautifulSoup & Newspaper3k** | Web Kazıma (Scraping). | Arka planda resmi haber sitelerine girip, sayfalardaki gereksiz reklamları atıp sadece saf haber metnini ve başlığını almak için. |
-| **Sentence-Transformers** | Metinleri Vektöre Çevirme (Embedding). | İnsan dilini makinelerin anladığı sayısal dizilere dönüştürür. `multilingual-e5-small` modelini kullandık çünkü çok dilli ve inanılmaz hızlıdır. |
-| **HuggingFace Transformers** | Yeniden Sıralama (Re-Ranker) ve Doğrulama (NLI). | `bge-reranker-v2-m3` ve `xlm-roberta-large-xnli` modellerini yerel olarak yükleyip yapay zeka mantıksal çıkarım katmanlarını yönetmek için. |
-| **FP16 Yarı Hassasiyet (AMP)** | Model Çalışma Zamanı Hızlandırması. | PyTorch modellerinde (`.half()` / AMP) float16 yarı hassasiyet kullanarak GPU bellek kullanımını yarıya indirir, Tensor Cores desteğiyle çıkarım ve eğitimi hızlandırır. |
-| **Rank-BM25** | Hibrit Arama Aşaması (Sparse Retrieval). | Vektörel aramanın yanında kelime bazlı (lexical) arama yaparak hibrit arama mimarisini kurmak ve doğruluğu artırmak için. |
-| **SQLAlchemy** | Veritabanı ORM Katmanı. | Python ile PostgreSQL arasında güvenli, asenkron ve ölçeklenebilir veritabanı sorguları ve tablo yönetimini sağlamak için. |
-| **PyJWT & Bcrypt** | Admin Kimlik Doğrulama ve Güvenlik. | Admin paneli şifrelerini güvenli hash'lemek (bcrypt) ve oturum yönetimini JWT (JSON Web Token) ile korumak için. |
-| **Schedule** | Arka Plan Görev Zamanlayıcı. | Sunucu çalışırken asenkron olarak otomatik haber scraper modülünü her 4 saatte bir tetiklemek için. |
-| **Lucide React** | Vektörel İkon Seti. | Ön yüzde kullanılan modern, responsive ve premium tasarımlı vektör ikon bileşenleri için. |
+| **Python & FastAPI** | Backend / API Katmanı | Asenkron (`async`) mimarisi sayesinde yüksek trafik altında çok hızlı ve performanslıdır. |
+| **React (Vite)** | Frontend Arayüzü | Kullanıcı deneyimini artıran, sayfa yenilemesiz hızlı arayüz bileşenleri için. |
+| **PostgreSQL 16 & pgvector** | Vektör Veritabanı | Yapay zekanın "hafızası" görevini görür. Haberleri anlamsal yakınlıklarına göre milisaniyeler içinde bulur. |
+| **Redis** | Önbellekleme (Caching) | Mükerrer sorular sorulduğunda AI modellerine gitmeden hafızadaki hazır cevapları anında döner. |
+| **Sentence-Transformers** | Embedding (Vektörleştirme) | `multilingual-e5-small` modeli çok dilli destek sunar ve çıkarım hızı çok yüksektir. |
+| **BAAI bge-reranker-v2-m3** | Yeniden Sıralama (Re-ranker) | Kaba aramadan dönen verileri süzerek sadece en alakalı ilk 3 kaynağı hassas şekilde seçer. |
+| **xlm-roberta-large-xnli** | Mantıksal Çıkarım (NLI) | İddia ile haber arasındaki çelişki/örtüşme ilişkisini yüksek doğrulukla sınıflandırır. |
+| **Newspaper3k & BS4** | Haber Kazıma (Web Scraper) | Otomatik olarak haber sitelerindeki reklam ve kodları ayıklayıp saf haber metinlerini toplar. |
+| **Docker & Nginx** | Altyapı ve Sunum | "Benim bilgisayarımda çalışıyordu" sorununu çözer; her ortamda tek komutla kurulum sağlar. |
 
 ---
 
-## 🧠 Yapay Zeka Motoru Mimarisi (10 Katmanlı RAG Sistemi)
+## 🐛 Olası Sorunlar ve Çözümleri
 
-KızılelmAI basit bir "sor-cevap" botu değildir. Bir soru geldiğinde arka planda çalışan ve halüsinasyon riskini %0'a indirmeyi hedefleyen **10 Katmanlı RAG (Retrieval-Augmented Generation)** mimarisi vardır:
+### 1. "Bulut işlemi başarısız oldu" (Cloud operation failed) Hatası
+*   **Neden:** Proje dizini OneDrive veya iCloud gibi bulut yedekleme klasörlerinde olduğunda ve yerel `node_modules` dosyaları buluta taşındığında Docker bunlara erişemez.
+*   **Çözüm:** Proje kök dizininde ve `frontend/` dizininde oluşturduğumuz `.dockerignore` dosyaları bu sorunu kökten çözer. `.dockerignore` dosyalarının silinmediğinden emin olun.
 
-1. **Katman 1: Giriş ve Niyet Analizi (Girdi Normalizasyon)**
-   * **İşlem:** Kullanıcının yazdığı metin temizlenir, imla hataları düzeltilir ve niyet (merhaba mı diyor, yoksa iddia mı sunuyor) anlaşılır. Gereksiz yapay zeka yükünü engeller.
+### 2. GPU / CUDA Kullanımı
+*   Sistem varsayılan olarak CPU üzerinde çalışacak şekilde optimize edilmiştir. Eğer NVIDIA ekran kartınız varsa ve CUDA kullanmak istiyorsanız `docker-compose.yml` içerisindeki `deploy.resources.reservations.devices` kısmını aktif hale getirebilirsiniz.
 
-2. **Katman 2: Geri Getirme (Dense + Sparse Hibrit Arama)**
-   * **İşlem:** İddia anında vektöre çevrilir. PostgreSQL içindeki 30.000 haberde "anlamsal" (Kosinüs Mesafesi) arama yapılır. Eşzamanlı olarak `BM25` algoritması ile kelime (keyword) bazlı arama yapılır ve sonuçlar RRF (Reciprocal Rank Fusion) ile birleştirilir.
-
-3. **Katman 3: Yeniden Sıralama (Re-Ranking - The Sniper)**
-   * **Teknoloji:** `BAAI/bge-reranker-v2-m3` (Cross-Encoder)
-   * **İşlem:** İlk aşamada bulunan yüzlerce alakasız haberi eler. Sorgu ile haberi çapraz okuyarak (Cross-Attention) sadece GERÇEKTEN aynı bağlamda olan ilk 3 haberi seçer.
-
-4. **Katman 4: Mantıksal Çıkarım (NLI - Natural Language Inference)**
-   * **Teknoloji:** `joeddav/xlm-roberta-large-xnli`
-   * **İşlem:** Re-ranker'ı geçen en güçlü haberi alır ve şu soruyu sorar: *"Kullanıcının iddiası, resmi haberle ÖRTÜŞÜYOR MU (Entailment), yoksa ÇELİŞİYOR MU (Contradiction)?"* Doğru/Yalan damgası burada vurulur.
-
-5. **Katman 5: Karar Motoru (Rule-Based Decision)**
-   * **İşlem:** Katman 4'ten gelen NLI skorları (Olasılık yüzdeleri) belirli matematiksel eşik değerlerine (Threshold) vurulur. Sonuç "Kesin Doğru", "Kesin Yalan" veya "Yetersiz Veri" olarak kategorize edilir.
-
-6. **Katman 6: Ön Sezgi Sınıflandırıcısı (Kizilelma Classifier v1)**
-   * **Teknoloji:** HuggingFace `AutoModelForSequenceClassification`
-   * **İşlem:** Veritabanına hiç bakmadan, sadece metnin dil yapısına (Clickbait jargonu, aşırı abartı vs.) bakarak saniyeler içinde "Bu metin %90 ihtimalle Yalan Haber formatında" tahmini yapar.
-
-7. **Katman 7: Konsept Birleştirici ve Bağlam Hafızası (Contextual Memory)**
-   * **İşlem:** Kullanıcı peş peşe soru sorduğunda (Örn: *Peki ya dün?*), bu katman bir önceki soruyu hatırlar ve yeni soruyu önceki bağlamla birleştirerek asıl arama sorgusunu ("Peki ya dünki deprem?") oluşturur.
-
-8. **Katman 8: Otorite Ağırlıklandırması (Authority Weighting)**
-   * **İşlem:** Katman 3'teki (Re-Ranker) sonuçları, kaynağın güvenilirliğine göre normalize eder. TRT Haber'den (Otorite: 0.95) gelen bir bilgi, anonim bir kaynaktan gelen bilgiye göre daha üst sıralara taşınır.
-
-9. **Katman 9: Multi-Source Consensus (Konsensüs Analizi)**
-   * **İşlem:** Karar vermeden önce birden çok kaynağa bakar. Bulunan haberlerin hepsi aynı fikirde mi? Yoksa kaynaklar birbiriyle çelişiyor mu? Analiz edilir.
-
-10. **Katman 10: Dinamik Enjeksiyon (Çalışma Zamanı Bilgi Yönetimi)**
-    * **İşlem:** KızılelmAI çalışırken, Admin Paneli veya Auto-Scraper aracılığıyla sisteme yeni bir haber enjekte edildiğinde motoru durdurmadan yeni bilgiyi anında vektörleştirir ve PostgreSQL'e kaydeder.
----
-
-## 🕷️ Otomatik Haber Scraper (Veri Toplayıcı)
-
-KızılelmAI'nin hafızası sabit değildir. Sistem çalıştığı sürece kendi kendini günceller.
-* **Dosya:** `src/ai_core/ingest/auto_scraper.py`
-* **Nasıl Çalışır:** Backend (`app.py`) ayağa kalktığında bu script arka planda bağımsız bir işlem (`subprocess`) olarak başlar.
-* **Periyot:** `schedule` kütüphanesi sayesinde **her 4 saatte bir** uyanır.
-* **Kaynaklar:** TRT Haber, İletişim Başkanlığı, TBMM, DHA ve İHA gibi doğruluk payı en yüksek olan resmi siteleri gezer.
-* **İşlem:** Yeni haber linkleri bulur (`BeautifulSoup`), bu linklerin içindeki metni çeker (`Newspaper3k`), vektörleştirir ve doğrudan PostgreSQL veritabanına yüksek "Güvenilirlik Otoritesi" ile kaydeder.
-* **Tekrarı Önleme:** İndirdiği linkleri `data/processed/scraped_urls.txt` dosyasına kaydeder ki bir sonraki sefer aynı haberi tekrar veritabanına basmasın.
+### 3. Modellerin İndirilememesi (Bağlantı Hatası)
+*   Sistem ilk ayağa kalkarken HuggingFace sunucularından yaklaşık 2-3 GB model dosyası indirir. İnternet bağlantınızın stabil olduğundan emin olun.
 
 ---
 
-## 📁 Temel Dosya ve Klasör Yapısı
-
-* **`src/backend/app.py`**: Sunucunun beynidir. Gelen HTTP isteklerini (`/api/chat`, `/api/veri`) dinler, Redis önbelleğine bakar, Engine'i çağırır ve Scraper'ı arka planda başlatır (`lifespan` eventi ile).
-* **`src/ai_core/engine/engine.py`**: Bütün AI modellerinin yüklendiği, RAG mimarisinin, Re-ranker ve NLI modellerinin çalışıp karar ürettiği yerdir. Projenin kalbidir.
-* **`src/ai_core/ingest/prep_30k_data.py`**: Ekip arkadaşlarının projeyi klonladıktan sonra veritabanlarını 30 bin haberle doldurmasını sağlayan mucizevi kurulum dosyasıdır.
-* **`frontend/src/App.jsx`**: Kullanıcıların gördüğü, mesaj yazdığı, admin paneline girdiği, React ile yazılmış arayüz kodudur.
-
----
-
+## 👥 Ekibimiz
+Bu proje **ETU Digital Design Lab** bünyesinde **Grup 5** tarafından geliştirilmiştir.
+*   **Proje Adı:** KızılelmAI News Verifier
+*   **Geliştiriciler:** Grup 5 Üyeleri

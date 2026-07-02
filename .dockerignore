@@ -1,0 +1,19 @@
+# Ignore node modules and local builds
+**/node_modules/
+**/dist/
+
+# Version control
+.git/
+
+# Python caching & environments
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Local caches and env files
+.env
+.cache/
+data/

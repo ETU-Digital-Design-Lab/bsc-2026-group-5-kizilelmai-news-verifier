@@ -55,6 +55,21 @@ def init_db():
         )
     ''')
 
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS reports (
+            id SERIAL PRIMARY KEY,
+            user_email TEXT,
+            news_query TEXT NOT NULL,
+            news_details TEXT,
+            report_reason TEXT NOT NULL,
+            admin_response TEXT,
+            status TEXT DEFAULT 'pending',
+            source_id INTEGER,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    ''')
+
     # Varsayılan admin hesabını ekle (eğer yoksa)
     cursor.execute("SELECT * FROM users WHERE email = 'admin'")
     if not cursor.fetchone():
