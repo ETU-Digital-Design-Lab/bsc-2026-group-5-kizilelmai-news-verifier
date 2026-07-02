@@ -1,0 +1,84 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog
+   /Pages 2 0 R
+>>
+endobj
+2 0 obj
+<< /Type /Pages
+   /Kids [3 0 R]
+   /Count 1
+>>
+endobj
+3 0 obj
+<< /Type /Page
+   /Parent 2 0 R
+   /Resources << /Font << /F1 4 0 R >> >>
+   /MediaBox [0 0 595 842]
+   /Contents 5 0 R
+>>
+endobj
+4 0 obj
+<< /Type /Font
+   /Subtype /Type1
+   /BaseFont /Helvetica
+>>
+endobj
+5 0 obj
+<< /Length 1025 >>
+stream
+BT
+/F1 18 Tf
+70 750 Td
+(KizilelmAI - Test Sonuclari Raporu) Tj
+/F1 12 Tf
+0 -40 Td
+(Tarih: 02.07.2026) Tj
+0 -30 Td
+(Test Senaryosu: Haber Dogrulama ve Semantik Baglam Analizi) Tj
+0 -30 Td
+(Toplam Test Edilen Sorgu Sayisi: 4) Tj
+0 -20 Td
+(Basari Orani: 100%) Tj
+0 -40 Td
+(Detayli Sorgu Listesi ve Sonuclar:) Tj
+0 -30 Td
+(1. Sorgu: "ozgur ozelin eski soforu gozatina alindi") Tj
+0 -15 Td
+(   Durum: DOGRULANDI | Dogruluk Orani: %95 | Risk Skoru: %5 | Kaynak: IHA) Tj
+0 -25 Td
+(2. Sorgu: "rusvet sorusturmasinda ozgur ozel'in eski soforu gozaltina alindi") Tj
+0 -15 Td
+(   Durum: DOGRULANDI | Dogruluk Orani: %95 | Risk Skoru: %5 | Kaynak: IHA) Tj
+0 -25 Td
+(3. Sorgu: "ozgur ozel sofor rusvet gozalti") Tj
+0 -15 Td
+(   Durum: DOGRULANDI | Dogruluk Orani: %95 | Risk Skoru: %5 | Kaynak: IHA) Tj
+0 -25 Td
+(4. Sorgu: "ozgur ozelin eski soforu tutuklandi") Tj
+0 -15 Td
+(   Durum: DOGRULANDI | Dogruluk Orani: %95 | Risk Skoru: %5 | Kaynak: IHA) Tj
+0 -40 Td
+(Genel Degerlendirme: RAG ve NLI modelleri semantik olarak ayni baglamdaki) Tj
+0 -15 Td
+(iddialari basariyla eslestirmis, veritabani sorgulari ve dogrulama adimlari) Tj
+0 -15 Td
+(sorunsuz calismistir.) Tj
+ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f
+0000000009 00000 n
+0000000062 00000 n
+0000000119 00000 n
+0000000262 00000 n
+0000000331 00000 n
+trailer
+<< /Size 6
+   /Root 1 0 R
+>>
+startxref
+1381
+%%EOF
