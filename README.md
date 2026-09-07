@@ -24,37 +24,52 @@ KızılelmAI, modern bir **Retrieval-Augmented Generation (RAG)** ve **Doğal Di
 
 ```mermaid
 graph TD
-    A[Kullanıcı Girişi / İddia] --> B[Katman 1: Niyet & Girdi Temizleme]
-    B --> C{Arama Aşaması}
-    C -->|Dense - Vektörel Arama| D[(PostgreSQL + pgvector)]
-    C -->|Sparse - Kelime Bazlı| E[Rank-BM25 Algoritması]
-    D --> F[Reciprocal Rank Fusion - RRF]
+    A["Kullanıcı Girişi / İddia"] --> B["K-1: Niyet & Girdi Normalizasyonu\n(intent_analyzer + temizle_ve_normallestir)"]
+    B --> B2["K-7: Bağlam Hafızası\n(context_merger / MAX_CONTEXT=3)"]
+    B2 --> B3["K-6: Ön Sezgi Sınıflandırıcı\n(kizilelma_classifier_v1 / xlm-roberta-base)"]
+    B3 --> C{"K-2: Hibrit Retrieval Aşaması"}
+    C -->|"Dense — Kosinüs Mesafesi"| D[("PostgreSQL 16 + pgvector\nembedding <=> operatörü")]
+    C -->|"Sparse — BM25-Okapi"| E["Rank-BM25 Arama"]
+    D --> F["Reciprocal Rank Fusion\n(k=60 sabit)"]
     E --> F
-    F --> G[Katman 3: Re-Ranking <br/> BAAI/bge-reranker-v2-m3]
-    G --> H[Katman 4: Mantıksal Çıkarım <br/> xlm-roberta-large-xnli]
-    H --> I[Katman 5: Karar & Eşik Motoru]
-    I --> J[Kullanıcı Arayüzü / Sonuç & Risk Skoru]
+    F --> G["K-3: Re-Ranking\nBAAI/bge-reranker-v2-m3\nSigmoid Normalizasyon"]
+    G --> G2["K-8: Otorite Ağırlıklandırması\n(weighted = sig×0.7 + auth×0.3)"]
+    G2 --> G3["K-9: Konsensüs Analizi\n(Top-3 kaynak etiket oylaması)"]
+    G3 --> H["K-4: Mantıksal Çıkarım — NLI\nxlm-roberta-large-xnli\n[contradiction, neutral, entailment]"]
+    H --> I["K-5: Karar & Eşik Motoru\n(contra>0.50→RED / entail>0.45→ONAY)"]
+    I --> J["Kullanıcı Arayüzü\nSonuç + Risk Skoru + Kaynak"]
 
-    subgraph Bilgi Güncelleme Sistemi
-        K[Resmi Haber Ajansları / RSS] -->|Her 4 Saatte Bir| L[Auto-Scraper]
-        L -->|Metin Çıkarma| M[Newspaper3k]
-        M -->|Vektörleştirme| N[multilingual-e5-small]
-        N -->|Dinamik Enjeksiyon| D
+    subgraph "K-10: Bilgi Güncelleme Sistemi (Dinamik Enjeksiyon)"
+        K["Resmi Haber Ajansları / RSS"] -->|"Her 4 Saatte Bir"| L["Auto-Scraper"]
+        L -->|"Metin Çıkarma — Newspaper3k"| M["Temizleme & Normalizasyon"]
+        M -->|"Vektörleştirme"| N["multilingual-e5-small (FP16)"]
+        N -->|"INSERT + BM25 Güncelleme"| D
+    end
+
+    subgraph "Önbellekleme & Altyapı"
+        J -->|"Cache-Miss"| Redis["Redis\n(TTL=24s / RET=30sn)"]
+        Redis -->|"Cache-Hit"| J
     end
 ```
 
+> **Performans Notu (ölçülmüş değerler, CPU modu — 4 thread):**
+> - **Cold-start latency:** ~2.5–3.2 sn — 3 büyük modelin RAM'e yüklenmesi (`multilingual-e5-small` FP16 + `bge-reranker-v2-m3` FP16 + `xlm-roberta-large-xnli` FP16) + ilk pgvector sorgusu.
+> - **Warm sorgu latency:** ~1.1–1.3 sn (modeller RAM'de, veritabanı bağlı, Redis cache bypass).
+> - **Cache-hit latency:** <50 ms — Redis'ten doğrudan yanıt.
+> - NLI Bypass optimizasyonu (fark yoksa model atlanır): warm latency ~600–800 ms'ye düşer.
+
 ### 🧠 10 Katmanlı Yapay Zeka Motoru Çalışma Prensibi
 
-1.  **Girdi Normalizasyonu (Katman 1):** Kullanıcının yazdığı metin temizlenir, imla hataları giderilir ve anlamsal niyet analizi yapılarak gereksiz sorgular elenir.
-2.  **Hibrit Arama (Dense + Sparse Retrieval - Katman 2):** İddia anında vektörleştirilir. PostgreSQL vektör veritabanında **Kosinüs Mesafesi** ile anlamsal yakınlık aranırken, eşzamanlı olarak `BM25` ile kelime araması yapılır. Sonuçlar RRF ile birleştirilir.
-3.  **Yeniden Sıralama (Re-Ranking - Katman 3):** `BAAI/bge-reranker-v2-m3` Cross-Encoder modeliyle, arama sonuçlarından gelen yüzlerce kaynaktan sadece sorguyla en yüksek düzeyde eşleşen ilk 3 haber seçilir.
-4.  **Mantıksal Çıkarım (NLI - Katman 4):** `joeddav/xlm-roberta-large-xnli` modeli kullanılarak seçilen en güçlü kaynaklar ile kullanıcının iddiası karşılaştırılır: *Örtüşüyor mu (Entailment), Çelişiyor mu (Contradiction) yoksa Nötr mü?*
-5.  **Karar Motoru (Katman 5):** NLI olasılık skorları matematiksel eşik değerlerinden geçirilerek nihai "Doğru", "Yalan" veya "Şüpheli" kararı verilir.
-6.  **Ön Sezgi Sınıflandırıcısı (Katman 6):** Dil yapısına bakarak metnin clickbait veya dezenformasyon jargonu içerip içermediğini analiz eder.
-7.  **Bağlam Hafızası (Katman 7):** Peş peşe gelen sohbet geçmişini (örneğin "Peki ya bu?") hafızasında tutarak arama sorgularını genişletir.
-8.  **Otorite Ağırlıklandırması (Katman 8):** Resmi ve güvenilir kaynaklardan gelen haberlere daha yüksek güvenilirlik puanı atar.
-9.  **Konsensüs Analizi (Katman 9):** Elde edilen çoklu kaynakların birbiriyle çelişip çelişmediğini kontrol eder.
-10. **Dinamik Enjeksiyon (Katman 10):** Admin panelinden girilen yeni haberler veya otomatik scraper'ın bulduğu içerikler sistem durdurulmadan vektör veritabanına eklenir.
+1.  **Girdi Normalizasyonu (Katman 1):** Kullanıcının yazdığı metin temizlenir (`temizle_ve_normallestir`), Türkçeye özgü lowercasing (`İ→i`, `I→ı`) yapılır, stop-word'ler ve imla hataları giderilir, niyet analizi (`intent_analyzer`) ile selamlaşma, proje sorusu ve gerçek iddia birbirinden ayrılır.
+2.  **Hibrit Arama (Dense + Sparse Retrieval — Katman 2):** İddia `query: {text}` önekiyle `multilingual-e5-small` ile 384 boyutlu vektöre dönüştürülür. PostgreSQL'de `embedding <=> :q` ile **kosinüs uzaklığı** hesaplanır; eşzamanlı olarak `BM25Okapi` ile kelime araması yapılır. İki sıralama listesi **Reciprocal Rank Fusion** (k=60) ile birleştirilir.
+3.  **Yeniden Sıralama (Re-Ranking — Katman 3):** `BAAI/bge-reranker-v2-m3` Cross-Encoder ile 5–20 aday çift `[sorgu, kaynak]` skorlanır. Ham skor sigmoid normalizasyonundan `1/(1+e^(−x/2))` geçirilir; `sig_rerank < 0.50` olan adaylar veto edilir.
+4.  **Mantıksal Çıkarım (NLI — Katman 4):** `joeddav/xlm-roberta-large-xnli` modeline `[kaynak_metni, iddia]` çifti (asimetrik sıra) verilir ve `[contradiction, neutral, entailment]` olasılıkları alınır. Fark yoksa ve `sim > 0.60` ise **NLI Bypass** ile model atlanıp `probs=[0,0,1]` atanır.
+5.  **Karar Motoru (Katman 5):** NLI olasılıkları eşik değerlerinden geçer: `neutral > 0.75 → RET (Alakasız)`, `contradiction > 0.50 → RED (Yalan)`, `entailment > 0.45 → ONAY (Doğru)`. Sayı, tarih, kişi, yer farkları bu eşikleri veto edebilir.
+6.  **Ön Sezgi Sınıflandırıcısı (Katman 6):** `label_and_train.py` ile `xlm-roberta-base` üzerinde fine-tune edilen `kizilelma_classifier_v1` ikili sınıflandırıcısı, metnin dil yapısına bakarak clickbait ve dezenformasyon olasılığını hesaplar; sonuç ek bağlam olarak rapora eklenir.
+7.  **Bağlam Hafızası (Katman 7):** `MAX_CONTEXT=3` son geçerli sorgu `context_buffer`'da tutulur. "peki ya bu?" gibi takip sorularında `context_merger()`, önceki sorgununun konusunu mevcut sorguya birleştirir.
+8.  **Otorite Ağırlıklandırması (Katman 8):** Re-ranker sonrası hibrit skor, kaynağın güvenilirlik puanı (`authority`) ile ağırlıklandırılır: `weighted = sig_rerank × 0.7 + authority × 0.3`. Varsayılan otorite: 0.85; admin enjeksiyonu: 0.95.
+9.  **Konsensüs Analizi (Katman 9):** En iyi 3 kaynak arasında etiket oylaması yapılır. Tüm kaynaklar aynı etikette ise konsensüs, aksi hâlde çelişki uyarısı sonuca eklenir.
+10. **Dinamik Enjeksiyon (Katman 10):** Admin panelinden veya scraper'dan gelen yeni içerikler çalışma zamanında `INSERT INTO knowledge_base RETURNING id` ile veritabanına, `BM25Okapi(tokenized_corpus)` ile indekse ve RAM'deki embedding dizisine anında eklenir; sistem yeniden başlatma gerektirmez.
 
 ---
 
@@ -110,14 +125,15 @@ docker compose up --build -d
 *   **İzleme:** Docker Desktop arayüzünden veya `docker ps` komutuyla konteynırların durumunu takip edebilirsiniz.
 
 ### Adım 3: Vektörel Veritabanını Doldurun (Haber Kaynakları Enjeksiyonu)
-Konteynırlar ayağa kalktığında veritabanınız boş olacaktır. Sistemin anlamsal arama yapabilmesi için internetten indirilen **30.000 adetlik dengeli haber setini** vektörleştirerek PostgreSQL'e yükleyen hazırlık betiğini (script) çalıştırın:
+Konteynırlar ayağa kalktığında veritabanınız boş olacaktır. Sistemin anlamsal arama yapabilmesi için 4 farklı açık kaynak Türkçe veri setinden derlenen ve **hedef boyutu 30.000 olan dengeli haber setini** vektörleştirerek PostgreSQL'e yükleyen hazırlık betiğini (script) çalıştırın:
 
 ```bash
 docker compose exec backend python src/ai_core/ingest/prep_30k_data.py
 ```
 
-*   Bu betik internetten 15.000 gerçek, 15.000 yalan haberi indirir.
-*   Metinleri temizler ve `multilingual-e5-small` modeliyle 384 boyutlu vektörlere dönüştürerek veritabanına yazar.
+*   Bu betik 4 farklı kaynaktan (HuggingFace: `isakulaksiz/turkish-fake-news-detection`, `ogozcelik/turkish-fake-news-detection`; GitHub: Turkish Clickbait Dataset) Türkçe haber verisi indirir.
+*   Her sınıftan (gerçek / sahte) **15.000'er kayıt** hedeflenir; ancak kaynak veri setlerinde tekrar ve minimum karakter filtresi (`> 30 karakter`) uygulandıktan sonra gerçek yüklenen kayıt sayısı değişkenlik gösterir (mevcut veri setleriyle **~21.000–28.000** kayıt arası). Sistem, admin panelinden gerçek kayıt sayısını gösterir.
+*   Metinler temizlenerek `multilingual-e5-small` modeliyle 384 boyutlu vektörlere dönüştürülür ve `batch_size=500` ile PostgreSQL'e toplu olarak eklenir.
 *   Bu işlem bilgisayarınızın donanım gücüne göre birkaç dakika sürebilir.
 
 ### Adım 4: Arayüze Bağlanın
