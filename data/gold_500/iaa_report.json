@@ -1,0 +1,25 @@
+{
+  "dataset": "KizilelmAI provisional 500-claim evaluation asset",
+  "status": "NOT_PUBLICATION_READY",
+  "final_claims": 500,
+  "first_round_decisions": 1170,
+  "n_annotators_observed": 3,
+  "annotator_ids": ["A1", "A2", "A3"],
+  "complete_first_round_claims": 390,
+  "incomplete_first_round_claims": 110,
+  "first_round_disagreements": 9,
+  "round2_claims": 9,
+  "label_schema": {
+    "0": "Yanlis/Yaniltici",
+    "1": "Dogru/Guvenilir"
+  },
+  "class_distribution_final_labels": {
+    "0": 270,
+    "1": 230
+  },
+  "iaa_fleiss_kappa_first_round_complete_items": 0.969126,
+  "iaa_items_used": 390,
+  "computed_at": "2026-09-08",
+  "method_note": "Fleiss kappa is calculated only from preserved complete first-round decisions, before adjudication.",
+  "publication_note": "This JSON verifies internal record counts only. It does not prove human annotation or a double-blind protocol."
+}

@@ -1134,23 +1134,10 @@ class KizilelmaEngine:
                 "confidence": 0, "risk": 0, "category": "YOK", "source": "-"
             }
 
-        # Yerel sınıflandırma modelini çalıştır (varsa)
-        self.classifier_score_str = ""
-        if self.classifier_model and self.classifier_tokenizer:
-            try:
-                import torch.nn.functional as F
-                inputs = self.classifier_tokenizer(contextual_query, return_tensors="pt", truncation=True, padding=True, max_length=128)
-                with torch.no_grad():
-                    outputs = self.classifier_model(**inputs)
-                    logits = outputs.logits
-                probs = F.softmax(logits, dim=1)
-                yalan_olasilik = probs[0][0].item()
-                gercek_olasilik = probs[0][1].item()
-                pred_label = "GERÇEK" if gercek_olasilik > 0.5 else "YALAN"
-                pred_score = max(gercek_olasilik, yalan_olasilik) * 100
-                self.classifier_score_str = f"• **AI Sınıflandırıcı Tahmini:** % {pred_score:.1f} {pred_label}\n"
-            except Exception as e:
-                print(f"⚠️ Sınıflandırma tahmini hatası: {e}")
+        # Katman 6 bağımsız, yardımcı bir sinyaldir. Nihai doğrulama kararına
+        # girmez; çağrıya özgü sözlükte tutulur, böylece eşzamanlı istekler
+        # birbirinin sınıflandırıcı sonucunu paylaşmaz.
+        classifier_prediction = self.predict_classifier(contextual_query)
 
         # 1. Niyet Analizi
         intent = self.intent_analyzer(clean_query)
@@ -1334,7 +1321,41 @@ class KizilelmaEngine:
                 self.context_buffer.pop(0)
 
         # Artık yapılandırılmış bir sözlük (dict) dönüyoruz
-        return self.local_response_engine(raw_query, best_cand, res)
+        return self.local_response_engine(raw_query, best_cand, res, classifier_prediction)
+
+    def predict_classifier(self, query):
+        """Return the K-6 auxiliary prediction without affecting the verdict."""
+        prediction = {
+            "available": False,
+            "advisory_only": True,
+            "predicted_label": None,
+            "p_false": None,
+            "p_true": None,
+            "confidence": None,
+        }
+        if not self.classifier_model or not self.classifier_tokenizer:
+            return prediction
+        try:
+            import torch.nn.functional as F
+            inputs = self.classifier_tokenizer(query, return_tensors="pt", truncation=True, padding=True, max_length=128)
+            with torch.no_grad():
+                logits = self.classifier_model(**inputs).logits
+            probs = F.softmax(logits, dim=1)[0]
+            p_false = float(probs[0].item())
+            p_true = float(probs[1].item())
+            predicted_label = 1 if p_true > 0.5 else 0
+            return {
+                "available": True,
+                "advisory_only": True,
+                "predicted_label": predicted_label,
+                "p_false": p_false,
+                "p_true": p_true,
+                "confidence": max(p_false, p_true),
+            }
+        except Exception as e:
+            print(f"⚠️ Sınıflandırma tahmini hatası: {e}")
+            prediction["error"] = type(e).__name__
+            return prediction
 
     def detect_source_channel(self, text):
         """Metin içerisinden haber kaynağını/kanalını tespit etmeye çalışır."""
@@ -1370,7 +1391,7 @@ class KizilelmaEngine:
             
         return "Resmi / Doğrulanmış Haber Kaynağı"
 
-    def local_response_engine(self, query, cand, res):
+    def local_response_engine(self, query, cand, res, classifier_prediction=None):
         """Dış API olmadan profesyonel Türkçe yanıt üretir ve detaylı metadata döner."""
         status_msg = res['msg']
         detail = res['desc']
@@ -1406,8 +1427,10 @@ class KizilelmaEngine:
             extra = f"\n❌ **Not:** {cat} bazlı hatalar nedeniyle bu bilgi güvenilir kabul edilmemiştir."
 
         classifier_line = ""
-        if hasattr(self, 'classifier_score_str') and self.classifier_score_str:
-            classifier_line = self.classifier_score_str
+        if classifier_prediction and classifier_prediction.get("available"):
+            label = "GERÇEK" if classifier_prediction["predicted_label"] == 1 else "YALAN"
+            score = classifier_prediction["confidence"] * 100
+            classifier_line = f"• **AI Sınıflandırıcı Tahmini (yardımcı):** % {score:.1f} {label}\n"
 
         formatted_text = f"{header}\n\n🔍 **DERİN ANALİZ RAPORU (v3.0):**\n• **Kaynak Kanalı:** {source_channel}\n• **Hata Kategorisi:** {cat}\n{classifier_line}• **Otorite Puanı:** % {int(cand.get('authority', 0.85)*100)}\n• **Tespit Türü:** {'Doğrudan Çelişki' if risk > 50 else 'Semantik Örtüşme'}{cons_text}\n{extra}\n🛡️ **Doğruluk:** %{trust} | 📉 **Risk:** %{risk}\n-----------------------------\n📄 **Kaynak Metin:** {display_source}"
 
@@ -1422,5 +1445,13 @@ class KizilelmaEngine:
             "category": cat,
             "source": display_source,
             "source_channel": source_channel,
-            "source_id": cand.get('id')
+            "source_id": cand.get('id'),
+            "classifier": classifier_prediction or {
+                "available": False,
+                "advisory_only": True,
+                "predicted_label": None,
+                "p_false": None,
+                "p_true": None,
+                "confidence": None,
+            }
         }

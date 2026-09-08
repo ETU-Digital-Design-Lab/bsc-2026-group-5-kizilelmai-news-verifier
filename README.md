@@ -26,8 +26,8 @@ KızılelmAI, modern bir **Retrieval-Augmented Generation (RAG)** ve **Doğal Di
 graph TD
     A["Kullanıcı Girişi / İddia"] --> B["K-1: Niyet & Girdi Normalizasyonu\n(intent_analyzer + temizle_ve_normallestir)"]
     B --> B2["K-7: Bağlam Hafızası\n(context_merger / MAX_CONTEXT=3)"]
-    B2 --> B3["K-6: Ön Sezgi Sınıflandırıcı\n(kizilelma_classifier_v1 / xlm-roberta-base)"]
-    B3 --> C{"K-2: Hibrit Retrieval Aşaması"}
+    B2 --> C{"K-2: Hibrit Retrieval Aşaması"}
+    B2 -. "yardımcı sinyal" .-> B3["K-6: Ön Sezgi Sınıflandırıcı\n(kizilelma_classifier_v1 / BERT tabanlı)"]
     C -->|"Dense — Kosinüs Mesafesi"| D[("PostgreSQL 16 + pgvector\nembedding <=> operatörü")]
     C -->|"Sparse — BM25-Okapi"| E["Rank-BM25 Arama"]
     D --> F["Reciprocal Rank Fusion\n(k=60 sabit)"]
@@ -38,6 +38,7 @@ graph TD
     G3 --> H["K-4: Mantıksal Çıkarım — NLI\nxlm-roberta-large-xnli\n[contradiction, neutral, entailment]"]
     H --> I["K-5: Karar & Eşik Motoru\n(contra>0.50→RED / entail>0.45→ONAY)"]
     I --> J["Kullanıcı Arayüzü\nSonuç + Risk Skoru + Kaynak"]
+    B3 -. "yalnızca raporlanır" .-> J
 
     subgraph "K-10: Bilgi Güncelleme Sistemi (Dinamik Enjeksiyon)"
         K["Resmi Haber Ajansları / RSS"] -->|"Her 4 Saatte Bir"| L["Auto-Scraper"]
@@ -65,10 +66,10 @@ graph TD
 3.  **Yeniden Sıralama (Re-Ranking — Katman 3):** `BAAI/bge-reranker-v2-m3` Cross-Encoder ile 5–20 aday çift `[sorgu, kaynak]` skorlanır. Ham skor sigmoid normalizasyonundan `1/(1+e^(−x/2))` geçirilir; `sig_rerank < 0.50` olan adaylar veto edilir.
 4.  **Mantıksal Çıkarım (NLI — Katman 4):** `joeddav/xlm-roberta-large-xnli` modeline `[kaynak_metni, iddia]` çifti (asimetrik sıra) verilir ve `[contradiction, neutral, entailment]` olasılıkları alınır. Fark yoksa ve `sim > 0.60` ise **NLI Bypass** ile model atlanıp `probs=[0,0,1]` atanır.
 5.  **Karar Motoru (Katman 5):** NLI olasılıkları eşik değerlerinden geçer: `neutral > 0.75 → RET (Alakasız)`, `contradiction > 0.50 → RED (Yalan)`, `entailment > 0.45 → ONAY (Doğru)`. Sayı, tarih, kişi, yer farkları bu eşikleri veto edebilir.
-6.  **Ön Sezgi Sınıflandırıcısı (Katman 6):** `label_and_train.py` ile `xlm-roberta-base` üzerinde fine-tune edilen `kizilelma_classifier_v1` ikili sınıflandırıcısı, metnin dil yapısına bakarak clickbait ve dezenformasyon olasılığını hesaplar; sonuç ek bağlam olarak rapora eklenir.
+6.  **Ön Sezgi Sınıflandırıcısı (Katman 6):** `kizilelma_classifier_v1`, BERT mimarili (12 katman, 768 gizli boyut, 32K vocab) ikili sınıflandırıcıdır. Metinden yardımcı bir olasılık üretir ve yapılandırılmış yanıtta raporlanır; mevcut sürümde retrieval, NLI, risk veya nihai hükme girmez. Bu nedenle ayrı değerlendirilir; tam-sistem F1'ine katkı yaptığı iddia edilmez.
 7.  **Bağlam Hafızası (Katman 7):** `MAX_CONTEXT=3` son geçerli sorgu `context_buffer`'da tutulur. "peki ya bu?" gibi takip sorularında `context_merger()`, önceki sorgununun konusunu mevcut sorguya birleştirir.
 8.  **Otorite Ağırlıklandırması (Katman 8):** Re-ranker sonrası hibrit skor, kaynağın güvenilirlik puanı (`authority`) ile ağırlıklandırılır: `weighted = sig_rerank × 0.7 + authority × 0.3`. Varsayılan otorite: 0.85; admin enjeksiyonu: 0.95.
-9.  **Konsensüs Analizi (Katman 9):** En iyi 3 kaynak arasında etiket oylaması yapılır. Tüm kaynaklar aynı etikette ise konsensüs, aksi hâlde çelişki uyarısı sonuca eklenir.
+9.  **Konsensüs Analizi (Katman 9):** En iyi 3 kaynak arasında etiket oylaması yapılır ve uyum/çelişki bilgisi sonuca eklenir. Mevcut sürümde nihai hüküm en üst sıradaki kanıtla verilir; konsensüs oyu hükmü değiştirmez. Bu nedenle K-9 etkisi, karar-füzyonu uygulanıp bağımsız değerlendirilmedikçe F1 katkısı olarak raporlanmaz.
 10. **Dinamik Enjeksiyon (Katman 10):** Admin panelinden veya scraper'dan gelen yeni içerikler çalışma zamanında `INSERT INTO knowledge_base RETURNING id` ile veritabanına, `BM25Okapi(tokenized_corpus)` ile indekse ve RAM'deki embedding dizisine anında eklenir; sistem yeniden başlatma gerektirmez.
 
 ---
@@ -154,7 +155,8 @@ Kurulum başarıyla tamamlandıktan sonra tarayıcınızı açıp aşağıdaki a
 | **Redis** | Önbellekleme (Caching) | Mükerrer sorular sorulduğunda AI modellerine gitmeden hafızadaki hazır cevapları anında döner. |
 | **Sentence-Transformers** | Embedding (Vektörleştirme) | `multilingual-e5-small` modeli çok dilli destek sunar ve çıkarım hızı çok yüksektir. |
 | **BAAI bge-reranker-v2-m3** | Yeniden Sıralama (Re-ranker) | Kaba aramadan dönen verileri süzerek sadece en alakalı ilk 3 kaynağı hassas şekilde seçer. |
-| **xlm-roberta-large-xnli** | Mantıksal Çıkarım (NLI) | İddia ile haber arasındaki çelişki/örtüşme ilişkisini yüksek doğrulukla sınıflandırır. |
+| **joeddav/xlm-roberta-large-xnli** | Mantıksal Çıkarım (NLI) | İddia ile haber arasındaki çelişki/örtüşme ilişkisini yüksek doğrulukla sınıflandırır. |
+| **dbmdz/bert-base-turkish-cased (BERTurk)** | Ön Sezgi Sınıflandırıcısı (K-6) | Yerel checkpoint BERT/12 katman/768 gizli boyut/32K vocab yapılandırmasına ve BERTurk ile birebir aynı token→ID sözlüğüne sahiptir; `docs/reproducibility/` altındaki manifest dosyası bunu ve checksum'ları kaydeder. |
 | **Newspaper3k & BS4** | Haber Kazıma (Web Scraper) | Otomatik olarak haber sitelerindeki reklam ve kodları ayıklayıp saf haber metinlerini toplar. |
 | **Docker & Nginx** | Altyapı ve Sunum | "Benim bilgisayarımda çalışıyordu" sorununu çözer; her ortamda tek komutla kurulum sağlar. |
 

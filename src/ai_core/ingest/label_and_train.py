@@ -164,6 +164,9 @@ def label_news_with_engine(df, engine):
                 'text': text_content,
                 'clean_text': preprocess(text_content),
                 'label': predicted_label,
+                'label_provenance': 'engine_silver_risk_threshold_50',
+                'label_generator': 'KizilelmaEngine',
+                'label_threshold': 50,
                 'confidence': confidence,
                 'risk': risk,
                 'status': status,
@@ -181,10 +184,12 @@ def label_news_with_engine(df, engine):
 def main():
     parser = argparse.ArgumentParser(description="KizilelmAI Haber Etiketleme ve Eğitim Hattı")
     parser.add_argument("--input", type=str, default="data/raw/yalanlar.csv", help="İşlenecek ham haber CSV/Excel dosyası")
-    parser.add_argument("--model", type=str, default="xlm-roberta-base", help="İnce ayar yapılacak HuggingFace modeli")
+    parser.add_argument("--model", type=str, default="dbmdz/bert-base-turkish-cased", help="İnce ayar yapılacak HuggingFace modeli (varsayılan: BERTurk — kizilelma_classifier_v1 mimarisiyle uyumlu)")
     parser.add_argument("--epochs", type=int, default=1, help="Model eğitim epoch sayısı")
     parser.add_argument("--batch_size", type=int, default=8, help="Batch boyutu")
     parser.add_argument("--subset", type=int, default=1000, help="Eğitim veri seti alt kümesi boyutu (CPU hızı için)")
+    parser.add_argument("--allow-silver-training", action="store_true", help="Explicitly allow training on engine-generated silver labels")
+    parser.add_argument("--allow-silver-injection", action="store_true", help="Explicitly allow injecting engine-generated silver labels into the knowledge base")
     args = parser.parse_args()
 
     # Dosya yolları
@@ -287,7 +292,9 @@ def main():
 
     # 4. Bilgi Tabanına Canlı Enjeksiyon Seçeneği
     inject_ans = input("\n💉 Etiketlenen yeni haberleri Kızılelma Bilgi Bankasına (Knowledge Base) enjekte etmek ister misiniz? [E/h]: ").strip().lower()
-    if inject_ans in ['', 'e', 'evet', 'y', 'yes']:
+    if inject_ans in ['', 'e', 'evet', 'y', 'yes'] and not args.allow_silver_injection:
+        print("WARNING: Engine-generated silver labels are not injected by default. Re-run with --allow-silver-injection only for an explicitly documented weak-supervision experiment.")
+    elif inject_ans in ['', 'e', 'evet', 'y', 'yes']:
         print("⏳ Bilgi enjeksiyonu başlatılıyor...")
         if engine is None:
             engine = KizilelmaEngine()
@@ -302,6 +309,9 @@ def main():
 
     # 5. Model Eğitimi (Fine-Tuning) Seçeneği
     train_ans = input("\n🧠 Yapay zeka sınıflandırma modelini (kizilelma_classifier_v1) bu yeni verilerle eğitmek ister misiniz? [E/h]: ").strip().lower()
+    if train_ans in ['', 'e', 'evet', 'y', 'yes'] and not args.allow_silver_training:
+        print("WARNING: This workflow derives labels from the engine risk score. Training is blocked to prevent circular measurement. Use --allow-silver-training only for a documented silver-label/distillation experiment, never for human-gold evaluation.")
+        return
     if train_ans not in ['', 'e', 'evet', 'y', 'yes']:
         print("👋 Model eğitimi atlandı. Program sonlandırılıyor.")
         sys.exit(0)

@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "captured_at_utc": "2026-09-08T09:18:09.520525+00:00",
+  "checkpoint_path": "src\\ai_core\\models\\kizilelma_classifier_v1",
+  "checkpoint_config": {
+    "model_type": "bert",
+    "architectures": [
+      "BertForSequenceClassification"
+    ],
+    "hidden_size": 768,
+    "num_hidden_layers": 12,
+    "vocab_size": 32000,
+    "num_labels": null
+  },
+  "upstream_base_model": "dbmdz/bert-base-turkish-cased",
+  "tokenizer_identity_evidence": {
+    "reference_model_id": "dbmdz/bert-base-turkish-cased",
+    "reference_vocab_sha256": "ca72d2012b1e46ed42f5df2dc9675f9da0b37a481601785cb4dff91f67fcca65",
+    "local_vocab_size": 32000,
+    "reference_vocab_size": 32000,
+    "identical_token_to_id_mapping": true
+  },
+  "interpretation": "The architecture is BERT, not XLM-R. An identical official tokenizer mapping is strong base-model evidence, but future training runs must preserve training_manifest.json for complete upstream-weight and data provenance.",
+  "files": [
+    {
+      "name": "config.json",
+      "bytes": 767,
+      "sha256": "ed96ea2786b180850f964d26e3c071b792ce3cd4ccf1d3b8026955f71feed4df"
+    },
+    {
+      "name": "model.safetensors",
+      "bytes": 442499040,
+      "sha256": "7db7c2556a91d5b4384551ae2173e6e0e48b9d87f2455b2e16e57a5248d85865"
+    },
+    {
+      "name": "tokenizer.json",
+      "bytes": 754779,
+      "sha256": "36c9681b1c49c34f83550432b4eb73b66609ab2895c6a2fdcf1f99adf3d2eb36"
+    },
+    {
+      "name": "tokenizer_config.json",
+      "bytes": 356,
+      "sha256": "5c7e36e741163f505d90bf15e2b111ca3f967c14836eaf1e37d177efa29136a6"
+    }
+  ]
+}

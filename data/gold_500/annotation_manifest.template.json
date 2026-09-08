@@ -1,0 +1,44 @@
+{
+  "DO_NOT_PUBLISH_UNTIL_COMPLETED": true,
+  "dataset_id": "KizilelmAI-Gold-500",
+  "claim_freeze_date": "YYYY-MM-DD",
+  "claim_sampling_frame": "Describe source population and inclusion/exclusion criteria.",
+  "label_schema": {
+    "0": "False or misleading",
+    "1": "True or reliable"
+  },
+  "annotation_guide_version": "Link or repository path and immutable commit hash.",
+  "annotators": [
+    {
+      "pseudonymous_id": "A1",
+      "role_or_training": "Describe without personal data.",
+      "conflict_of_interest_checked": false
+    }
+  ],
+  "blinding": {
+    "annotators_blinded_to_system_predictions": false,
+    "annotators_blinded_to_each_other_first_round_labels": false,
+    "procedure": "Describe what each annotator could see."
+  },
+  "annotation_window": {
+    "started_at": "YYYY-MM-DD",
+    "ended_at": "YYYY-MM-DD"
+  },
+  "ethics_and_consent": {
+    "review_or_exemption_reference": "Required when applicable.",
+    "consent_records_location": "Restricted location; do not publish personal data."
+  },
+  "adjudication": {
+    "rule": "Majority vote or documented adjudication process.",
+    "adjudicator": "Pseudonymous ID or role.",
+    "second_round_required_for": "Define before reviewing results."
+  },
+  "evidence_records": {
+    "required_per_claim": true,
+    "fields": ["source_url_or_document_id", "access_date", "rationale"]
+  },
+  "raw_export_hashes": {
+    "annotation_round1.csv": "SHA-256",
+    "annotation_round2.csv": "SHA-256"
+  }
+}

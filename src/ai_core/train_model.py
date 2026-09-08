@@ -1,8 +1,12 @@
 import os
 import sys
 import argparse
+import hashlib
+import json
+from datetime import datetime, timezone
 import pandas as pd
 import torch
+import transformers
 from sklearn.model_selection import train_test_split
 from transformers import (
     AutoTokenizer, 
@@ -39,9 +43,16 @@ def compute_metrics(eval_pred):
     acc = (preds == labels).mean()
     return {"accuracy": acc}
 
+def sha256_file(path):
+    digest = hashlib.sha256()
+    with open(path, "rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
 def main():
     parser = argparse.ArgumentParser(description="KizilelmAI Model Fine-Tuning Script")
-    parser.add_argument("--model", type=str, default="xlm-roberta-base", help="Pretrained model name")
+    parser.add_argument("--model", type=str, default="dbmdz/bert-base-turkish-cased", help="Pretrained model name (default: BERTurk — matches kizilelma_classifier_v1 architecture)")
     parser.add_argument("--epochs", type=int, default=1, help="Number of training epochs")
     parser.add_argument("--batch_size", type=int, default=8, help="Batch size per device")
     parser.add_argument("--subset", type=int, default=0, help="Train on a subset of data (0 for all)")
@@ -142,6 +153,24 @@ def main():
     os.makedirs(output_model_path, exist_ok=True)
     model.save_pretrained(output_model_path)
     tokenizer.save_pretrained(output_model_path)
+
+    # The checkpoint config alone does not reliably preserve its upstream
+    # checkpoint name. Store the training provenance beside every new artifact.
+    manifest = {
+        "schema_version": 1,
+        "created_at_utc": datetime.now(timezone.utc).isoformat(),
+        "base_model": args.model,
+        "training_data": os.path.relpath(dataset_path, root_dir),
+        "training_data_sha256": sha256_file(dataset_path),
+        "records_loaded": len(df),
+        "split": {"test_size": 0.15, "random_state": 42, "stratified": True},
+        "hyperparameters": {"epochs": args.epochs, "batch_size": args.batch_size},
+        "torch_version": torch.__version__,
+        "transformers_version": transformers.__version__,
+        "label_provenance": "See the source dataset card; do not describe unknown labels as human gold.",
+    }
+    with open(os.path.join(output_model_path, "training_manifest.json"), "w", encoding="utf-8") as handle:
+        json.dump(manifest, handle, ensure_ascii=False, indent=2)
 
     print("=== BAŞARILI: Model egitim ve kaydetme islemleri tamamlandi! ===")
 

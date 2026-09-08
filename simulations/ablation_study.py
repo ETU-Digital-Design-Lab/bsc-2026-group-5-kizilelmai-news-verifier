@@ -2,8 +2,12 @@
 """
 KizilelmAI - Katman Ablasyon Calismasi (Layer Ablation Study)
 =============================================================
-Her katmani devre disi birakarak sistemin performansina
-etkisini oelcer ve makale icin tablo verileri ueretir.
+RETIRED FOR PAPER RESULTS.
+
+This legacy script uses every evaluated query as a document in its own
+retrieval corpus and copies the corpus label after retrieval. That is test
+leakage, so its metrics are not evidence for an end-to-end pipeline or an
+ablation. It is retained only to reproduce historical exploratory runs.
 
 Calistirmak icin (tek satir, PowerShell):
     python simulations/ablation_study.py --data simulations/data_sample.csv --model src/ai_core/models/kizilelma_classifier_v1
@@ -121,7 +125,13 @@ def run_dense_only(query_texts, corpus_texts, corpus_labels, model_name):
 # ANA ABLASYON
 # ---------------------------------------------------------------------------
 def run_ablation(data_path, classifier_model_path,
-                 embedding_model="intfloat/multilingual-e5-small"):
+                 embedding_model="intfloat/multilingual-e5-small", *, legacy_unsafe=False):
+
+    if not legacy_unsafe:
+        raise RuntimeError(
+            "This legacy experiment has retrieval-label leakage and cannot be used for paper results. "
+            "Use scripts/evaluate_k6_on_claims.py for K-6 or build a frozen claim-evidence benchmark."
+        )
 
     print("\n" + "=" * 65)
     print("  KizilelmAI - Katman Ablasyon Calismasi")
@@ -305,5 +315,6 @@ if __name__ == "__main__":
     parser.add_argument("--data",  default="simulations/data_sample.csv")
     parser.add_argument("--model", default="src/ai_core/models/kizilelma_classifier_v1")
     parser.add_argument("--embedding", default="intfloat/multilingual-e5-small")
+    parser.add_argument("--legacy-unsafe", action="store_true", help="Run the known-leaky historical experiment; never cite its metrics.")
     args = parser.parse_args()
-    run_ablation(args.data, args.model, args.embedding)
+    run_ablation(args.data, args.model, args.embedding, legacy_unsafe=args.legacy_unsafe)
