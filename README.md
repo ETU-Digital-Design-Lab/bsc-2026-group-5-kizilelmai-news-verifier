@@ -180,3 +180,29 @@ Kurulum baÅŸarÄ±yla tamamlandÄ±ktan sonra tarayÄ±cÄ±nÄ±zÄ± aÃ§Ä±p aÅŸaÄŸÄ±daki a
 Bu proje **ETU Digital Design Lab** bÃ¼nyesinde **Grup 5** tarafÄ±ndan geliÅŸtirilmiÅŸtir.
 *   **Proje AdÄ±:** KÄ±zÄ±lelmAI News Verifier
 *   **GeliÅŸtiriciler:** Grup 5 Ãœyeleri
+## Tekrarlanabilirlik ve Denetim (Reproducibility Package)
+
+Bu projedeki makale sayılarının ve tablolarının üretilebilirliği şeffaf ve denetlenebilir bir süreçle güvence altına alınmıştır. 
+Sistemde kullanılan sayılar ve karşılık gelen betikler ile çıktılar aşağıda listelenmiştir:
+
+| Makaledeki Tablo/Sayı | Üreten Script | Çıktı Dosyası | Manifest |
+|---|---|---|---|
+| FACTurk (Dış Benchmark) F1 ve Accuracy | scripts/evaluate_facturk_pipeline.py | 
+esults/facturk_full_v2/metrics.json | 
+esults/facturk_full_v2/run_manifest.json |
+| Uçtan Uca Doğruluk (B3) | scripts/evaluate_b2_pipeline.py | 
+esults/e2e_v1/metrics.json | 
+esults/e2e_v1/run_manifest.json |
+| Ablasyon Çalışması (B4) | scripts/run_ablations.py | 
+esults/ablation_v1/ altındaki dizinler | Her dizin içindeki 
+un_manifest.json |
+| Gecikme Ölçümleri (B6) | scripts/benchmark_latency.py | 
+esults/latency_v1/summary.json | 
+esults/latency_v1/manifest.json |
+| 500 İddia Annotasyon Uyum (B1) | scripts/audit_evaluation_assets.py | 
+esults/iaa_v1/iaa_report.json | data/gold_500/annotation_manifest.json |
+
+### Sürekli Entegrasyon (CI) Kuralları
+- Manifest'i ve üretilebilir script'i bulunmayan hiçbir sayı makaleye girmeyecektir.
+- GitHub Actions CI üzerinde scripts/audit_evaluation_assets.py --strict her push'ta koşularak insan-etiketli veri setinin bütünlüğü ve ayrıklığı korunmaktadır. 
+- *Önemli Not:* Seçenek-2 gereği K-5 encoder karşılaştırması nicel tablolardan (Tablo 3) çıkarılmış olup niteliksel açıklamayla makaleye dahil edilecektir. K-6, K-8 ve K-9 katmanları sadece *bilgilendirme (advisory)* niteliğindedir ve doğrudan (füzyon olmadan) karar motorunun otomatik F1 çıktısına girmemektedir.

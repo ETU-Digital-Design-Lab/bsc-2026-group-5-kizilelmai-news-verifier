@@ -4,6 +4,9 @@ import re
 import json
 import time
 import threading
+from contextvars import ContextVar
+from datetime import datetime, timezone
+import uuid
 import numpy as np # type: ignore
 import pandas as pd # type: ignore
 import torch # type: ignore
@@ -16,6 +19,15 @@ from sqlalchemy import create_engine, text # type: ignore
 import warnings
 
 warnings.filterwarnings("ignore")
+
+_evaluation_trace = ContextVar("evaluation_trace", default=None)
+PROVENANCE_FIELDS = ("source_url", "publisher", "published_at", "evidence_id", "label_provenance", "ingested_at")
+
+
+def trace_elapsed(layer, start):
+    trace = _evaluation_trace.get()
+    if trace is not None:
+        trace["layer_latency_ms"][layer] = trace["layer_latency_ms"].get(layer, 0.0) + (time.perf_counter() - start) * 1000
 
 def turkish_lower(text):
     if not text:
@@ -48,10 +60,12 @@ class KizilelmaEngine:
     KızılelmAI'nin tüm zekasını barındıran sınıf.
     Veriyi yükler, modelleri hazırlar ve sorulara cevap üretir.
     """
-    def __init__(self, lazy_load=False):
+    def __init__(self, lazy_load=False, *, corpus_path=None, model_paths=None):
         print("[System] KizilElma Motoru Baslatiliyor...")
         
         # --- 1. Sabitler ve Ayarlar ---
+        self.frozen_corpus_path = str(corpus_path) if corpus_path else None
+        self.model_paths = model_paths or {}
         self.root_dir = "" # type: Any
         self.csv_path = "" # type: Any
         self.local_model_path = "" # type: Any
@@ -79,7 +93,7 @@ class KizilelmaEngine:
         self.text_embeddings = [] # type: Any
         self.bm25 = None # type: Any
         db_url = os.environ.get("DATABASE_URL", "postgresql://kizilelmai_user:kizilelmai_pass@localhost:5433/kizilelmai")
-        self.db_engine = create_engine(db_url)
+        self.db_engine = None if corpus_path else create_engine(db_url)
         self.kb = {} # type: Any
         self.search_model = None # type: Any
         self.nli_model = None # type: Any
@@ -96,7 +110,10 @@ class KizilelmaEngine:
         # --- 3. Başlatma Sırası ---
         if not torch.cuda.is_available():
             torch.set_num_threads(4)
-            torch.set_num_interop_threads(2)
+            try:
+                torch.set_num_interop_threads(2)
+            except RuntimeError:
+                pass  # Process-global setting cannot be reset by a second engine.
             print("[System] CPU Modu: PyTorch thread limitleri ayarlandı (threads=4).")
         else:
             print("[System] CUDA Modu: GPU üzerinden çalıştırılıyor!")
@@ -125,6 +142,10 @@ class KizilelmaEngine:
         self.classifier_model_path = os.path.join(self.root_dir, 'src', 'ai_core', 'models', 'kizilelma_classifier_v1')
         self.kb_path = os.path.join(self.root_dir, 'data', 'processed', 'knowledge_base.json')
         self.dynamic_csv_path = os.path.join(self.root_dir, 'data', 'processed', 'knowledge_base_dynamic.csv')
+        self.local_model_path = self.model_paths.get("embedding", self.local_model_path)
+        self.classifier_model_path = self.model_paths.get("classifier", self.classifier_model_path)
+        if self.frozen_corpus_path:
+            self.csv_path = self.frozen_corpus_path
 
 
 
@@ -132,17 +153,22 @@ class KizilelmaEngine:
         print("📂 PostgreSQL Veritabanına Bağlanılıyor...")
         self.db_connected = False
         try:
-            with self.db_engine.connect() as conn:
-                self.df = pd.read_sql("SELECT id, text, label, authority FROM knowledge_base ORDER BY id", conn)
+            if self.frozen_corpus_path:
+                self.df = pd.read_csv(self.frozen_corpus_path, keep_default_na=False)
+            else:
+                with self.db_engine.connect() as conn:
+                    self.df = pd.read_sql("SELECT * FROM knowledge_base ORDER BY id", conn).drop(columns=["embedding"], errors="ignore")
             
             print(f"✅ Veri seti yüklendi: {len(self.df)} kayıt (PostgreSQL).")
             self.texts = self.df['text'].tolist()
-            self.db_connected = True
+            self.db_connected = not bool(self.frozen_corpus_path)
             
         except Exception as e:
             print(f"❌ Hata: Veritabanına bağlanılamadı veya tablo yok! {e}")
             print("⚠️ ÇEVRİMDIŞI MOD: Yerel CSV dosyasından veri yükleniyor...")
             
+            if self.frozen_corpus_path:
+                raise RuntimeError("Frozen corpus could not be read; fallback is forbidden.") from e
             loaded = False
             for path in [self.csv_path, os.path.join(self.root_dir, 'data', 'processed', 'egitim_verisi_30k.csv')]:
                 if os.path.exists(path):
@@ -167,6 +193,12 @@ class KizilelmaEngine:
                 self.texts = []
 
         # BM25 İndeksi Oluşturma
+        for field in PROVENANCE_FIELDS:
+            if field not in self.df.columns:
+                self.df[field] = "unknown" if field == "label_provenance" else ""
+            else:
+                self.df[field] = self.df[field].fillna("")
+
         if self.texts:
             def tokenize(text):
                 return re.findall(r'\w+', turkish_lower(text))
@@ -201,7 +233,7 @@ class KizilelmaEngine:
         # Embeddings Hesapla (Eğer PostgreSQL bağlı değilse RAM'e yükle - Hızlı Başlangıç Önbellekli)
         if not getattr(self, 'db_connected', False) and self.texts:
             npy_path = self.csv_path.replace('.csv', '_embeddings.npy')
-            if os.path.exists(npy_path):
+            if os.path.exists(npy_path) and not self.frozen_corpus_path:
                 print(f"📂 Vektör önbelleği bulundu, RAM'e yükleniyor: {os.path.basename(npy_path)}")
                 try:
                     self.text_embeddings = np.load(npy_path)
@@ -219,11 +251,14 @@ class KizilelmaEngine:
                 try:
                     passage_texts = ["passage: " + str(t) for t in self.texts]
                     self.text_embeddings = self.search_model.encode(passage_texts, convert_to_numpy=True, show_progress_bar=False).astype(np.float32)
-                    np.save(npy_path, self.text_embeddings)
+                    if not self.frozen_corpus_path:
+                        np.save(npy_path, self.text_embeddings)
                     print(f"✅ {len(self.text_embeddings)} vektör RAM'e başarıyla yüklendi ve önbelleğe kaydedildi.")
                 except Exception as e:
                     print(f"⚠️ Çevrimdışı modda vektörler hesaplanırken hata oluştu: {e}")
                     self.text_embeddings = []
+                    if self.frozen_corpus_path:
+                        raise RuntimeError("Frozen-run embeddings failed; evaluation cannot fall back.") from e
         else:
             print("⏳ Vektörler veritabanından sorgulanacak, RAM'e yüklenmiyor.")
             self.text_embeddings = []
@@ -236,13 +271,13 @@ class KizilelmaEngine:
 
 
         # NLI Modeli (Gerekçelendirme)
-        self.nli_model = CrossEncoder('joeddav/xlm-roberta-large-xnli')
+        self.nli_model = CrossEncoder(self.model_paths.get('nli', 'joeddav/xlm-roberta-large-xnli'))
         if hasattr(self.nli_model, 'model') and self.nli_model.model:
             self.nli_model.model.half()
 
         # --- YENI: Layer 3 Re-Ranker Modeli (Keskin Nişancı) ---
         print("⏳ Re-Ranker model yükleniyor (bge-reranker-v2-m3)...")
-        self.rerank_model = CrossEncoder('BAAI/bge-reranker-v2-m3')
+        self.rerank_model = CrossEncoder(self.model_paths.get('reranker', 'BAAI/bge-reranker-v2-m3'))
         if hasattr(self.rerank_model, 'model') and self.rerank_model.model:
             self.rerank_model.model.half()
 
@@ -267,6 +302,8 @@ class KizilelmaEngine:
         Veritabanındaki yeni kayıtları bellekle senkronize eder.
         Throttle: En fazla her 60 saniyede bir çalışır.
         """
+        if self.frozen_corpus_path:
+            return
         now = time.time()
         with self._sync_lock:
             if now - self._last_sync_time < self.SYNC_INTERVAL:
@@ -277,8 +314,8 @@ class KizilelmaEngine:
             try:
                 max_id = int(self.df['id'].max()) if not self.df.empty else 0
                 with self.db_engine.connect() as conn:
-                    sql_new = text("SELECT id, text, label, authority FROM knowledge_base WHERE id > :max_id ORDER BY id")
-                    new_rows = pd.read_sql(sql_new, conn, params={"max_id": max_id})
+                    sql_new = text("SELECT * FROM knowledge_base WHERE id > :max_id ORDER BY id")
+                    new_rows = pd.read_sql(sql_new, conn, params={"max_id": max_id}).drop(columns=["embedding"], errors="ignore")
 
                 if not new_rows.empty:
                     print(f"[Sync] Veritabanindan {len(new_rows)} yeni kayit belleğe yukleniyor...")
@@ -333,28 +370,35 @@ class KizilelmaEngine:
             except Exception as e:
                 print(f"⚠️ [Sync-Offline] CSV senkronizasyon hatası: {e}")
 
-    def inject_knowledge(self, input_text, label, authority=0.95):
+    def inject_knowledge(self, input_text, label, authority=0.95, *, source_url=None, publisher=None,
+                         published_at=None, evidence_id=None, label_provenance="unknown"):
         """
         Katman 10: Çalışma zamanında yeni bilgi enjekte eder (PostgreSQL ve/veya CSV).
         """
+        if self.frozen_corpus_path:
+            raise RuntimeError("Cannot inject into a frozen evaluation corpus.")
         self.load_search_model()
         new_emb = self.search_model.encode([f"passage: {input_text}"], convert_to_numpy=True)[0].astype(np.float32)
-        
-        new_id = len(self.df) + 1
+        provenance = {"source_url": source_url or "", "publisher": publisher or "", "published_at": published_at or None,
+                      "evidence_id": evidence_id or str(uuid.uuid4()), "label_provenance": label_provenance or "unknown",
+                      "ingested_at": datetime.now(timezone.utc).isoformat()}
+        new_id = int(self.df["id"].max()) + 1 if not self.df.empty else 1
         
         if getattr(self, 'db_connected', False):
             try:
                 # Veritabanına kaydet
                 with self.db_engine.connect() as conn:
                     query_emb_str = "[" + ",".join(map(str, new_emb.tolist())) + "]"
-                    sql = text("INSERT INTO knowledge_base (text, label, authority, embedding) VALUES (:t, :l, :a, :e) RETURNING id")
-                    result = conn.execute(sql, {"t": input_text, "l": int(label), "a": float(authority), "e": query_emb_str})
+                    sql = text("INSERT INTO knowledge_base (text, label, authority, embedding, source_url, publisher, published_at, evidence_id, label_provenance, ingested_at) VALUES (:t, :l, :a, :e, :source_url, :publisher, :published_at, :evidence_id, :label_provenance, :ingested_at) RETURNING id")
+                    result = conn.execute(sql, {"t": input_text, "l": int(label), "a": float(authority), "e": query_emb_str, **provenance})
                     new_id = result.scalar()
                     conn.commit()
             except Exception as e:
                 print(f"⚠️ Veritabanına enjeksiyon hatası: {e}")
                 
-        new_data = {'id': new_id, 'text': input_text, 'label': int(label), 'authority': float(authority)}
+                return False
+
+        new_data = {'id': new_id, 'text': input_text, 'label': int(label), 'authority': float(authority), **provenance}
         new_row = pd.DataFrame([new_data])
         
         # Belleği Güncelle (BM25 ve RAM embeddings için)
@@ -385,6 +429,8 @@ class KizilelmaEngine:
         """
         Katman 10 (Admin): Belirli bir kaydı veritabanından veya yerel CSV'den ve bellekten siler.
         """
+        if self.frozen_corpus_path:
+            raise RuntimeError("Cannot delete from a frozen evaluation corpus.")
         deleted_from_db = False
         if getattr(self, 'db_connected', False):
             try:
@@ -431,10 +477,17 @@ class KizilelmaEngine:
             
         return deleted_from_db
 
-    def update_knowledge(self, record_id, input_text, label, authority):
+    def update_knowledge(self, record_id, input_text, label, authority, *, source_url=None, publisher=None,
+                         published_at=None, evidence_id=None, label_provenance="unknown"):
         """
         Katman 10 (Admin): Belirli bir kaydın içeriğini, etiketini ve otoritesini günceller.
         """
+        if self.frozen_corpus_path:
+            raise RuntimeError("Cannot update a frozen evaluation corpus.")
+        self.load_search_model()
+        provenance = {"source_url": source_url or "", "publisher": publisher or "", "published_at": published_at or None,
+                      "evidence_id": evidence_id or str(uuid.uuid4()), "label_provenance": label_provenance or "unknown",
+                      "ingested_at": datetime.now(timezone.utc).isoformat()}
         new_emb = self.search_model.encode([f"passage: {input_text}"], convert_to_numpy=True)[0]
         updated_in_db = False
         
@@ -442,8 +495,8 @@ class KizilelmaEngine:
             try:
                 query_emb_str = "[" + ",".join(map(str, new_emb.tolist())) + "]"
                 with self.db_engine.connect() as conn:
-                    sql = text("UPDATE knowledge_base SET text = :t, label = :l, authority = :a, embedding = :e WHERE id = :id")
-                    result = conn.execute(sql, {"t": input_text, "l": int(label), "a": float(authority), "e": query_emb_str, "id": int(record_id)})
+                    sql = text("UPDATE knowledge_base SET text = :t, label = :l, authority = :a, embedding = :e, source_url = :source_url, publisher = :publisher, published_at = :published_at, evidence_id = :evidence_id, label_provenance = :label_provenance, ingested_at = :ingested_at WHERE id = :id")
+                    result = conn.execute(sql, {"t": input_text, "l": int(label), "a": float(authority), "e": query_emb_str, "id": int(record_id), **provenance})
                     conn.commit()
                     if result.rowcount > 0:
                         updated_in_db = True
@@ -459,6 +512,8 @@ class KizilelmaEngine:
                     self.df.at[idx[0], 'text'] = input_text
                     self.df.at[idx[0], 'label'] = int(label)
                     self.df.at[idx[0], 'authority'] = float(authority)
+                    for field, value in provenance.items():
+                        self.df.at[idx[0], field] = value
                     
                     if old_text in self.texts:
                         idx_text = self.texts.index(old_text)
@@ -1100,8 +1155,29 @@ class KizilelmaEngine:
             
             return { "status": "RET", "msg": "ℹ️ **YETERLİ VERİ YOK**", "desc": "Kaynaklarda net eşleşme bulunamadı.", "conf": 50, "risk": 40, "cat": "YOK" }
 
-    def ask(self, raw_query):
+    def ask(self, raw_query, *, include_trace=False, independent=False):
+        if independent and not self.frozen_corpus_path:
+            raise ValueError("Independent evaluation requires an explicit frozen corpus.")
+        if independent:
+            self.context_buffer.clear()
+        trace = {"retrieved_source_ids": [], "rerank_scores": [], "nli_probs": None,
+                 "decision_probs": None, "nli_bypassed": False, "cache_hit": False,
+                 "layer_latency_ms": {}, "context_reset": independent}
+        token = _evaluation_trace.set(trace if include_trace else None)
+        start = time.perf_counter()
+        try:
+            result = self._ask(raw_query)
+            if include_trace:
+                trace["latency_ms"] = (time.perf_counter() - start) * 1000
+                trace["raw_status"] = result.get("status")
+                result["trace"] = trace
+            return result
+        finally:
+            _evaluation_trace.reset(token)
+
+    def _ask(self, raw_query):
         """Dış dünyadan gelen soruya cevap veren ana fonksiyon"""
+        stage_start = time.perf_counter()
         raw_query = split_numbers_letters(raw_query)
         # Veritabanındaki yeni kayıtları senkronize et
         self.sync_db()
@@ -1120,8 +1196,13 @@ class KizilelmaEngine:
             }
             
         # 0.1. Katman 7: Konsept Birleştirme
+        trace_elapsed("K1_input_and_readiness", stage_start)
+        stage_start = time.perf_counter()
         contextual_query = self.context_merger(raw_query)
+        trace_elapsed("K7_context", stage_start)
+        stage_start = time.perf_counter()
         clean_query = self.temizle_ve_normallestir(contextual_query)
+        trace_elapsed("K1_normalization", stage_start)
         print(f"\n📩 Gelen: {raw_query} | Analitik Bağlam: {contextual_query}")
 
         # Tek kelimelik anlamsız aramaları engelle (Eğer selamlaşma değilse)
@@ -1137,10 +1218,14 @@ class KizilelmaEngine:
         # Katman 6 bağımsız, yardımcı bir sinyaldir. Nihai doğrulama kararına
         # girmez; çağrıya özgü sözlükte tutulur, böylece eşzamanlı istekler
         # birbirinin sınıflandırıcı sonucunu paylaşmaz.
+        stage_start = time.perf_counter()
         classifier_prediction = self.predict_classifier(contextual_query)
+        trace_elapsed("K6_advisory", stage_start)
 
         # 1. Niyet Analizi
+        stage_start = time.perf_counter()
         intent = self.intent_analyzer(clean_query)
+        trace_elapsed("K1_intent", stage_start)
         if intent == "ABOUT":
             about_text = (
                 "KızılelmAI'nin amacı, internette ve sosyal medyada yayılan haber ve iddiaların doğruluğunu "
@@ -1164,6 +1249,7 @@ class KizilelmaEngine:
             }
 
         # 2. Sorgu Genişletme (Öğretilen kelimeleri kullan)
+        stage_start = time.perf_counter()
         search_query = self.query_expander(clean_query)
         print(f"🔍 Arama Sorgusu (Genişletilmiş): {search_query}")
 
@@ -1215,9 +1301,18 @@ class KizilelmaEngine:
         top_indices = sorted(list(fused_scores.keys()), key=lambda x: fused_scores[x], reverse=True)[:candidate_limit] # type: ignore
         
         # --- KATMAN 3: RE-RANKING (The Sniper) ---
+        trace_elapsed("K2_retrieval", stage_start)
+        trace = _evaluation_trace.get()
+        if trace is not None:
+            trace["retrieved_source_ids"] = [int(self.df.iloc[idx]["id"]) for idx in top_indices]
+        stage_start = time.perf_counter()
         rerank_pairs = [[search_query, self.texts[idx]] for idx in top_indices]
         rerank_output = self.rerank_model.predict(rerank_pairs) if self.rerank_model else None # type: ignore
         rerank_scores = list(rerank_output) if rerank_output is not None else [0.0] * len(top_indices)
+        trace_elapsed("K3_reranker", stage_start)
+        if trace is not None:
+            trace["rerank_scores"] = [float(v) for v in rerank_scores]
+        stage_start = time.perf_counter()
         
         # Yeni skorlarla adayları tekrar eşleştir ve sırala
         ranked_candidates = []
@@ -1244,6 +1339,8 @@ class KizilelmaEngine:
         
         # Ağırlıklı skora göre sırala
         ranked_candidates = sorted(ranked_candidates, key=lambda x: x['weighted_score'], reverse=True)
+        trace_elapsed("K8_weighted_ranking", stage_start)
+        stage_start = time.perf_counter()
         
         candidates = []
         # Re-ranker veto eşiği: Sigmoid sonrası 0.50 altı "Alakasız" kabul edelim (Daha esnek semantik eşleşme için 0.50'ye çekildi)
@@ -1262,9 +1359,13 @@ class KizilelmaEngine:
                         'sim': cand['dense_sim'],
                         'rerank_score': cand['rerank_score'],
                         'authority': cand['authority'],
-                        'sig_rerank': cand['sig_rerank']
+                        'sig_rerank': cand['sig_rerank'],
+                        **{key: self.df.iloc[idx].get(key, "") for key in PROVENANCE_FIELDS}
                     })
 
+        trace_elapsed("K3_candidate_filters", stage_start)
+        if trace is not None:
+            trace["accepted_source_ids"] = [c["id"] for c in candidates]
         if not candidates:
             return self.local_response_engine(raw_query, {'text': '-'}, {
                 "status": "RET", "msg": "📭 KAYIT BULUNAMADI", 
@@ -1273,6 +1374,7 @@ class KizilelmaEngine:
             })
             
         # Katman 9: Multi-Source Consensus (Konsensüs Analizi)
+        stage_start = time.perf_counter()
         top_k = min(3, len(candidates))
         top_sources = candidates[:top_k]
         labels = [c['label'] for c in top_sources]
@@ -1291,6 +1393,10 @@ class KizilelmaEngine:
             "agreement_count": agreement_count,
             "label": most_common_label
         }
+        trace_elapsed("K9_advisory_consensus", stage_start)
+        stage_start = time.perf_counter()
+        if trace is not None:
+            trace["selected_source_id"] = best_cand["id"]
         
         print(f"🎯 Sniper Seçimi (Ağırlıklı): {best_cand['text'][:50]}... | Otorite: {best_cand['authority']}")
         
@@ -1303,15 +1409,24 @@ class KizilelmaEngine:
         if diff_user is None and diff_source is None and (best_cand['sim'] > 0.60 or best_cand.get('sig_rerank', 0.0) > 0.70):
             print("⚡ NLP Mantıksal Bypass: Eşleşmede fark tespit edilmedi, NLI modeli atlandı (Bypass).")
             probs = np.array([0.0, 0.0, 1.0])  # [contradiction=0, neutral=0, entailment=1]
+            if trace is not None:
+                trace["nli_bypassed"] = True
         else:
             # NLI Tahmini: Her zaman [Kaynak, Gelen Soru] sırasıyla çalışmalıdır (Asimetrik).
             input_pair = [best_cand['text'], clean_query]
             logits = self.nli_model.predict([input_pair])[0] # type: ignore
             probs = torch.nn.functional.softmax(torch.tensor(logits, dtype=torch.float32), dim=0).numpy()
+            if trace is not None:
+                trace["nli_probs"] = [float(p) for p in probs]
             print(f"🔍 Kaynak: {best_cand['text']} | Sim: {best_cand['sim']:.2f} | NLI: {probs}")
 
         # Karar
+        trace_elapsed("K4_nli_and_bypass_check", stage_start)
+        if trace is not None:
+            trace["decision_probs"] = [float(p) for p in probs]
+        stage_start = time.perf_counter()
         res = self.karar_motoru(raw_query, best_cand, probs, best_cand['sim'], best_cand.get('sig_rerank', 0.0))
+        trace_elapsed("K5_decision", stage_start)
         res['consensus'] = consensus_info # Konsensüs verisini ekle
         
         # Katman 7: Context Güncelleme (Sadece geçerli iddiaları sakla)
@@ -1401,7 +1516,7 @@ class KizilelmaEngine:
         source = cand.get('text', '-')
         
         # Haber kanalını/kaynağını tespit et
-        source_channel = self.detect_source_channel(source)
+        source_channel = cand.get('publisher') if cand.get('source_url') and cand.get('publisher') else "Kaynak kaydı eksik"
         
         # Kaynak metinden [Kaynak: ...] önekini temizleyerek daha temiz gösterelim
         display_source = source
@@ -1446,6 +1561,10 @@ class KizilelmaEngine:
             "source": display_source,
             "source_channel": source_channel,
             "source_id": cand.get('id'),
+            "source_url": cand.get('source_url') or None,
+            "source_name": cand.get('publisher') or None,
+            "evidence_metadata": {key: str(cand[key]) if cand.get(key) is not None else None for key in PROVENANCE_FIELDS if key in cand},
+            "source_attribution_basis": "stored_metadata" if cand.get('source_url') and cand.get('publisher') else "unknown",
             "classifier": classifier_prediction or {
                 "available": False,
                 "advisory_only": True,

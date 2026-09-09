@@ -19,8 +19,29 @@ from typing import Any
 
 
 REQUIRED_CLAIM_COLUMNS = {"claim_id", "text", "gold_label"}
-REQUIRED_ANNOTATION_COLUMNS = {"claim_id", "annotator", "label"}
+REQUIRED_ANNOTATION_COLUMNS = {"claim_id", "annotator_pseudo_id", "decision", "timestamp", "guideline_version"}
 VALID_LABELS = {"0", "1"}
+
+
+def krippendorff_alpha(item_labels: list[list[str]]) -> float | None:
+    """Nominal alpha using coincidence weights; excludes singly rated items."""
+    items = [labels for labels in item_labels if len(labels) >= 2]
+    totals = Counter(label for labels in items for label in labels)
+    n = sum(totals.values())
+    if n < 2:
+        return None
+    observed = sum((len(labels) ** 2 - sum(v * v for v in Counter(labels).values()))
+                   / (len(labels) - 1) for labels in items) / n
+    expected = (n * n - sum(v * v for v in totals.values())) / (n * (n - 1))
+    return 1 - observed / expected if expected else None
+
+
+def valid_timestamp(value: str) -> bool:
+    try:
+        dt = datetime.fromisoformat(value.replace("Z", "+00:00"))
+        return dt.tzinfo is not None and dt <= datetime.now(timezone.utc)
+    except (TypeError, ValueError):
+        return False
 
 
 def read_csv(path: Path) -> list[dict[str, str]]:
@@ -86,6 +107,22 @@ def audit_dataset(dataset_dir: Path) -> dict[str, Any]:
     if missing_annotation_columns:
         errors.append(f"annotation_round1.csv missing columns: {', '.join(missing_annotation_columns)}")
 
+    # Legacy columns remain readable for diagnostics; they cannot satisfy strict provenance.
+    for row in annotations:
+        row["annotator"] = row.get("annotator_pseudo_id", row.get("annotator", ""))
+        row["label"] = row.get("decision", row.get("label", ""))
+        row["label"] = {"DOĞRU": "1", "YALAN": "0"}.get(row["label"], row["label"])
+    if len(claims) != 500:
+        errors.append(f"This protocol requires exactly 500 claims; found {len(claims)}.")
+    if len(annotations) != 1500:
+        errors.append(f"This protocol requires exactly 1500 first-round decisions; found {len(annotations)}.")
+    bad_timestamps = sum(not valid_timestamp(row.get("timestamp", "")) for row in annotations)
+    missing_guidelines = sum(not row.get("guideline_version", "").strip() for row in annotations)
+    if bad_timestamps:
+        errors.append(f"Missing/invalid/timezone-free/future first-round timestamps: {bad_timestamps}")
+    if missing_guidelines:
+        errors.append(f"First-round decisions without guideline_version: {missing_guidelines}")
+
     claim_ids = [row.get("claim_id", "") for row in claims]
     claim_id_counts = Counter(claim_ids)
     duplicate_claim_ids = sorted(claim_id for claim_id, count in claim_id_counts.items() if count > 1 or not claim_id)
@@ -107,6 +144,8 @@ def audit_dataset(dataset_dir: Path) -> dict[str, Any]:
         annotations_by_claim[row.get("claim_id", "")].append(row)
     annotators = sorted({row.get("annotator", "") for row in annotations if row.get("annotator", "")})
     expected_annotators = set(annotators)
+    if len(expected_annotators) != 3:
+        errors.append(f"Exactly 3 pseudonymous annotators are required; found {len(expected_annotators)}.")
     unknown_annotation_claims = sorted(set(annotations_by_claim) - set(claim_ids))
     if unknown_annotation_claims:
         errors.append(f"Annotations reference unknown claims: {len(unknown_annotation_claims)}")
@@ -139,13 +178,23 @@ def audit_dataset(dataset_dir: Path) -> dict[str, Any]:
         )
     if duplicate_decisions:
         errors.append(f"Claims with duplicate first-round decisions: {len(duplicate_decisions)}")
-    if majority_mismatches:
-        errors.append(f"Final label differs from first-round majority: {len(majority_mismatches)}")
-
     round2 = read_csv(round2_path) if round2_path.is_file() else []
     round2_claim_ids = sorted({row.get("claim_id", "") for row in round2 if row.get("claim_id", "")})
     if disagreements and not round2:
         warnings.append("First-round disagreements exist but annotation_round2.csv is missing.")
+    # Adjudication may validly override majority, but only with a separate timed rationale.
+    resolved = set()
+    for row in round2:
+        cid = row.get("claim_id", "")
+        claim = next((c for c in claims if c["claim_id"] == cid), None)
+        decision = {"DOĞRU": "1", "YALAN": "0"}.get(row.get("decision"), row.get("decision", row.get("final_label")))
+        if (claim and decision == claim["gold_label"] and row.get("rationale")
+                and row.get("annotator_pseudo_id") and row.get("guideline_version")
+                and valid_timestamp(row.get("timestamp", ""))):
+            resolved.add(cid)
+    unrecorded_adjudications = sorted((set(disagreements) | set(majority_mismatches)) - resolved)
+    if unrecorded_adjudications:
+        errors.append(f"Disputes/majority overrides without timed separate adjudication and rationale: {len(unrecorded_adjudications)}")
 
     kappa = fleiss_kappa(incomplete_complete_labels)
     declared_report: dict[str, Any] = {}
@@ -170,6 +219,35 @@ def audit_dataset(dataset_dir: Path) -> dict[str, Any]:
         errors.append(
             "annotation_manifest.json is missing; human provenance (protocol, dates, consent/ethics, and source records) is not documented."
         )
+    else:
+        try:
+            protocol = json.loads(manifest_path.read_text(encoding="utf-8"))
+            if protocol.get("DO_NOT_PUBLISH_UNTIL_COMPLETED", True) is not False:
+                errors.append("Annotation manifest is still a template/unapproved factual record.")
+            for key in ("claim_freeze_date", "claim_sampling_frame", "annotation_guide_version", "annotation_window", "ethics_and_consent", "adjudication"):
+                if not protocol.get(key):
+                    errors.append(f"Annotation manifest missing: {key}")
+            blinding = protocol.get("blinding", {})
+            for key in ("annotators_blinded_to_system_predictions", "annotators_blinded_to_each_other_first_round_labels",
+                        "published_verdict_visible", "source_url_visible"):
+                if type(blinding.get(key)) is not bool:
+                    errors.append(f"Annotation manifest must record true/false: blinding.{key}")
+            if not blinding.get("procedure"):
+                errors.append("Annotation manifest must describe exactly what annotators saw.")
+            declared_annotators = {a.get("pseudonymous_id") for a in protocol.get("annotators", [])}
+            if declared_annotators != expected_annotators:
+                errors.append("Manifest annotators differ from the first-round records.")
+            for raw_path in (round1_path, round2_path):
+                if not raw_path.is_file() or protocol.get("raw_export_hashes", {}).get(raw_path.name) != sha256(raw_path):
+                    errors.append(f"Missing/mismatched manifest raw export SHA-256: {raw_path.name}")
+            guideline_files = protocol.get("guideline_files", {})
+            for version in {r.get("guideline_version", "") for r in annotations} - {""}:
+                item = guideline_files.get(version, {})
+                guide = dataset_dir / item.get("path", "")
+                if not guide.is_file() or sha256(guide) != item.get("sha256"):
+                    errors.append(f"Missing/mismatched archived guideline: {version}")
+        except (ValueError, TypeError, AttributeError) as exc:
+            errors.append(f"Invalid annotation manifest: {type(exc).__name__}")
 
     file_hashes = {
         path.name: sha256(path)
@@ -192,7 +270,10 @@ def audit_dataset(dataset_dir: Path) -> dict[str, Any]:
         },
         "iaa": {
             "fleiss_kappa_first_round_complete_items": round(kappa, 6) if kappa is not None else None,
+            "krippendorff_alpha_nominal_complete_items": krippendorff_alpha(incomplete_complete_labels),
             "items_used": len(incomplete_complete_labels),
+            "full_500_iaa_available": len(incomplete_complete_labels) == 500 and not errors,
+            "scope": "Record-only diagnostic on complete first-round items; human independence not established.",
             "declared_fleiss_kappa": declared_report.get(
                 "iaa_fleiss_kappa_first_round_complete_items",
                 declared_report.get("iaa_fleiss_kappa"),
@@ -206,6 +287,7 @@ def audit_dataset(dataset_dir: Path) -> dict[str, Any]:
             "majority_mismatch_ids": majority_mismatches[:20],
         },
         "file_sha256": file_hashes,
+        "all_incomplete_claim_ids": incomplete_claims,
         "publication_note": (
             "PASS only verifies the completeness and internal consistency of the supplied files. "
             "It does not prove that annotations were performed by humans."

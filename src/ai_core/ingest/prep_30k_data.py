@@ -30,7 +30,10 @@ DB_URL = "postgresql://kizilelmai_user:kizilelmai_pass@localhost:5433/kizilelmai
 engine = create_engine(DB_URL)
 Base = declarative_base()
 
-class KnowledgeRecord(Base):
+from src.shared.evidence_schema import EvidenceColumns
+
+
+class KnowledgeRecord(EvidenceColumns, Base):
     __tablename__ = 'knowledge_base'
     id = Column(Integer, primary_key=True, autoincrement=True)
     text = Column(Text, nullable=False)

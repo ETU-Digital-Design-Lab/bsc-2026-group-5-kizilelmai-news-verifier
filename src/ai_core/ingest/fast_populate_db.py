@@ -15,7 +15,11 @@ print(f"Connecting to database: {DB_URL}")
 engine = create_engine(DB_URL)
 Base = declarative_base()
 
-class KnowledgeRecord(Base):
+sys.path.insert(0, str(ROOT_DIR))
+from src.shared.evidence_schema import EvidenceColumns
+
+
+class KnowledgeRecord(EvidenceColumns, Base):
     __tablename__ = 'knowledge_base'
     id = Column(Integer, primary_key=True, autoincrement=True)
     text = Column(Text, nullable=False)

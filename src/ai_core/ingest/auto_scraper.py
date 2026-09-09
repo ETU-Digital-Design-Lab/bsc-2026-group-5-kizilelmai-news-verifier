@@ -115,7 +115,13 @@ def scrape_and_inject():
                     
                     # Inject knowledge directly as TRUE (1) with High Authority (0.95) since these are official sources
                     print(f"   [-] Yeni Haber: {title[:50]}...")
-                    engine.inject_knowledge(full_text, label=1, authority=0.95)
+                    inserted = engine.inject_knowledge(
+                        full_text, label=1, authority=0.95, source_url=link, publisher=source['name'],
+                        published_at=article.publish_date.isoformat() if article.publish_date else None,
+                        label_provenance="publisher_assumed_true_not_fact_checked",
+                    )
+                    if not inserted:
+                        continue
                     
                     save_to_history(link)
                     history.add(link)

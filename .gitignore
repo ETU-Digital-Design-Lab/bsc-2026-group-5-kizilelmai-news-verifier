@@ -233,6 +233,7 @@ sentence-transformers/
 models/
 cache/
 .cache/
+.runtime/
 
 # 2. Model Dosya Uzantıları
 # (Yanlışlıkla klasör dışına çıkan model dosyalarını engeller)

@@ -95,6 +95,11 @@ class InjectRequest(BaseModel):
     text: str
     label: int
     authority: float = 0.95
+    source_url: Optional[str] = None
+    publisher: Optional[str] = None
+    published_at: Optional[str] = None
+    evidence_id: Optional[str] = None
+    label_provenance: str = "unknown"
 
 class ChatResponse(BaseModel):
     result: str
@@ -107,6 +112,11 @@ class ChatResponse(BaseModel):
     source: str
     source_channel: Optional[str] = "Belirlenemedi"
     source_id: Optional[int] = None
+    source_url: Optional[str] = None
+    source_name: Optional[str] = None
+    source_attribution_basis: str = "unknown"
+    evidence_metadata: Optional[Dict[str, Any]] = None
+    classifier: Optional[Dict[str, Any]] = None
 
 class ReportRequest(BaseModel):
     news_query: str
@@ -280,7 +290,8 @@ async def delete_record(record_id: int, user: dict = Depends(require_admin)):
 async def update_record(record_id: int, request: InjectRequest, user: dict = Depends(require_admin)):
     """Belirli bir kaydı günceller (Admin)"""
     try:
-        success = engine.update_knowledge(record_id, request.text, request.label, request.authority)
+        metadata = request.dict(exclude={"text", "label", "authority"})
+        success = engine.update_knowledge(record_id, request.text, request.label, request.authority, **metadata)
         if success:
             return {"status": "success", "message": f"{record_id} numaralı kayıt başarıyla güncellendi."}
         raise HTTPException(status_code=404, detail="Kayıt bulunamadı.")
@@ -299,7 +310,9 @@ async def get_record(record_id: int, user: dict = Depends(require_admin)):
                 "id": int(record["id"]),
                 "text": str(record["text"]),
                 "label": int(record["label"]),
-                "authority": float(record["authority"])
+                "authority": float(record["authority"]),
+                **{key: str(record[key]) if record.get(key) is not None else None
+                   for key in ("source_url", "publisher", "published_at", "evidence_id", "label_provenance", "ingested_at")}
             }
         raise HTTPException(status_code=404, detail="Kayıt bulunamadı.")
     except Exception as e:
@@ -327,7 +340,8 @@ async def get_status():
 async def inject_data(request: InjectRequest, user: dict = Depends(require_admin)):
     """Sisteme canlı bilgi enjekte eder (Katman 10)"""
     try:
-        success = engine.inject_knowledge(request.text, request.label, request.authority)
+        metadata = request.dict(exclude={"text", "label", "authority"})
+        success = engine.inject_knowledge(request.text, request.label, request.authority, **metadata)
         if success:
             return {"status": "success", "message": "Bilgi başarıyla enjekte edildi."}
         return {"status": "error", "message": "Enjeksiyon başarısız."}

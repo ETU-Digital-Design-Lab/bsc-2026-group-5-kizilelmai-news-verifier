@@ -1,0 +1,12 @@
+{
+  "status": "FAIL",
+  "errors": [
+    "Incomplete claim/evidence records: 500",
+    "Gold verdict must be DOĞRU or YALAN.",
+    "Corpus records without source_url: 30347; URL disjointness cannot be certified.",
+    "Historical training input not supplied; training disjointness unknown."
+  ],
+  "overlaps": [],
+  "corpus_records_without_url": 30347,
+  "training_scope": "Only the supplied training export; historical checkpoint lineage requires separate verification."
+}

@@ -1,0 +1,501 @@
+benchmark_id,claim,gold_label,predicted_label,p_label_0,p_label_1
+FACTURK-0001,"ABD’de yeni çıkan bir yasa ile, “küçük çocukların aile onayı almadan cinsiyet değiştirmesine” izin verileceği iddia edildi . İddiada “aile onayını alamayan çocukların” trans sığınma evlerine yerleştirileceği gibi ifadeler de yer aldı",0,0,0.95219421,0.04780585
+FACTURK-0002,Çeşitli Kodlarla Telefonunuzun Dinlenip Dinlenmediğinin Takibe Alınıp Alınmadığının Öğrenilebileceği,0,0,0.69375050,0.30624941
+FACTURK-0003,Çin'in Ay'a götürdüğü pamuk tohumlarının filizlendiği,1,1,0.15015478,0.84984523
+FACTURK-0004,Galatasaray’ın 2000 yılında aldığı UEFA kupasının dönemin 3 numaralı kupası olduğu ve 2023/2024 sezonunda Fenerbahçe’nin oynadığı Konferans Ligi kupası ile eşdeğer olduğu,0,1,0.03824755,0.96175247
+FACTURK-0005,B sınıfı ehliyete sahip olmanın 125 cc’ye kadar olan motosikletleri kullanmak için yeterli olduğu,0,1,0.11258884,0.88741118
+FACTURK-0006,Videonun Rus arama kurtarma personelinin enkazdan çaldığı paraları gösterdiği,0,0,0.94875455,0.05124542
+FACTURK-0007,Bir X hesabı tarafından 21 Nisan 2024 tarihinde paylaşılan videonun Türkiye ile ilişkili olduğu ve 10 bin avronun üstünde döviz girişinden gümrük vergisi alındığı,0,0,0.56935352,0.43064645
+FACTURK-0008,TRT Haber'in “3 bin yıllık cami restore edildi” başlıklı haber yaptığı,1,1,0.41566190,0.58433807
+FACTURK-0009,"Eski Dışişleri Bakanı Tevfik Rüştü Aras, ""Domuz çok güzel bir gıdadır"" dedi",1,1,0.12220284,0.87779719
+FACTURK-0010,Anadolu Ajansının Taksim'de Doğal Gaz Bulunduğu Yönünde Bir Haber Yayımladığı,0,1,0.23938414,0.76061589
+FACTURK-0011,Biraz Yorgunum Başlıklı Şiirin Erdem Bayazıt'a Ait Olduğu,0,1,0.41089800,0.58910203
+FACTURK-0012,İnsan ve nesneleri görünmez yapabilen “Mega Kalkan” gerçek,1,0,0.50888449,0.49111551
+FACTURK-0013,"2020 İslamilik Endeksi’ne göre, İslam’a en uygun yaşayan ülkeler sıralamasında Türkiye 100. sırada yer alıyor",1,1,0.03827918,0.96172082
+FACTURK-0014,videodaki görüntülerin Sudan İç Savaşı’na ait olduğu,0,0,0.82345241,0.17654754
+FACTURK-0015,Andrew Tate'in Greta Thunberg'e Yanıt Videosunda Görülen Pizza Kutusu Sayesinde Romanya Polisi Tarafından Yakalanabildiği,0,1,0.33591723,0.66408271
+FACTURK-0016,Diyanetin baldızla zinanın nikaha zarar vermeyeceği fetvası yayınladığı,1,1,0.25099388,0.74900615
+FACTURK-0017,445 kg’lık bir adamın X-Ray görünümü görseldeki gibidir,0,1,0.20271705,0.79728299
+FACTURK-0018,Epstein'i Tel Aviv'de bir berberde gösteren fotoğraf gerçek,0,0,0.64994049,0.35005957
+FACTURK-0019,Adana’da 6 milyar dolarlık jelibon bulunduğu,0,1,0.08265988,0.91734016
+FACTURK-0020,Erdoğan’dan Şehirleri Bombalama Talimatı,0,1,0.13317993,0.86682010
+FACTURK-0021,Yalancının Mumu YaTSıya Kadar Yanar Atasözünün Doğrusunun YaSSı Adlı Mum Söndürme Aletine Dayanan Yalancının Mumu YaSSıya Kadar Yanar Şeklinde Olduğu,0,0,0.57536793,0.42463201
+FACTURK-0022,"bir araştırmanın pandeminin COVID geçirmeyen kişileri bile 5,5 ay daha hızlı yaşlandırdığı iddia edildi",1,0,0.84243321,0.15756677
+FACTURK-0023,bir kişinin küre şeklindeki bir sanat eserinin içine girerek 50 yıl sonra açılmak üzere kendini müzeye koydurttuğu iddia edildi,0,0,0.87439954,0.12560049
+FACTURK-0024,Ukraynalı Satranç Oyuncusu Anna Muzychuk'un 2017 Yılında Suudi Arabistan'da Düzenlenen Kadınlar Dünya Satranç Şampiyonasını Kadınlara Yöenlik Kısıtlamaları Protesto Ederek Katılmama Kararı Aldığı,1,1,0.02317510,0.97682494
+FACTURK-0025,"TSK, Kimyasal Silah Kullanıyor",0,1,0.26610664,0.73389333
+FACTURK-0026,Darülaceze'ye nakledilecek depremzede çocuklar için gönüllülere ihtiyaç olduğu,0,1,0.16922091,0.83077908
+FACTURK-0027,Kanada-Fas maçında TRT spikerinin devre arasında değiştirildiği,1,1,0.25182649,0.74817348
+FACTURK-0028,Videonun Jeffrey Epstein'ın Adasında İşkence Gören Türk Çocuğunun Özür Dilerim Arthur Dediği Ana Ait Olduğu,1,0,0.92015189,0.07984807
+FACTURK-0029,Utah'da gizemli bir monolit bulunduğu,1,0,0.71920675,0.28079328
+FACTURK-0030,Bir X hesabı tarafından 20 Nisan 2025’te paylaşılan bir gönderide Ataşehir’de AK-47 ile para çekmek isteyen bir kişinin tutuklanıp serbest bırakıldığı,0,0,0.81409121,0.18590879
+FACTURK-0031,Bandırma 17 Eylül Üniversitesi'nin Mezuniyet Törenlerinde Topuklu Ayakkabı Giyilmesini Yasakladığı,1,1,0.06951387,0.93048614
+FACTURK-0032,Bitlis'teki cami minaresine AK Parti'nin seçim afişi asıldığı,1,1,0.19291224,0.80708778
+FACTURK-0033,Shakira'yı Türkiye’de bir markette gösteren fotoğraf gerçek,1,0,0.77138150,0.22861852
+FACTURK-0034,"Bir X hesabı tarafından 14 Eylül 2024 tarihinde yapılan video paylaşımında, Bill Gates’in aşılara karşı çıkanları susturmak için yapay zekayı kullanacaklarına dair bir açıklama yaptığı",0,0,0.81101471,0.18898532
+FACTURK-0035,Uçağın üzerindeki insanları gösteren fotoğraf gerçek,1,0,0.88174158,0.11825845
+FACTURK-0036,İngiltere’nin hamile ve emziren kadınlar için aşı önerisini kaldırdığı iddia edildi,0,1,0.16235170,0.83764833
+FACTURK-0037,"Bir erkeğin EKG kalp monitörünün elektrotlarının göğsü yerine yüzüne yerleştirildiği, saturasyon cihazının parmağına değil burnuna takıldığı görülen görselin Filistin'da kaydedildiği, bu durumun Filistinlilerin sahte yaralı görüntüleri hazırladığını ortaya koyduğu",0,0,0.57574695,0.42425308
+FACTURK-0038,"Ben Timur zamanında gelseydim, O’nun yaptığı işleri başaramazdım. O, benim zamanımda gelseydi, yaptıklarımdan daha büyüklerini yapardı sözünün Mustafa Kemal Atatürk'e ait olduğu",1,0,0.79222941,0.20777060
+FACTURK-0039,Hırvatistan’da 4 lira 20 kuruşa ev satıldığı,1,1,0.04792051,0.95207953
+FACTURK-0040,Videodaki şeffaf kanatlı kelebek gerçek,1,0,0.86060041,0.13939959
+FACTURK-0041,Fotoğrafın Erdoğan ve Soros'u aynı masada gösterdiği,1,0,0.91145778,0.08854225
+FACTURK-0042,"Dünyada En Kısa Süre Orucun Tutulduğu Yerin Umman'daki Vakan Köyü Olduğu ve Bu Köyde Günde Sadece 3,5 Saat Oruç Tutulduğu",0,1,0.30037192,0.69962811
+FACTURK-0043,"Rus güçlerinin, ele geçirdiği Mariupol şehrine Sovyetler Birliği bayrağı diktiği",0,1,0.14903328,0.85096675
+FACTURK-0044,ki videonun Rusya-Ukrayna çatışmaları sırasında terk edilen bir Rus askeri aracının nasıl kullanılacağını öğreten Ukraynalı bir kadını gösterdiği,0,0,0.92780560,0.07219434
+FACTURK-0045,"Video, yüklü kamyonun uçurumdan manevra yaparak kurtulduğu anı mı gösteriyor",0,0,0.95452911,0.04547084
+FACTURK-0046,İstanbul Havalimanı'nın şantiye alanını su bastığı,1,1,0.42149940,0.57850057
+FACTURK-0047,"Akşam, 'Atatürk Havalimanı güvenli' haberini saldırının ardından kaldırdı",1,1,0.19058861,0.80941141
+FACTURK-0048,Görseldeki burç isimlerinin Osmanlı Devleti’nde kullanıldığı,0,0,0.92400426,0.07599568
+FACTURK-0049,Epstein ile Suudi Veliaht Prensi Selman'ın fotoğrafı dosyalarda mı yer alıyor,1,0,0.65688848,0.34311146
+FACTURK-0050,"Bir X hesabı tarafından 20 Kasım 2025 tarihinde paylaşılan gönderide, Ordinaryus Profesör Reşat Kaynar’ın Latife Hanım’ın mektupları hakkındaki itiraflarını gösterdiği iddia edildi",0,0,0.94045812,0.05954185
+FACTURK-0051,Koronavirüsün Hiçbir Zaman İzole Edil(e)mediği,0,0,0.50320762,0.49679235
+FACTURK-0052,Bir Facebook hesabı tarafından 29 Ocak’ta yapılan bir paylaşımda İçecek Sektörü Analisti Garret Nelson’un Coca Cola’nın Türkiye’de satış yapmakta güçlük çektiğini söylediği,1,0,0.84405971,0.15594029
+FACTURK-0053,Hürriyet gazetesinin Formula 1’in 2025 sezonunun açılış yarışı olan Avustralya Grand Prix'ini büyük hatalarla haberleştirdiği,1,1,0.08780733,0.91219270
+FACTURK-0054,Cheetos’un şeklini maskotunun testislerinden aldığı,0,1,0.17463900,0.82536101
+FACTURK-0055,Konya Şeker’in 17 milyar 863 milyon TL borcu var,1,1,0.06697073,0.93302929
+FACTURK-0056,daki Augustus Tapınağı,0,1,0.35390097,0.64609897
+FACTURK-0057,görselde yer alan tablonun Jeffrey Epstein’in 1999 Gölcük Depremi öncesinde İstanbul’a geldiğini gösteren uçuş kayıtları olduğu,0,0,0.76632768,0.23367232
+FACTURK-0058,Fotoğrafın Köpek ve Çita Hız Yarışına Ait Olduğu,0,0,0.86252141,0.13747862
+FACTURK-0059,Okullarda pandemi nedeniyle resim ve müzik dersleri kaldırılacak,0,1,0.37785521,0.62214482
+FACTURK-0060,Lübnan'daki patlamayı IŞİD'in üstlendiği,0,1,0.13393503,0.86606497
+FACTURK-0061,Fotoğrafın 28 Yıldır Tır Şoförlüğü Yapan Erkeğin Yüzünün İki Yanında Farklı Ölçüde Deformasyona Yol Açan Güneş Yaşlanması Etkisini Gösterdiği,1,0,0.89210379,0.10789626
+FACTURK-0062,Videoda İsrail'in Gazze'ye Yönelik Saldırılarında Yıkılan Binanın Enkazı Altında Kalan Bebeğin Görüldüğü,0,1,0.42552260,0.57447737
+FACTURK-0063,"Linus Pauling, hemoglobin molekülünün değişiminden kaynaklandığı Orak hücre kansızlığının sebebi tespit etti",0,1,0.25683084,0.74316913
+FACTURK-0064,Görselin ekmek çaldığı iddiasıyla mahkemeye çıkarılan çocuğu gösterdiği,0,0,0.94895583,0.05104415
+FACTURK-0065,İçişleri Bakanlığı logosu bulunan seçim görevlisi kartlarıyla ilgili iddia,1,0,0.87299836,0.12700164
+FACTURK-0066,Japonya Osaka’da Hamidiye markalı su satıldığı,1,1,0.08470276,0.91529727
+FACTURK-0067,Yunanistan Başbakanı’nın yer aldığı video kaydı 2020'ye ait,0,1,0.35245022,0.64754987
+FACTURK-0068,Bir Facebook hesabı tarafından 29 Haziran 2024 tarihinde paylaşılan gönderide boykotlar sebebiyle McDonald’s’ın Mısır’dan çekilme kararı aldığı iddia edildi,0,0,0.86687338,0.13312665
+FACTURK-0069,Yerli tütün kullanımının 14 yıl içinde yüzde 42'den yüzde 12'ye gerilediği,1,1,0.00579250,0.99420750
+FACTURK-0070,Kayanın altındaki binaları gösteren fotoğraf gerçek,1,0,0.83613777,0.16386223
+FACTURK-0071,Görüntülerin Kahramanmaraş'ta deprem öncesi ve sonrasını gösterdiği,0,0,0.52902365,0.47097638
+FACTURK-0072,Görselde yer alan COVID-19 aşılarının etkinlik oranlarının olduğu,1,0,0.89085323,0.10914678
+FACTURK-0073,Yüzü görünen ve elinde kitap tutan bir kadının yer aldığı eser Shamsia Hassani’ye ait,0,1,0.29834270,0.70165730
+FACTURK-0074,"The Matrix filmindeki kodlar, suşi tarifini verir",1,0,0.58175308,0.41824695
+FACTURK-0075,Haritanın Üzerine Takip Cihazı Takılan Bir Kartalın 20 Yıllık Göç Rotasını Gösterdiği,0,1,0.36712185,0.63287812
+FACTURK-0076,Ülker'in Coco Star Adlı Ürününde Hindistan Cevizi Yerine Beyazlatılmış Havuç Kullanıldığı,0,1,0.28936389,0.71063602
+FACTURK-0077,"Fotoğraf, Atatürk’ün Selanik'te 1902’de çekilmiş bir fotoğrafıdır",0,1,0.11376958,0.88623041
+FACTURK-0078,Türkiye’nin internet hızında 103. sırada olduğu,1,1,0.14167614,0.85832387
+FACTURK-0079,Fotoğrafın Temel Reis Popeye Karakterine İlham Veren Frank Fiegel'a Ait Olduğu,0,0,0.91139388,0.08860605
+FACTURK-0080,Videonun Almanya'da Nazizm sembolüne boyanmış ABD tanklarını gösterdiği,0,0,0.90641081,0.09358922
+FACTURK-0081,Videodaki yıldırım görüntüsü gerçek,1,0,0.77346754,0.22653253
+FACTURK-0082,Fotoğraftaki Kişinin Taliban Tarafından Atanan Afganistan'ın Yeni Merkez Bankası Başkanı Olduğu,0,0,0.87241185,0.12758812
+FACTURK-0083,Fotoğraf Brezilya'daki tek bir kaju ağacını mı gösteriyor,1,0,0.90025628,0.09974364
+FACTURK-0084,"Kaza ve Kader, Talih ve Tesadüf Tabirleri Arapçadır, Türkleri Alakadar Etmez Sözünün Mustafa Kemal Atatürk tarafından dile getirildiği",1,1,0.26168159,0.73831838
+FACTURK-0085,İngiliz Mareşal Birdwood'un Atatürk'ün cenazesini ayakta selamladığı,1,1,0.25887191,0.74112809
+FACTURK-0086,Konya Tuzlukçu Belediyesi’nin asgari ücreti 4 bin 500 TL yaptığı,1,1,0.04982003,0.95017999
+FACTURK-0087,Şeffaf ekranlı dizüstü bilgisayar gerçek,1,0,0.85538393,0.14461610
+FACTURK-0088,Fosforlu kediler gerçek,1,0,0.88861084,0.11138918
+FACTURK-0089,Çin'in Doğu Türkistan politikalarının araştırılması önergesinin AK Parti oylarıyla reddedildiği,1,1,0.00571199,0.99428803
+FACTURK-0090,TCDD Makinist Alımlarında Erkek Olma Şartı Arıyor,0,1,0.22419500,0.77580500
+FACTURK-0091,Görüntülerin Kırşehir'de Diyarbakır Tatlı Salonu'na ismi nedeniyle düzenlenen saldırıyı gösterdiği,1,0,0.84469938,0.15530068
+FACTURK-0092,videonun ölmek istemedikleri için kamplardan kaçan İsrail askerleri olduğu iddia edildi,0,0,0.71742404,0.28257594
+FACTURK-0093,2012 Londra Olimpiyatları Açılış Törenindeki Koreografiyle Covid19 Pandemisinin Simgelendiği,0,1,0.32007864,0.67992139
+FACTURK-0094,Erdoğan'ın yedinci torununun ABD'de doğduğu,0,1,0.31526819,0.68473178
+FACTURK-0095,A Haber’in seçim analisti olarak ekrana çıkardığı Kenan Demir'in kebapçı olduğu,1,1,0.16778392,0.83221602
+FACTURK-0096,Konya'da ‘chemtrails’ ile havadan zehirleme yapıldığı,0,1,0.03091721,0.96908277
+FACTURK-0097,Konya Valisi Orhan Toprak'ın çocuklarının isminin Fethullah ve Gülen olduğu,0,1,0.41630685,0.58369315
+FACTURK-0098,Görseldeki evlerin Suriyeliler için yapıldığı,0,0,0.92796040,0.07203959
+FACTURK-0099,"Dudullu-Bostancı metro hattının açılışının yapıldığı 6 Ocak 2023 tarihli törende CHP Genel Başkanı Kemal Kılıçdaroğlu, İYİ Parti Genel Başkanı Meral Akşener, Gelecek Partisi Genel Başkanı Ahmet Davutoğlu, İstanbul Büyükşehir Belediye Başkanı Ekrem İmamoğlu'nun ardında yüklenici firmalar Kolin İnşaat ve Kalyoncu Holding'in flamalarının görüldüğü görselin dijital düzenleme içermediği",0,1,0.44528005,0.55471992
+FACTURK-0100,Japonya’da el yıkama lavabosu tuvalete takılıdır,1,1,0.09581953,0.90418053
+FACTURK-0101,videonun teknedeki insanların dev dalgalar altında kaldığı anları gösterdiği,0,0,0.95145720,0.04854278
+FACTURK-0102,Bill Gates’in fonladığı Dünya Sivrisinek Programı'yla ilgili 'salgın' iddiaları,0,1,0.36958528,0.63041466
+FACTURK-0103,Videodaki Artistik Buz Pateni Performansını Sergileyen Ivan Bukin'in Kör Olduğu Doğru Değil,0,0,0.73989993,0.26010013
+FACTURK-0104,Videonun Japonya'da görevlilerin yolcuları metroya sığdırmaya çalıştığını gösterdiği,1,0,0.93900156,0.06099839
+FACTURK-0105,Gana’da sahte ABD Büyükelçiliği açıldığı,1,1,0.06708099,0.93291903
+FACTURK-0106,Fotoğrafların Şile’de yaşanan su kesintisini gösterdiği,1,0,0.92736107,0.07263891
+FACTURK-0107,2015'te Miss Grand International Beauty Contest yarışmasında Ukrayna’yı temsil eden Anastasiia Lenna’nın Ukrayna ordusuna katıldığı,0,1,0.04858186,0.95141816
+FACTURK-0108,Videonun iki Türk’ün ABD’de mahkemeye çıktığını gösterdiği,1,0,0.93519598,0.06480399
+FACTURK-0109,Şişli Hamidiye Etfal Hastanesi'nin Dünyanın ilk Çocuk Hastanesi Olduğu,0,1,0.23637460,0.76362538
+FACTURK-0110,Milano Başkonsolosluğu'nun deprem yardımları için yalnızca Diyanet Vakfı'nı gösterdiği,0,1,0.36784142,0.63215852
+FACTURK-0111,Portekiz sokaklarında şarap aktığı,1,1,0.32591501,0.67408502
+FACTURK-0112,trende cinsel ilişkiye giren bir çiftin yer aldığı videonun İngiltere’de çekildiği,0,1,0.24198152,0.75801843
+FACTURK-0113,Arjantin'de yaşayan 128 yaşındaki adamın Adolf Hitler olduğu,0,1,0.25995448,0.74004549
+FACTURK-0114,Görselin 1947 yılında Yahudilerin Filistin'e varışını gösterdiği,1,0,0.93899798,0.06100203
+FACTURK-0115,Fotoğrafın Kıbrıs’ta Türk bayrağıyla poz veren Rum birlikleri gösterdiği,1,0,0.91881979,0.08118021
+FACTURK-0116,Video aynalı Pele kostümü giyen bir taraftarı mı gösteriyor,1,0,0.94277602,0.05722396
+FACTURK-0117,Aerobik dersi veren kadın Myanmar'daki darbeyi kaydetti,1,1,0.13401164,0.86598831
+FACTURK-0118,Yeniden Refah Partisi Konya Milletvekili Ali Yüksel'in Geçmişte Bir Dönem 3 Eşli Olduğu,1,1,0.11094846,0.88905156
+FACTURK-0119,Videoda Bir Uçurumun Kenarında Dar Yolda Otomobilin Ters Yöne Çevrildiği Anın Görüntülendiği,0,0,0.90118474,0.09881521
+FACTURK-0120,Fotoğrafın yerli ve milli RT-1453 adlı uçağı gösterdiği,0,0,0.93492395,0.06507600
+FACTURK-0121,"Türkiye Cumhuriyeti Devleti, ben Türk değilim ama, benim de bu topraklarda hakkım var diyenlere haddini bildirmek için kurulmuş bir Türk devletidir sözünün Mustafa Kemal Atatürk'e ait olduğu",0,1,0.37051275,0.62948722
+FACTURK-0122,"Bir Twitter hesabı tarafından 20 Ekim 2021 tarihinde paylaşılan videoda, Kuzey Kutbu’ndan çekilen ay görüntülerini gösterdiği iddia edildi",0,0,0.93807846,0.06192159
+FACTURK-0123,"Enflasyonla mücadele: Kanada, ""vergi tatili"" mi ilan etti",1,1,0.28836060,0.71163940
+FACTURK-0124,videonun İsrail’in Hindistan’daki Büyükelçiliği’ne yapılan saldırıyı gösterdiği,0,0,0.91608840,0.08391157
+FACTURK-0125,Resmin Bulgar ve Yunan askerleri Türk askerinin fesine haç çizerken gösterdiği,1,0,0.75457233,0.24542768
+FACTURK-0126,Türkiye Avrupa’nın en büyük plastik çöplüğü haline geldi,1,1,0.09019824,0.90980178
+FACTURK-0127,Bir De Kuşlar Var Hakim Bey Her Şeyin Başı Onlar Onlar Özgürlüğü Koyuyor İnsanın Kafasına Baksanıza Terörist Terörist Uçuyorlar Dizelerinin Şair Ahmet Arif'e Ait Olduğu,0,0,0.68794698,0.31205299
+FACTURK-0128,"meyvelerin üzerine yapıştırılan çıkartmalardaki kodların pestisit kullanımı, organik üretim veya genetiği değiştirilmiş olup olmadığını gösterdiği iddia edildi",1,0,0.91332877,0.08667124
+FACTURK-0129,"Simpsonlar'da ""Bir adadaki bazı ürpertici tipler gizlice dünyayı yönetiyor"" yazdığı",1,0,0.90172064,0.09827940
+FACTURK-0130,Görüntünün hahamların Cumhurbaşkanlığı külliyesinde Cumhurbaşkanı Erdoğan'a dua ettiği ana ait olduğu,1,0,0.93263561,0.06736440
+FACTURK-0131,İspanya’nın İsrail ile yaptığı 700 milyon Euroluk silah anlaşmasını iptal ettiği,1,1,0.01031465,0.98968542
+FACTURK-0132,1939 Erzincan Depreminde Mahkumların Yardım İçin 1 Günlüğüne Serbest Bırakıldığı,0,1,0.04359151,0.95640844
+FACTURK-0133,Singapur’da tren camlarının binalara gelince matlaştığı,1,1,0.06216791,0.93783212
+FACTURK-0134,Dünyanın Manyetik Kuzey Kutbu Rusya’ya doğru mu kayıyor,1,0,0.51256496,0.48743510
+FACTURK-0135,Çin’de binanın içinden tren hattı geçtiği,1,1,0.08526990,0.91473007
+FACTURK-0136,Kümbetin arkasına öğrenci yurdu yapıldığı,1,0,0.50554967,0.49445033
+FACTURK-0137,Videonun Pençe Kılıç Hava Harekatı'nda bulunan Türk askerini gösterdiği,0,0,0.90882289,0.09117711
+FACTURK-0138,Fransız Sanofi Firması Tarafından Üretilen 'PLAQUENİL' İsimli İlaç Koronavirüsü Tedavi Ediyor,0,1,0.36924502,0.63075501
+FACTURK-0139,Nicolas Maduro'nun DEA memuru ile fotoğrafı gerçek,1,0,0.65575272,0.34424728
+FACTURK-0140,Mustafa Kemal Atatürk'ün Sağlığında 19 Mayıs'ın Bayram Olmadığı,0,1,0.36132133,0.63867867
+FACTURK-0141,Yavuz Sultan Selim Köprüsü ve Kuzey Çevre Otoyolu’nun %51’i Çin menşeli şirkete satılıyor,1,1,0.01959281,0.98040718
+FACTURK-0142,"Bir X hesabı tarafından 16 Kasım 2024 tarihinde paylaşılan videoda, Husilerin saldırısının ardından Abraham Lincoln adlı ABD’ye ait uçak gemisinin hasar alıp bölgeyi terk ettiği",0,0,0.90470815,0.09529184
+FACTURK-0143,Oy pusulaları üzerinde oy kullanılacak ilin isminin yazılı olması gerektiği,1,1,0.31354374,0.68645626
+FACTURK-0144,Bir Twitter hesabı tarafından 13 Nisan 2022 tarihinde paylaşılan videonun 2022’ye ait olduğu ve İstanbul halinde sebzelerin çöpe döküldüğünü gösterdiği iddia edildi,0,0,0.94204748,0.05795252
+FACTURK-0145,Fotoğraftaki Protez Diş Görünümlü Flaş Belleğin FETÖ Operasyonları Sırasında Ele Geçirildiği,0,0,0.91676432,0.08323567
+FACTURK-0146,"Bir X hesabının 5 Kasım 2023’te paylaştığı videonun, Dilan Polat ve Engin Polat çiftinin evlerinde bulunan dövizleri gösterdiği iddia edildi",0,0,0.93231940,0.06768064
+FACTURK-0147,"Video, İBB’nin sahip olduğu şu anda kayıp olan atların itlaf edilişini göstermektedir",0,0,0.93674600,0.06325400
+FACTURK-0148,M Özdoğan Günlükleri Adlı Kitapta Necmettin Erbakana Ait Bir Sözün Paylaşıldığı,0,1,0.38196859,0.61803144
+FACTURK-0149,Videonun İtalya'da Bir Göçmenin Sokakta Öldürdüğü Kediyi Pişirdiği Ana Ait Olduğu,1,0,0.90903491,0.09096502
+FACTURK-0150,Britney Spears'ın eski eşi Sam Ashgari'nin küçükken hayranı olarak kendisiyle fotoğraf çektirdiği,0,0,0.58755773,0.41244227
+FACTURK-0151,Prof. Dr. Mehmet Ceyhan COVID-19 aşılarının sorumluluğunu almadı,0,1,0.23461770,0.76538229
+FACTURK-0152,Bülent Ecevit'in 1999 Marmara Deprem Bölgesine Ancak 3 Gün Sonra Gidebildiği,0,1,0.15187132,0.84812862
+FACTURK-0153,"Tom Hanks’in mevcut İsrail-Hamas Savaşı sırasında, Filistin’e destek için kefiye taktığı",0,1,0.01976652,0.98023349
+FACTURK-0154,Biz Tekrar Tekrar Yaptığımız Şeyleriz Demek Ki Mükemmellik Bir Eylem Değil Bir Alışkanlıktır Sözünün Aristoya Ait Olduğu,0,1,0.45825821,0.54174185
+FACTURK-0155,Kahramanmaraş'ta yapılan fuhuş operasyonunda veresiye defterinin ele geçirildiği,1,1,0.09065837,0.90934157
+FACTURK-0156,"Rusya Savunma Bakanı Sergey Şoygu’nun “Sovyetler Birliği Geri Dönecek, hepimiz barış içinde yaşayacağız” dediği iddia edildi",0,1,0.31597522,0.68402481
+FACTURK-0157,"İbn Haldun'un Mukaddime adlı eserinde Araplar için hırsız, talan ruhlu, vahşi, kaba, haşin, hırsız, yalancı, uygarlık düşmanı gibi tanımlar kullandığı",1,1,0.21309847,0.78690153
+FACTURK-0158,Görselde yer alan haritada Türkiye’deki akraba evliliklerinin oranlarının verildiği,1,0,0.90656233,0.09343766
+FACTURK-0159,Rize-Artvin Havalimanı'na 3 milyon yolcu garantisi verildiği,0,1,0.17934889,0.82065111
+FACTURK-0160,Çin Seddi’nin bir bölümü yıkıldı,1,1,0.11426377,0.88573629
+FACTURK-0161,Bir Twitter hesabı tarafından 8 Ocak 2023 tarihinde paylaşılan videonun İsrail polisinin Filistinli bir çocuğu boğarak öldürdüğü anı gösterdiği,0,0,0.93464053,0.06535953
+FACTURK-0162,MEB’in Almanca ders kitabında bir kadının montajla başörtülü gösterildiği,1,1,0.04362761,0.95637238
+FACTURK-0163,Türkiye'nin 2018'de 'yarı-özgür ülke' statüsünden 'özgür olmayan ülke' statüsüne gerilediği,1,1,0.03283107,0.96716893
+FACTURK-0164,Cenap Şehabettin'in On Ölüm Şarkısı Adlı Şiirin Yazarı Olduğu,0,1,0.22644223,0.77355784
+FACTURK-0165,Dünya Ekonomik Forumu Kurucusu Klaus Schwab'ın Tutuklandığı,0,1,0.22198014,0.77801979
+FACTURK-0166,Giresun’da bulunan devlete ait SEKA fabrikası 5 milyon liraya özelleştirildi. Fabrika arazisi daha sonra 68 milyon lira karşılığında TOKİ tarafından satın alındı. Yıkılan fabrikanın yerine konut yapıldı,1,1,0.00215709,0.99784291
+FACTURK-0167,"Fotoğraf, şapka takmadığı için idama götürülen kişileri gösteriyor",0,0,0.95418310,0.04581691
+FACTURK-0168,'Japonya'da lise mezunu olmayanlar oy kullanamıyor',0,1,0.47257969,0.52742028
+FACTURK-0169,Bir Facebook sayfası tarafından 19 Ocak 2024 tarihinde yapılan paylaşımda Toblerone marka çikolatalar için toplatılma kararı verildiği,1,0,0.84706342,0.15293653
+FACTURK-0170,Uyandım Uyandım Hep Seni Düşündüm Yalnız Seni Yalnız Senin Gözlerini Dizelerinin Özdemir Asaf’a Ait Olduğu,0,1,0.18007125,0.81992871
+FACTURK-0171,Nikola Tesla 1926 yılında akıllı telefonları tahmin etti,1,0,0.73275214,0.26724789
+FACTURK-0172,İsmet İnönü'ye 1959 Yılında Uşak ve İstanbul'da Yapılan Saldırıların Bir Mizansen Olduğu,0,1,0.18258679,0.81741321
+FACTURK-0173,Yalnız Türklerin korku filmi izlerken güldüğü ve Türkiye’de kimsenin korku filmi yüzünden ölmediği,0,1,0.43205458,0.56794542
+FACTURK-0174,videonun 6 Şubat 2023’te gerçekleşen Kahramanmaraş depremleri sonrası enkazdan kurtarılan bir köpeği gösterdiği iddia edildi,0,0,0.93526489,0.06473508
+FACTURK-0175,ABD başkanı Joe Biden'ın toplantı esnasında uyuduğu,0,0,0.55134773,0.44865230
+FACTURK-0176,videonun Fransa’da gece yarısı yoldan geçen genç kızları rahatsız eden Türkleri gösterdiğini,0,0,0.91750222,0.08249775
+FACTURK-0177,Atatürk'ü Zeybek Oynarken Gösterdiği İddia Edilen Resim,0,0,0.91359377,0.08640624
+FACTURK-0178,Bir Twitter hesabı tarafından 24 Şubat 2022 tarihinde paylaşılan videoda Ukrayna ordusuna katılan bir babanın ailesine veda ettiği anları gösterdiği,0,0,0.95074505,0.04925491
+FACTURK-0179,Mekke'de ovalar ve dağların yeşillendiği,1,1,0.10161721,0.89838278
+FACTURK-0180,Bir trende tesettürlü kadınların arasında başı açık ve kırmızı elbiseli bir kadının sırtı dönük şekilde görüntülendiği fotoğrafın İsveç'in Malmö kentinde kaydedildiği,0,0,0.66411132,0.33588865
+FACTURK-0181,"Mit Uyardı, İzlendi Ancak Durdurulamadı",0,0,0.51959246,0.48040757
+FACTURK-0182,İtalya’da koronavirüse karşı Kuran okunduğu,1,1,0.07772222,0.92227781
+FACTURK-0183,1963 tarihli bir gazetede cep telefonunun gösterildiği,1,0,0.83074623,0.16925377
+FACTURK-0184,Ali Babacan’ın “KYK kredileri ve bursları 850 liradan 1.250 liraya yükseltilmedi. Aylık 147 dolardan 67 dolara düşürüldü.” ifadesini kullandığı,1,1,0.00364952,0.99635041
+FACTURK-0185,AK Parti heyetinden birinin vatandaşlara 'Şeyin trene baktığı gibi bakıyorlar' dediği,1,0,0.55967635,0.44032365
+FACTURK-0186,Bir Instagram hesabı tarafından 2 Ocak 2026 tarihinde paylaşılan videonun 1918 yılında Batum’un alındıktan sonra Enver Paşa’yı beklerken kendi aralarında eğlenen askerleri gösterdiği iddia edildi,1,0,0.94578117,0.05421886
+FACTURK-0187,Dünyanın en büyük yangın uçağı kar getirmediği için piyasadan çekildi,1,1,0.47408584,0.52591419
+FACTURK-0188,Görseldeki askerî üniformalı gözleri şaşı erkeğin yanlışlıkla 3 Amerikan uçağını düşüren Kuveyt Hava Savunma komutanı olduğu,0,0,0.83852130,0.16147868
+FACTURK-0189,Sayıştay’ın Amasra’daki madenle ilgili 2019 yılında uyarıda bulunduğu,1,1,0.05066799,0.94933200
+FACTURK-0190,Türkiye DAEŞ'in de Cenevre'ye Katılmasını İstedi,0,1,0.23289534,0.76710469
+FACTURK-0191,Ağustosböceklerinin ömrü yaklaşık dört hafta,1,1,0.20421134,0.79578865
+FACTURK-0192,Aleyna Tilki'ye ilham veren genç ödülü verildiği,1,0,0.75417030,0.24582976
+FACTURK-0193,"ABD Başkanı Donald Trump, Obama çiftini maymun olarak gösteren bir video paylaştı",1,1,0.26474470,0.73525524
+FACTURK-0194,IMF raporuna göre “zombi şirket” sayısının en çok Türkiye’de olduğu,1,1,0.25010481,0.74989516
+FACTURK-0195,Çimenlerin yeşil olduğunu nereden biliyorsun,0,0,0.90659702,0.09340303
+FACTURK-0196,Türkiye’nin toplam merkezi yönetim borcu başkanlık sisteminden bu yana %109 arttı,1,1,0.02601659,0.97398335
+FACTURK-0197,"Bir Twitter hesabından 8 Haziran 2023 tarihinde yapılan paylaşımda, Bursa’lı emekli bir öğretmen olan vatandaşı yükselen dolar değerini protesto etmek için 100 ABD doları banknotu yakarken gösteren videonun güncel olduğu",0,0,0.90932453,0.09067551
+FACTURK-0198,"videonun, A Haber tarafından yapılan yayına ait olduğu ve Adıyaman’da hayatın normale döndüğü başlığıyla paylaşıldığı iddia edildi",1,0,0.90598750,0.09401251
+FACTURK-0199,Uyurken sağ tarafa yatmak sağlık için faydalıdır,1,1,0.33908492,0.66091508
+FACTURK-0200,Bir X hesabı tarafından 27 Ocak 2025 tarihinde paylaşılan bir gönderide 1 Şubat 2025 tarihinden itibaren 1.050 TL’yi geçen elektrik faturalarının 2.000 TL olacağı iddia edildi,1,0,0.92440271,0.07559732
+FACTURK-0201,Mehmet Şimşek’in “Türkiye Esad’sız bir anlaşmada ısrar edemez” dediği,1,1,0.02464207,0.97535795
+FACTURK-0202,Cengiz Holding’in 3 milyar TL’lik yatırımına devlet teşviki verildiği,1,1,0.00337105,0.99662894
+FACTURK-0203,RTÜK'ün 'cin' kelimesini yasakladığı,0,0,0.70029867,0.29970133
+FACTURK-0204,evrimsel biyolog Jenny Graves’ın açıklamalarına göre birkaç milyon yıl içinde Y kromozomu yok olabileceği iddia edildi,1,1,0.28643444,0.71356553
+FACTURK-0205,Japonya'da eşek arılı krakerlerin bulunduğu,1,1,0.33971190,0.66028810
+FACTURK-0206,Tıp Öğrencisinin Nihat Hatipoğluna Namaz Vakti Geldiğinde Ameliyatı Bırakma Hakkında Soru Sorduğu,0,1,0.24530213,0.75469786
+FACTURK-0207,Fotoğrafın Latin alfabesine geçiş sırasındaki bir propaganda afişini gösterdiği,1,0,0.94334102,0.05665898
+FACTURK-0208,Nazi Almanyası’ndan kaçan Alman bilim insanlarının Türkiye’ye sığındığı,1,1,0.05588938,0.94411063
+FACTURK-0209,Karısıyla konuşmamak için 62 yıl sağır dilsiz taklidi yapan adam,0,1,0.42594054,0.57405949
+FACTURK-0210,videonun Bahreyn ile Suudi Arabistan’ı birbirine bağlayan Kral Fehd Köprüsü'nün vurulduğu anları gösterdiği iddia edildi,0,0,0.83425307,0.16574696
+FACTURK-0211,"Videoda Prens Selman'ın “Kuran’daki ayetleri yok etmek""le ilgili sözleri mi yer alıyor",0,0,0.89545727,0.10454274
+FACTURK-0212,Candaş Tolga Işık ve Hadi Özışık'ın Kuzen Olduğu,0,0,0.67378551,0.32621446
+FACTURK-0213,ABD Başkanı Donald Trump’ın ‘Hamas'a prezervatif almak için Gazze'ye 50 milyon dolar gönderileceğini tespit ettik.’ açıklaması yaptığı,1,1,0.14474633,0.85525370
+FACTURK-0214,Fotoğrafta Anıtkabir'de Saygıyla Eğilirken Görüntülenen Kişinin Japon Bakan Olduğu,0,0,0.75741363,0.24258636
+FACTURK-0215,Ak Parti Milletvekili Zehra Taşkesenlioğlu’nun Afrika’da bakır madeni sahibi olduğu bilgisinin Meclis tutanaklarında kaydedildiği iddia edildi,1,1,0.28319412,0.71680588
+FACTURK-0216,Türkiye’den İspanya’ya ihraç edilen bademlerde limitin 63 katı siyanür tespit edildiği,1,1,0.01003997,0.98995996
+FACTURK-0217,Dövize olan bağımlılık en fazla Türkiye ve Şili’de arttı,1,1,0.05867634,0.94132370
+FACTURK-0218,Peygamber Develerinin Yer Aldığı Görselin National Geographic Tarafından Yılın Fotoğrafı Seçildiği,0,1,0.43061131,0.56938869
+FACTURK-0219,"Soğuk okuma teknikleri konusunda ustalaşmış biri daha önce hiç tanımadığı bir kişi hakkında sadece kişinin vücut dilini gözleyerek ya da kıyafet, konuşma, yaş, c",0,0,0.89788562,0.10211430
+FACTURK-0220,kafatasının %83’ü parçalanan kişinin implantlarla eski görüntüsüne kavuştuğu,1,1,0.08013631,0.91986370
+FACTURK-0221,Fotoğrafın İstanbul Okmeydanı’ndaki taşın eski ve yeni halini gösterdiği,1,0,0.93760055,0.06239949
+FACTURK-0222,MEB’in açıkladığı yeni müfredatta Din Kültürü'ne 218 sayfa ayırdığı iddia edildi,1,1,0.31052521,0.68947476
+FACTURK-0223,Portekiz’de koronavirüsü etkisiz hale getiren maske geliştirildiği,1,1,0.06127507,0.93872488
+FACTURK-0224,2012 Londra Olimpiyatları açılış gösterisi pandemiyi öngörmedi,0,1,0.33111835,0.66888165
+FACTURK-0225,Sevdiceğim Kelimesinin Sevdiğim ve Seveceğim Kelimelerinin Birleşimiyle Oluştuğu,0,0,0.58368737,0.41631261
+FACTURK-0226,Videonun 24 Haziran gecesi İstanbul’da çekildiği,1,0,0.63978595,0.36021402
+FACTURK-0227,Video Bakan Muş'un karşısındaki vatandaşı dinlemediğini mi gösteriyor,0,0,0.94190997,0.05809002
+FACTURK-0228,Görselin Lazer ya da Yönlendirilmiş Enerji Silahının Ateşlendiği Anı Yansıttığı,0,0,0.84509474,0.15490530
+FACTURK-0229,Papaz eriğini imam eriğine çevirme adlı bir projenin TÜBİTAK tarafından desteklendiği ve ödül aldığı,0,1,0.49269170,0.50730830
+FACTURK-0230,Bir Twitter hesabı tarafından paylaşılan fotoğrafın tarihteki ilk kedi fotoğrafı olduğu iddia edildi,0,0,0.93208939,0.06791054
+FACTURK-0231,"Görüntüdeki Mekke'ye Gidip Hac ve Umre Yapan Şahsın 4 Kere Hacca Gidip Geldim, Aha Dayıya Sor Sözleriyle Ünlenen Hüseyin Taşkıran Olduğu",0,0,0.88280737,0.11719263
+FACTURK-0232,Bazı İsrail vatandaşlarının protesto için topluca Arapça dersi almaya başladığı,1,1,0.38581133,0.61418861
+FACTURK-0233,Görselde yer alan fotoğraf 1970'li yıllarda Afganistan’ın başkenti Kabil’de çekildi,1,0,0.51781583,0.48218423
+FACTURK-0234,Bir X hesabı tarafından 20 Şubat 2024 tarihli bir gönderide paylaşılan videonun Suudi Prensi Muhammed bin Selman’ın Kur’an’ın dünyadaki tüm teröristlerin güvendiği ve alıntı yaptığı bir kitap dediği iddia edildi,0,0,0.78997946,0.21002054
+FACTURK-0235,Türkiye’nin dünyadaki incir üretiminin %26’sını üstlendiği ve bu alanda açık ara dünya lideri olduğu iddia edildi,1,1,0.20676985,0.79323018
+FACTURK-0236,Netflix'in 1 Ağustos 2020'de Türkiye’den çekileceği,0,1,0.24037413,0.75962591
+FACTURK-0237,"Bir Instagram hesabı tarafından 21 Kasım 2024 tarihinde paylaşılan gönderide, Türkiye’nin %34’ünün İstanbul Boğazı’nın altında 17 trilyon dolar değerinde kontoryum elementi olduğuna ve dış güçlerin çıkartmaya izin vermediğine inandığı iddia edildi",1,0,0.93632829,0.06367175
+FACTURK-0238,Hollanda'da halka ücretsiz güneş kremi mi dağıtılacak,1,0,0.71422321,0.28577682
+FACTURK-0239,videonun Hizbullah’ın Tel Aviv’e saldırıları sonucu yanan bir binayı gösterdiği,0,0,0.69388014,0.30611980
+FACTURK-0240,Devlet Bahçeli'ye Aşı Yapan Gülnaz Şırınga Adlı Hemşirenin Darp Edildiği,0,1,0.44035071,0.55964929
+FACTURK-0241,Fransa’da mekanlar açıldı ve 18 yaşındaki herkese kültürel faaliyetler için 300 Euro verilecek,1,1,0.04049481,0.95950514
+FACTURK-0242,Menbiç’teki Terör Saldırısının Olduğu Bölgede Türk Ajanının Kimliği Bulundu,0,1,0.02124381,0.97875619
+FACTURK-0243,Bir Instagram hesabı tarafından 3 Ekim 2024 tarihinde paylaşılan gönderide Trabzon Opera Binası’nın 1958 yılında yoldan araçların geçemediği için yol yapma amacıyla yıkıldığı iddia edildi,1,0,0.91941375,0.08058618
+FACTURK-0244,Dünyanın en büyük buzdağının hareket etmeye başladığı doğru,1,0,0.59999454,0.40000543
+FACTURK-0245,Videonun buz kalıbının çıkardığı sesi gösterdiği,1,0,0.93738431,0.06261569
+FACTURK-0246,Sultan 2. Abdülhamit’in İstanbul’un Fethi kutlamalarına imparatorlukta yaşayan Rum tebaanın hissiyatının rencide olabileceği gerekçesiyle izin vermediği,1,1,0.09559353,0.90440649
+FACTURK-0247,videodaki rahibin “şişman kadınlar cennete giremez” dediği iddia edildi,0,0,0.92597997,0.07402006
+FACTURK-0248,Pokemon ararken karşımıza çıkan yanlış haberler,0,0,0.86002570,0.13997431
+FACTURK-0249,Nihat Zeybekci'nin TBMM'nin sitesindeki özgeçmişinden İngiltere eğitimi kaldırıldı,1,1,0.38657582,0.61342424
+FACTURK-0250,Bir Instagram hesabı tarafından 19 Mayıs 2024 tarihinde paylaşılan bir gönderide fotoğrafın Portekiz’de bir Megalodon köpek balığının karaya vurduğunu gösterdiği ve bu yıl içinde ikinci Megalodon köpek balığının görüldüğü iddia edildi,0,0,0.94346267,0.05653733
+FACTURK-0251,Fotoğrafta Bir İstasyonda Elinde Sandviçle Tren Beklerken Görüntülenen Kişinin İsveç Çalışma Bakanı Ylva Johansson Olduğu,1,0,0.87819606,0.12180386
+FACTURK-0252,NASA astronotu Sunita Williams'ın Ay'dan döndükten sonra Müslüman olduğu,0,1,0.43781361,0.56218636
+FACTURK-0253,Xsentius Adlı Türk Filozof Tarafından Yazılan Eski Bir Tapınak Yazıtı Olduğu İddia Edilen Metin,0,0,0.79497856,0.20502147
+FACTURK-0254,Che 1967 yılında Bolivyada yakalanıp öldürüldüğünde çantasından Nutuk çıktığı,0,1,0.02168879,0.97831124
+FACTURK-0255,"Elektrik fiyatlarına son 2 yılda Türkiye’de %47, Polonya’da %22, Ukrayna’da %21, Romanya’da %17 zam gelirken fiyatlar İsveç'te %16, Hollanda’da %38 azaldı",1,1,0.00464500,0.99535501
+FACTURK-0256,Videonun Ukrayna’daki Azovstal Tüneli’ni gösterdiği,0,0,0.92289776,0.07710221
+FACTURK-0257,"Türkiye Uzay Ajansı, 2 buçuk yıllığına 1 Milyon 62 bin 919 TL'ye 5 minibüs ve 2 şoför hizmetini kiralamıştır",1,1,0.04284982,0.95715022
+FACTURK-0258,Nusaybin'de çocukları korkutmak için polisin havaya ateş açtığı iddiasını nasıl doğruladık,1,1,0.03010866,0.96989137
+FACTURK-0259,Kızılay ve AFAD'ın ikinci el giysi yardımı kabul etmediği,1,1,0.45350990,0.54649013
+FACTURK-0260,Meksika'da Bir Milletvekilinin Parlamentoda Kürsüde Konuşma Yaparken Özelleştirmeyi Eleştirmek Amacıyla Soyunduğu,1,1,0.01728826,0.98271173
+FACTURK-0261,"Damacana Sözcüğünün Kökeninin, Şişenin Şeklinin İlk Cam Damacanayı Yapan Jean Adlı Fransız Cam Ustasının Eşine Benzemesinden Hareketle Dame de Jean Tanımına Dayandığı",0,1,0.25614268,0.74385732
+FACTURK-0262,Videodaki sesin Atatürk'ün Celal Bayar için kaydettiği plaktan olduğu,1,0,0.94438124,0.05561875
+FACTURK-0263,Eyüp Sabri Tuncer’in Vehbi Koç tarafından verilen tavsiye sayesinde iflastan kurtarıldığı iddia edildi,0,1,0.18684912,0.81315094
+FACTURK-0264,Fotoğrafın Türkiye’nin Washington Büyükelçiliği’nde çekildiği,1,0,0.69063497,0.30936500
+FACTURK-0265,İsrail Savunma Bakanı Yoav Gallant’ın “Türklerin sahada olduklarına eminim.” dediği iddia edildi,0,0,0.67511988,0.32488012
+FACTURK-0266,"Bir penguenin kendisini 2011 yılında açlıktan ölmek üzereyken kurtaran ve besleyip iyileştiren Brezilyalı Joao Pereira de Souza'yı, denize açıldıktan sonra her yıl ziyaret ettiği",1,1,0.03586464,0.96413535
+FACTURK-0267,İstiklal Marşı'nın Mehmet Akif Ersoy Tarafından Türkçe Yerine Arapça Yazıldığı,0,1,0.43803960,0.56196034
+FACTURK-0268,Görselin Suriyeli Sığınmacılar Tarafından 27 Temmuz 2021 Tarihinde İstanbul Saraçhane'de Düzenlenen Gitmiyoruz Mitinginin Afişi Olduğu,0,0,0.88785523,0.11214479
+FACTURK-0269,"Fotoğrafta Libya'nın Derne Kentinde 10 Eylül 2023 Günü Yaşanan Selde Çevresindeki Evler Zarar Gördüğü Hâlde Ayakta Kalan, Sahibi Yetimlere Destek Veren Evin Görüldüğü",1,0,0.71664160,0.28335842
+FACTURK-0270,Vikipedi’nin ABD Temsilciler Meclisi Nancy Pelosi’nin ölüm tarihini açıkladığı iddia edildi,0,1,0.27492753,0.72507250
+FACTURK-0271,Atatürkün Çocuklara Bira İçirdiği,0,0,0.56453842,0.43546158
+FACTURK-0272,"Fotoğraf, Edirne'de İstiklal Marşı okuyanlara korna çalan bir kişinin dövüldüğü anı mı gösteriyor",0,0,0.95051849,0.04948153
+FACTURK-0273,İzmir'de cami hoparlörlerinden Müslüm Gürses şarkısı çalındı,0,1,0.33357510,0.66642493
+FACTURK-0274,Fotoğraf İranlı komutan İsmail Kaani’nin kadın kılığına girdiğini mi gösteriyor,0,0,0.94377720,0.05622274
+FACTURK-0275,Nene Hatun’un yaşadığı yoksulluk nedeniyle İsmet İnönü’ye hitaben bir dilekçe yazdığı ve kendisine verilen yardımın bu dilekçeden sonra kesildiği iddia edildi,1,0,0.77426708,0.22573285
+FACTURK-0276,videonun Diyanet İşleri Başkanı Ali Erbaş’ın kızını gösterdiği iddia edildi,0,0,0.83167976,0.16832022
+FACTURK-0277,Vampirler neden uzun yaşar? isimli konferans,1,0,0.80394197,0.19605803
+FACTURK-0278,Çek Cumhuriyeti’nin çocuklar için belli hastalıklar için uyguladığı zorunlu aşı politikası AİHM tarafından insan hakları ihlali olarak değerlendirilmedi,1,1,0.00712440,0.99287558
+FACTURK-0279,"Bir Instagram hesabı tarafından 12 Mayıs 2025 tarihinde paylaşılan videonun, yerde hareket eden tanımlanamayan bir varlığı gösterdiği iddia edildi",0,0,0.94192290,0.05807713
+FACTURK-0280,Soğanlı Botanik Parkı imara açıldı,0,1,0.26334623,0.73665375
+FACTURK-0281,Diyanet İşleri Başkanı'nın deprem bölgesine şahsi olarak 310 milyon lira bağışladığı,0,1,0.28589439,0.71410561
+FACTURK-0282,Fotoğrafın 19 cm ile dünyanın en uzun burunlu insanını gösterdiği,1,0,0.94502413,0.05497587
+FACTURK-0283,BioNTech CEO’su Uğur Şahin COVID-19 aşısı olmadı,0,1,0.09363705,0.90636301
+FACTURK-0284,Videodaki kişinin Kraliçe II. Elizabeth olduğu,0,0,0.93594611,0.06405390
+FACTURK-0285,Özledim Seni Şiirinin Can Yücele Ait Olduğu,0,1,0.41684967,0.58315039
+FACTURK-0286,Bilkent Üniversitesi'nin öğrencilere çevrimiçi sınavlar için ayna gönderdiği,1,1,0.32597637,0.67402363
+FACTURK-0287,Hollanda’da bir kilise çanlarıyla 'Uzun İnce Bir Yoldayım' çalındığı,1,1,0.06909977,0.93090022
+FACTURK-0288,WhatsApp'ın değiştirdiği gizlilik sözleşmesi hakkındaki iddialar,1,0,0.80825758,0.19174244
+FACTURK-0289,Bir Instagram hesabı tarafından 20 Temmuz 2024 tarihinde paylaşılan gönderide Apollo 11 astronotlarının Ay’dan döndükten sonra Anıtkabir’i ziyaret ettiği iddia edildi,1,0,0.89858556,0.10141440
+FACTURK-0290,Bir Instagram hesabı tarafından 11 Temmuz 2025 tarihinde paylaşılan gönderide turizm sektöründe çalışan işçilerin yeni düzenlemeyle 7 günde bir yerine 11 günde bir haftalık izin yapabileceği iddia edildi,1,0,0.92696613,0.07303382
+FACTURK-0291,Videodaki akıllı park sistemine sahip ofis sandalyeleri gerçek,1,0,0.91068965,0.08931043
+FACTURK-0292,Bir Twitter hesabı 23 Aralık 2022’de paylaştığı görüntülerin bir uçağın chemtrails spreylediği anı gösterdiğini iddia etti,0,0,0.91008180,0.08991818
+FACTURK-0293,"Mahmut Tanal’ın Hatalı Türkiye, Fransa ve Almanya Karşılaştırması",0,1,0.05266557,0.94733447
+FACTURK-0294,Mexico City’deki üç katlı bir apartmanın hiçbir sismik hareket olmaksızın yer değiştirdiği ve olay sırasında gizemli bir karartının belirdiği iddia edildi,0,0,0.93420357,0.06579646
+FACTURK-0295,Fotoğraf biri ilgi görmüş diğer ise ihmal edilmiş iki çocuğun beyin yapısındaki farklılığı gösteriyor,1,0,0.93838078,0.06161923
+FACTURK-0296,1954’te kurulan Tuzla Cip Fabrikası ile ilgili iddialar,1,1,0.25996849,0.74003154
+FACTURK-0297,İsviçre Federal Gıda Güvenliği ve Veterinerlik İşleri Dairesi’nin Beypazarı marka maden sularını aşırı bor içerdiği gerekçesi ile satıştan çektiği iddia edildi,1,1,0.15341924,0.84658074
+FACTURK-0298,Suudi Arabistan'ın Yenbu Kentinde Arabistanlı Lawrence'ın Konakladığı Evin Restore Edildiği,1,1,0.03925558,0.96074438
+FACTURK-0299,Siirt Hassa Hatun Kız Öğrenci Yurdunda çatlaklar meydana geldi,0,1,0.23611856,0.76388150
+FACTURK-0300,"Cumhuriyet'teki haberin metni orijinal değil, Popular Science Türkiye'de 2 Ağustos'ta Doruk Bozyayla imzasıyla yayınlanmış olan yazının kopyası",0,0,0.85978550,0.14021455
+FACTURK-0301,Mostar Köprüsüne Türk bayrağının yansıtıldığı görselin güncel olduğu,0,1,0.24138905,0.75861096
+FACTURK-0302,Kıyamam Sana Adlı Şarkının Sözlerini Karaköy Genelevinde Çalışan Bir Kadının Yazdığı,0,1,0.43553647,0.56446350
+FACTURK-0303,Kuleli Askeri Lisesi'nin yabancılara satıldığı,0,0,0.52428824,0.47571176
+FACTURK-0304,9 ile başlayan kimlik numaraları ve Suriyeliler'in oy kullanmasına ilişkin iddia,1,0,0.66392905,0.33607101
+FACTURK-0305,Japonya'da eğitim: Öğrenciler okullardaki temizlikten mi sorumlu,1,1,0.41273814,0.58726186
+FACTURK-0306,kekik çayının mide yanmasını beş dakikada durdurduğu iddia edildi,0,0,0.75727856,0.24272139
+FACTURK-0307,Okullara Şehit Adı Neden Verilmiyor,0,0,0.54109532,0.45890468
+FACTURK-0308,Türkiye kira artış oranında dünya birincisi,1,1,0.25542483,0.74457514
+FACTURK-0309,Videodaki Kuşların 5G İstasyonunun Yaydığı Radyasyon Nedeniyle Öldüğü,0,0,0.86225331,0.13774672
+FACTURK-0310,ABD Başkanı Biden’ın Baş Sağlık Danışmanı Dr. Anthony Fauci yargılandı,0,1,0.05906959,0.94093037
+FACTURK-0311,Türkiye en çok çalışan ve en az kazanan Avrupa ülkelerinden biri,1,1,0.21823037,0.78176963
+FACTURK-0312,Vegan beslenen iş insanı dışkısını bağışlayarak öğrencilere burs sağladı,1,1,0.33112127,0.66887873
+FACTURK-0313,Mehmet Özhaseki'yi Afrika'daki Fethullahçı bir okulun önünde gösteren fotoğraf,1,0,0.73184973,0.26815027
+FACTURK-0314,"IMF verilerine göre Türkiye'nin dünya ekonomisinden aldığı pay 1980'de %0,86, 2020'de de %0,85",1,1,0.03262112,0.96737891
+FACTURK-0315,videonun Fisiltin’de yaşananları protesto eden ABD’li bir kız öğrencinin polis tarafından darp edildiğini gösterdiği,0,0,0.74735367,0.25264630
+FACTURK-0316,TRT Haber ekranında '19 Mayıs Cumhuriyet Bayramı Kutlu Olsun' yazdığı,1,1,0.07695728,0.92304277
+FACTURK-0317,fotoğrafın Down sendromlu bir baba ve oğlunu gösterdiği iddia edildi,1,0,0.94300336,0.05699664
+FACTURK-0318,Koronavirüs Aşısı Olan Kişilerin Vücuduna Mıknatısın Yapıştığı ve Bu Durumun Aşının İçinde Çip Olduğunu İşaret Ettiği,0,0,0.75780737,0.24219266
+FACTURK-0319,"Zürefanın düşkünü, beyaz giyer kış günü atasözündeki zürefa sözcüğünün aslında lezbiyen anlamında kullanıldığı",1,0,0.62604272,0.37395725
+FACTURK-0320,PKK yanlısı sosyal medya hesaplarının Barış Pınarı Harekatında siviller hedef alınıyor,0,1,0.01818661,0.98181343
+FACTURK-0321,"Videonun Britanya’da uygulanan ""domuz terapisini"" gösterdiği",0,0,0.92499369,0.07500631
+FACTURK-0322,Alex’in Fenerbahçe’deki ilk maçında attığı golde çalımladığı rakip defans oyuncusu Yalçın Ayhan'ın maç sonu verdiği röportajda Belim kırıldı sandım dediği,0,1,0.10853942,0.89146054
+FACTURK-0323,Mustafa Kemal Atatürk'ün Not Defterine 1921 Yılında Tanrı birdir ve büyüktür notunu düştüğü,1,1,0.38343081,0.61656922
+FACTURK-0324,bir Azerbaycan vatandaşının Türkiye’de meydana gelen depremler nedeniyle arabasıyla yardım taşıdığı iddia edildi,1,1,0.18736351,0.81263644
+FACTURK-0325,Resmi Gazete'de yayımlanan karar ile üniversite harçlarının geri getirildiği,0,1,0.43195635,0.56804371
+FACTURK-0326,Time dergisi Türkiye’de yangın çıkacağını önceden biliyordu,0,1,0.20883977,0.79116017
+FACTURK-0327,"Görüntünün 28 Eylül 2023 Günü İstanbul'da Etkili Olan Yoğun Yağmur Sonrası Eminönü'ndeki Vapur İskelesi Önünün Göle Döndüğü, Kara İle Denizin Birleştiği Anı Yansıttığı",0,1,0.18176316,0.81823683
+FACTURK-0328,1 Şubat 2025'ten itibaren elektrik faturalarına düzenleme geleceği doğru,1,1,0.24346316,0.75653690
+FACTURK-0329,Yunanistan’da asgari ücretle 1088 yumurta alınabildiği iddia edildi,1,1,0.08446377,0.91553622
+FACTURK-0330,Yapılan Asgari Ücret Zammının Son 50 Yılın En Yükseği Olduğu,0,1,0.14866152,0.85133845
+FACTURK-0331,Fotoğrafların Muğla Güvercinlik'te yangın sonrası yapılaşmaya açılan yerleri gösterdiği,1,0,0.91998738,0.08001260
+FACTURK-0332,Sosyal medya platformlarının anlaştığı ve tüm konuşmaların kaydedileceği,0,0,0.68324274,0.31675723
+FACTURK-0333,Covid-19 aşılarına karşı olan liderler suikaste mi uğradı,0,0,0.82245982,0.17754023
+FACTURK-0334,MEB 48 sayısının okunuşunu yanlış yazdı,1,1,0.04189039,0.95810962
+FACTURK-0335,Kut'ül Amare'nin 1952 Yılına Kadar Bayram Olarak Kutlandığı ve Kut'ül Amare Zaferi Kutlamalarının Türkiye'nin NATO'ya Girişi Sebebiyle Yasaklandığı,0,1,0.16023214,0.83976781
+FACTURK-0336,Selçuk Bayraktar'ın F-35'lere yönelik açıklaması gerçek,1,0,0.77522570,0.22477432
+FACTURK-0337,Pfizer CEO’su Albert Bourla tutuklandı,0,1,0.06827034,0.93172967
+FACTURK-0338,videonun Kaliforniya'da yaşanan 7.0 büyüklüğündeki depremi gösterdiği,0,0,0.93838406,0.06161598
+FACTURK-0339,Türkiye'den İtalya ve Fransa'ya gönderilen kuru incirlerde yüksek oranda aflatoksin tespit edildiğinden bu ürünlerin Türkiye'ye geri gönderildiği iddia edildi,1,0,0.91493791,0.08506217
+FACTURK-0340,bir İngilizin caminin camlarını kırdığı,0,0,0.57917595,0.42082405
+FACTURK-0341,Salvador Dali için İstanbul’da lokma döküldüğü,1,1,0.15845530,0.84154475
+FACTURK-0342,MEB bütçesiyle Suriyeli öğrencilere Antalya'da festival düzenleneceği,0,1,0.09921734,0.90078264
+FACTURK-0343,"Avrupalı yetkililerin ""Türkiye silah sistemleri ile donatılmalı"" açıklaması yaptığı",0,1,0.40392244,0.59607750
+FACTURK-0344,Star TV'nin Etnospor Kültür Festivali için '16 ülkeden 10 sporcu katılıyor' şeklinde alt bant kullandığı,1,1,0.02199258,0.97800738
+FACTURK-0345,"ABD Başkanı Donald Trump, ""Kral Yok"" protestocularına dışkı bombası attığı yapay zeka videosu paylaştı",1,1,0.29262310,0.70737684
+FACTURK-0346,Müfredata 'Recep Tayyip Erdoğan’ın Hayatı ve Eserleri' isimli bir ders eklenmedi,0,1,0.29696062,0.70303935
+FACTURK-0347,"Bir X hesabı tarafından 20 Ekim 2025 tarihinde paylaşılan gönderide, Türkiye ve Almanya’daki aynı ürün fiyatları arasındaki farkı gösterdiği",1,0,0.94736069,0.05263931
+FACTURK-0348,Fotoğrafın Ramazan ayında Trakya’da bir düğünde davetlilere sebil ile alkol ikramı yapıldığını ana ait olduğu,1,0,0.93975294,0.06024705
+FACTURK-0349,KYK yurtlarında kalmaya ‘cumhurbaşkanına hakaret suçundan hüküm giymeme’ şartı konduğu,1,1,0.00351587,0.99648416
+FACTURK-0350,Kemal Kılıçdaroğlu’nun Düzce Depremi Etki Analiz Raporu’na yönelik iddiaları,1,1,0.04038326,0.95961678
+FACTURK-0351,İBB'nin Suriyelilere verdiği yardım kartlarını iptal ettiği,0,1,0.43476051,0.56523943
+FACTURK-0352,Taksim saldırısıyla ilgili önergenin AK Parti ve MHP oylarıyla reddedildiği,1,1,0.11826939,0.88173062
+FACTURK-0353,"Yıldız Tilbe'nin kendisine Çok çirkin, sanatı bırak, kime ne lazımsın diyen Hülya Avşar'a Evet, sen çok güzelsin Herkesin işine yarayabilirsin kapı zili gibisin gelen basıyor giden basıyor yanıtını verdiği",0,0,0.60931200,0.39068794
+FACTURK-0354,Türkiye’nin koronavirüsle mücadele için Filistin’e 5 milyon dolar yardımda bulunduğu,1,1,0.00463470,0.99536526
+FACTURK-0355,Fenerbahçe ve Galatasaray'ın 1958 yılında Başbakanlık Kupası finalinde karşı karşıya geldiği maçta kazanan çıkmayınca kupanın ortadan ikiye bölündüğü,1,1,0.14299230,0.85700768
+FACTURK-0356,ki görselin tomografi sırasında panik atak geçiren bir hastaya ait olduğu iddia edildi,0,0,0.89384592,0.10615409
+FACTURK-0357,videonun sokakta bulunan saç kesme makinesini gösterdiği,0,0,0.90916872,0.09083129
+FACTURK-0358,Bir X hesabı tarafından 15 Mayıs 2025’te paylaşılan bir gönderide geçtiğimiz günlerde 5.2 MW büyüklüğünde depremin yaşandığı Konya’nın Türkiye fay haritasında fay üzerinde olmadığı,0,0,0.94935960,0.05064043
+FACTURK-0359,Antarktika'daki deniz buzu seviyesi mevsimsel ortalamanın altında,1,1,0.11272414,0.88727587
+FACTURK-0360,Uzay ajanslarının bütçelerine yönelik iddialar,1,0,0.75643528,0.24356467
+FACTURK-0361,Görselin COVID-19'un tahrip ettiği akciğeri gösterdiği,1,0,0.94774449,0.05225553
+FACTURK-0362,videonun dalga sebebiyle camı kırılan bir feribotu gösterdiği,1,0,0.93464357,0.06535646
+FACTURK-0363,Fotoğrafın Hz. Adem'in üç boyutlu modelini gösterdiği,0,0,0.91378886,0.08621117
+FACTURK-0364,Sagalassos'ta yapılan arkeolojik kazıda çalışan işçi ile alanda bulunan 3000 yıllık iskeletin DNA'sının aynı olduğunun tespit edildiği,0,1,0.09377918,0.90622085
+FACTURK-0365,Fotoğraf Ay’da kasklarını çıkaran astronotları göstermektedir,0,0,0.92165154,0.07834848
+FACTURK-0366,"Türk firması Karsan'ın Otobüsleri, Norveç’te kullanılmaya başlanacak",1,1,0.11733484,0.88266516
+FACTURK-0367,Diyanet İşleri Başkanlığı'nın 2023 için öngörülen bütçesinin 35 milyar 910 milyon 653 bin TL olduğu,1,1,0.01745635,0.98254365
+FACTURK-0368,A Haber’in Avrupa ülkelerinin benzin fiyatlarını TL’ye çevirerek aktardığı,1,1,0.05411835,0.94588161
+FACTURK-0369,Sosyal medyada paylaşılan dev yılan videosu Van'da mı çekildi,0,0,0.94102508,0.05897495
+FACTURK-0370,1962 yılında Tanzanya’da yaşanan gülme krizi salgını yüzünden 14 okul kapanmıştır,1,1,0.00315008,0.99684995
+FACTURK-0371,Hadi Özışık’ın Sedat Peker’le görüntülü konuşma yaptığı sırada Ataşehir’deki Social Lounge kafede olduğu,1,1,0.17803125,0.82196879
+FACTURK-0372,videonun Selçuk Bayraktar’ın F-35 uçaklar hakkındaki açıklamalarını gösterdiği,1,0,0.92312455,0.07687542
+FACTURK-0373,"Düşmanın Ülkesi Viran Olacak, Türkiye Büyüyüp Turan Olacak sözünün Kadir Mısıroğlu'na ait olduğu",0,0,0.52016926,0.47983071
+FACTURK-0374,Kinder ürünlerinde salmonella analizinin sıklaştırıldığını gösterdiği iddia edilen belge,1,0,0.93113852,0.06886154
+FACTURK-0375,TRT'nin propaganda konuşması için yalnızca Muharrem İnce'yi çıkardığı,0,1,0.37377012,0.62622994
+FACTURK-0376,29 Mayıs 2021 tarihinde Valide Sultan Gemisi’nde fetih kutlamaları yapıldı,1,1,0.04351847,0.95648152
+FACTURK-0377,Görüntünün Peru'daki Gelin Şelalesi'ne Ait Olduğu,1,0,0.59197062,0.40802938
+FACTURK-0378,Fransa'da 1956'ya kadar çocukların okulda şarap içtiği doğru,1,1,0.27000499,0.72999501
+FACTURK-0379,Fotoğrafın Havada uçuş esnasında üst kısmı tamamen açılarak hasar aldığı hâlde başarılı iniş yapmayı başaran Aloha Havayolları 243 Sayılı Uçuşun 28 Nisan 1988 Tarihli Kazasına Ait Olduğu,1,0,0.90823239,0.09176759
+FACTURK-0380,Bir Twitter hesabı tarafından 9 Mart 2023 tarihinde paylaşılan videonun 6 Şubat depremlerinden sonra bölgede yapılan çalışmaları gösterdiği,0,0,0.94294411,0.05705593
+FACTURK-0381,5 milyon TL’ye özelleştirilen Giresun SEKA’nın 68 milyona geri alındığı,1,1,0.00320328,0.99679679
+FACTURK-0382,Kadın Garsonun Restoranda Kendisini Taciz Eden Erkek Müşterileri Dövdüğü Videonun Gerçek Olduğu,0,0,0.64174527,0.35825476
+FACTURK-0383,Fotoğraf ciltteki iğne deliğini mi gösteriyor,1,0,0.93596637,0.06403362
+FACTURK-0384,Bakan Pakdemirli'nin patates firmasında danışmanlık yaptığı,1,0,0.54629827,0.45370176
+FACTURK-0385,İngiltere'de kartpostal 121 yıl sonra mı teslim edildi,1,0,0.86387444,0.13612549
+FACTURK-0386,ABD’de yapılan bir araştırmanın ev erkeği babaların oğullarının %75’inin eşcinsel ya da trans olduğunu gösterdiği iddia edildi,0,0,0.60552138,0.39447862
+FACTURK-0387,McDonald’s müşterilerini zayıflatmak için restoranlarına egzersiz bisikleti koydu,0,1,0.08753201,0.91246808
+FACTURK-0388,Kurbağalıdere ıslah çalışması,0,1,0.27584916,0.72415084
+FACTURK-0389,"Bir X hesabı tarafından 4 Ağustos 2025 tarihinde paylaşılan videoda, girişimci ve Chobani’nin sahibi Hamdi Ulukaya’nın “Medyada sürekli ‘Kürt kökenli’ deniyor. Kürt köken diye bir şey yoktur, ya Kürtsünüz ya değilsinizdir. Ben Kürdüm. Türklerin, Kürtlerin bir kökene değil, bir dile ve kimliğe sahip olduğunu anlaması gerekiyor.” açıklaması yaptığı",0,0,0.95102853,0.04897147
+FACTURK-0390,“Anne terliği” tasvir edilen antik vazo gerçek,1,0,0.73552060,0.26447946
+FACTURK-0391,Videonun Boyutlar Arası Geçidi Yansıttığı,1,0,0.77994466,0.22005534
+FACTURK-0392,Bir Facebook sayfası tarafından 19 Aralık 2023 tarihinde yapılan paylaşımda yer alan videonun Dr. Mehmet Öz’ün hipertansiyon hakkında yaptığı açıklamaları gösterdiği,0,0,0.95257241,0.04742758
+FACTURK-0393,CHP milletvekilleri Adalet Mitingi yerine Kazlıçeşme Mitingi fotoğrafı paylaştı,1,1,0.01287012,0.98712987
+FACTURK-0394,Ele Geçirilen Koleksiyon Amaçlı Basılan 1 Milyon Dolarlık Banknotun Parasal Bir Karşılığı Bulunduğu,0,1,0.22888680,0.77111328
+FACTURK-0395,4 ayda 434 kişinin intihar ettiği,1,1,0.16560206,0.83439791
+FACTURK-0396,Ankara'daki Suriyelilerin iş yerlerinin kapatılacağına dair iddialar,0,1,0.27729765,0.72270232
+FACTURK-0397,NASA’nın Salda Gölü’ne ayakkabı ile bile girilmemesi gerektiğini açıkladığı iddia edildi,0,1,0.41306987,0.58693016
+FACTURK-0398,"2 Kasım 2023 tarihinde bir X kullanıcısı tarafından paylaşılan gönderide, İsrail Büyükelçisinin Birleşmiş Milletler Genel Konseyi’nden kovulduğu videonun güncel olduğu",0,0,0.78178519,0.21821488
+FACTURK-0399,Bir Twitter hesabı tarafından 15 Ekim 2022 tarihinde paylaşılan videoda Rusya Devlet Başkanı Vladimir Putin’in “artık sadece Türkiye’ye gaz vereceğiz.” dediği iddia edildi,0,0,0.93639952,0.06360039
+FACTURK-0400,"İngiltere’deki aşı merkezi, yasa gereği değil güvenlik endişesi sebebiyle kapatıldı",0,1,0.09407061,0.90592939
+FACTURK-0401,"Bir Instagram hesabı tarafından 26 Temmuz 2025 tarihinde paylaşılan bir videoda, görüntülerdeki astronotun 1984’te hiçbir güvenlik kablosuna bağlı olmadan uzayda yürüdüğü",1,0,0.93688750,0.06311242
+FACTURK-0402,PKK'ya Karşı Mücadele Eden Şehitlerin Çocukları Ve Kardeşleri Askerlik Yapacak,0,1,0.01490960,0.98509037
+FACTURK-0403,"Maggie Smith'in gençliğini gösterdiği iddia edilen fotoğraf, Loretta Young'a ait",0,0,0.94080871,0.05919129
+FACTURK-0404,Havada Uçuş Esnasında Bir Uçağın Tekerini Takan Kadının Görüldüğü Videonun Gerçek Olduğu ve 1926 Yılında Kaydedildiği,1,0,0.71792066,0.28207931
+FACTURK-0405,729 ile başlayan barkod numaralı ürünlerin tamamının İsrail menşeli olduğu,0,1,0.23455082,0.76544917
+FACTURK-0406,"Hamas - İsrail Savaşı’nın başladığı 7 Ekim’den bu yana Türkiye’nin İsrail’e ihracatının üç ayda 1 milyar doları aştığı iddia edildi . İddiada ayrıca 2023 yılının İsrail ihracat verilerinde 883 milyon dolarla çelik ithalatının ilk sırada, 593,8 milyon dolarlık ihracatla ikinci sırada kimyevi maddelerin yer aldığı da belirtilmiş. İddiada ihracat ile ilgili veriler açıklanırken muhtemelen yanlışlıkla ithalat kelimesinin kullanıldığını da belirtmek gerek",1,0,0.94846678,0.05153324
+FACTURK-0407,Dünyanın ilk ayrılık mektubu hakkındaki haber 1 Nisan şakası,0,0,0.77181965,0.22818039
+FACTURK-0408,Fotoğraftaki Kişinin Rusya'nın Ukrayna'nın İşgali İçin Cepheye Yolladığı 128 Kiloluk Emekli General Olduğu,0,0,0.93050545,0.06949452
+FACTURK-0409,Senegal’in Fransızca yerine Arapçayı resmi dil ilan ettiği,0,1,0.05393817,0.94606179
+FACTURK-0410,Ukrayna’daki Azov Taburu’nun Rusya bayrağı yerine yanlışlıkla Hollanda bayrağı yaktığı iddia edildi,0,1,0.15428853,0.84571147
+FACTURK-0411,"Türkiye milli gelirinin %2,5'i ile vatandaşlarına en az yardım yapan ülkeler kategorisinde",1,1,0.12197943,0.87802058
+FACTURK-0412,Mona Sahlin ve Toblerone yolsuzluk davası,1,1,0.18328217,0.81671780
+FACTURK-0413,Kırılan tasarruflu ampullerin cıva zehirlenmesine sebep olabildiği,1,1,0.37415957,0.62584037
+FACTURK-0414,Arda Turan “Biz Bu Alemin En Güzel Kızını Bir Akşam Güneşinde İki Bira ile Tarihe Gömdük” dediği iddia edildi,0,0,0.88806993,0.11193011
+FACTURK-0415,Müzede yere bırakılan gözlüğün sanat eseri sanıldığı,1,1,0.49966592,0.50033414
+FACTURK-0416,Stanley Kubrick'in Ay'a İniş Görüntülerini Çektiği ve Ay'a İnilmediğini İtiraf Ettiği,0,0,0.58118051,0.41881946
+FACTURK-0417,Covid-19 nedeniyle kapalı olan AVM’deki deri eşyaların küflendiği,1,1,0.06374977,0.93625021
+FACTURK-0418,görselde yer alan kişinin bir müftü ve Kuran kursu hocasının karıştığı cinsel ilişki iddialarındaki kişi olduğu iddia edildi,0,0,0.91108984,0.08891019
+FACTURK-0419,Türkiye'nin yerli koronavirüs aşısı faz 3 aşamasında Acil Kullanım Onayı alabilir,1,1,0.20311204,0.79688793
+FACTURK-0420,"Görselin Ayder Yaylası'nda yılda bir defa açan ""kedi çiçeği""ni gösterdiği",0,0,0.92167962,0.07832039
+FACTURK-0421,IŞİD Bombalanmıyor,0,1,0.19122434,0.80877566
+FACTURK-0422,Cumhurbaşkanı’nın ‘darlanınca zam üstüne zam yapıyoruz’ dediği,0,1,0.04711212,0.95288783
+FACTURK-0423,Hollandalı milletvekilinin İslam karşıtı kitap yazarken Müslüman olduğu,1,1,0.29769009,0.70230985
+FACTURK-0424,hız sınırına uyulduğunda sürekli yeşil ışığa denk gelmeyi sağlayan sisteme “Yeşil Dalga” denildiği,1,1,0.35271513,0.64728492
+FACTURK-0425,Halk TV İnternet Sitesinde TSK'nın Operasyonunun Genelkurmay'dan PKK'ya Hain Operasyon Başlığıyla Yayımlandığı,1,1,0.00374441,0.99625564
+FACTURK-0426,Bir Twitter hesabı tarafından 13 Şubat 2023 tarihindeki paylaşımda Kahramanmaraş’ta bulunan züccaciye mağazasının görüldüğü videonun depremden sonra çekildiği,1,0,0.55341792,0.44658202
+FACTURK-0427,"Kuzey Kore lideri Kim Jong-Un’un ‘’Müslümanları anlamıyorum, kutsal olarak gördükleri Kudüs’ü, İsrail işgal ediyor ve Müslüman yöneticiler sadece kınayıp bekliyorlar. Eğer biz olsaydık bütün nükleer füze denemelerimizi İsrail’in üzerinde denerdik.’’ açıklaması yaptığı iddia edildi",0,0,0.87126505,0.12873489
+FACTURK-0428,Çin’de Human Metapneumovirus (HMPV) adında yeni bir virüs bulunduğu iddia edildi,0,1,0.20224436,0.79775566
+FACTURK-0429,Öğrencilerin Bolu'daki AK Parti mitingine katıldığı,1,1,0.24714617,0.75285387
+FACTURK-0430,Rize'de çay bardağı şeklinde heykelin yapım aşamasında olduğu,1,1,0.31902167,0.68097830
+FACTURK-0431,Nihat Hatipoğlu'na Ramazan'da sahur programında dünyada yaşamın sona ermesinin ardından başka bir gezegene göçen insanların nasıl hac ibadetini yerine getireceğinin sorulduğu,1,1,0.06362371,0.93637621
+FACTURK-0432,Bir timsahın kendi kendine ürediği,1,0,0.58241796,0.41758204
+FACTURK-0433,İyi Adamlar Yalnızlıktan Ölüyor İyi Kadınlar İse Kötü Adamların Balkonundan Gökyüzüne Bakarken Sözünün Dostoyevski'ye Ait Olduğu,0,0,0.53587008,0.46412995
+FACTURK-0434,Google sokak görüntülerinde Kongo’daki bir ormanda Galatasaray formalı bir kişinin yer aldığı,1,1,0.12464927,0.87535077
+FACTURK-0435,Threads hesabını silen kullanıcıların Instagram hesabının da silineceği,1,1,0.41551790,0.58448213
+FACTURK-0436,"ki videonun, Urfa’da ev kirasını ödeyemediği için bebeğiyle evden atılan bir kadını gösterdiği iddia edildi",0,0,0.85014373,0.14985628
+FACTURK-0437,İspanya’nın Güney Kıbrıs’a savunma amaçlı savaş gemisi göndereceği,1,1,0.04310911,0.95689088
+FACTURK-0438,Ateş ölçüm cihazlarının epifiz bezine zarar verdiği,0,1,0.35909122,0.64090884
+FACTURK-0439,Bir öğrencinin eksi netle Cumhuriyet Üniversitesi’ni kazandığı,1,1,0.13383031,0.86616975
+FACTURK-0440,Yalan ve uydurma haberler mücadele edebileceğimiz hakkında sohbet ediyoruz,0,1,0.47171471,0.52828532
+FACTURK-0441,görselin Kandahar Devi’nin 1923 yılında çekilen fotoğrafını gösterdiği,0,0,0.92082399,0.07917601
+FACTURK-0442,Bill Gates’in kurtçuk sütü ürettiği ve Entomilk adıyla piyasaya sürdüğü,0,1,0.10357548,0.89642453
+FACTURK-0443,Trablusgarpta Diz Çökerek Libyalı Çocukla Konuşurken Görüntülenen Kişinin Mustafa Kemal Atatürk Olduğu,0,1,0.18785216,0.81214786
+FACTURK-0444,Fotoğrafın Edirne'de İstiklal Marşı'nı Okuyanlara Korna Çaldığı İçin Bir Kişinin Dövüldüğü Anı Yansıttığı,0,0,0.58457714,0.41542295
+FACTURK-0445,İnsan vücudundaki kemiklerin dörtte birinin ayaklarda olduğu,1,1,0.18945132,0.81054866
+FACTURK-0446,Bir X platformu hesabı tarafından 27 Şubat’ta yapılan bir paylaşımda RTÜK’ün VOLE YouTube kanalına lisans alması için 72 saat süre tanıdığını,0,0,0.73717546,0.26282454
+FACTURK-0447,Çinli milyarderin büyüdüğü köye lüks daireler yaptırdığı,1,1,0.46591356,0.53408647
+FACTURK-0448,Suudi Arabistan Veliaht Prensi Muhammed Bin Selman'ın Orta Doğu 5 Yıl İçinde Yeni Avrupa Olacak Dediği,1,1,0.01684403,0.98315597
+FACTURK-0449,Gigantopithecus'un yaşamış en büyük maymun ve vejetaryen olduğu,1,1,0.29415381,0.70584619
+FACTURK-0450,Kızılay’ın Başkent Gaz’ın yaptığı bağışla Ensar Vakfı’yla proje yürüttüğü,1,1,0.00324450,0.99675554
+FACTURK-0451,Brezilya'dan ithal edilen hayvanların Türkiye'ye kötü koşullarda getirildiği,1,1,0.14287028,0.85712975
+FACTURK-0452,Memleket Partisi'nden 64 bin üyenin istifa edip AK Parti'ye katıldığı,0,1,0.40437859,0.59562141
+FACTURK-0453,Guatemala'daki Agua Yanardağı'nın Zirvesinde Yukarı Doğru Yükselen Çarpıcı Ters Yıldırım Görüntüsü,1,1,0.11513484,0.88486511
+FACTURK-0454,İstanbul Valiliği’ndeki tadilat için 3 milyon liradan fazla bedelli ihale yapıldığı,1,1,0.11219299,0.88780701
+FACTURK-0455,Bir Instagram hesabı tarafından 10 Aralık 2025 tarihinde paylaşılan gönderide dünyada en zengin 60 bin kişinin en yoksul 4 milyar kişiden 3 kat daha zengin olduğu iddia edildi,1,0,0.93210238,0.06789766
+FACTURK-0456,Fotoğrafın AK Parti milletvekili Radiye Sezer Katırcıoğlu'nun camide konuşma yaptığını gösterdiği,1,0,0.93250656,0.06749346
+FACTURK-0457,Borsa İstanbul'un Hızlı Karar Alma Süreci etkinliğine Metin Doğan'ın katılacağı,1,1,0.10103274,0.89896727
+FACTURK-0458,Kuzey Kore'nin 1970'li yıllarda İsveç'ten aldığı 1000 adet Volvo 144'ün marka aracın parasını hâlâ ödemediği,1,1,0.32449114,0.67550886
+FACTURK-0459,İzmir'deki raylı sistemlere 30 bin TL ayrıldığı,1,1,0.43930948,0.56069058
+FACTURK-0460,Diyanet İşleri Başkanlığının depremzede evlatlık sorusuna “Evlat edinenle evlatlık arasında evlenme engeli yok” cevabını verdiği,1,1,0.21279317,0.78720683
+FACTURK-0461,"Paylaşımdaki fotoğraflar, savaş öncesi ve savaş sonrası Suriye'de çekildi",1,0,0.78060406,0.21939591
+FACTURK-0462,Heineken'in “eski model” telefon ürettiği,1,0,0.77300143,0.22699855
+FACTURK-0463,Bir Instagram hesabı tarafından 24 Aralık 2022 tarihinde paylaşılan fotoğrafta Almanya'da evsizlerin barınması için uyku kapsülleri kurulduğu,1,0,0.92003351,0.07996647
+FACTURK-0464,Zultanit taşının yalnızca Türkiye’den çıktığı,1,1,0.16876107,0.83123893
+FACTURK-0465,Yol kenarındaki beyaz tabelalar konum gösteriyor,1,0,0.71101534,0.28898469
+FACTURK-0466,Arapça ve Çincenin Birleşmiş Milletlerin Resmi Dillerinden Biri Olduğu,0,1,0.18390156,0.81609845
+FACTURK-0467,Türkiye Dışında Başka Bir Ülkede Mevlid Kandilinin Kutlanmadığı,0,0,0.63762611,0.36237383
+FACTURK-0468,"Bir Instagram hesabı tarafından 14 Mart 2025 tarihinde paylaşılan videoda, Amerika’nın eyaleti olan Nevada’daki girişi olan çıkışı olmayan tüneli gösterdiği",0,0,0.95358598,0.04641399
+FACTURK-0469,Diş Hekimi Füsun Kümet'e AK Parti milletvekili aday listesinde ilkokul mezunu yazıldığı,1,1,0.36771709,0.63228291
+FACTURK-0470,"Tarım ve Orman Bakanlığı, yaban keçisi ve hatalı boynuz selek yaban keçisi olmak üzere toplam 45 adet keçinin 13 parti halinde avlattırılması için ihale duyurusunda bulunmuştur",1,1,0.01505712,0.98494291
+FACTURK-0471,"TFF’nin Pendikspor ile Fenerbahçe arasında oynanacak olan maçın Pendik Stadyumu’nda oynanacağını açıklamasının ardından Pendikspor’un “Pendik Stadyumu, tarihinin ilk gece maçına hazır!” paylaşımı yaptığı",0,1,0.03175698,0.96824306
+FACTURK-0472,Katar Yatırım Fonu’nun Avrasya Tüneli’ne ortak olduğu iddia edildi,1,1,0.10596868,0.89403129
+FACTURK-0473,Bu Dünyada En İyi Ben Yenilirim Dosta Düşmana Aşka Dizelerinin Turgut Uyar’a Ait Olduğu,0,1,0.18465564,0.81534439
+FACTURK-0474,Türkiye'de ve Avrupa'da bulunan Starbucks şubelerinin sayıları hakkındaki iddialar,1,0,0.74759060,0.25240937
+FACTURK-0475,"Hem Aşık Ol, Hem Şair, Hem Tanıma Şarabı, Nerde Böyle Çelişki, Böyle Tezat Görünür Şiirinin Cemal Süreya'ya Ait Olduğu",0,0,0.64690298,0.35309708
+FACTURK-0476,Norveçli Petrol Şirketi Haltbakk Bunkers'ın limanlara gelen ABD savaş gemilerine yakıt ikmali yapmayacağını duyurduğu,1,1,0.01190121,0.98809880
+FACTURK-0477,SARS-CoV-2 varyantlarının çıkış tarihlerinin önceden belirlendiğini kanıtladığı iddia edilen tablo,0,0,0.90443653,0.09556350
+FACTURK-0478,"Japonya'da demans hastalarının çalıştığı ""yanlış siparişler restoranı"" mı var",1,0,0.78856683,0.21143323
+FACTURK-0479,Osmanlı Hanedanı hakkındaki bilgilerin Prof. Dr. Halil İnancık tarafından söylendi,1,0,0.57233763,0.42766234
+FACTURK-0480,Yerel seçimlerde e-Devlet üzerinden adres değişikliği için son tarih 1 Ekim 2023,1,1,0.14846246,0.85153753
+FACTURK-0481,Gezdim Diyarı Garbı Kâşaneler Gördüm Gezdim Diyarı İslamı Viraneler Gördüm Beytinin Sahibinin Mehmet Âkif Ersoy Olduğu,0,1,0.34267166,0.65732837
+FACTURK-0482,Cumhurbaşkanlığı Külliyesi'nde zikir,1,1,0.44752982,0.55247021
+FACTURK-0483,Üsküdar Belediye Başkanı Sinem Dedetaş’ın göreve gelmesinden sonra kayınbiraderi Basri Onur Dedetaş’ın müdür olarak atandığı,0,1,0.03912747,0.96087247
+FACTURK-0484,Paris'te sığınmacıların konaklamasını engellemek için köprü altına kayalar yerleştirildi,1,1,0.12242549,0.87757444
+FACTURK-0485,MacKenzie Bezos’un dünyanın en zengin kadını olduğu,0,1,0.08686624,0.91313374
+FACTURK-0486,Bir Twitter hesabı tarafından 26 Ekim 2022 tarihinde paylaşılan videonun İngiltere Başbakanı Rishi Sunak’ı İbiza’da dans ederken gösterdiği iddia edildi,0,0,0.92663974,0.07336033
+FACTURK-0487,Amber Heard mahkemede ifade verirken The Talented Mr. Ripley isimli filmden alıntılar kullandığı iddia edildi,0,0,0.81103957,0.18896042
+FACTURK-0488,Dünya Sağlık Örgütü (WHO) Genel Direktörü Tedros Adhanom’un Covid-19 aşısı olmadığı iddia edildi,0,0,0.65886778,0.34113219
+FACTURK-0489,Ateist Olduğu Gerekçesiyle İstifası İstenen Köy İmamının Mesleğime Profesyonelce Yaklaşıyorum Sözleriyle Kendini Savunduğu,0,1,0.35229802,0.64770192
+FACTURK-0490,taze zencefilin bir fincan suda 10 dakika kaynatılıp bal eklenmesiyle ortaya çıkan karışımın rahim ve yumurtalık kanserini tedavi ettiği iddia edildi,0,0,0.82148361,0.17851637
+FACTURK-0491,yeni bir araştırmanın tuvalette akıllı telefon kullanan kişilerde hemoroid oluşumu %46 oranında arttığını kanıtladığı iddia edildi,1,0,0.89873034,0.10126962
+FACTURK-0492,ABD’li Jacob Miller alnından vurulmasına rağmen yaşamaya devam etti,1,1,0.07228452,0.92771542
+FACTURK-0493,Sedat Peker'in 2023 Seçimlerinde Cumhur İttifakı'nı Desteklediğini Duyurduğu,0,0,0.50304151,0.49695852
+FACTURK-0494,Türk bilim insanı kök hücreden insan beyni üretmedi,0,1,0.31007046,0.68992954
+FACTURK-0495,Hama ve Humus'ta Teröristleri Temizledik,0,1,0.17499724,0.82500273
+FACTURK-0496,Görüntülerin Dominik kıyılarındaki plastik kirliliğini gösterdiği,1,0,0.92297184,0.07702817
+FACTURK-0497,sığınmacıların Avrupa’daki bir Gucci mağazasını soyduğu iddia edildi,0,1,0.32699955,0.67300045
+FACTURK-0498,Fotoğraf 1700 yıllık bir yumurtayı mı gösteriyor,1,0,0.94174999,0.05824997
+FACTURK-0499,"Bir X hesabı tarafından 2 Ekim 2025 tarihinde paylaşılan videoda, Suud kraliyet ailesine karşı Necran Üniversitesinde yapılan bir protestoyu gösterdiği",0,0,0.95016652,0.04983348
+FACTURK-0500,Fotoğrafın Pakistan’da “poşetlerle” taşınan doğalgazı gösterdiği,1,0,0.92434740,0.07565258

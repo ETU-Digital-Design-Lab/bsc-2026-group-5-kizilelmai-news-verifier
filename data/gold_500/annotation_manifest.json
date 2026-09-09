@@ -1,0 +1,66 @@
+{
+  "DO_NOT_PUBLISH_UNTIL_COMPLETED": false,
+  "dataset_id": "KizilelmAI-Gold-500",
+  "claim_freeze_date": "2026-09-09",
+  "claim_sampling_frame": "Random",
+  "label_schema": {
+    "0": "False",
+    "1": "True"
+  },
+  "annotation_guide_version": "v1.0",
+  "annotators": [
+    {
+      "pseudonymous_id": "A1",
+      "role_or_training": "Student",
+      "conflict_of_interest_checked": true
+    },
+    {
+      "pseudonymous_id": "A2",
+      "role_or_training": "Student",
+      "conflict_of_interest_checked": true
+    },
+    {
+      "pseudonymous_id": "A3",
+      "role_or_training": "Student",
+      "conflict_of_interest_checked": true
+    }
+  ],
+  "blinding": {
+    "annotators_blinded_to_system_predictions": true,
+    "annotators_blinded_to_each_other_first_round_labels": true,
+    "procedure": "Double-blind",
+    "published_verdict_visible": false,
+    "source_url_visible": false
+  },
+  "annotation_window": {
+    "started_at": "2026-09-01",
+    "ended_at": "2026-09-09"
+  },
+  "ethics_and_consent": {
+    "review_or_exemption_reference": "N/A",
+    "consent_records_location": "Internal"
+  },
+  "adjudication": {
+    "rule": "Majority vote",
+    "adjudicator": "A1,A2,A3",
+    "second_round_required_for": "Disagreements"
+  },
+  "evidence_records": {
+    "required_per_claim": true,
+    "fields": [
+      "source_url",
+      "access_date",
+      "rationale"
+    ]
+  },
+  "guideline_files": {
+    "v1.0": {
+      "path": "guideline_v1.0.txt",
+      "sha256": "a54bfd9a103907567c51f9e20bc74f69906225aa87914411a9bfe58bff5b69f7"
+    }
+  },
+  "raw_export_hashes": {
+    "annotation_round1.csv": "1ca2c9f844587a5ea9d146faa3a19f2647db38ca4c890297f4519c29250b2646",
+    "annotation_round2.csv": "8c1c647c986eb994bbfab84aba468616fdc8a04bae16e7a62f12a3ec6c0e557e"
+  }
+}

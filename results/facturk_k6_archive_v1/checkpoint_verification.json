@@ -1,0 +1,9 @@
+{
+  "matches_archived_checkpoint_manifest": true,
+  "file_sha256": {
+    "config.json": "ed96ea2786b180850f964d26e3c071b792ce3cd4ccf1d3b8026955f71feed4df",
+    "model.safetensors": "7db7c2556a91d5b4384551ae2173e6e0e48b9d87f2455b2e16e57a5248d85865",
+    "tokenizer.json": "36c9681b1c49c34f83550432b4eb73b66609ab2895c6a2fdcf1f99adf3d2eb36",
+    "tokenizer_config.json": "5c7e36e741163f505d90bf15e2b111ca3f967c14836eaf1e37d177efa29136a6"
+  }
+}
