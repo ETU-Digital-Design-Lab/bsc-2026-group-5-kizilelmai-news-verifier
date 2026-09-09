@@ -1,6 +1,14 @@
-﻿import sys, time, json, csv, os
+import sys, time, json, csv, os
 from pathlib import Path
 import numpy as np
+
+if hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="backslashreplace")
+        sys.stderr.reconfigure(encoding="utf-8", errors="backslashreplace")
+    except Exception:
+        pass
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / ".runtime" / "python"))
 
@@ -31,7 +39,7 @@ def main():
         writer = csv.writer(f)
         writer.writerow(["query", "type", "latency_ms"])
         
-        for q in queries:
+        for i, q in enumerate(queries):
             s = time.perf_counter()
             resp = engine.ask(q, include_trace=True, independent=True)
             elapsed = (time.perf_counter() - s) * 1000
@@ -39,6 +47,8 @@ def main():
             if "trace" in resp and "layer_latency_ms" in resp["trace"]:
                 layer_latencies.append(resp["trace"]["layer_latency_ms"])
             writer.writerow([q[:30], "no_cache", elapsed])
+            if (i + 1) % 10 == 0 or i == 0:
+                print(f"Latency bench progress: {i+1}/{len(queries)} (current: {elapsed:.1f}ms)", flush=True)
             
         cache_hit_latencies = []
         for q in queries:
@@ -70,6 +80,8 @@ def main():
         
     manifest = {
         "hardware": {
+            "platform": sys.platform,
+            "cpu_count": os.cpu_count(),
             "torch": torch.__version__, 
             "cuda_available": torch.cuda.is_available(),
             "gpu_models": [torch.cuda.get_device_name(i) for i in range(torch.cuda.device_count())] if torch.cuda.is_available() else []

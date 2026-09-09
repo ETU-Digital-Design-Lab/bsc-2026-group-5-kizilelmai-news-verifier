@@ -20,8 +20,47 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
+if hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="backslashreplace")
+        sys.stderr.reconfigure(encoding="utf-8", errors="backslashreplace")
+    except Exception:
+        pass
+
 _evaluation_trace = ContextVar("evaluation_trace", default=None)
 PROVENANCE_FIELDS = ("source_url", "publisher", "published_at", "evidence_id", "label_provenance", "ingested_at")
+
+# K-8: Kaynak bazlı otorite tablosu (çeşitlendirilmiş güvenilirlik skorları)
+SOURCE_AUTHORITY_TABLE = {
+    "teyit.org": 0.98,
+    "malumatfurus.org": 0.97,
+    "dogruluk payi": 0.97,
+    "cumhurbaskanligi": 0.97,
+    "tbmm": 0.96,
+    "t.c. iletisim baskanligi": 0.96,
+    "iletisim baskanligi": 0.96,
+    "anadolu ajansi": 0.95,
+    "aa": 0.95,
+    "trt haber": 0.93,
+    "trt": 0.93,
+    "dha": 0.92,
+    "demiroren haber ajansi": 0.92,
+    "iha": 0.90,
+    "ihlas haber ajansi": 0.90,
+    "diken": 0.82,
+    "hurriyet": 0.82,
+    "milliyet": 0.82,
+    "sabah": 0.80,
+    "haberturk": 0.80,
+    "cnn turk": 0.82,
+    "ntv": 0.82,
+    "cumhuriyet": 0.80,
+    "evrensel": 0.80,
+    "sozcu": 0.75,
+    "limon": 0.60,
+    "resmi / dogrulanmis haber kaynagi": 0.88,
+    "belirlenemedi": 0.85,
+}
 
 
 def trace_elapsed(layer, start):
@@ -233,7 +272,7 @@ class KizilelmaEngine:
         # Embeddings Hesapla (Eğer PostgreSQL bağlı değilse RAM'e yükle - Hızlı Başlangıç Önbellekli)
         if not getattr(self, 'db_connected', False) and self.texts:
             npy_path = self.csv_path.replace('.csv', '_embeddings.npy')
-            if os.path.exists(npy_path) and not self.frozen_corpus_path:
+            if os.path.exists(npy_path):
                 print(f"📂 Vektör önbelleği bulundu, RAM'e yükleniyor: {os.path.basename(npy_path)}")
                 try:
                     self.text_embeddings = np.load(npy_path)
@@ -727,6 +766,7 @@ class KizilelmaEngine:
             end = min(len(q_tokens), q_idx + 4)
             q_context = set(q_tokens[start:q_idx] + q_tokens[q_idx+1:end]) - self.STOP_WORDS
         except ValueError:
+            q_idx = 0
             q_context = set()
             rel_q = 0.0
 
@@ -1013,7 +1053,85 @@ class KizilelmaEngine:
                     return True
         return False
 
-    def karar_motoru(self, user_query, db_record, nli_probs, sim_score, sig_rerank=0.0):
+    def resolve_source_authority(self, record):
+        """K-8: Dinamik otorite skorunu kaynak, url veya kanal bilgisine göre belirler."""
+        pub = str(record.get('publisher', '') or '').lower().strip()
+        url = str(record.get('source_url', '') or '').lower().strip()
+        for src, auth in SOURCE_AUTHORITY_TABLE.items():
+            if src in pub or src in url:
+                return auth
+        text = str(record.get('text', '') or '')
+        channel = self.detect_source_channel(text).lower()
+        for src, auth in SOURCE_AUTHORITY_TABLE.items():
+            if src in channel:
+                return auth
+        return float(record.get('authority', 0.85))
+
+    def _calibrate_decision(self, res, k6_prediction, k9_consensus, db_label, sim_score):
+        """K-6 (sınıflandırıcı) ve K-9 (çoklu kaynak konsensüsü) sinyalleri ile nihai kararı kalibre eder."""
+        if not res or not isinstance(res, dict):
+            return res
+
+        status = res.get("status")
+        conf = float(res.get("conf", 0))
+        risk = float(res.get("risk", 0))
+        desc = res.get("desc", "")
+
+        # 1. K-9 Konsensüs Analizi
+        if k9_consensus and isinstance(k9_consensus, dict):
+            has_conflict = k9_consensus.get("has_conflict", False)
+            majority_label = k9_consensus.get("label")
+            total_sources = k9_consensus.get("total_sources", 1)
+            agreement_count = k9_consensus.get("agreement_count", 1)
+
+            # Eğer birden fazla kaynak varsa ve konsensüs çoğunluğu en iyi adayla çelişiyorsa
+            if total_sources >= 2 and majority_label is not None and majority_label != db_label:
+                res["k9_majority_override"] = True
+                conf = max(40.0, conf - 25.0)
+                risk = min(90.0, risk + 25.0)
+                desc += f" (⚠️ Çoklu kaynak konsensüsünde {total_sources} kaynaktan {agreement_count}'i aksi yönde etiketlenmiştir.)"
+                if status == "ONAY":
+                    status = "KISMI"
+                    res["msg"] = "⚠️ **KAYNAK UYUŞMAZLIĞI / ÇELİŞKİLİ KONSENSÜS**"
+            elif has_conflict:
+                conf = max(50.0, conf - 10.0)
+                risk = min(85.0, risk + 15.0)
+                desc += " (Kaynaklar arasında kısmi görüş ayrılığı mevcuttur.)"
+
+        # 2. K-6 Model Tahmini ile Kalibrasyon
+        if k6_prediction and isinstance(k6_prediction, dict) and k6_prediction.get("available"):
+            k6_label = k6_prediction.get("predicted_label")  # 0: yalan, 1: doğru
+            k6_conf = float(k6_prediction.get("confidence") or 0.0)
+
+            if k6_conf >= 0.70:
+                # NLI ve K-6 uyumlu ise güven pekiştirilir
+                if (status in ("RED", "UYARI") and k6_label == 0) or (status == "ONAY" and k6_label == 1):
+                    conf = min(99.0, conf + 5.0)
+                    risk = max(5.0, risk - 5.0) if status == "ONAY" else min(95.0, risk + 5.0)
+                # NLI ONAY demiş ama K-6 yüksek güvenle YALAN diyorsa
+                elif status == "ONAY" and k6_label == 0 and k6_conf >= 0.85:
+                    conf = max(55.0, conf - 20.0)
+                    risk = max(risk, 55.0)
+                    desc += " (⚠️ Yardımcı sınıflandırıcı metin yapısını şüpheli buldu.)"
+                # RET (Bulunamadı) durumunda, eğer K-6 çok yüksek güvenle yalan/şüpheli diyorsa ve hafif benzerlik varsa
+                elif status == "RET" and k6_label == 0 and k6_conf >= 0.90 and sim_score > 0.40:
+                    status = "UYARI"
+                    res["msg"] = "⚠️ **ŞÜPHELİ METİN YAPISI (K-6)**"
+                    desc = "Doğrudan kanıt kaydı yetersiz olmakla birlikte, metin yapısı teyit edilmiş yalan haber kalıplarıyla yüksek örtüşme göstermektedir."
+                    conf = round(k6_conf * 100, 1)
+                    risk = 75.0
+
+        res["status"] = status
+        res["conf"] = round(conf, 1)
+        res["risk"] = round(risk, 1)
+        res["desc"] = desc
+        return res
+
+    def karar_motoru(self, user_query, db_record, nli_probs, sim_score, sig_rerank=0.0, k6_prediction=None, k9_consensus=None):
+        res = self._raw_karar_motoru(user_query, db_record, nli_probs, sim_score, sig_rerank)
+        return self._calibrate_decision(res, k6_prediction, k9_consensus, db_record.get('label'), sim_score)
+
+    def _raw_karar_motoru(self, user_query, db_record, nli_probs, sim_score, sig_rerank=0.0):
         db_text = db_record['text']
         db_label = db_record['label']
         
@@ -1317,8 +1435,8 @@ class KizilelmaEngine:
         # Yeni skorlarla adayları tekrar eşleştir ve sırala
         ranked_candidates = []
         for i, idx in enumerate(top_indices):
-            # Katman 8: Otorite Ağırlıklandırması (Normalizasyon ile)
-            auth = self.df.iloc[idx].get('authority', 0.85)
+            # Katman 8: Otorite Ağırlıklandırması (Normalizasyon ve Dinamik Kaynak Otoritesi ile)
+            auth = self.resolve_source_authority(self.df.iloc[idx])
             
             # Sigmoid Normalizasyonu: Rerank skorunu [0,1] arasına çeker
             raw_rerank = float(rerank_scores[i])
@@ -1425,7 +1543,12 @@ class KizilelmaEngine:
         if trace is not None:
             trace["decision_probs"] = [float(p) for p in probs]
         stage_start = time.perf_counter()
-        res = self.karar_motoru(raw_query, best_cand, probs, best_cand['sim'], best_cand.get('sig_rerank', 0.0))
+        res = self.karar_motoru(
+            raw_query, best_cand, probs,
+            best_cand['sim'], best_cand.get('sig_rerank', 0.0),
+            k6_prediction=classifier_prediction,
+            k9_consensus=consensus_info
+        )
         trace_elapsed("K5_decision", stage_start)
         res['consensus'] = consensus_info # Konsensüs verisini ekle
         

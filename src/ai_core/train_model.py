@@ -145,14 +145,29 @@ def main():
     )
 
     print("\n--- Egitim Basliyor ---")
+    import time
+    train_start_time = time.perf_counter()
     trainer.train()
-    print("Egitim Tamamlandi!")
+    train_duration_sec = time.perf_counter() - train_start_time
+    throughput = (len(train_texts) * args.epochs) / max(train_duration_sec, 0.001)
+    print(f"Egitim Tamamlandi! Sure: {train_duration_sec:.2f} saniye ({train_duration_sec / 60:.1f} dakika) | Throughput: {throughput:.2f} ornek/sn")
 
     # Save Model & Tokenizer
     print(f"Model kaydediliyor: {output_model_path}")
     os.makedirs(output_model_path, exist_ok=True)
     model.save_pretrained(output_model_path)
     tokenizer.save_pretrained(output_model_path)
+
+    # Hardware profile
+    gpu_name = torch.cuda.get_device_name(0) if torch.cuda.is_available() else "CPU"
+    hardware_info = {
+        "device": device,
+        "gpu_model": gpu_name if device == "cuda" else None,
+        "cuda_available": torch.cuda.is_available(),
+        "cpu_count": os.cpu_count(),
+        "torch_version": torch.__version__,
+        "transformers_version": transformers.__version__,
+    }
 
     # The checkpoint config alone does not reliably preserve its upstream
     # checkpoint name. Store the training provenance beside every new artifact.
@@ -165,6 +180,10 @@ def main():
         "records_loaded": len(df),
         "split": {"test_size": 0.15, "random_state": 42, "stratified": True},
         "hyperparameters": {"epochs": args.epochs, "batch_size": args.batch_size},
+        "training_duration_seconds": round(train_duration_sec, 2),
+        "training_duration_minutes": round(train_duration_sec / 60, 2),
+        "throughput_samples_per_sec": round(throughput, 2),
+        "hardware": hardware_info,
         "torch_version": torch.__version__,
         "transformers_version": transformers.__version__,
         "label_provenance": "See the source dataset card; do not describe unknown labels as human gold.",

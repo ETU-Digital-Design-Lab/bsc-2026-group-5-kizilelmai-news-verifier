@@ -133,7 +133,8 @@ def main():
             # Semantic overlap scan uses the very embeddings/index used for inference.
             doc_vectors = np.asarray(engine.text_embeddings, dtype=np.float32)
             norms = np.linalg.norm(doc_vectors, axis=1, keepdims=True)
-            if not np.isfinite(doc_vectors).all() or np.any(norms == 0):
+            norms[norms == 0] = 1e-9
+            if not np.isfinite(doc_vectors).all():
                 raise ValueError("Invalid corpus embeddings.")
             doc_vectors = doc_vectors / norms
             nearest = []

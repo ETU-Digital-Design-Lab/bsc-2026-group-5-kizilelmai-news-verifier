@@ -1,0 +1,29 @@
+{
+  "timestamp": "2026-09-09T11:22:36.820123+00:00",
+  "total_records": 30331,
+  "provenance_matched": 29999,
+  "provenance_matched_pct": 98.91,
+  "unknown_provenance": 332,
+  "unknown_provenance_pct": 1.09,
+  "authority_distribution": {
+    "0.95": 3478,
+    "0.85": 1754,
+    "0.82": 4919,
+    "0.8": 8019,
+    "0.6": 12161
+  },
+  "label_provenance_distribution": {
+    "verified_news_archive": 12938,
+    "clickbait_archive": 12161,
+    "fact_check_archive": 3399,
+    "research_annotated_corpus": 1501,
+    "unknown": 332
+  },
+  "top_publishers": {
+    "Limon Haber (Clickbait)": 12161,
+    "Evrensel": 8019,
+    "Diken": 4919,
+    "Teyit / Dogruluk Payi Arşivi": 3399,
+    "MIDE22 Research Dataset": 1501
+  }
+}
