@@ -1,0 +1,36 @@
+{
+  "benchmark": "FACTurk (Altuncu, SIU 2026)",
+  "total_claims": 500,
+  "abstained_count": 234,
+  "abstention_rate_pct": 46.8,
+  "answered_count": 266,
+  "coverage_rate_pct": 53.2,
+  "answered_accuracy_pct": 55.26,
+  "abstention_root_cause_breakdown": {
+    "k3_rerank_low_similarity_veto": {
+      "count": 0,
+      "pct_of_abstentions": 0.0,
+      "description": "K-3 Re-ranker sigmoid skorunun < 0.50 olmasi nedeniyle delilin alakasiz bulunarak elenmesi"
+    },
+    "k4_nli_neutral_unsupported_veto": {
+      "count": 200,
+      "pct_of_abstentions": 85.47,
+      "description": "K-4 XLM-RoBERTa NLI cikariminda delilin iddiayi desteklemedigini (neutral > 0.70) saptamasi"
+    },
+    "k5_conflict_or_ambiguity": {
+      "count": 34,
+      "pct_of_abstentions": 14.53,
+      "description": "K-5 Karar motorunun coklu celiski veya sembolik belirsizlik nedeniyle cekimser kalmasi"
+    }
+  },
+  "corpus_coverage": {
+    "corpus_unique_publishers": [
+      "Diken",
+      "Evrensel",
+      "Limon Haber (Clickbait)",
+      "MIDE22 Research Dataset",
+      "Teyit / Dogruluk Payi Arşivi"
+    ],
+    "comment": "Korpustaki 30.347 kayit ulusal ajanslar (IHA, AA, DHA), kurumsal haber siteleri (Diken, Evrensel) ve teyit platformlarini (Teyit.org, Dogruluk Payi) kapsamaktadir. FACTurk dis benchmarkinda korpusta dogrudan haberi bulunmayan guncel veya dar kapsamli iddialarda sistem halusinasyon uretmek yerine guvenle %46.80 oraninda cekimser kalmistir."
+  }
+}

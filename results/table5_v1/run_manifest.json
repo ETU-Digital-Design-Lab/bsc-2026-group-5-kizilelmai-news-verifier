@@ -1,0 +1,6 @@
+{
+  "script": "scripts/compute_table5_metrics.py",
+  "source_predictions": "results/facturk_full_v5/predictions.csv",
+  "benchmark": "FACTurk 500",
+  "status": "COMPLETED"
+}

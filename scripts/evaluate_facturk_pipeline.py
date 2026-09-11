@@ -67,8 +67,20 @@ def main():
     p.add_argument("--output-dir", type=Path, required=True)
     p.add_argument("--seed", type=int, default=20260908)
     p.add_argument("--bootstrap-resamples", type=int, default=2000)
+    p.add_argument("--resume", action="store_true", help="Resume from existing partial run")
+    p.add_argument("--overwrite", action="store_true", help="Overwrite existing output directory")
     args = p.parse_args()
-    out = fresh_dir(args.output_dir)
+    if args.overwrite and args.output_dir.exists():
+        for item in args.output_dir.iterdir():
+            if item.is_file() or item.is_symlink():
+                item.unlink()
+            elif item.is_dir():
+                import shutil
+                shutil.rmtree(item, ignore_errors=True)
+    if args.resume and args.output_dir.exists():
+        out = args.output_dir
+    else:
+        out = fresh_dir(args.output_dir)
     corpus_path = args.corpus_dir / "corpus.csv"
     inputs = [args.claims, corpus_path, args.corpus_dir / "snapshot_report.json", args.models,
               ROOT / "data/processed/knowledge_base.json"]
@@ -116,7 +128,12 @@ def main():
         torch.manual_seed(args.seed)
         if torch.cuda.is_available():
             torch.cuda.manual_seed_all(args.seed)
-        torch.use_deterministic_algorithms(True)
+            try:
+                torch.use_deterministic_algorithms(True, warn_only=True)
+            except Exception:
+                pass
+        else:
+            torch.use_deterministic_algorithms(True)
         with (out / "engine_stdout.log").open("w", encoding="utf-8") as log, contextlib.redirect_stdout(log):
             start = time.perf_counter()
             engine = KizilelmaEngine(corpus_path=corpus_path, model_paths={**{role: item["path"] for role, item in models.items()},
@@ -153,10 +170,28 @@ def main():
             fields = ["claim_id", "gold_verdict", "retrieved_source_ids", "rerank_scores", "nli_probs", "decision_probs", "nli_bypassed",
                       "final_verdict", "raw_status", "abstained", "cache_hit", "latency_ms", "layer_latency_ms", "selected_source_id"]
             truths, predictions = [], []
-            with (out / "predictions.csv").open("w", encoding="utf-8", newline="") as handle, (out / "responses.jsonl").open("w", encoding="utf-8") as raw:
+            done_ids = set()
+            pred_file = out / "predictions.csv"
+            raw_file = out / "responses.jsonl"
+            if args.resume and pred_file.exists():
+                existing = read_csv(pred_file)
+                for r in existing:
+                    done_ids.add(r["claim_id"])
+                    truths.append(r["gold_verdict"])
+                    predictions.append(r["final_verdict"])
+                print(f"Resuming FACTurk run: {len(done_ids)} claims already processed.", file=sys.__stdout__, flush=True)
+                handle = pred_file.open("a", encoding="utf-8", newline="")
+                writer = csv.DictWriter(handle, fieldnames=fields)
+                raw = raw_file.open("a", encoding="utf-8")
+            else:
+                handle = pred_file.open("w", encoding="utf-8", newline="")
                 writer = csv.DictWriter(handle, fieldnames=fields)
                 writer.writeheader()
+                raw = raw_file.open("w", encoding="utf-8")
+            try:
                 for index, row in enumerate(rows, 1):
+                    if row["benchmark_id"] in done_ids:
+                        continue
                     response = engine.ask(row["claim"], include_trace=True, independent=True)
                     trace = response["trace"]
                     if response.get("classifier", {}).get("error"):
@@ -177,6 +212,9 @@ def main():
                     raw.flush()
                     if index % 10 == 0:
                         print(f"FACTurk progress: {index}/{len(rows)}", file=sys.__stdout__, flush=True)
+            finally:
+                handle.close()
+                raw.close()
         if sha256(corpus_path) != record["corpus_sha256"]:
             raise ValueError("Corpus changed during evaluation.")
         write_json(out / "metrics.json", bootstrap_metrics(truths, predictions, args.seed, args.bootstrap_resamples, selective=True))

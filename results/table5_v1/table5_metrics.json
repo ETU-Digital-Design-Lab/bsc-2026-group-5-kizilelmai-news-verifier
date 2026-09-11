@@ -1,0 +1,50 @@
+{
+  "benchmark": "FACTurk (Altuncu, SIU 2026) 500 External Claims",
+  "description": "Table 5: Operational Hallucination & Abstention Rate across Claim Types",
+  "definitions": {
+    "cekimserlik_orani": "Cekimser kalinan iddia (YETERSIZ VERI) / Toplam iddia",
+    "mesnetsiz_hukum_orani": "Kesin karar verilip (DOGRU/YALAN) gold etiketle celisen / Kesin karar verilen iddia sayisi"
+  },
+  "table5": [
+    {
+      "claim_type": "Clickbait",
+      "total_claims": 69,
+      "abstained_claims": 33,
+      "abstention_rate": 47.83,
+      "answered_claims": 36,
+      "unsupported_verdicts": 18,
+      "unsupported_verdict_rate": 50.0,
+      "answered_accuracy": 50.0
+    },
+    {
+      "claim_type": "Kısmen doğru",
+      "total_claims": 4,
+      "abstained_claims": 2,
+      "abstention_rate": 50.0,
+      "answered_claims": 2,
+      "unsupported_verdicts": 1,
+      "unsupported_verdict_rate": 50.0,
+      "answered_accuracy": 50.0
+    },
+    {
+      "claim_type": "Sıfırıncı gün",
+      "total_claims": 427,
+      "abstained_claims": 199,
+      "abstention_rate": 46.6,
+      "answered_claims": 228,
+      "unsupported_verdicts": 100,
+      "unsupported_verdict_rate": 43.86,
+      "answered_accuracy": 56.14
+    },
+    {
+      "claim_type": "Genel (Toplam)",
+      "total_claims": 500,
+      "abstained_claims": 234,
+      "abstention_rate": 46.8,
+      "answered_claims": 266,
+      "unsupported_verdicts": 119,
+      "unsupported_verdict_rate": 44.74,
+      "answered_accuracy": 55.26
+    }
+  ]
+}

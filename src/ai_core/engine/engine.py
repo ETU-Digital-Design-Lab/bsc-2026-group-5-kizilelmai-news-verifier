@@ -6,7 +6,13 @@ import time
 import threading
 from contextvars import ContextVar
 from datetime import datetime, timezone
+from pathlib import Path
 import uuid
+
+_runtime_py = Path(__file__).resolve().parents[3] / ".runtime" / "python"
+if _runtime_py.exists() and str(_runtime_py) not in sys.path:
+    sys.path.insert(0, str(_runtime_py))
+
 import numpy as np # type: ignore
 import pandas as pd # type: ignore
 import torch # type: ignore
@@ -304,21 +310,25 @@ class KizilelmaEngine:
 
     def load_heavy_models(self):
         with self._model_lock:
-            if self.nli_model is not None and self.rerank_model is not None:
+            if self.nli_model is not None and (self.rerank_model is not None or getattr(self, "disable_reranker", False)):
                 return
             print("Agir modeller yukleniyor (NLI + ReRanker)...")
 
-
         # NLI Modeli (Gerekçelendirme)
-        self.nli_model = CrossEncoder(self.model_paths.get('nli', 'joeddav/xlm-roberta-large-xnli'))
-        if hasattr(self.nli_model, 'model') and self.nli_model.model:
-            self.nli_model.model.half()
+        if self.nli_model is None:
+            self.nli_model = CrossEncoder(self.model_paths.get('nli', 'joeddav/xlm-roberta-large-xnli'))
+            if hasattr(self.nli_model, 'model') and self.nli_model.model:
+                self.nli_model.model.half()
 
         # --- YENI: Layer 3 Re-Ranker Modeli (Keskin Nişancı) ---
-        print("⏳ Re-Ranker model yükleniyor (bge-reranker-v2-m3)...")
-        self.rerank_model = CrossEncoder(self.model_paths.get('reranker', 'BAAI/bge-reranker-v2-m3'))
-        if hasattr(self.rerank_model, 'model') and self.rerank_model.model:
-            self.rerank_model.model.half()
+        if not getattr(self, "disable_reranker", False):
+            if self.rerank_model is None:
+                print("⏳ Re-Ranker model yükleniyor (bge-reranker-v2-m3)...")
+                self.rerank_model = CrossEncoder(self.model_paths.get('reranker', 'BAAI/bge-reranker-v2-m3'))
+                if hasattr(self.rerank_model, 'model') and self.rerank_model.model:
+                    self.rerank_model.model.half()
+        else:
+            self.rerank_model = None
 
         # --- YENI: Sınıflandırma Modeli Yükleme ---
         self.classifier_model = None
@@ -330,6 +340,8 @@ class KizilelmaEngine:
                 self.classifier_tokenizer = AutoTokenizer.from_pretrained(self.classifier_model_path)
                 self.classifier_model = AutoModelForSequenceClassification.from_pretrained(self.classifier_model_path)
                 self.classifier_model = self.classifier_model.half()
+                if torch.cuda.is_available():
+                    self.classifier_model = self.classifier_model.to("cuda")
                 self.classifier_model.eval()
                 print("✅ Sınıflandırma modeli hazır (FP16)!")
             except Exception as e:
@@ -1393,30 +1405,41 @@ class KizilelmaEngine:
                 print(f"Vektör arama hatası: {e}. RAM üzerinden aramaya geçiliyor...")
                 if hasattr(self, 'text_embeddings') and len(self.text_embeddings) > 0:
                     dense_sims = cosine_similarity([query_emb], self.text_embeddings)[0]
+        if getattr(self, "disable_dense", False):
+            dense_sims = np.zeros(len(self.texts))
         else:
             if hasattr(self, 'text_embeddings') and len(self.text_embeddings) > 0:
                 dense_sims = cosine_similarity([query_emb], self.text_embeddings)[0]
         
         # 2. SPARSE RETRIEVAL (Keyword - BM25 Arama)
-        tokenized_query = re.findall(r'\w+', turkish_lower(search_query))
-        bm25_scores = self.bm25.get_scores(tokenized_query)
+        if getattr(self, "disable_bm25", False) or self.bm25 is None:
+            bm25_scores = np.zeros(len(self.texts))
+        else:
+            tokenized_query = re.findall(r'\w+', turkish_lower(search_query))
+            bm25_scores = self.bm25.get_scores(tokenized_query)
         
         # 3. RECIPROCAL RANK FUSION (Hibrit Harmanlama)
-        dense_order = np.argsort(dense_sims)[::-1]
-        dense_rank = {idx: rank for rank, idx in enumerate(dense_order)}
-        
-        sparse_order = np.argsort(bm25_scores)[::-1]
-        sparse_rank = {idx: rank for rank, idx in enumerate(sparse_order)}
-        
-        k = 60
-        fused_scores = {}
-        for idx in range(len(self.texts)):
-            score = (1 / (k + dense_rank[idx])) + (1 / (k + sparse_rank[idx]))
-            fused_scores[idx] = score
-            
-        # Hibrid skoruna göre en iyi belgelerin indeksini al (GPU varsa 20 aday, CPU ise 5 aday)
         candidate_limit = 20 if torch.cuda.is_available() else 5
-        top_indices = sorted(list(fused_scores.keys()), key=lambda x: fused_scores[x], reverse=True)[:candidate_limit] # type: ignore
+        if getattr(self, "disable_dense", False):
+            sparse_order = np.argsort(bm25_scores)[::-1]
+            top_indices = list(sparse_order[:candidate_limit])
+        elif getattr(self, "disable_bm25", False):
+            dense_order = np.argsort(dense_sims)[::-1]
+            top_indices = list(dense_order[:candidate_limit])
+        else:
+            dense_order = np.argsort(dense_sims)[::-1]
+            dense_rank = {idx: rank for rank, idx in enumerate(dense_order)}
+            
+            sparse_order = np.argsort(bm25_scores)[::-1]
+            sparse_rank = {idx: rank for rank, idx in enumerate(sparse_order)}
+            
+            k = 60
+            fused_scores = {}
+            for idx in range(len(self.texts)):
+                score = (1 / (k + dense_rank[idx])) + (1 / (k + sparse_rank[idx]))
+                fused_scores[idx] = score
+                
+            top_indices = sorted(list(fused_scores.keys()), key=lambda x: fused_scores[x], reverse=True)[:candidate_limit] # type: ignore
         
         # --- KATMAN 3: RE-RANKING (The Sniper) ---
         trace_elapsed("K2_retrieval", stage_start)
@@ -1424,9 +1447,13 @@ class KizilelmaEngine:
         if trace is not None:
             trace["retrieved_source_ids"] = [int(self.df.iloc[idx]["id"]) for idx in top_indices]
         stage_start = time.perf_counter()
-        rerank_pairs = [[search_query, self.texts[idx]] for idx in top_indices]
-        rerank_output = self.rerank_model.predict(rerank_pairs) if self.rerank_model else None # type: ignore
-        rerank_scores = list(rerank_output) if rerank_output is not None else [0.0] * len(top_indices)
+        if not getattr(self, "disable_reranker", False) and self.rerank_model is not None:
+            rerank_pairs = [[search_query, self.texts[idx]] for idx in top_indices]
+            rerank_output = self.rerank_model.predict(rerank_pairs) if self.rerank_model else None # type: ignore
+            rerank_scores = list(rerank_output) if rerank_output is not None else [0.0] * len(top_indices)
+        else:
+            # Re-ranker bypass: keep retrieval order with descending positive scores
+            rerank_scores = [float(2.0 - (i * 0.05)) for i in range(len(top_indices))]
         trace_elapsed("K3_reranker", stage_start)
         if trace is not None:
             trace["rerank_scores"] = [float(v) for v in rerank_scores]
@@ -1575,7 +1602,9 @@ class KizilelmaEngine:
             return prediction
         try:
             import torch.nn.functional as F
+            device = next(self.classifier_model.parameters()).device
             inputs = self.classifier_tokenizer(query, return_tensors="pt", truncation=True, padding=True, max_length=128)
+            inputs = {k: v.to(device) for k, v in inputs.items()}
             with torch.no_grad():
                 logits = self.classifier_model(**inputs).logits
             probs = F.softmax(logits, dim=1)[0]

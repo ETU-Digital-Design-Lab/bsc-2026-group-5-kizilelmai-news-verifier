@@ -1,0 +1,501 @@
+﻿claim_id,category,claim_text,gold_verdict,final_verdict,abstained,is_unsupported_verdict
+FACTURK-0001,Clickbait,"ABD’de yeni çıkan bir yasa ile, “küçük çocukların aile onayı almadan cinsiyet değiştirmesine” izin verileceği iddia edildi . İddiada “aile onayını alamayan çocukların” trans sığınma evlerine yerleştirileceği gibi ifadeler de yer aldı",YALAN,YALAN,False,False
+FACTURK-0002,Sıfırıncı gün,Çeşitli Kodlarla Telefonunuzun Dinlenip Dinlenmediğinin Takibe Alınıp Alınmadığının Öğrenilebileceği,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0003,Sıfırıncı gün,Çin'in Ay'a götürdüğü pamuk tohumlarının filizlendiği,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0004,Sıfırıncı gün,Galatasaray’ın 2000 yılında aldığı UEFA kupasının dönemin 3 numaralı kupası olduğu ve 2023/2024 sezonunda Fenerbahçe’nin oynadığı Konferans Ligi kupası ile eşdeğer olduğu,YALAN,DOĞRU,False,True
+FACTURK-0005,Sıfırıncı gün,B sınıfı ehliyete sahip olmanın 125 cc’ye kadar olan motosikletleri kullanmak için yeterli olduğu,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0006,Sıfırıncı gün,Videonun Rus arama kurtarma personelinin enkazdan çaldığı paraları gösterdiği,YALAN,YALAN,False,False
+FACTURK-0007,Sıfırıncı gün,Bir X hesabı tarafından 21 Nisan 2024 tarihinde paylaşılan videonun Türkiye ile ilişkili olduğu ve 10 bin avronun üstünde döviz girişinden gümrük vergisi alındığı,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0008,Sıfırıncı gün,TRT Haber'in “3 bin yıllık cami restore edildi” başlıklı haber yaptığı,DOĞRU,YALAN,False,True
+FACTURK-0009,Sıfırıncı gün,"Eski Dışişleri Bakanı Tevfik Rüştü Aras, ""Domuz çok güzel bir gıdadır"" dedi",DOĞRU,YALAN,False,True
+FACTURK-0010,Sıfırıncı gün,Anadolu Ajansının Taksim'de Doğal Gaz Bulunduğu Yönünde Bir Haber Yayımladığı,YALAN,YALAN,False,False
+FACTURK-0011,Sıfırıncı gün,Biraz Yorgunum Başlıklı Şiirin Erdem Bayazıt'a Ait Olduğu,YALAN,DOĞRU,False,True
+FACTURK-0012,Sıfırıncı gün,İnsan ve nesneleri görünmez yapabilen “Mega Kalkan” gerçek,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0013,Sıfırıncı gün,"2020 İslamilik Endeksi’ne göre, İslam’a en uygun yaşayan ülkeler sıralamasında Türkiye 100. sırada yer alıyor",DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0014,Sıfırıncı gün,videodaki görüntülerin Sudan İç Savaşı’na ait olduğu,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0015,Sıfırıncı gün,Andrew Tate'in Greta Thunberg'e Yanıt Videosunda Görülen Pizza Kutusu Sayesinde Romanya Polisi Tarafından Yakalanabildiği,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0016,Sıfırıncı gün,Diyanetin baldızla zinanın nikaha zarar vermeyeceği fetvası yayınladığı,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0017,Sıfırıncı gün,445 kg’lık bir adamın X-Ray görünümü görseldeki gibidir,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0018,Sıfırıncı gün,Epstein'i Tel Aviv'de bir berberde gösteren fotoğraf gerçek,YALAN,DOĞRU,False,True
+FACTURK-0019,Sıfırıncı gün,Adana’da 6 milyar dolarlık jelibon bulunduğu,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0020,Clickbait,Erdoğan’dan Şehirleri Bombalama Talimatı,YALAN,YALAN,False,False
+FACTURK-0021,Sıfırıncı gün,Yalancının Mumu YaTSıya Kadar Yanar Atasözünün Doğrusunun YaSSı Adlı Mum Söndürme Aletine Dayanan Yalancının Mumu YaSSıya Kadar Yanar Şeklinde Olduğu,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0022,Clickbait,"bir araştırmanın pandeminin COVID geçirmeyen kişileri bile 5,5 ay daha hızlı yaşlandırdığı iddia edildi",DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0023,Clickbait,bir kişinin küre şeklindeki bir sanat eserinin içine girerek 50 yıl sonra açılmak üzere kendini müzeye koydurttuğu iddia edildi,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0024,Sıfırıncı gün,Ukraynalı Satranç Oyuncusu Anna Muzychuk'un 2017 Yılında Suudi Arabistan'da Düzenlenen Kadınlar Dünya Satranç Şampiyonasını Kadınlara Yöenlik Kısıtlamaları Protesto Ederek Katılmama Kararı Aldığı,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0025,Sıfırıncı gün,"TSK, Kimyasal Silah Kullanıyor",YALAN,YALAN,False,False
+FACTURK-0026,Sıfırıncı gün,Darülaceze'ye nakledilecek depremzede çocuklar için gönüllülere ihtiyaç olduğu,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0027,Sıfırıncı gün,Kanada-Fas maçında TRT spikerinin devre arasında değiştirildiği,DOĞRU,DOĞRU,False,False
+FACTURK-0028,Sıfırıncı gün,Videonun Jeffrey Epstein'ın Adasında İşkence Gören Türk Çocuğunun Özür Dilerim Arthur Dediği Ana Ait Olduğu,DOĞRU,YALAN,False,True
+FACTURK-0029,Sıfırıncı gün,Utah'da gizemli bir monolit bulunduğu,DOĞRU,DOĞRU,False,False
+FACTURK-0030,Sıfırıncı gün,Bir X hesabı tarafından 20 Nisan 2025’te paylaşılan bir gönderide Ataşehir’de AK-47 ile para çekmek isteyen bir kişinin tutuklanıp serbest bırakıldığı,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0031,Sıfırıncı gün,Bandırma 17 Eylül Üniversitesi'nin Mezuniyet Törenlerinde Topuklu Ayakkabı Giyilmesini Yasakladığı,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0032,Sıfırıncı gün,Bitlis'teki cami minaresine AK Parti'nin seçim afişi asıldığı,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0033,Sıfırıncı gün,Shakira'yı Türkiye’de bir markette gösteren fotoğraf gerçek,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0034,Sıfırıncı gün,"Bir X hesabı tarafından 14 Eylül 2024 tarihinde yapılan video paylaşımında, Bill Gates’in aşılara karşı çıkanları susturmak için yapay zekayı kullanacaklarına dair bir açıklama yaptığı",YALAN,YETERSİZ VERİ,True,False
+FACTURK-0035,Sıfırıncı gün,Uçağın üzerindeki insanları gösteren fotoğraf gerçek,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0036,Clickbait,İngiltere’nin hamile ve emziren kadınlar için aşı önerisini kaldırdığı iddia edildi,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0037,Sıfırıncı gün,"Bir erkeğin EKG kalp monitörünün elektrotlarının göğsü yerine yüzüne yerleştirildiği, saturasyon cihazının parmağına değil burnuna takıldığı görülen görselin Filistin'da kaydedildiği, bu durumun Filistinlilerin sahte yaralı görüntüleri hazırladığını ortaya koyduğu",YALAN,YETERSİZ VERİ,True,False
+FACTURK-0038,Sıfırıncı gün,"Ben Timur zamanında gelseydim, O’nun yaptığı işleri başaramazdım. O, benim zamanımda gelseydi, yaptıklarımdan daha büyüklerini yapardı sözünün Mustafa Kemal Atatürk'e ait olduğu",DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0039,Sıfırıncı gün,Hırvatistan’da 4 lira 20 kuruşa ev satıldığı,DOĞRU,YALAN,False,True
+FACTURK-0040,Sıfırıncı gün,Videodaki şeffaf kanatlı kelebek gerçek,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0041,Sıfırıncı gün,Fotoğrafın Erdoğan ve Soros'u aynı masada gösterdiği,DOĞRU,YALAN,False,True
+FACTURK-0042,Sıfırıncı gün,"Dünyada En Kısa Süre Orucun Tutulduğu Yerin Umman'daki Vakan Köyü Olduğu ve Bu Köyde Günde Sadece 3,5 Saat Oruç Tutulduğu",YALAN,YETERSİZ VERİ,True,False
+FACTURK-0043,Sıfırıncı gün,"Rus güçlerinin, ele geçirdiği Mariupol şehrine Sovyetler Birliği bayrağı diktiği",YALAN,YETERSİZ VERİ,True,False
+FACTURK-0044,Sıfırıncı gün,ki videonun Rusya-Ukrayna çatışmaları sırasında terk edilen bir Rus askeri aracının nasıl kullanılacağını öğreten Ukraynalı bir kadını gösterdiği,YALAN,YALAN,False,False
+FACTURK-0045,Sıfırıncı gün,"Video, yüklü kamyonun uçurumdan manevra yaparak kurtulduğu anı mı gösteriyor",YALAN,YALAN,False,False
+FACTURK-0046,Sıfırıncı gün,İstanbul Havalimanı'nın şantiye alanını su bastığı,DOĞRU,DOĞRU,False,False
+FACTURK-0047,Sıfırıncı gün,"Akşam, 'Atatürk Havalimanı güvenli' haberini saldırının ardından kaldırdı",DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0048,Sıfırıncı gün,Görseldeki burç isimlerinin Osmanlı Devleti’nde kullanıldığı,YALAN,YALAN,False,False
+FACTURK-0049,Sıfırıncı gün,Epstein ile Suudi Veliaht Prensi Selman'ın fotoğrafı dosyalarda mı yer alıyor,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0050,Clickbait,"Bir X hesabı tarafından 20 Kasım 2025 tarihinde paylaşılan gönderide, Ordinaryus Profesör Reşat Kaynar’ın Latife Hanım’ın mektupları hakkındaki itiraflarını gösterdiği iddia edildi",YALAN,YALAN,False,False
+FACTURK-0051,Sıfırıncı gün,Koronavirüsün Hiçbir Zaman İzole Edil(e)mediği,YALAN,DOĞRU,False,True
+FACTURK-0052,Sıfırıncı gün,Bir Facebook hesabı tarafından 29 Ocak’ta yapılan bir paylaşımda İçecek Sektörü Analisti Garret Nelson’un Coca Cola’nın Türkiye’de satış yapmakta güçlük çektiğini söylediği,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0053,Sıfırıncı gün,Hürriyet gazetesinin Formula 1’in 2025 sezonunun açılış yarışı olan Avustralya Grand Prix'ini büyük hatalarla haberleştirdiği,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0054,Sıfırıncı gün,Cheetos’un şeklini maskotunun testislerinden aldığı,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0055,Sıfırıncı gün,Konya Şeker’in 17 milyar 863 milyon TL borcu var,DOĞRU,DOĞRU,False,False
+FACTURK-0056,Sıfırıncı gün,daki Augustus Tapınağı,YALAN,DOĞRU,False,True
+FACTURK-0057,Sıfırıncı gün,görselde yer alan tablonun Jeffrey Epstein’in 1999 Gölcük Depremi öncesinde İstanbul’a geldiğini gösteren uçuş kayıtları olduğu,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0058,Sıfırıncı gün,Fotoğrafın Köpek ve Çita Hız Yarışına Ait Olduğu,YALAN,DOĞRU,False,True
+FACTURK-0059,Sıfırıncı gün,Okullarda pandemi nedeniyle resim ve müzik dersleri kaldırılacak,YALAN,YALAN,False,False
+FACTURK-0060,Sıfırıncı gün,Lübnan'daki patlamayı IŞİD'in üstlendiği,YALAN,YALAN,False,False
+FACTURK-0061,Sıfırıncı gün,Fotoğrafın 28 Yıldır Tır Şoförlüğü Yapan Erkeğin Yüzünün İki Yanında Farklı Ölçüde Deformasyona Yol Açan Güneş Yaşlanması Etkisini Gösterdiği,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0062,Sıfırıncı gün,Videoda İsrail'in Gazze'ye Yönelik Saldırılarında Yıkılan Binanın Enkazı Altında Kalan Bebeğin Görüldüğü,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0063,Sıfırıncı gün,"Linus Pauling, hemoglobin molekülünün değişiminden kaynaklandığı Orak hücre kansızlığının sebebi tespit etti",YALAN,YETERSİZ VERİ,True,False
+FACTURK-0064,Clickbait,Görselin ekmek çaldığı iddiasıyla mahkemeye çıkarılan çocuğu gösterdiği,YALAN,YALAN,False,False
+FACTURK-0065,Sıfırıncı gün,İçişleri Bakanlığı logosu bulunan seçim görevlisi kartlarıyla ilgili iddia,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0066,Sıfırıncı gün,Japonya Osaka’da Hamidiye markalı su satıldığı,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0067,Sıfırıncı gün,Yunanistan Başbakanı’nın yer aldığı video kaydı 2020'ye ait,YALAN,YALAN,False,False
+FACTURK-0068,Clickbait,Bir Facebook hesabı tarafından 29 Haziran 2024 tarihinde paylaşılan gönderide boykotlar sebebiyle McDonald’s’ın Mısır’dan çekilme kararı aldığı iddia edildi,YALAN,DOĞRU,False,True
+FACTURK-0069,Sıfırıncı gün,Yerli tütün kullanımının 14 yıl içinde yüzde 42'den yüzde 12'ye gerilediği,DOĞRU,YALAN,False,True
+FACTURK-0070,Sıfırıncı gün,Kayanın altındaki binaları gösteren fotoğraf gerçek,DOĞRU,DOĞRU,False,False
+FACTURK-0071,Sıfırıncı gün,Görüntülerin Kahramanmaraş'ta deprem öncesi ve sonrasını gösterdiği,YALAN,YALAN,False,False
+FACTURK-0072,Sıfırıncı gün,Görselde yer alan COVID-19 aşılarının etkinlik oranlarının olduğu,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0073,Sıfırıncı gün,Yüzü görünen ve elinde kitap tutan bir kadının yer aldığı eser Shamsia Hassani’ye ait,YALAN,YALAN,False,False
+FACTURK-0074,Sıfırıncı gün,"The Matrix filmindeki kodlar, suşi tarifini verir",DOĞRU,DOĞRU,False,False
+FACTURK-0075,Sıfırıncı gün,Haritanın Üzerine Takip Cihazı Takılan Bir Kartalın 20 Yıllık Göç Rotasını Gösterdiği,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0076,Sıfırıncı gün,Ülker'in Coco Star Adlı Ürününde Hindistan Cevizi Yerine Beyazlatılmış Havuç Kullanıldığı,YALAN,YALAN,False,False
+FACTURK-0077,Sıfırıncı gün,"Fotoğraf, Atatürk’ün Selanik'te 1902’de çekilmiş bir fotoğrafıdır",YALAN,YETERSİZ VERİ,True,False
+FACTURK-0078,Sıfırıncı gün,Türkiye’nin internet hızında 103. sırada olduğu,DOĞRU,YALAN,False,True
+FACTURK-0079,Sıfırıncı gün,Fotoğrafın Temel Reis Popeye Karakterine İlham Veren Frank Fiegel'a Ait Olduğu,YALAN,YALAN,False,False
+FACTURK-0080,Sıfırıncı gün,Videonun Almanya'da Nazizm sembolüne boyanmış ABD tanklarını gösterdiği,YALAN,DOĞRU,False,True
+FACTURK-0081,Sıfırıncı gün,Videodaki yıldırım görüntüsü gerçek,DOĞRU,DOĞRU,False,False
+FACTURK-0082,Sıfırıncı gün,Fotoğraftaki Kişinin Taliban Tarafından Atanan Afganistan'ın Yeni Merkez Bankası Başkanı Olduğu,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0083,Sıfırıncı gün,Fotoğraf Brezilya'daki tek bir kaju ağacını mı gösteriyor,DOĞRU,YALAN,False,True
+FACTURK-0084,Sıfırıncı gün,"Kaza ve Kader, Talih ve Tesadüf Tabirleri Arapçadır, Türkleri Alakadar Etmez Sözünün Mustafa Kemal Atatürk tarafından dile getirildiği",DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0085,Sıfırıncı gün,İngiliz Mareşal Birdwood'un Atatürk'ün cenazesini ayakta selamladığı,DOĞRU,YALAN,False,True
+FACTURK-0086,Sıfırıncı gün,Konya Tuzlukçu Belediyesi’nin asgari ücreti 4 bin 500 TL yaptığı,DOĞRU,YALAN,False,True
+FACTURK-0087,Sıfırıncı gün,Şeffaf ekranlı dizüstü bilgisayar gerçek,DOĞRU,DOĞRU,False,False
+FACTURK-0088,Sıfırıncı gün,Fosforlu kediler gerçek,DOĞRU,DOĞRU,False,False
+FACTURK-0089,Sıfırıncı gün,Çin'in Doğu Türkistan politikalarının araştırılması önergesinin AK Parti oylarıyla reddedildiği,DOĞRU,DOĞRU,False,False
+FACTURK-0090,Sıfırıncı gün,TCDD Makinist Alımlarında Erkek Olma Şartı Arıyor,YALAN,YALAN,False,False
+FACTURK-0091,Sıfırıncı gün,Görüntülerin Kırşehir'de Diyarbakır Tatlı Salonu'na ismi nedeniyle düzenlenen saldırıyı gösterdiği,DOĞRU,YALAN,False,True
+FACTURK-0092,Clickbait,videonun ölmek istemedikleri için kamplardan kaçan İsrail askerleri olduğu iddia edildi,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0093,Sıfırıncı gün,2012 Londra Olimpiyatları Açılış Törenindeki Koreografiyle Covid19 Pandemisinin Simgelendiği,YALAN,DOĞRU,False,True
+FACTURK-0094,Sıfırıncı gün,Erdoğan'ın yedinci torununun ABD'de doğduğu,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0095,Sıfırıncı gün,A Haber’in seçim analisti olarak ekrana çıkardığı Kenan Demir'in kebapçı olduğu,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0096,Sıfırıncı gün,Konya'da ‘chemtrails’ ile havadan zehirleme yapıldığı,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0097,Sıfırıncı gün,Konya Valisi Orhan Toprak'ın çocuklarının isminin Fethullah ve Gülen olduğu,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0098,Sıfırıncı gün,Görseldeki evlerin Suriyeliler için yapıldığı,YALAN,DOĞRU,False,True
+FACTURK-0099,Sıfırıncı gün,"Dudullu-Bostancı metro hattının açılışının yapıldığı 6 Ocak 2023 tarihli törende CHP Genel Başkanı Kemal Kılıçdaroğlu, İYİ Parti Genel Başkanı Meral Akşener, Gelecek Partisi Genel Başkanı Ahmet Davutoğlu, İstanbul Büyükşehir Belediye Başkanı Ekrem İmamoğlu'nun ardında yüklenici firmalar Kolin İnşaat ve Kalyoncu Holding'in flamalarının görüldüğü görselin dijital düzenleme içermediği",YALAN,YALAN,False,False
+FACTURK-0100,Sıfırıncı gün,Japonya’da el yıkama lavabosu tuvalete takılıdır,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0101,Sıfırıncı gün,videonun teknedeki insanların dev dalgalar altında kaldığı anları gösterdiği,YALAN,YALAN,False,False
+FACTURK-0102,Sıfırıncı gün,Bill Gates’in fonladığı Dünya Sivrisinek Programı'yla ilgili 'salgın' iddiaları,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0103,Sıfırıncı gün,Videodaki Artistik Buz Pateni Performansını Sergileyen Ivan Bukin'in Kör Olduğu Doğru Değil,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0104,Sıfırıncı gün,Videonun Japonya'da görevlilerin yolcuları metroya sığdırmaya çalıştığını gösterdiği,DOĞRU,DOĞRU,False,False
+FACTURK-0105,Sıfırıncı gün,Gana’da sahte ABD Büyükelçiliği açıldığı,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0106,Sıfırıncı gün,Fotoğrafların Şile’de yaşanan su kesintisini gösterdiği,DOĞRU,DOĞRU,False,False
+FACTURK-0107,Sıfırıncı gün,2015'te Miss Grand International Beauty Contest yarışmasında Ukrayna’yı temsil eden Anastasiia Lenna’nın Ukrayna ordusuna katıldığı,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0108,Sıfırıncı gün,Videonun iki Türk’ün ABD’de mahkemeye çıktığını gösterdiği,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0109,Sıfırıncı gün,Şişli Hamidiye Etfal Hastanesi'nin Dünyanın ilk Çocuk Hastanesi Olduğu,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0110,Sıfırıncı gün,Milano Başkonsolosluğu'nun deprem yardımları için yalnızca Diyanet Vakfı'nı gösterdiği,YALAN,YALAN,False,False
+FACTURK-0111,Sıfırıncı gün,Portekiz sokaklarında şarap aktığı,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0112,Sıfırıncı gün,trende cinsel ilişkiye giren bir çiftin yer aldığı videonun İngiltere’de çekildiği,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0113,Sıfırıncı gün,Arjantin'de yaşayan 128 yaşındaki adamın Adolf Hitler olduğu,YALAN,YALAN,False,False
+FACTURK-0114,Sıfırıncı gün,Görselin 1947 yılında Yahudilerin Filistin'e varışını gösterdiği,DOĞRU,YALAN,False,True
+FACTURK-0115,Sıfırıncı gün,Fotoğrafın Kıbrıs’ta Türk bayrağıyla poz veren Rum birlikleri gösterdiği,DOĞRU,DOĞRU,False,False
+FACTURK-0116,Sıfırıncı gün,Video aynalı Pele kostümü giyen bir taraftarı mı gösteriyor,DOĞRU,YALAN,False,True
+FACTURK-0117,Sıfırıncı gün,Aerobik dersi veren kadın Myanmar'daki darbeyi kaydetti,DOĞRU,DOĞRU,False,False
+FACTURK-0118,Sıfırıncı gün,Yeniden Refah Partisi Konya Milletvekili Ali Yüksel'in Geçmişte Bir Dönem 3 Eşli Olduğu,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0119,Sıfırıncı gün,Videoda Bir Uçurumun Kenarında Dar Yolda Otomobilin Ters Yöne Çevrildiği Anın Görüntülendiği,YALAN,YALAN,False,False
+FACTURK-0120,Sıfırıncı gün,Fotoğrafın yerli ve milli RT-1453 adlı uçağı gösterdiği,YALAN,YALAN,False,False
+FACTURK-0121,Sıfırıncı gün,"Türkiye Cumhuriyeti Devleti, ben Türk değilim ama, benim de bu topraklarda hakkım var diyenlere haddini bildirmek için kurulmuş bir Türk devletidir sözünün Mustafa Kemal Atatürk'e ait olduğu",YALAN,YETERSİZ VERİ,True,False
+FACTURK-0122,Clickbait,"Bir Twitter hesabı tarafından 20 Ekim 2021 tarihinde paylaşılan videoda, Kuzey Kutbu’ndan çekilen ay görüntülerini gösterdiği iddia edildi",YALAN,YALAN,False,False
+FACTURK-0123,Sıfırıncı gün,"Enflasyonla mücadele: Kanada, ""vergi tatili"" mi ilan etti",DOĞRU,YALAN,False,True
+FACTURK-0124,Sıfırıncı gün,videonun İsrail’in Hindistan’daki Büyükelçiliği’ne yapılan saldırıyı gösterdiği,YALAN,DOĞRU,False,True
+FACTURK-0125,Sıfırıncı gün,Resmin Bulgar ve Yunan askerleri Türk askerinin fesine haç çizerken gösterdiği,DOĞRU,DOĞRU,False,False
+FACTURK-0126,Sıfırıncı gün,Türkiye Avrupa’nın en büyük plastik çöplüğü haline geldi,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0127,Sıfırıncı gün,Bir De Kuşlar Var Hakim Bey Her Şeyin Başı Onlar Onlar Özgürlüğü Koyuyor İnsanın Kafasına Baksanıza Terörist Terörist Uçuyorlar Dizelerinin Şair Ahmet Arif'e Ait Olduğu,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0128,Clickbait,"meyvelerin üzerine yapıştırılan çıkartmalardaki kodların pestisit kullanımı, organik üretim veya genetiği değiştirilmiş olup olmadığını gösterdiği iddia edildi",DOĞRU,YALAN,False,True
+FACTURK-0129,Sıfırıncı gün,"Simpsonlar'da ""Bir adadaki bazı ürpertici tipler gizlice dünyayı yönetiyor"" yazdığı",DOĞRU,YALAN,False,True
+FACTURK-0130,Sıfırıncı gün,Görüntünün hahamların Cumhurbaşkanlığı külliyesinde Cumhurbaşkanı Erdoğan'a dua ettiği ana ait olduğu,DOĞRU,YALAN,False,True
+FACTURK-0131,Sıfırıncı gün,İspanya’nın İsrail ile yaptığı 700 milyon Euroluk silah anlaşmasını iptal ettiği,DOĞRU,YALAN,False,True
+FACTURK-0132,Sıfırıncı gün,1939 Erzincan Depreminde Mahkumların Yardım İçin 1 Günlüğüne Serbest Bırakıldığı,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0133,Sıfırıncı gün,Singapur’da tren camlarının binalara gelince matlaştığı,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0134,Sıfırıncı gün,Dünyanın Manyetik Kuzey Kutbu Rusya’ya doğru mu kayıyor,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0135,Sıfırıncı gün,Çin’de binanın içinden tren hattı geçtiği,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0136,Sıfırıncı gün,Kümbetin arkasına öğrenci yurdu yapıldığı,DOĞRU,DOĞRU,False,False
+FACTURK-0137,Sıfırıncı gün,Videonun Pençe Kılıç Hava Harekatı'nda bulunan Türk askerini gösterdiği,YALAN,YALAN,False,False
+FACTURK-0138,Sıfırıncı gün,Fransız Sanofi Firması Tarafından Üretilen 'PLAQUENİL' İsimli İlaç Koronavirüsü Tedavi Ediyor,YALAN,DOĞRU,False,True
+FACTURK-0139,Sıfırıncı gün,Nicolas Maduro'nun DEA memuru ile fotoğrafı gerçek,DOĞRU,DOĞRU,False,False
+FACTURK-0140,Sıfırıncı gün,Mustafa Kemal Atatürk'ün Sağlığında 19 Mayıs'ın Bayram Olmadığı,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0141,Sıfırıncı gün,Yavuz Sultan Selim Köprüsü ve Kuzey Çevre Otoyolu’nun %51’i Çin menşeli şirkete satılıyor,DOĞRU,YALAN,False,True
+FACTURK-0142,Sıfırıncı gün,"Bir X hesabı tarafından 16 Kasım 2024 tarihinde paylaşılan videoda, Husilerin saldırısının ardından Abraham Lincoln adlı ABD’ye ait uçak gemisinin hasar alıp bölgeyi terk ettiği",YALAN,YALAN,False,False
+FACTURK-0143,Sıfırıncı gün,Oy pusulaları üzerinde oy kullanılacak ilin isminin yazılı olması gerektiği,DOĞRU,DOĞRU,False,False
+FACTURK-0144,Clickbait,Bir Twitter hesabı tarafından 13 Nisan 2022 tarihinde paylaşılan videonun 2022’ye ait olduğu ve İstanbul halinde sebzelerin çöpe döküldüğünü gösterdiği iddia edildi,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0145,Clickbait,Fotoğraftaki Protez Diş Görünümlü Flaş Belleğin FETÖ Operasyonları Sırasında Ele Geçirildiği,YALAN,YALAN,False,False
+FACTURK-0146,Clickbait,"Bir X hesabının 5 Kasım 2023’te paylaştığı videonun, Dilan Polat ve Engin Polat çiftinin evlerinde bulunan dövizleri gösterdiği iddia edildi",YALAN,DOĞRU,False,True
+FACTURK-0147,Sıfırıncı gün,"Video, İBB’nin sahip olduğu şu anda kayıp olan atların itlaf edilişini göstermektedir",YALAN,YALAN,False,False
+FACTURK-0148,Sıfırıncı gün,M Özdoğan Günlükleri Adlı Kitapta Necmettin Erbakana Ait Bir Sözün Paylaşıldığı,YALAN,DOĞRU,False,True
+FACTURK-0149,Sıfırıncı gün,Videonun İtalya'da Bir Göçmenin Sokakta Öldürdüğü Kediyi Pişirdiği Ana Ait Olduğu,DOĞRU,YALAN,False,True
+FACTURK-0150,Sıfırıncı gün,Britney Spears'ın eski eşi Sam Ashgari'nin küçükken hayranı olarak kendisiyle fotoğraf çektirdiği,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0151,Sıfırıncı gün,Prof. Dr. Mehmet Ceyhan COVID-19 aşılarının sorumluluğunu almadı,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0152,Kısmen doğru,Bülent Ecevit'in 1999 Marmara Deprem Bölgesine Ancak 3 Gün Sonra Gidebildiği,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0153,Sıfırıncı gün,"Tom Hanks’in mevcut İsrail-Hamas Savaşı sırasında, Filistin’e destek için kefiye taktığı",YALAN,DOĞRU,False,True
+FACTURK-0154,Sıfırıncı gün,Biz Tekrar Tekrar Yaptığımız Şeyleriz Demek Ki Mükemmellik Bir Eylem Değil Bir Alışkanlıktır Sözünün Aristoya Ait Olduğu,YALAN,DOĞRU,False,True
+FACTURK-0155,Sıfırıncı gün,Kahramanmaraş'ta yapılan fuhuş operasyonunda veresiye defterinin ele geçirildiği,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0156,Clickbait,"Rusya Savunma Bakanı Sergey Şoygu’nun “Sovyetler Birliği Geri Dönecek, hepimiz barış içinde yaşayacağız” dediği iddia edildi",YALAN,YETERSİZ VERİ,True,False
+FACTURK-0157,Sıfırıncı gün,"İbn Haldun'un Mukaddime adlı eserinde Araplar için hırsız, talan ruhlu, vahşi, kaba, haşin, hırsız, yalancı, uygarlık düşmanı gibi tanımlar kullandığı",DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0158,Sıfırıncı gün,Görselde yer alan haritada Türkiye’deki akraba evliliklerinin oranlarının verildiği,DOĞRU,YALAN,False,True
+FACTURK-0159,Sıfırıncı gün,Rize-Artvin Havalimanı'na 3 milyon yolcu garantisi verildiği,YALAN,DOĞRU,False,True
+FACTURK-0160,Sıfırıncı gün,Çin Seddi’nin bir bölümü yıkıldı,DOĞRU,YALAN,False,True
+FACTURK-0161,Sıfırıncı gün,Bir Twitter hesabı tarafından 8 Ocak 2023 tarihinde paylaşılan videonun İsrail polisinin Filistinli bir çocuğu boğarak öldürdüğü anı gösterdiği,YALAN,YALAN,False,False
+FACTURK-0162,Sıfırıncı gün,MEB’in Almanca ders kitabında bir kadının montajla başörtülü gösterildiği,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0163,Sıfırıncı gün,Türkiye'nin 2018'de 'yarı-özgür ülke' statüsünden 'özgür olmayan ülke' statüsüne gerilediği,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0164,Sıfırıncı gün,Cenap Şehabettin'in On Ölüm Şarkısı Adlı Şiirin Yazarı Olduğu,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0165,Sıfırıncı gün,Dünya Ekonomik Forumu Kurucusu Klaus Schwab'ın Tutuklandığı,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0166,Sıfırıncı gün,Giresun’da bulunan devlete ait SEKA fabrikası 5 milyon liraya özelleştirildi. Fabrika arazisi daha sonra 68 milyon lira karşılığında TOKİ tarafından satın alındı. Yıkılan fabrikanın yerine konut yapıldı,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0167,Sıfırıncı gün,"Fotoğraf, şapka takmadığı için idama götürülen kişileri gösteriyor",YALAN,YALAN,False,False
+FACTURK-0168,Sıfırıncı gün,'Japonya'da lise mezunu olmayanlar oy kullanamıyor',YALAN,YALAN,False,False
+FACTURK-0169,Sıfırıncı gün,Bir Facebook sayfası tarafından 19 Ocak 2024 tarihinde yapılan paylaşımda Toblerone marka çikolatalar için toplatılma kararı verildiği,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0170,Sıfırıncı gün,Uyandım Uyandım Hep Seni Düşündüm Yalnız Seni Yalnız Senin Gözlerini Dizelerinin Özdemir Asaf’a Ait Olduğu,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0171,Sıfırıncı gün,Nikola Tesla 1926 yılında akıllı telefonları tahmin etti,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0172,Sıfırıncı gün,İsmet İnönü'ye 1959 Yılında Uşak ve İstanbul'da Yapılan Saldırıların Bir Mizansen Olduğu,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0173,Sıfırıncı gün,Yalnız Türklerin korku filmi izlerken güldüğü ve Türkiye’de kimsenin korku filmi yüzünden ölmediği,YALAN,YALAN,False,False
+FACTURK-0174,Clickbait,videonun 6 Şubat 2023’te gerçekleşen Kahramanmaraş depremleri sonrası enkazdan kurtarılan bir köpeği gösterdiği iddia edildi,YALAN,DOĞRU,False,True
+FACTURK-0175,Sıfırıncı gün,ABD başkanı Joe Biden'ın toplantı esnasında uyuduğu,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0176,Sıfırıncı gün,videonun Fransa’da gece yarısı yoldan geçen genç kızları rahatsız eden Türkleri gösterdiğini,YALAN,YALAN,False,False
+FACTURK-0177,Sıfırıncı gün,Atatürk'ü Zeybek Oynarken Gösterdiği İddia Edilen Resim,YALAN,YALAN,False,False
+FACTURK-0178,Sıfırıncı gün,Bir Twitter hesabı tarafından 24 Şubat 2022 tarihinde paylaşılan videoda Ukrayna ordusuna katılan bir babanın ailesine veda ettiği anları gösterdiği,YALAN,YALAN,False,False
+FACTURK-0179,Sıfırıncı gün,Mekke'de ovalar ve dağların yeşillendiği,DOĞRU,DOĞRU,False,False
+FACTURK-0180,Sıfırıncı gün,Bir trende tesettürlü kadınların arasında başı açık ve kırmızı elbiseli bir kadının sırtı dönük şekilde görüntülendiği fotoğrafın İsveç'in Malmö kentinde kaydedildiği,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0181,Kısmen doğru,"Mit Uyardı, İzlendi Ancak Durdurulamadı",YALAN,YALAN,False,False
+FACTURK-0182,Sıfırıncı gün,İtalya’da koronavirüse karşı Kuran okunduğu,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0183,Sıfırıncı gün,1963 tarihli bir gazetede cep telefonunun gösterildiği,DOĞRU,YALAN,False,True
+FACTURK-0184,Sıfırıncı gün,Ali Babacan’ın “KYK kredileri ve bursları 850 liradan 1.250 liraya yükseltilmedi. Aylık 147 dolardan 67 dolara düşürüldü.” ifadesini kullandığı,DOĞRU,YALAN,False,True
+FACTURK-0185,Sıfırıncı gün,AK Parti heyetinden birinin vatandaşlara 'Şeyin trene baktığı gibi bakıyorlar' dediği,DOĞRU,YALAN,False,True
+FACTURK-0186,Clickbait,Bir Instagram hesabı tarafından 2 Ocak 2026 tarihinde paylaşılan videonun 1918 yılında Batum’un alındıktan sonra Enver Paşa’yı beklerken kendi aralarında eğlenen askerleri gösterdiği iddia edildi,DOĞRU,DOĞRU,False,False
+FACTURK-0187,Sıfırıncı gün,Dünyanın en büyük yangın uçağı kar getirmediği için piyasadan çekildi,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0188,Sıfırıncı gün,Görseldeki askerî üniformalı gözleri şaşı erkeğin yanlışlıkla 3 Amerikan uçağını düşüren Kuveyt Hava Savunma komutanı olduğu,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0189,Sıfırıncı gün,Sayıştay’ın Amasra’daki madenle ilgili 2019 yılında uyarıda bulunduğu,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0190,Sıfırıncı gün,Türkiye DAEŞ'in de Cenevre'ye Katılmasını İstedi,YALAN,YALAN,False,False
+FACTURK-0191,Sıfırıncı gün,Ağustosböceklerinin ömrü yaklaşık dört hafta,DOĞRU,YALAN,False,True
+FACTURK-0192,Sıfırıncı gün,Aleyna Tilki'ye ilham veren genç ödülü verildiği,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0193,Sıfırıncı gün,"ABD Başkanı Donald Trump, Obama çiftini maymun olarak gösteren bir video paylaştı",DOĞRU,DOĞRU,False,False
+FACTURK-0194,Sıfırıncı gün,IMF raporuna göre “zombi şirket” sayısının en çok Türkiye’de olduğu,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0195,Sıfırıncı gün,Çimenlerin yeşil olduğunu nereden biliyorsun,YALAN,YALAN,False,False
+FACTURK-0196,Sıfırıncı gün,Türkiye’nin toplam merkezi yönetim borcu başkanlık sisteminden bu yana %109 arttı,DOĞRU,YALAN,False,True
+FACTURK-0197,Sıfırıncı gün,"Bir Twitter hesabından 8 Haziran 2023 tarihinde yapılan paylaşımda, Bursa’lı emekli bir öğretmen olan vatandaşı yükselen dolar değerini protesto etmek için 100 ABD doları banknotu yakarken gösteren videonun güncel olduğu",YALAN,YALAN,False,False
+FACTURK-0198,Clickbait,"videonun, A Haber tarafından yapılan yayına ait olduğu ve Adıyaman’da hayatın normale döndüğü başlığıyla paylaşıldığı iddia edildi",DOĞRU,DOĞRU,False,False
+FACTURK-0199,Sıfırıncı gün,Uyurken sağ tarafa yatmak sağlık için faydalıdır,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0200,Clickbait,Bir X hesabı tarafından 27 Ocak 2025 tarihinde paylaşılan bir gönderide 1 Şubat 2025 tarihinden itibaren 1.050 TL’yi geçen elektrik faturalarının 2.000 TL olacağı iddia edildi,DOĞRU,YALAN,False,True
+FACTURK-0201,Sıfırıncı gün,Mehmet Şimşek’in “Türkiye Esad’sız bir anlaşmada ısrar edemez” dediği,DOĞRU,DOĞRU,False,False
+FACTURK-0202,Sıfırıncı gün,Cengiz Holding’in 3 milyar TL’lik yatırımına devlet teşviki verildiği,DOĞRU,YALAN,False,True
+FACTURK-0203,Sıfırıncı gün,RTÜK'ün 'cin' kelimesini yasakladığı,YALAN,YALAN,False,False
+FACTURK-0204,Clickbait,evrimsel biyolog Jenny Graves’ın açıklamalarına göre birkaç milyon yıl içinde Y kromozomu yok olabileceği iddia edildi,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0205,Sıfırıncı gün,Japonya'da eşek arılı krakerlerin bulunduğu,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0206,Sıfırıncı gün,Tıp Öğrencisinin Nihat Hatipoğluna Namaz Vakti Geldiğinde Ameliyatı Bırakma Hakkında Soru Sorduğu,YALAN,YALAN,False,False
+FACTURK-0207,Sıfırıncı gün,Fotoğrafın Latin alfabesine geçiş sırasındaki bir propaganda afişini gösterdiği,DOĞRU,YALAN,False,True
+FACTURK-0208,Sıfırıncı gün,Nazi Almanyası’ndan kaçan Alman bilim insanlarının Türkiye’ye sığındığı,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0209,Sıfırıncı gün,Karısıyla konuşmamak için 62 yıl sağır dilsiz taklidi yapan adam,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0210,Clickbait,videonun Bahreyn ile Suudi Arabistan’ı birbirine bağlayan Kral Fehd Köprüsü'nün vurulduğu anları gösterdiği iddia edildi,YALAN,DOĞRU,False,True
+FACTURK-0211,Sıfırıncı gün,"Videoda Prens Selman'ın “Kuran’daki ayetleri yok etmek""le ilgili sözleri mi yer alıyor",YALAN,YETERSİZ VERİ,True,False
+FACTURK-0212,Sıfırıncı gün,Candaş Tolga Işık ve Hadi Özışık'ın Kuzen Olduğu,YALAN,YALAN,False,False
+FACTURK-0213,Sıfırıncı gün,ABD Başkanı Donald Trump’ın ‘Hamas'a prezervatif almak için Gazze'ye 50 milyon dolar gönderileceğini tespit ettik.’ açıklaması yaptığı,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0214,Sıfırıncı gün,Fotoğrafta Anıtkabir'de Saygıyla Eğilirken Görüntülenen Kişinin Japon Bakan Olduğu,YALAN,DOĞRU,False,True
+FACTURK-0215,Clickbait,Ak Parti Milletvekili Zehra Taşkesenlioğlu’nun Afrika’da bakır madeni sahibi olduğu bilgisinin Meclis tutanaklarında kaydedildiği iddia edildi,DOĞRU,YALAN,False,True
+FACTURK-0216,Sıfırıncı gün,Türkiye’den İspanya’ya ihraç edilen bademlerde limitin 63 katı siyanür tespit edildiği,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0217,Sıfırıncı gün,Dövize olan bağımlılık en fazla Türkiye ve Şili’de arttı,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0218,Sıfırıncı gün,Peygamber Develerinin Yer Aldığı Görselin National Geographic Tarafından Yılın Fotoğrafı Seçildiği,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0219,Sıfırıncı gün,"Soğuk okuma teknikleri konusunda ustalaşmış biri daha önce hiç tanımadığı bir kişi hakkında sadece kişinin vücut dilini gözleyerek ya da kıyafet, konuşma, yaş, c",YALAN,YETERSİZ VERİ,True,False
+FACTURK-0220,Sıfırıncı gün,kafatasının %83’ü parçalanan kişinin implantlarla eski görüntüsüne kavuştuğu,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0221,Sıfırıncı gün,Fotoğrafın İstanbul Okmeydanı’ndaki taşın eski ve yeni halini gösterdiği,DOĞRU,DOĞRU,False,False
+FACTURK-0222,Clickbait,MEB’in açıkladığı yeni müfredatta Din Kültürü'ne 218 sayfa ayırdığı iddia edildi,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0223,Sıfırıncı gün,Portekiz’de koronavirüsü etkisiz hale getiren maske geliştirildiği,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0224,Sıfırıncı gün,2012 Londra Olimpiyatları açılış gösterisi pandemiyi öngörmedi,YALAN,YALAN,False,False
+FACTURK-0225,Sıfırıncı gün,Sevdiceğim Kelimesinin Sevdiğim ve Seveceğim Kelimelerinin Birleşimiyle Oluştuğu,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0226,Sıfırıncı gün,Videonun 24 Haziran gecesi İstanbul’da çekildiği,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0227,Sıfırıncı gün,Video Bakan Muş'un karşısındaki vatandaşı dinlemediğini mi gösteriyor,YALAN,YALAN,False,False
+FACTURK-0228,Sıfırıncı gün,Görselin Lazer ya da Yönlendirilmiş Enerji Silahının Ateşlendiği Anı Yansıttığı,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0229,Sıfırıncı gün,Papaz eriğini imam eriğine çevirme adlı bir projenin TÜBİTAK tarafından desteklendiği ve ödül aldığı,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0230,Clickbait,Bir Twitter hesabı tarafından paylaşılan fotoğrafın tarihteki ilk kedi fotoğrafı olduğu iddia edildi,YALAN,YALAN,False,False
+FACTURK-0231,Sıfırıncı gün,"Görüntüdeki Mekke'ye Gidip Hac ve Umre Yapan Şahsın 4 Kere Hacca Gidip Geldim, Aha Dayıya Sor Sözleriyle Ünlenen Hüseyin Taşkıran Olduğu",YALAN,YALAN,False,False
+FACTURK-0232,Sıfırıncı gün,Bazı İsrail vatandaşlarının protesto için topluca Arapça dersi almaya başladığı,DOĞRU,DOĞRU,False,False
+FACTURK-0233,Sıfırıncı gün,Görselde yer alan fotoğraf 1970'li yıllarda Afganistan’ın başkenti Kabil’de çekildi,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0234,Clickbait,Bir X hesabı tarafından 20 Şubat 2024 tarihli bir gönderide paylaşılan videonun Suudi Prensi Muhammed bin Selman’ın Kur’an’ın dünyadaki tüm teröristlerin güvendiği ve alıntı yaptığı bir kitap dediği iddia edildi,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0235,Clickbait,Türkiye’nin dünyadaki incir üretiminin %26’sını üstlendiği ve bu alanda açık ara dünya lideri olduğu iddia edildi,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0236,Sıfırıncı gün,Netflix'in 1 Ağustos 2020'de Türkiye’den çekileceği,YALAN,YALAN,False,False
+FACTURK-0237,Clickbait,"Bir Instagram hesabı tarafından 21 Kasım 2024 tarihinde paylaşılan gönderide, Türkiye’nin %34’ünün İstanbul Boğazı’nın altında 17 trilyon dolar değerinde kontoryum elementi olduğuna ve dış güçlerin çıkartmaya izin vermediğine inandığı iddia edildi",DOĞRU,YALAN,False,True
+FACTURK-0238,Clickbait,Hollanda'da halka ücretsiz güneş kremi mi dağıtılacak,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0239,Sıfırıncı gün,videonun Hizbullah’ın Tel Aviv’e saldırıları sonucu yanan bir binayı gösterdiği,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0240,Sıfırıncı gün,Devlet Bahçeli'ye Aşı Yapan Gülnaz Şırınga Adlı Hemşirenin Darp Edildiği,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0241,Sıfırıncı gün,Fransa’da mekanlar açıldı ve 18 yaşındaki herkese kültürel faaliyetler için 300 Euro verilecek,DOĞRU,YALAN,False,True
+FACTURK-0242,Sıfırıncı gün,Menbiç’teki Terör Saldırısının Olduğu Bölgede Türk Ajanının Kimliği Bulundu,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0243,Clickbait,Bir Instagram hesabı tarafından 3 Ekim 2024 tarihinde paylaşılan gönderide Trabzon Opera Binası’nın 1958 yılında yoldan araçların geçemediği için yol yapma amacıyla yıkıldığı iddia edildi,DOĞRU,YALAN,False,True
+FACTURK-0244,Sıfırıncı gün,Dünyanın en büyük buzdağının hareket etmeye başladığı doğru,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0245,Sıfırıncı gün,Videonun buz kalıbının çıkardığı sesi gösterdiği,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0246,Sıfırıncı gün,Sultan 2. Abdülhamit’in İstanbul’un Fethi kutlamalarına imparatorlukta yaşayan Rum tebaanın hissiyatının rencide olabileceği gerekçesiyle izin vermediği,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0247,Clickbait,videodaki rahibin “şişman kadınlar cennete giremez” dediği iddia edildi,YALAN,YALAN,False,False
+FACTURK-0248,Sıfırıncı gün,Pokemon ararken karşımıza çıkan yanlış haberler,YALAN,DOĞRU,False,True
+FACTURK-0249,Sıfırıncı gün,Nihat Zeybekci'nin TBMM'nin sitesindeki özgeçmişinden İngiltere eğitimi kaldırıldı,DOĞRU,YALAN,False,True
+FACTURK-0250,Clickbait,Bir Instagram hesabı tarafından 19 Mayıs 2024 tarihinde paylaşılan bir gönderide fotoğrafın Portekiz’de bir Megalodon köpek balığının karaya vurduğunu gösterdiği ve bu yıl içinde ikinci Megalodon köpek balığının görüldüğü iddia edildi,YALAN,YALAN,False,False
+FACTURK-0251,Sıfırıncı gün,Fotoğrafta Bir İstasyonda Elinde Sandviçle Tren Beklerken Görüntülenen Kişinin İsveç Çalışma Bakanı Ylva Johansson Olduğu,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0252,Sıfırıncı gün,NASA astronotu Sunita Williams'ın Ay'dan döndükten sonra Müslüman olduğu,YALAN,YALAN,False,False
+FACTURK-0253,Sıfırıncı gün,Xsentius Adlı Türk Filozof Tarafından Yazılan Eski Bir Tapınak Yazıtı Olduğu İddia Edilen Metin,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0254,Sıfırıncı gün,Che 1967 yılında Bolivyada yakalanıp öldürüldüğünde çantasından Nutuk çıktığı,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0255,Sıfırıncı gün,"Elektrik fiyatlarına son 2 yılda Türkiye’de %47, Polonya’da %22, Ukrayna’da %21, Romanya’da %17 zam gelirken fiyatlar İsveç'te %16, Hollanda’da %38 azaldı",DOĞRU,YALAN,False,True
+FACTURK-0256,Sıfırıncı gün,Videonun Ukrayna’daki Azovstal Tüneli’ni gösterdiği,YALAN,YALAN,False,False
+FACTURK-0257,Sıfırıncı gün,"Türkiye Uzay Ajansı, 2 buçuk yıllığına 1 Milyon 62 bin 919 TL'ye 5 minibüs ve 2 şoför hizmetini kiralamıştır",DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0258,Clickbait,Nusaybin'de çocukları korkutmak için polisin havaya ateş açtığı iddiasını nasıl doğruladık,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0259,Sıfırıncı gün,Kızılay ve AFAD'ın ikinci el giysi yardımı kabul etmediği,DOĞRU,DOĞRU,False,False
+FACTURK-0260,Sıfırıncı gün,Meksika'da Bir Milletvekilinin Parlamentoda Kürsüde Konuşma Yaparken Özelleştirmeyi Eleştirmek Amacıyla Soyunduğu,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0261,Sıfırıncı gün,"Damacana Sözcüğünün Kökeninin, Şişenin Şeklinin İlk Cam Damacanayı Yapan Jean Adlı Fransız Cam Ustasının Eşine Benzemesinden Hareketle Dame de Jean Tanımına Dayandığı",YALAN,YETERSİZ VERİ,True,False
+FACTURK-0262,Sıfırıncı gün,Videodaki sesin Atatürk'ün Celal Bayar için kaydettiği plaktan olduğu,DOĞRU,YALAN,False,True
+FACTURK-0263,Clickbait,Eyüp Sabri Tuncer’in Vehbi Koç tarafından verilen tavsiye sayesinde iflastan kurtarıldığı iddia edildi,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0264,Sıfırıncı gün,Fotoğrafın Türkiye’nin Washington Büyükelçiliği’nde çekildiği,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0265,Clickbait,İsrail Savunma Bakanı Yoav Gallant’ın “Türklerin sahada olduklarına eminim.” dediği iddia edildi,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0266,Sıfırıncı gün,"Bir penguenin kendisini 2011 yılında açlıktan ölmek üzereyken kurtaran ve besleyip iyileştiren Brezilyalı Joao Pereira de Souza'yı, denize açıldıktan sonra her yıl ziyaret ettiği",DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0267,Sıfırıncı gün,İstiklal Marşı'nın Mehmet Akif Ersoy Tarafından Türkçe Yerine Arapça Yazıldığı,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0268,Sıfırıncı gün,Görselin Suriyeli Sığınmacılar Tarafından 27 Temmuz 2021 Tarihinde İstanbul Saraçhane'de Düzenlenen Gitmiyoruz Mitinginin Afişi Olduğu,YALAN,DOĞRU,False,True
+FACTURK-0269,Sıfırıncı gün,"Fotoğrafta Libya'nın Derne Kentinde 10 Eylül 2023 Günü Yaşanan Selde Çevresindeki Evler Zarar Gördüğü Hâlde Ayakta Kalan, Sahibi Yetimlere Destek Veren Evin Görüldüğü",DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0270,Clickbait,Vikipedi’nin ABD Temsilciler Meclisi Nancy Pelosi’nin ölüm tarihini açıkladığı iddia edildi,YALAN,DOĞRU,False,True
+FACTURK-0271,Sıfırıncı gün,Atatürkün Çocuklara Bira İçirdiği,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0272,Sıfırıncı gün,"Fotoğraf, Edirne'de İstiklal Marşı okuyanlara korna çalan bir kişinin dövüldüğü anı mı gösteriyor",YALAN,YALAN,False,False
+FACTURK-0273,Sıfırıncı gün,İzmir'de cami hoparlörlerinden Müslüm Gürses şarkısı çalındı,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0274,Sıfırıncı gün,Fotoğraf İranlı komutan İsmail Kaani’nin kadın kılığına girdiğini mi gösteriyor,YALAN,YALAN,False,False
+FACTURK-0275,Clickbait,Nene Hatun’un yaşadığı yoksulluk nedeniyle İsmet İnönü’ye hitaben bir dilekçe yazdığı ve kendisine verilen yardımın bu dilekçeden sonra kesildiği iddia edildi,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0276,Clickbait,videonun Diyanet İşleri Başkanı Ali Erbaş’ın kızını gösterdiği iddia edildi,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0277,Sıfırıncı gün,Vampirler neden uzun yaşar? isimli konferans,DOĞRU,DOĞRU,False,False
+FACTURK-0278,Sıfırıncı gün,Çek Cumhuriyeti’nin çocuklar için belli hastalıklar için uyguladığı zorunlu aşı politikası AİHM tarafından insan hakları ihlali olarak değerlendirilmedi,DOĞRU,YALAN,False,True
+FACTURK-0279,Clickbait,"Bir Instagram hesabı tarafından 12 Mayıs 2025 tarihinde paylaşılan videonun, yerde hareket eden tanımlanamayan bir varlığı gösterdiği iddia edildi",YALAN,YALAN,False,False
+FACTURK-0280,Sıfırıncı gün,Soğanlı Botanik Parkı imara açıldı,YALAN,YALAN,False,False
+FACTURK-0281,Sıfırıncı gün,Diyanet İşleri Başkanı'nın deprem bölgesine şahsi olarak 310 milyon lira bağışladığı,YALAN,YALAN,False,False
+FACTURK-0282,Sıfırıncı gün,Fotoğrafın 19 cm ile dünyanın en uzun burunlu insanını gösterdiği,DOĞRU,YALAN,False,True
+FACTURK-0283,Sıfırıncı gün,BioNTech CEO’su Uğur Şahin COVID-19 aşısı olmadı,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0284,Sıfırıncı gün,Videodaki kişinin Kraliçe II. Elizabeth olduğu,YALAN,YALAN,False,False
+FACTURK-0285,Sıfırıncı gün,Özledim Seni Şiirinin Can Yücele Ait Olduğu,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0286,Sıfırıncı gün,Bilkent Üniversitesi'nin öğrencilere çevrimiçi sınavlar için ayna gönderdiği,DOĞRU,YALAN,False,True
+FACTURK-0287,Sıfırıncı gün,Hollanda’da bir kilise çanlarıyla 'Uzun İnce Bir Yoldayım' çalındığı,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0288,Sıfırıncı gün,WhatsApp'ın değiştirdiği gizlilik sözleşmesi hakkındaki iddialar,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0289,Clickbait,Bir Instagram hesabı tarafından 20 Temmuz 2024 tarihinde paylaşılan gönderide Apollo 11 astronotlarının Ay’dan döndükten sonra Anıtkabir’i ziyaret ettiği iddia edildi,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0290,Clickbait,Bir Instagram hesabı tarafından 11 Temmuz 2025 tarihinde paylaşılan gönderide turizm sektöründe çalışan işçilerin yeni düzenlemeyle 7 günde bir yerine 11 günde bir haftalık izin yapabileceği iddia edildi,DOĞRU,YALAN,False,True
+FACTURK-0291,Sıfırıncı gün,Videodaki akıllı park sistemine sahip ofis sandalyeleri gerçek,DOĞRU,YALAN,False,True
+FACTURK-0292,Sıfırıncı gün,Bir Twitter hesabı 23 Aralık 2022’de paylaştığı görüntülerin bir uçağın chemtrails spreylediği anı gösterdiğini iddia etti,YALAN,YALAN,False,False
+FACTURK-0293,Sıfırıncı gün,"Mahmut Tanal’ın Hatalı Türkiye, Fransa ve Almanya Karşılaştırması",YALAN,YETERSİZ VERİ,True,False
+FACTURK-0294,Clickbait,Mexico City’deki üç katlı bir apartmanın hiçbir sismik hareket olmaksızın yer değiştirdiği ve olay sırasında gizemli bir karartının belirdiği iddia edildi,YALAN,DOĞRU,False,True
+FACTURK-0295,Sıfırıncı gün,Fotoğraf biri ilgi görmüş diğer ise ihmal edilmiş iki çocuğun beyin yapısındaki farklılığı gösteriyor,DOĞRU,YALAN,False,True
+FACTURK-0296,Sıfırıncı gün,1954’te kurulan Tuzla Cip Fabrikası ile ilgili iddialar,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0297,Clickbait,İsviçre Federal Gıda Güvenliği ve Veterinerlik İşleri Dairesi’nin Beypazarı marka maden sularını aşırı bor içerdiği gerekçesi ile satıştan çektiği iddia edildi,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0298,Sıfırıncı gün,Suudi Arabistan'ın Yenbu Kentinde Arabistanlı Lawrence'ın Konakladığı Evin Restore Edildiği,DOĞRU,YALAN,False,True
+FACTURK-0299,Sıfırıncı gün,Siirt Hassa Hatun Kız Öğrenci Yurdunda çatlaklar meydana geldi,YALAN,YALAN,False,False
+FACTURK-0300,Sıfırıncı gün,"Cumhuriyet'teki haberin metni orijinal değil, Popular Science Türkiye'de 2 Ağustos'ta Doruk Bozyayla imzasıyla yayınlanmış olan yazının kopyası",YALAN,YALAN,False,False
+FACTURK-0301,Sıfırıncı gün,Mostar Köprüsüne Türk bayrağının yansıtıldığı görselin güncel olduğu,YALAN,DOĞRU,False,True
+FACTURK-0302,Sıfırıncı gün,Kıyamam Sana Adlı Şarkının Sözlerini Karaköy Genelevinde Çalışan Bir Kadının Yazdığı,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0303,Sıfırıncı gün,Kuleli Askeri Lisesi'nin yabancılara satıldığı,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0304,Sıfırıncı gün,9 ile başlayan kimlik numaraları ve Suriyeliler'in oy kullanmasına ilişkin iddia,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0305,Sıfırıncı gün,Japonya'da eğitim: Öğrenciler okullardaki temizlikten mi sorumlu,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0306,Clickbait,kekik çayının mide yanmasını beş dakikada durdurduğu iddia edildi,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0307,Sıfırıncı gün,Okullara Şehit Adı Neden Verilmiyor,YALAN,YALAN,False,False
+FACTURK-0308,Sıfırıncı gün,Türkiye kira artış oranında dünya birincisi,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0309,Sıfırıncı gün,Videodaki Kuşların 5G İstasyonunun Yaydığı Radyasyon Nedeniyle Öldüğü,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0310,Sıfırıncı gün,ABD Başkanı Biden’ın Baş Sağlık Danışmanı Dr. Anthony Fauci yargılandı,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0311,Sıfırıncı gün,Türkiye en çok çalışan ve en az kazanan Avrupa ülkelerinden biri,DOĞRU,YALAN,False,True
+FACTURK-0312,Sıfırıncı gün,Vegan beslenen iş insanı dışkısını bağışlayarak öğrencilere burs sağladı,DOĞRU,DOĞRU,False,False
+FACTURK-0313,Sıfırıncı gün,Mehmet Özhaseki'yi Afrika'daki Fethullahçı bir okulun önünde gösteren fotoğraf,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0314,Sıfırıncı gün,"IMF verilerine göre Türkiye'nin dünya ekonomisinden aldığı pay 1980'de %0,86, 2020'de de %0,85",DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0315,Sıfırıncı gün,videonun Fisiltin’de yaşananları protesto eden ABD’li bir kız öğrencinin polis tarafından darp edildiğini gösterdiği,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0316,Sıfırıncı gün,TRT Haber ekranında '19 Mayıs Cumhuriyet Bayramı Kutlu Olsun' yazdığı,DOĞRU,DOĞRU,False,False
+FACTURK-0317,Clickbait,fotoğrafın Down sendromlu bir baba ve oğlunu gösterdiği iddia edildi,DOĞRU,YALAN,False,True
+FACTURK-0318,Sıfırıncı gün,Koronavirüs Aşısı Olan Kişilerin Vücuduna Mıknatısın Yapıştığı ve Bu Durumun Aşının İçinde Çip Olduğunu İşaret Ettiği,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0319,Sıfırıncı gün,"Zürefanın düşkünü, beyaz giyer kış günü atasözündeki zürefa sözcüğünün aslında lezbiyen anlamında kullanıldığı",DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0320,Sıfırıncı gün,PKK yanlısı sosyal medya hesaplarının Barış Pınarı Harekatında siviller hedef alınıyor,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0321,Sıfırıncı gün,"Videonun Britanya’da uygulanan ""domuz terapisini"" gösterdiği",YALAN,YALAN,False,False
+FACTURK-0322,Sıfırıncı gün,Alex’in Fenerbahçe’deki ilk maçında attığı golde çalımladığı rakip defans oyuncusu Yalçın Ayhan'ın maç sonu verdiği röportajda Belim kırıldı sandım dediği,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0323,Sıfırıncı gün,Mustafa Kemal Atatürk'ün Not Defterine 1921 Yılında Tanrı birdir ve büyüktür notunu düştüğü,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0324,Clickbait,bir Azerbaycan vatandaşının Türkiye’de meydana gelen depremler nedeniyle arabasıyla yardım taşıdığı iddia edildi,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0325,Sıfırıncı gün,Resmi Gazete'de yayımlanan karar ile üniversite harçlarının geri getirildiği,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0326,Sıfırıncı gün,Time dergisi Türkiye’de yangın çıkacağını önceden biliyordu,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0327,Sıfırıncı gün,"Görüntünün 28 Eylül 2023 Günü İstanbul'da Etkili Olan Yoğun Yağmur Sonrası Eminönü'ndeki Vapur İskelesi Önünün Göle Döndüğü, Kara İle Denizin Birleştiği Anı Yansıttığı",YALAN,YETERSİZ VERİ,True,False
+FACTURK-0328,Sıfırıncı gün,1 Şubat 2025'ten itibaren elektrik faturalarına düzenleme geleceği doğru,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0329,Clickbait,Yunanistan’da asgari ücretle 1088 yumurta alınabildiği iddia edildi,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0330,Sıfırıncı gün,Yapılan Asgari Ücret Zammının Son 50 Yılın En Yükseği Olduğu,YALAN,YALAN,False,False
+FACTURK-0331,Sıfırıncı gün,Fotoğrafların Muğla Güvercinlik'te yangın sonrası yapılaşmaya açılan yerleri gösterdiği,DOĞRU,YALAN,False,True
+FACTURK-0332,Sıfırıncı gün,Sosyal medya platformlarının anlaştığı ve tüm konuşmaların kaydedileceği,YALAN,YALAN,False,False
+FACTURK-0333,Sıfırıncı gün,Covid-19 aşılarına karşı olan liderler suikaste mi uğradı,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0334,Sıfırıncı gün,MEB 48 sayısının okunuşunu yanlış yazdı,DOĞRU,DOĞRU,False,False
+FACTURK-0335,Clickbait,Kut'ül Amare'nin 1952 Yılına Kadar Bayram Olarak Kutlandığı ve Kut'ül Amare Zaferi Kutlamalarının Türkiye'nin NATO'ya Girişi Sebebiyle Yasaklandığı,YALAN,YALAN,False,False
+FACTURK-0336,Sıfırıncı gün,Selçuk Bayraktar'ın F-35'lere yönelik açıklaması gerçek,DOĞRU,DOĞRU,False,False
+FACTURK-0337,Sıfırıncı gün,Pfizer CEO’su Albert Bourla tutuklandı,YALAN,YALAN,False,False
+FACTURK-0338,Sıfırıncı gün,videonun Kaliforniya'da yaşanan 7.0 büyüklüğündeki depremi gösterdiği,YALAN,DOĞRU,False,True
+FACTURK-0339,Clickbait,Türkiye'den İtalya ve Fransa'ya gönderilen kuru incirlerde yüksek oranda aflatoksin tespit edildiğinden bu ürünlerin Türkiye'ye geri gönderildiği iddia edildi,DOĞRU,YALAN,False,True
+FACTURK-0340,Sıfırıncı gün,bir İngilizin caminin camlarını kırdığı,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0341,Sıfırıncı gün,Salvador Dali için İstanbul’da lokma döküldüğü,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0342,Sıfırıncı gün,MEB bütçesiyle Suriyeli öğrencilere Antalya'da festival düzenleneceği,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0343,Sıfırıncı gün,"Avrupalı yetkililerin ""Türkiye silah sistemleri ile donatılmalı"" açıklaması yaptığı",YALAN,YETERSİZ VERİ,True,False
+FACTURK-0344,Sıfırıncı gün,Star TV'nin Etnospor Kültür Festivali için '16 ülkeden 10 sporcu katılıyor' şeklinde alt bant kullandığı,DOĞRU,YALAN,False,True
+FACTURK-0345,Clickbait,"ABD Başkanı Donald Trump, ""Kral Yok"" protestocularına dışkı bombası attığı yapay zeka videosu paylaştı",DOĞRU,DOĞRU,False,False
+FACTURK-0346,Sıfırıncı gün,Müfredata 'Recep Tayyip Erdoğan’ın Hayatı ve Eserleri' isimli bir ders eklenmedi,YALAN,YALAN,False,False
+FACTURK-0347,Sıfırıncı gün,"Bir X hesabı tarafından 20 Ekim 2025 tarihinde paylaşılan gönderide, Türkiye ve Almanya’daki aynı ürün fiyatları arasındaki farkı gösterdiği",DOĞRU,YALAN,False,True
+FACTURK-0348,Sıfırıncı gün,Fotoğrafın Ramazan ayında Trakya’da bir düğünde davetlilere sebil ile alkol ikramı yapıldığını ana ait olduğu,DOĞRU,YALAN,False,True
+FACTURK-0349,Sıfırıncı gün,KYK yurtlarında kalmaya ‘cumhurbaşkanına hakaret suçundan hüküm giymeme’ şartı konduğu,DOĞRU,YALAN,False,True
+FACTURK-0350,Sıfırıncı gün,Kemal Kılıçdaroğlu’nun Düzce Depremi Etki Analiz Raporu’na yönelik iddiaları,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0351,Sıfırıncı gün,İBB'nin Suriyelilere verdiği yardım kartlarını iptal ettiği,YALAN,DOĞRU,False,True
+FACTURK-0352,Sıfırıncı gün,Taksim saldırısıyla ilgili önergenin AK Parti ve MHP oylarıyla reddedildiği,DOĞRU,DOĞRU,False,False
+FACTURK-0353,Sıfırıncı gün,"Yıldız Tilbe'nin kendisine Çok çirkin, sanatı bırak, kime ne lazımsın diyen Hülya Avşar'a Evet, sen çok güzelsin Herkesin işine yarayabilirsin kapı zili gibisin gelen basıyor giden basıyor yanıtını verdiği",YALAN,YETERSİZ VERİ,True,False
+FACTURK-0354,Sıfırıncı gün,Türkiye’nin koronavirüsle mücadele için Filistin’e 5 milyon dolar yardımda bulunduğu,DOĞRU,DOĞRU,False,False
+FACTURK-0355,Sıfırıncı gün,Fenerbahçe ve Galatasaray'ın 1958 yılında Başbakanlık Kupası finalinde karşı karşıya geldiği maçta kazanan çıkmayınca kupanın ortadan ikiye bölündüğü,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0356,Clickbait,ki görselin tomografi sırasında panik atak geçiren bir hastaya ait olduğu iddia edildi,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0357,Sıfırıncı gün,videonun sokakta bulunan saç kesme makinesini gösterdiği,YALAN,DOĞRU,False,True
+FACTURK-0358,Sıfırıncı gün,Bir X hesabı tarafından 15 Mayıs 2025’te paylaşılan bir gönderide geçtiğimiz günlerde 5.2 MW büyüklüğünde depremin yaşandığı Konya’nın Türkiye fay haritasında fay üzerinde olmadığı,YALAN,DOĞRU,False,True
+FACTURK-0359,Sıfırıncı gün,Antarktika'daki deniz buzu seviyesi mevsimsel ortalamanın altında,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0360,Sıfırıncı gün,Uzay ajanslarının bütçelerine yönelik iddialar,DOĞRU,YALAN,False,True
+FACTURK-0361,Sıfırıncı gün,Görselin COVID-19'un tahrip ettiği akciğeri gösterdiği,DOĞRU,YALAN,False,True
+FACTURK-0362,Sıfırıncı gün,videonun dalga sebebiyle camı kırılan bir feribotu gösterdiği,DOĞRU,YALAN,False,True
+FACTURK-0363,Sıfırıncı gün,Fotoğrafın Hz. Adem'in üç boyutlu modelini gösterdiği,YALAN,YALAN,False,False
+FACTURK-0364,Sıfırıncı gün,Sagalassos'ta yapılan arkeolojik kazıda çalışan işçi ile alanda bulunan 3000 yıllık iskeletin DNA'sının aynı olduğunun tespit edildiği,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0365,Sıfırıncı gün,Fotoğraf Ay’da kasklarını çıkaran astronotları göstermektedir,YALAN,YALAN,False,False
+FACTURK-0366,Sıfırıncı gün,"Türk firması Karsan'ın Otobüsleri, Norveç’te kullanılmaya başlanacak",DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0367,Sıfırıncı gün,Diyanet İşleri Başkanlığı'nın 2023 için öngörülen bütçesinin 35 milyar 910 milyon 653 bin TL olduğu,DOĞRU,DOĞRU,False,False
+FACTURK-0368,Sıfırıncı gün,A Haber’in Avrupa ülkelerinin benzin fiyatlarını TL’ye çevirerek aktardığı,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0369,Sıfırıncı gün,Sosyal medyada paylaşılan dev yılan videosu Van'da mı çekildi,YALAN,YALAN,False,False
+FACTURK-0370,Sıfırıncı gün,1962 yılında Tanzanya’da yaşanan gülme krizi salgını yüzünden 14 okul kapanmıştır,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0371,Sıfırıncı gün,Hadi Özışık’ın Sedat Peker’le görüntülü konuşma yaptığı sırada Ataşehir’deki Social Lounge kafede olduğu,DOĞRU,YALAN,False,True
+FACTURK-0372,Sıfırıncı gün,videonun Selçuk Bayraktar’ın F-35 uçaklar hakkındaki açıklamalarını gösterdiği,DOĞRU,DOĞRU,False,False
+FACTURK-0373,Sıfırıncı gün,"Düşmanın Ülkesi Viran Olacak, Türkiye Büyüyüp Turan Olacak sözünün Kadir Mısıroğlu'na ait olduğu",YALAN,DOĞRU,False,True
+FACTURK-0374,Sıfırıncı gün,Kinder ürünlerinde salmonella analizinin sıklaştırıldığını gösterdiği iddia edilen belge,DOĞRU,YALAN,False,True
+FACTURK-0375,Sıfırıncı gün,TRT'nin propaganda konuşması için yalnızca Muharrem İnce'yi çıkardığı,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0376,Sıfırıncı gün,29 Mayıs 2021 tarihinde Valide Sultan Gemisi’nde fetih kutlamaları yapıldı,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0377,Sıfırıncı gün,Görüntünün Peru'daki Gelin Şelalesi'ne Ait Olduğu,DOĞRU,DOĞRU,False,False
+FACTURK-0378,Sıfırıncı gün,Fransa'da 1956'ya kadar çocukların okulda şarap içtiği doğru,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0379,Sıfırıncı gün,Fotoğrafın Havada uçuş esnasında üst kısmı tamamen açılarak hasar aldığı hâlde başarılı iniş yapmayı başaran Aloha Havayolları 243 Sayılı Uçuşun 28 Nisan 1988 Tarihli Kazasına Ait Olduğu,DOĞRU,YALAN,False,True
+FACTURK-0380,Sıfırıncı gün,Bir Twitter hesabı tarafından 9 Mart 2023 tarihinde paylaşılan videonun 6 Şubat depremlerinden sonra bölgede yapılan çalışmaları gösterdiği,YALAN,YALAN,False,False
+FACTURK-0381,Sıfırıncı gün,5 milyon TL’ye özelleştirilen Giresun SEKA’nın 68 milyona geri alındığı,DOĞRU,YALAN,False,True
+FACTURK-0382,Sıfırıncı gün,Kadın Garsonun Restoranda Kendisini Taciz Eden Erkek Müşterileri Dövdüğü Videonun Gerçek Olduğu,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0383,Sıfırıncı gün,Fotoğraf ciltteki iğne deliğini mi gösteriyor,DOĞRU,DOĞRU,False,False
+FACTURK-0384,Sıfırıncı gün,Bakan Pakdemirli'nin patates firmasında danışmanlık yaptığı,DOĞRU,YALAN,False,True
+FACTURK-0385,Sıfırıncı gün,İngiltere'de kartpostal 121 yıl sonra mı teslim edildi,DOĞRU,YALAN,False,True
+FACTURK-0386,Clickbait,ABD’de yapılan bir araştırmanın ev erkeği babaların oğullarının %75’inin eşcinsel ya da trans olduğunu gösterdiği iddia edildi,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0387,Sıfırıncı gün,McDonald’s müşterilerini zayıflatmak için restoranlarına egzersiz bisikleti koydu,YALAN,YALAN,False,False
+FACTURK-0388,Sıfırıncı gün,Kurbağalıdere ıslah çalışması,YALAN,YALAN,False,False
+FACTURK-0389,Sıfırıncı gün,"Bir X hesabı tarafından 4 Ağustos 2025 tarihinde paylaşılan videoda, girişimci ve Chobani’nin sahibi Hamdi Ulukaya’nın “Medyada sürekli ‘Kürt kökenli’ deniyor. Kürt köken diye bir şey yoktur, ya Kürtsünüz ya değilsinizdir. Ben Kürdüm. Türklerin, Kürtlerin bir kökene değil, bir dile ve kimliğe sahip olduğunu anlaması gerekiyor.” açıklaması yaptığı",YALAN,YALAN,False,False
+FACTURK-0390,Sıfırıncı gün,“Anne terliği” tasvir edilen antik vazo gerçek,DOĞRU,DOĞRU,False,False
+FACTURK-0391,Sıfırıncı gün,Videonun Boyutlar Arası Geçidi Yansıttığı,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0392,Sıfırıncı gün,Bir Facebook sayfası tarafından 19 Aralık 2023 tarihinde yapılan paylaşımda yer alan videonun Dr. Mehmet Öz’ün hipertansiyon hakkında yaptığı açıklamaları gösterdiği,YALAN,DOĞRU,False,True
+FACTURK-0393,Sıfırıncı gün,CHP milletvekilleri Adalet Mitingi yerine Kazlıçeşme Mitingi fotoğrafı paylaştı,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0394,Sıfırıncı gün,Ele Geçirilen Koleksiyon Amaçlı Basılan 1 Milyon Dolarlık Banknotun Parasal Bir Karşılığı Bulunduğu,YALAN,YALAN,False,False
+FACTURK-0395,Sıfırıncı gün,4 ayda 434 kişinin intihar ettiği,DOĞRU,YALAN,False,True
+FACTURK-0396,Sıfırıncı gün,Ankara'daki Suriyelilerin iş yerlerinin kapatılacağına dair iddialar,YALAN,YALAN,False,False
+FACTURK-0397,Clickbait,NASA’nın Salda Gölü’ne ayakkabı ile bile girilmemesi gerektiğini açıkladığı iddia edildi,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0398,Sıfırıncı gün,"2 Kasım 2023 tarihinde bir X kullanıcısı tarafından paylaşılan gönderide, İsrail Büyükelçisinin Birleşmiş Milletler Genel Konseyi’nden kovulduğu videonun güncel olduğu",YALAN,YETERSİZ VERİ,True,False
+FACTURK-0399,Clickbait,Bir Twitter hesabı tarafından 15 Ekim 2022 tarihinde paylaşılan videoda Rusya Devlet Başkanı Vladimir Putin’in “artık sadece Türkiye’ye gaz vereceğiz.” dediği iddia edildi,YALAN,YALAN,False,False
+FACTURK-0400,Sıfırıncı gün,"İngiltere’deki aşı merkezi, yasa gereği değil güvenlik endişesi sebebiyle kapatıldı",YALAN,YETERSİZ VERİ,True,False
+FACTURK-0401,Sıfırıncı gün,"Bir Instagram hesabı tarafından 26 Temmuz 2025 tarihinde paylaşılan bir videoda, görüntülerdeki astronotun 1984’te hiçbir güvenlik kablosuna bağlı olmadan uzayda yürüdüğü",DOĞRU,DOĞRU,False,False
+FACTURK-0402,Sıfırıncı gün,PKK'ya Karşı Mücadele Eden Şehitlerin Çocukları Ve Kardeşleri Askerlik Yapacak,YALAN,YALAN,False,False
+FACTURK-0403,Sıfırıncı gün,"Maggie Smith'in gençliğini gösterdiği iddia edilen fotoğraf, Loretta Young'a ait",YALAN,YALAN,False,False
+FACTURK-0404,Sıfırıncı gün,Havada Uçuş Esnasında Bir Uçağın Tekerini Takan Kadının Görüldüğü Videonun Gerçek Olduğu ve 1926 Yılında Kaydedildiği,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0405,Sıfırıncı gün,729 ile başlayan barkod numaralı ürünlerin tamamının İsrail menşeli olduğu,YALAN,DOĞRU,False,True
+FACTURK-0406,Clickbait,"Hamas - İsrail Savaşı’nın başladığı 7 Ekim’den bu yana Türkiye’nin İsrail’e ihracatının üç ayda 1 milyar doları aştığı iddia edildi . İddiada ayrıca 2023 yılının İsrail ihracat verilerinde 883 milyon dolarla çelik ithalatının ilk sırada, 593,8 milyon dolarlık ihracatla ikinci sırada kimyevi maddelerin yer aldığı da belirtilmiş. İddiada ihracat ile ilgili veriler açıklanırken muhtemelen yanlışlıkla ithalat kelimesinin kullanıldığını da belirtmek gerek",DOĞRU,YALAN,False,True
+FACTURK-0407,Sıfırıncı gün,Dünyanın ilk ayrılık mektubu hakkındaki haber 1 Nisan şakası,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0408,Sıfırıncı gün,Fotoğraftaki Kişinin Rusya'nın Ukrayna'nın İşgali İçin Cepheye Yolladığı 128 Kiloluk Emekli General Olduğu,YALAN,YALAN,False,False
+FACTURK-0409,Sıfırıncı gün,Senegal’in Fransızca yerine Arapçayı resmi dil ilan ettiği,YALAN,YALAN,False,False
+FACTURK-0410,Clickbait,Ukrayna’daki Azov Taburu’nun Rusya bayrağı yerine yanlışlıkla Hollanda bayrağı yaktığı iddia edildi,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0411,Sıfırıncı gün,"Türkiye milli gelirinin %2,5'i ile vatandaşlarına en az yardım yapan ülkeler kategorisinde",DOĞRU,DOĞRU,False,False
+FACTURK-0412,Sıfırıncı gün,Mona Sahlin ve Toblerone yolsuzluk davası,DOĞRU,YALAN,False,True
+FACTURK-0413,Sıfırıncı gün,Kırılan tasarruflu ampullerin cıva zehirlenmesine sebep olabildiği,DOĞRU,DOĞRU,False,False
+FACTURK-0414,Clickbait,Arda Turan “Biz Bu Alemin En Güzel Kızını Bir Akşam Güneşinde İki Bira ile Tarihe Gömdük” dediği iddia edildi,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0415,Sıfırıncı gün,Müzede yere bırakılan gözlüğün sanat eseri sanıldığı,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0416,Sıfırıncı gün,Stanley Kubrick'in Ay'a İniş Görüntülerini Çektiği ve Ay'a İnilmediğini İtiraf Ettiği,YALAN,DOĞRU,False,True
+FACTURK-0417,Sıfırıncı gün,Covid-19 nedeniyle kapalı olan AVM’deki deri eşyaların küflendiği,DOĞRU,YALAN,False,True
+FACTURK-0418,Clickbait,görselde yer alan kişinin bir müftü ve Kuran kursu hocasının karıştığı cinsel ilişki iddialarındaki kişi olduğu iddia edildi,YALAN,YALAN,False,False
+FACTURK-0419,Sıfırıncı gün,Türkiye'nin yerli koronavirüs aşısı faz 3 aşamasında Acil Kullanım Onayı alabilir,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0420,Sıfırıncı gün,"Görselin Ayder Yaylası'nda yılda bir defa açan ""kedi çiçeği""ni gösterdiği",YALAN,YALAN,False,False
+FACTURK-0421,Clickbait,IŞİD Bombalanmıyor,YALAN,YALAN,False,False
+FACTURK-0422,Sıfırıncı gün,Cumhurbaşkanı’nın ‘darlanınca zam üstüne zam yapıyoruz’ dediği,YALAN,YALAN,False,False
+FACTURK-0423,Sıfırıncı gün,Hollandalı milletvekilinin İslam karşıtı kitap yazarken Müslüman olduğu,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0424,Sıfırıncı gün,hız sınırına uyulduğunda sürekli yeşil ışığa denk gelmeyi sağlayan sisteme “Yeşil Dalga” denildiği,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0425,Sıfırıncı gün,Halk TV İnternet Sitesinde TSK'nın Operasyonunun Genelkurmay'dan PKK'ya Hain Operasyon Başlığıyla Yayımlandığı,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0426,Sıfırıncı gün,Bir Twitter hesabı tarafından 13 Şubat 2023 tarihindeki paylaşımda Kahramanmaraş’ta bulunan züccaciye mağazasının görüldüğü videonun depremden sonra çekildiği,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0427,Clickbait,"Kuzey Kore lideri Kim Jong-Un’un ‘’Müslümanları anlamıyorum, kutsal olarak gördükleri Kudüs’ü, İsrail işgal ediyor ve Müslüman yöneticiler sadece kınayıp bekliyorlar. Eğer biz olsaydık bütün nükleer füze denemelerimizi İsrail’in üzerinde denerdik.’’ açıklaması yaptığı iddia edildi",YALAN,YETERSİZ VERİ,True,False
+FACTURK-0428,Clickbait,Çin’de Human Metapneumovirus (HMPV) adında yeni bir virüs bulunduğu iddia edildi,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0429,Sıfırıncı gün,Öğrencilerin Bolu'daki AK Parti mitingine katıldığı,DOĞRU,DOĞRU,False,False
+FACTURK-0430,Sıfırıncı gün,Rize'de çay bardağı şeklinde heykelin yapım aşamasında olduğu,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0431,Sıfırıncı gün,Nihat Hatipoğlu'na Ramazan'da sahur programında dünyada yaşamın sona ermesinin ardından başka bir gezegene göçen insanların nasıl hac ibadetini yerine getireceğinin sorulduğu,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0432,Sıfırıncı gün,Bir timsahın kendi kendine ürediği,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0433,Sıfırıncı gün,İyi Adamlar Yalnızlıktan Ölüyor İyi Kadınlar İse Kötü Adamların Balkonundan Gökyüzüne Bakarken Sözünün Dostoyevski'ye Ait Olduğu,YALAN,DOĞRU,False,True
+FACTURK-0434,Sıfırıncı gün,Google sokak görüntülerinde Kongo’daki bir ormanda Galatasaray formalı bir kişinin yer aldığı,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0435,Sıfırıncı gün,Threads hesabını silen kullanıcıların Instagram hesabının da silineceği,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0436,Clickbait,"ki videonun, Urfa’da ev kirasını ödeyemediği için bebeğiyle evden atılan bir kadını gösterdiği iddia edildi",YALAN,YETERSİZ VERİ,True,False
+FACTURK-0437,Sıfırıncı gün,İspanya’nın Güney Kıbrıs’a savunma amaçlı savaş gemisi göndereceği,DOĞRU,YALAN,False,True
+FACTURK-0438,Sıfırıncı gün,Ateş ölçüm cihazlarının epifiz bezine zarar verdiği,YALAN,DOĞRU,False,True
+FACTURK-0439,Sıfırıncı gün,Bir öğrencinin eksi netle Cumhuriyet Üniversitesi’ni kazandığı,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0440,Sıfırıncı gün,Yalan ve uydurma haberler mücadele edebileceğimiz hakkında sohbet ediyoruz,YALAN,YALAN,False,False
+FACTURK-0441,Sıfırıncı gün,görselin Kandahar Devi’nin 1923 yılında çekilen fotoğrafını gösterdiği,YALAN,DOĞRU,False,True
+FACTURK-0442,Sıfırıncı gün,Bill Gates’in kurtçuk sütü ürettiği ve Entomilk adıyla piyasaya sürdüğü,YALAN,DOĞRU,False,True
+FACTURK-0443,Sıfırıncı gün,Trablusgarpta Diz Çökerek Libyalı Çocukla Konuşurken Görüntülenen Kişinin Mustafa Kemal Atatürk Olduğu,YALAN,DOĞRU,False,True
+FACTURK-0444,Sıfırıncı gün,Fotoğrafın Edirne'de İstiklal Marşı'nı Okuyanlara Korna Çaldığı İçin Bir Kişinin Dövüldüğü Anı Yansıttığı,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0445,Sıfırıncı gün,İnsan vücudundaki kemiklerin dörtte birinin ayaklarda olduğu,DOĞRU,DOĞRU,False,False
+FACTURK-0446,Sıfırıncı gün,Bir X platformu hesabı tarafından 27 Şubat’ta yapılan bir paylaşımda RTÜK’ün VOLE YouTube kanalına lisans alması için 72 saat süre tanıdığını,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0447,Sıfırıncı gün,Çinli milyarderin büyüdüğü köye lüks daireler yaptırdığı,DOĞRU,YALAN,False,True
+FACTURK-0448,Sıfırıncı gün,Suudi Arabistan Veliaht Prensi Muhammed Bin Selman'ın Orta Doğu 5 Yıl İçinde Yeni Avrupa Olacak Dediği,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0449,Sıfırıncı gün,Gigantopithecus'un yaşamış en büyük maymun ve vejetaryen olduğu,DOĞRU,YALAN,False,True
+FACTURK-0450,Sıfırıncı gün,Kızılay’ın Başkent Gaz’ın yaptığı bağışla Ensar Vakfı’yla proje yürüttüğü,DOĞRU,DOĞRU,False,False
+FACTURK-0451,Sıfırıncı gün,Brezilya'dan ithal edilen hayvanların Türkiye'ye kötü koşullarda getirildiği,DOĞRU,DOĞRU,False,False
+FACTURK-0452,Sıfırıncı gün,Memleket Partisi'nden 64 bin üyenin istifa edip AK Parti'ye katıldığı,YALAN,YALAN,False,False
+FACTURK-0453,Sıfırıncı gün,Guatemala'daki Agua Yanardağı'nın Zirvesinde Yukarı Doğru Yükselen Çarpıcı Ters Yıldırım Görüntüsü,DOĞRU,DOĞRU,False,False
+FACTURK-0454,Sıfırıncı gün,İstanbul Valiliği’ndeki tadilat için 3 milyon liradan fazla bedelli ihale yapıldığı,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0455,Clickbait,Bir Instagram hesabı tarafından 10 Aralık 2025 tarihinde paylaşılan gönderide dünyada en zengin 60 bin kişinin en yoksul 4 milyar kişiden 3 kat daha zengin olduğu iddia edildi,DOĞRU,YALAN,False,True
+FACTURK-0456,Sıfırıncı gün,Fotoğrafın AK Parti milletvekili Radiye Sezer Katırcıoğlu'nun camide konuşma yaptığını gösterdiği,DOĞRU,YALAN,False,True
+FACTURK-0457,Sıfırıncı gün,Borsa İstanbul'un Hızlı Karar Alma Süreci etkinliğine Metin Doğan'ın katılacağı,DOĞRU,YALAN,False,True
+FACTURK-0458,Sıfırıncı gün,Kuzey Kore'nin 1970'li yıllarda İsveç'ten aldığı 1000 adet Volvo 144'ün marka aracın parasını hâlâ ödemediği,DOĞRU,DOĞRU,False,False
+FACTURK-0459,Sıfırıncı gün,İzmir'deki raylı sistemlere 30 bin TL ayrıldığı,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0460,Sıfırıncı gün,Diyanet İşleri Başkanlığının depremzede evlatlık sorusuna “Evlat edinenle evlatlık arasında evlenme engeli yok” cevabını verdiği,DOĞRU,YALAN,False,True
+FACTURK-0461,Sıfırıncı gün,"Paylaşımdaki fotoğraflar, savaş öncesi ve savaş sonrası Suriye'de çekildi",DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0462,Sıfırıncı gün,Heineken'in “eski model” telefon ürettiği,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0463,Sıfırıncı gün,Bir Instagram hesabı tarafından 24 Aralık 2022 tarihinde paylaşılan fotoğrafta Almanya'da evsizlerin barınması için uyku kapsülleri kurulduğu,DOĞRU,YALAN,False,True
+FACTURK-0464,Sıfırıncı gün,Zultanit taşının yalnızca Türkiye’den çıktığı,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0465,Sıfırıncı gün,Yol kenarındaki beyaz tabelalar konum gösteriyor,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0466,Sıfırıncı gün,Arapça ve Çincenin Birleşmiş Milletlerin Resmi Dillerinden Biri Olduğu,YALAN,YALAN,False,False
+FACTURK-0467,Sıfırıncı gün,Türkiye Dışında Başka Bir Ülkede Mevlid Kandilinin Kutlanmadığı,YALAN,YALAN,False,False
+FACTURK-0468,Sıfırıncı gün,"Bir Instagram hesabı tarafından 14 Mart 2025 tarihinde paylaşılan videoda, Amerika’nın eyaleti olan Nevada’daki girişi olan çıkışı olmayan tüneli gösterdiği",YALAN,YALAN,False,False
+FACTURK-0469,Sıfırıncı gün,Diş Hekimi Füsun Kümet'e AK Parti milletvekili aday listesinde ilkokul mezunu yazıldığı,DOĞRU,YALAN,False,True
+FACTURK-0470,Sıfırıncı gün,"Tarım ve Orman Bakanlığı, yaban keçisi ve hatalı boynuz selek yaban keçisi olmak üzere toplam 45 adet keçinin 13 parti halinde avlattırılması için ihale duyurusunda bulunmuştur",DOĞRU,YALAN,False,True
+FACTURK-0471,Sıfırıncı gün,"TFF’nin Pendikspor ile Fenerbahçe arasında oynanacak olan maçın Pendik Stadyumu’nda oynanacağını açıklamasının ardından Pendikspor’un “Pendik Stadyumu, tarihinin ilk gece maçına hazır!” paylaşımı yaptığı",YALAN,YETERSİZ VERİ,True,False
+FACTURK-0472,Clickbait,Katar Yatırım Fonu’nun Avrasya Tüneli’ne ortak olduğu iddia edildi,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0473,Sıfırıncı gün,Bu Dünyada En İyi Ben Yenilirim Dosta Düşmana Aşka Dizelerinin Turgut Uyar’a Ait Olduğu,YALAN,DOĞRU,False,True
+FACTURK-0474,Sıfırıncı gün,Türkiye'de ve Avrupa'da bulunan Starbucks şubelerinin sayıları hakkındaki iddialar,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0475,Kısmen doğru,"Hem Aşık Ol, Hem Şair, Hem Tanıma Şarabı, Nerde Böyle Çelişki, Böyle Tezat Görünür Şiirinin Cemal Süreya'ya Ait Olduğu",YALAN,YETERSİZ VERİ,True,False
+FACTURK-0476,Sıfırıncı gün,Norveçli Petrol Şirketi Haltbakk Bunkers'ın limanlara gelen ABD savaş gemilerine yakıt ikmali yapmayacağını duyurduğu,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0477,Sıfırıncı gün,SARS-CoV-2 varyantlarının çıkış tarihlerinin önceden belirlendiğini kanıtladığı iddia edilen tablo,YALAN,YALAN,False,False
+FACTURK-0478,Sıfırıncı gün,"Japonya'da demans hastalarının çalıştığı ""yanlış siparişler restoranı"" mı var",DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0479,Sıfırıncı gün,Osmanlı Hanedanı hakkındaki bilgilerin Prof. Dr. Halil İnancık tarafından söylendi,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0480,Sıfırıncı gün,Yerel seçimlerde e-Devlet üzerinden adres değişikliği için son tarih 1 Ekim 2023,DOĞRU,YALAN,False,True
+FACTURK-0481,Sıfırıncı gün,Gezdim Diyarı Garbı Kâşaneler Gördüm Gezdim Diyarı İslamı Viraneler Gördüm Beytinin Sahibinin Mehmet Âkif Ersoy Olduğu,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0482,Sıfırıncı gün,Cumhurbaşkanlığı Külliyesi'nde zikir,DOĞRU,DOĞRU,False,False
+FACTURK-0483,Sıfırıncı gün,Üsküdar Belediye Başkanı Sinem Dedetaş’ın göreve gelmesinden sonra kayınbiraderi Basri Onur Dedetaş’ın müdür olarak atandığı,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0484,Sıfırıncı gün,Paris'te sığınmacıların konaklamasını engellemek için köprü altına kayalar yerleştirildi,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0485,Sıfırıncı gün,MacKenzie Bezos’un dünyanın en zengin kadını olduğu,YALAN,YALAN,False,False
+FACTURK-0486,Clickbait,Bir Twitter hesabı tarafından 26 Ekim 2022 tarihinde paylaşılan videonun İngiltere Başbakanı Rishi Sunak’ı İbiza’da dans ederken gösterdiği iddia edildi,YALAN,YALAN,False,False
+FACTURK-0487,Clickbait,Amber Heard mahkemede ifade verirken The Talented Mr. Ripley isimli filmden alıntılar kullandığı iddia edildi,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0488,Clickbait,Dünya Sağlık Örgütü (WHO) Genel Direktörü Tedros Adhanom’un Covid-19 aşısı olmadığı iddia edildi,YALAN,DOĞRU,False,True
+FACTURK-0489,Sıfırıncı gün,Ateist Olduğu Gerekçesiyle İstifası İstenen Köy İmamının Mesleğime Profesyonelce Yaklaşıyorum Sözleriyle Kendini Savunduğu,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0490,Clickbait,taze zencefilin bir fincan suda 10 dakika kaynatılıp bal eklenmesiyle ortaya çıkan karışımın rahim ve yumurtalık kanserini tedavi ettiği iddia edildi,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0491,Clickbait,yeni bir araştırmanın tuvalette akıllı telefon kullanan kişilerde hemoroid oluşumu %46 oranında arttığını kanıtladığı iddia edildi,DOĞRU,YETERSİZ VERİ,True,False
+FACTURK-0492,Kısmen doğru,ABD’li Jacob Miller alnından vurulmasına rağmen yaşamaya devam etti,DOĞRU,YALAN,False,True
+FACTURK-0493,Sıfırıncı gün,Sedat Peker'in 2023 Seçimlerinde Cumhur İttifakı'nı Desteklediğini Duyurduğu,YALAN,YALAN,False,False
+FACTURK-0494,Sıfırıncı gün,Türk bilim insanı kök hücreden insan beyni üretmedi,YALAN,YETERSİZ VERİ,True,False
+FACTURK-0495,Sıfırıncı gün,Hama ve Humus'ta Teröristleri Temizledik,YALAN,YALAN,False,False
+FACTURK-0496,Sıfırıncı gün,Görüntülerin Dominik kıyılarındaki plastik kirliliğini gösterdiği,DOĞRU,YALAN,False,True
+FACTURK-0497,Clickbait,sığınmacıların Avrupa’daki bir Gucci mağazasını soyduğu iddia edildi,YALAN,DOĞRU,False,True
+FACTURK-0498,Sıfırıncı gün,Fotoğraf 1700 yıllık bir yumurtayı mı gösteriyor,DOĞRU,DOĞRU,False,False
+FACTURK-0499,Sıfırıncı gün,"Bir X hesabı tarafından 2 Ekim 2025 tarihinde paylaşılan videoda, Suud kraliyet ailesine karşı Necran Üniversitesinde yapılan bir protestoyu gösterdiği",YALAN,YALAN,False,False
+FACTURK-0500,Sıfırıncı gün,Fotoğrafın Pakistan’da “poşetlerle” taşınan doğalgazı gösterdiği,DOĞRU,YETERSİZ VERİ,True,False

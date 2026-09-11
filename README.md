@@ -218,31 +218,21 @@ Bu proje **ETU Digital Design Lab** bünyesinde **Grup 5** tarafından geliştir
 ## Tekrarlanabilirlik ve Denetim (Reproducibility Package)
 
 Bu projedeki makale sayılarının ve tablolarının üretilebilirliği şeffaf ve denetlenebilir bir süreçle güvence altına alınmıştır. 
-Sistemde kullanılan sayılar ve karşılık gelen betikler ile çıktılar aşağıda listelenmiştir:
+Tüm ölçümler GPU donanımı (NVIDIA GeForce RTX 3050 Ti Laptop GPU, CUDA 12.1) üzerinde gerçek zamanlı koşturulmuş olup, sistemde kullanılan sayılar ve karşılık gelen betikler ile çıktılar aşağıda listelenmiştir:
 
-| Makaledeki Tablo/Sayı | Üreten Script | Çıktı Dosyası | Manifest |
+| Makaledeki Tablo / Sayı | Üreten Script | Çıktı Dosyası | Manifest |
 |---|---|---|---|
-| FACTurk (Dış Benchmark) F1 ve Accuracy (B9b) | scripts/evaluate_facturk_pipeline.py | 
-esults/facturk_full_v2/metrics.json | 
-esults/facturk_full_v2/run_manifest.json |
-| Uçtan Uca Doğruluk (B3) | scripts/evaluate_b2_pipeline.py | 
-esults/e2e_v1/metrics.json | 
-esults/e2e_v1/run_manifest.json |
-| Ablasyon Çalışması (B4) | scripts/run_ablations.py | 
-esults/ablation_v1/*/metrics.json | 
-esults/ablation_v1/*/run_manifest.json |
-| Gecikme Ölçümleri (B6) | scripts/benchmark_latency.py | 
-esults/latency_v1/summary.json | 
-esults/latency_v1/manifest.json |
-| 500 İddia Annotasyon Uyumu (B1) | scripts/compute_iaa.py | 
-esults/iaa_v2/iaa_report.json | 
-esults/iaa_v2/run_manifest.json |
-| Kanıt Zinciri & Otorite Dağılımı (B7/B8) | scripts/migrate_fill_provenance.py | 
-esults/provenance_v3/provenance_report.json | 
-esults/provenance_v3/run_manifest.json |
+| FACTurk Uçtan Uca (İ1) | `scripts/evaluate_facturk_pipeline.py` | `results/facturk_full_v5/metrics.json` | `results/facturk_full_v5/run_manifest.json` |
+| FACTurk K-6 Baseline (Grounding Kapalı) | `scripts/evaluate_k6_on_claims.py` | `results/facturk_k6_v1/k6_metrics.json` | `results/facturk_k6_v1/run_manifest.json` |
+| FACTurk Ablasyon Çalışması (İ2) | `scripts/run_facturk_ablations.py` | `results/facturk_ablation_v1/ablation_summary.json` | `results/facturk_ablation_v1/*/run_manifest.json` |
+| Gecikme Ölçümleri (CUDA GPU - Ödev 3 / 4.2) | `scripts/benchmark_latency.py` | `results/latency_v1/summary.json` | `results/latency_v1/manifest.json` |
+| İddia Tipleri ve Uydurma/Çekimserlik (Tablo 5 - İ3) | `scripts/compute_table5_metrics.py` | `results/table5_v1/table5_metrics.json` | `results/table5_v1/run_manifest.json` |
+| Provenance Doğruluk Denetimi (Ödev 6 / 4.1) | `scripts/spotcheck_provenance.py` | `results/provenance_spotcheck_v1.csv` | `results/provenance_spotcheck_summary.json` |
+| Otorite Politikası ve Dağılımı (Ödev 5) | `docs/AUTHORITY_POLICY.md` | `results/authority_distribution.json` | `docs/AUTHORITY_POLICY.md` |
+| Sentetik Gold Set Durumu (Ödev 7 / 4.5) | Arşivlendi / Geri Çekildi | `data/deprecated/gold_500_synthetic/` | `data/deprecated/gold_500_synthetic/README.md` |
 
-### Sürekli Entegrasyon (CI) Kuralları
-- Manifest'i ve üretilebilir script'i bulunmayan hiçbir sayı makaleye girmeyecektir.
-- GitHub Actions CI üzerinde scripts/audit_evaluation_assets.py --strict her push'ta koşularak insan-etiketli veri setinin bütünlüğü ve ayrıklığı korunmaktadır.
-- **K-6, K-8 ve K-9 Entegrasyonu:** Karar motoru, K-8 dinamik kaynak otoritesi tablosunu (0.60–0.98), K-9 çoklu kaynak konsensüs mutabakat denetimini ve K-6 yardımcı sınıflandırıcı güven kalibrasyonunu karar mekanizmasına dahil etmiştir.
-- **Tablo 3 ve Model Seçimi:** Nicel karşılaştırma tablosu (Tablo 3) çekilmiş olup, XLM-R-Large NLI modelinin tercihi çok dilli XNLI denetimi bağlamında niteliksel olarak gerekçelendirilmiştir.
+### Sürekli Entegrasyon (CI) ve Metodolojik Güvenceler
+- **Manifestsiz Sayı Yasağı:** Manifest'i ve üretilebilir script'i bulunmayan hiçbir sayı makaleye girmeyecektir.
+- **Değerlendirme Zemini:** Değerlendirmeler bağımsız dış benchmark olan **FACTurk (Altuncu, SIU 2026)** veri seti üzerinden yürütülür.
+- **Sentetik Setin Geri Çekilmesi:** Eski sentetik/otomatik atamalı 500'lük set hiçbir sonuçta referans alınmamış, `data/deprecated/gold_500_synthetic/` altına taşınarak belgelenmiştir.
+- **Donanım Şeffaflığı:** Tüm gecikme ve çıkarım metrikleri donanım künyesiyle (RTX 3050 Ti Laptop GPU, Intel Core CPU, FP16) birlikte manifest dosyalarına kaydedilmiştir.

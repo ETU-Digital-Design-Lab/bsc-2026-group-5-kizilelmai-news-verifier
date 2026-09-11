@@ -1,0 +1,16 @@
+{
+  "seed": 20260911,
+  "sample_size": 50,
+  "dogru_eslesme": 37,
+  "dogru_eslesme_pct": 74.0,
+  "dogrulanamiyor_alan_adi_veya_kirik": 13,
+  "dogrulanamiyor_pct": 26.0,
+  "yanlis_eslesme": 0,
+  "yanlis_eslesme_pct": 0.0,
+  "decision_rule": {
+    "rate_ge_95": "Provenance iddiası makalede kullanılabilir (dipnot ile)",
+    "rate_80_95": "Kullanılabilir ancak ölçülen doğruluk oranı açıkça yazılır",
+    "rate_lt_80": "Yöntem terk edilir; label_provenance unknown yapılır, kaynak-atıflı doğrulama iddiası yapılmaz"
+  },
+  "verdict_for_paper": "80 Alti / Sinirlama Olarak Raporlanacak"
+}

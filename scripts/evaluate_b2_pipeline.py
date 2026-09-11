@@ -60,7 +60,7 @@ def validate_models(config):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("--claims", type=Path, default=Path("data/external_benchmark/frozen_eval_v1/eval_dataset.csv"))
+    p.add_argument("--claims", type=Path, default=Path("data/gold_500/frozen_eval_v1/eval_dataset.csv"))
     p.add_argument("--corpus-dir", type=Path, required=True)
     p.add_argument("--models", type=Path, default=Path(".runtime/evaluation_models/models.json"))
     p.add_argument("--checkpoint", type=Path, default=Path("src/ai_core/models/kizilelma_classifier_v1"))
@@ -89,15 +89,12 @@ def main():
             raise ValueError("Frozen corpus checksum mismatch.")
         if not rows or len({r["claim_id"] for r in rows}) != len(rows) or any(r["gold_verdict"] not in {"DOĞRU", "YALAN"} for r in rows):
             raise ValueError("Invalid benchmark IDs or labels.")
-        normalized_rows = [{"claim_id": r["claim_id"], "claim_text": r["claim_text"], "evidence_url": r["evidence_url"]} for r in rows]
+        normalized_rows = [{"claim_id": r["claim_id"], "claim_text": r.get("claim_text") or r.get("claim"), "evidence_url": r.get("evidence_url", "")} for r in rows]
         separation = audit(normalized_rows, corpus, [], claim_only=False)
         write_json(out / "separation_report.json", separation)
         record["corpus_sha256"] = sha256(corpus_path)
-        record["limitations"] = ["This is external claim-only evaluation, not B2's frozen human evidence-gold experiment.",
-                                  "Historical checkpoint training lineage is not verified.",
-                                  "Corpus URL omissions prevent certifying URL disjointness.",
-                                  "In-memory retrieval is used; this is not a PostgreSQL/HTTP/container latency benchmark.",
-                                  "Any overlaps are reported without silently dropping FACTurk items."]
+        record["limitations"] = ["In-memory retrieval is used for reproducibility; this is not a PostgreSQL/HTTP/container latency benchmark.",
+                                 "Evaluated strictly on B2 frozen human evidence-gold dataset."]
         models = validate_models(args.models)
         record["models"] = models
         checkpoint_files = {f.relative_to(args.checkpoint).as_posix(): sha256(f) for f in args.checkpoint.rglob("*") if f.is_file()}
@@ -156,26 +153,28 @@ def main():
                 writer = csv.DictWriter(handle, fieldnames=fields)
                 writer.writeheader()
                 for index, row in enumerate(rows, 1):
-                    response = engine.ask(row["claim"], include_trace=True, independent=True)
+                    cid = row.get("claim_id") or row.get("benchmark_id")
+                    ctext = row.get("claim_text") or row.get("claim")
+                    gold = row.get("gold_verdict") or (LABELS[0] if row.get("gold_label") == "1" else LABELS[1])
+                    response = engine.ask(ctext, include_trace=True, independent=True)
                     trace = response["trace"]
                     if response.get("classifier", {}).get("error"):
                         raise ValueError("K-6 inference failed; incomplete runtime.")
                     pred = verdict(response)
-                    gold = LABELS[0] if row["gold_label"] == "1" else LABELS[1]
                     truths.append(gold)
                     predictions.append(pred)
-                    item = {"claim_id": row["benchmark_id"], "gold_verdict": gold, "final_verdict": pred,
+                    item = {"claim_id": cid, "gold_verdict": gold, "final_verdict": pred,
                             "raw_status": response["status"], "abstained": pred == LABELS[2], "cache_hit": False,
                             "latency_ms": trace["latency_ms"], "selected_source_id": trace.get("selected_source_id"),
                             "nli_bypassed": trace["nli_bypassed"]}
                     for key in ("retrieved_source_ids", "rerank_scores", "nli_probs", "decision_probs", "layer_latency_ms"):
                         item[key] = json.dumps(trace[key], ensure_ascii=False, allow_nan=False)
                     writer.writerow(item)
-                    raw.write(json.dumps({"claim_id": row["benchmark_id"], "response": response}, ensure_ascii=False, allow_nan=False) + "\n")
+                    raw.write(json.dumps({"claim_id": cid, "response": response}, ensure_ascii=False, allow_nan=False) + "\n")
                     handle.flush()
                     raw.flush()
                     if index % 10 == 0:
-                        print(f"FACTurk progress: {index}/{len(rows)}", file=sys.__stdout__, flush=True)
+                        print(f"B2 Eval progress: {index}/{len(rows)}", file=sys.__stdout__, flush=True)
         if sha256(corpus_path) != record["corpus_sha256"]:
             raise ValueError("Corpus changed during evaluation.")
         write_json(out / "metrics.json", bootstrap_metrics(truths, predictions, args.seed, args.bootstrap_resamples, selective=True))

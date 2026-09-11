@@ -1,0 +1,61 @@
+claim_id,claim_text,category,gold_verdict,baseline_pred,baseline_conf,baseline_correct,baseline_hallucinated,kizilelmai_pred,kizilelmai_status,kizilelmai_correct,kizilelmai_hallucinated,top_retrieval_sim
+G0001,Türk özel sektörü yenilenebilir enerji yatırımını artırdı.,Sıfırıncı gün,DOĞRU,DOĞRU,0.9963858127593994,True,False,YETERSİZ VERİ,RET,False,False,0.0007293288363143802
+G0002,Türkiye'de genişbant internet abonesi sayısı arttı.,Sıfırıncı gün,DOĞRU,DOĞRU,0.9944698810577393,True,False,YETERSİZ VERİ,RET,False,False,4.101373633602634e-05
+G0003,Türkiye otomotiv ihracatında yeni hedef koydu.,Sıfırıncı gün,DOĞRU,DOĞRU,0.9907236695289612,True,False,YALAN,UYARI,False,True,0.0028009270317852497
+G0004,Antalya'da turizm gelirleri rekora ulaştı.,Sıfırıncı gün,DOĞRU,DOĞRU,0.8329341411590576,True,False,YETERSİZ VERİ,RET,False,False,0.12797921895980835
+G0005,Anayasa mahkemesi CHP'yi kapatma kararı verdi.,Sıfırıncı gün,YALAN,DOĞRU,0.9700598120689392,False,True,YALAN,RED,True,False,0.22507576644420624
+G0006,Herkes bedava sağlık hizmetine kavuşuyor.,Clickbait,YALAN,DOĞRU,0.6746809482574463,False,True,YETERSİZ VERİ,RET,False,False,0.0005636750720441341
+G0007,TBMM'de eğitim bütçesi görüşmeleri tamamlandı.,Sıfırıncı gün,DOĞRU,DOĞRU,0.9968485236167908,True,False,YALAN,RED,False,True,0.0020033332984894514
+G0008,MEB öğretmen atama takvimini güncelledi.,Sıfırıncı gün,DOĞRU,DOĞRU,0.9938675761222839,True,False,YALAN,UYARI,False,False,0.9074763655662537
+G0009,Güneş enerjisi elektrik ihtiyacını zaten tamamen karşılıyor.,Sıfırıncı gün,YALAN,DOĞRU,0.7396546006202698,False,True,DOĞRU,ONAY,False,True,3.6764631659025326e-05
+G0010,Türkiye ile Japonya arasında yeni ekonomik anlaşma imzalandı.,Sıfırıncı gün,DOĞRU,DOĞRU,0.9949789643287659,True,False,YALAN,RED,False,True,0.001734208082780242
+G0011,Gizli rapor: Türkiye'de enerji krizi 3 ay sonra başlıyor.,Sıfırıncı gün,YALAN,DOĞRU,0.8833919763565063,False,True,YETERSİZ VERİ,RET,False,False,1.7366719475830905e-05
+G0012,Gizli belge: Hükümet seçimi 2027'ye ertelemeyi planlıyor.,Sıfırıncı gün,YALAN,DOĞRU,0.6771509051322937,False,True,YETERSİZ VERİ,RET,False,False,0.005819959565997124
+G0013,NATO Türkiye'yi üyelikten çıkardı.,Sıfırıncı gün,YALAN,DOĞRU,0.9058242440223694,False,True,DOĞRU,ONAY,False,True,0.35432136058807373
+G0014,Doğalgaz fiyatları Avrupa piyasasında gerilerken Türkiye etkilendi.,Sıfırıncı gün,DOĞRU,DOĞRU,0.9929821491241455,True,False,YETERSİZ VERİ,RET,False,False,0.0012255674228072166
+G0015,Oyun oynamak çocuklarda IQ'yu kalıcı olarak düşürüyor.,Sıfırıncı gün,YALAN,YALAN,0.8918078541755676,True,False,YETERSİZ VERİ,RET,False,False,2.4300241420860402e-05
+G0016,"Tüm devlet memurlarına 2 maaş ikramiye verilecek, resmi açıklama yok.",Sıfırıncı gün,YALAN,YALAN,0.9505916237831116,True,False,YALAN,UYARI,True,False,0.6101050972938538
+G0017,Türk Hava Yolları yeni sefer rotaları açıkladı.,Sıfırıncı gün,DOĞRU,DOĞRU,0.9787559509277344,True,False,YALAN,RED,False,True,0.22371606528759003
+G0018,Türkiye'de konut satışları aylık bazda arttı.,Sıfırıncı gün,DOĞRU,DOĞRU,0.9968324303627014,True,False,YALAN,RED,False,True,0.037047166377305984
+G0019,Türkiye-Katar ikili görüşmesi gerçekleşti.,Sıfırıncı gün,DOĞRU,DOĞRU,0.9959946870803833,True,False,YALAN,RED,False,True,0.08166611194610596
+G0020,Bakanlık tüketici enflasyonu verilerini açıkladı.,Sıfırıncı gün,DOĞRU,DOĞRU,0.9947484135627747,True,False,YETERSİZ VERİ,RET,False,False,0.03934250399470329
+G0021,NASA duyurdu: Dünya 2034'te bir asteroitle çarpışacak.,Sıfırıncı gün,YALAN,DOĞRU,0.6965933442115784,False,True,YETERSİZ VERİ,RET,False,False,0.013325147330760956
+G0022,Yeni algoritmalar: Facebook kullanıcıların beyin dalgalarını okuyor.,Sıfırıncı gün,YALAN,YALAN,0.708807110786438,True,False,YETERSİZ VERİ,RET,False,False,0.07585817575454712
+G0023,Türkiye BM Güvenlik Konseyi'nde tutumunu açıkladı.,Sıfırıncı gün,DOĞRU,DOĞRU,0.99366694688797,True,False,YALAN,RED,False,True,0.4161439836025238
+G0024,Türkiye Akdeniz'de arama kurtarma operasyonu yürüttü.,Sıfırıncı gün,DOĞRU,DOĞRU,0.9967979788780212,True,False,YALAN,RED,False,True,0.0026112475898116827
+G0025,Tarihte bugün: Atatürk Ankara yerine İzmir'i başkent seçti.,Sıfırıncı gün,YALAN,DOĞRU,0.9528801441192627,False,True,YETERSİZ VERİ,RET,False,False,3.3474687370471656e-05
+G0026,Çevre Bakanlığı gizli rapor: İklim krizi Türkiye'yi siliyor.,Sıfırıncı gün,YALAN,DOĞRU,0.9383845329284668,False,True,YALAN,RED,True,False,0.045268092304468155
+G0027,Bu politikacının arşivden silinen fotoğrafları bulundu.,Sıfırıncı gün,YALAN,YALAN,0.8955989480018616,True,False,YETERSİZ VERİ,RET,False,False,0.012336100451648235
+G0028,"Türkiye uzaya füze fırlattı, Ay'a ilk Türk bayrağı dikildi.",Sıfırıncı gün,YALAN,DOĞRU,0.9863210320472717,False,True,YETERSİZ VERİ,RET,False,False,1.6442494597868063e-05
+G0029,Sağlık Bakanlığı HPV aşısını ulusal aşı takvimine ekledi.,Sıfırıncı gün,DOĞRU,DOĞRU,0.9906198978424072,True,False,DOĞRU,ONAY,True,False,0.4172714650630951
+G0030,BDDK bankaların sermaye yeterliliği raporunu yayımladı.,Sıfırıncı gün,DOĞRU,DOĞRU,0.9940305352210999,True,False,YETERSİZ VERİ,RET,False,False,0.004773722495883703
+G0031,İstanbul İl Milli Eğitim Müdürlüğü yeni kılavuz yayımladı.,Sıfırıncı gün,DOĞRU,DOĞRU,0.9848094582557678,True,False,YALAN,RED,False,True,0.007907291874289513
+G0032,Kızılay İstanbul'da kan bağışı kampanyası düzenledi.,Sıfırıncı gün,DOĞRU,DOĞRU,0.9934372305870056,True,False,YETERSİZ VERİ,RET,False,False,0.09434341639280319
+G0033,Türkiye'de doğaya yönelik suçlar için yeni ceza düzenlemesi yapıldı.,Sıfırıncı gün,DOĞRU,DOĞRU,0.9968129992485046,True,False,YETERSİZ VERİ,RET,False,False,9.915272676153108e-05
+G0034,Tarım Bakanlığı hayvancılık destek paketini açıkladı.,Sıfırıncı gün,DOĞRU,DOĞRU,0.992062509059906,True,False,DOĞRU,ONAY,True,False,0.7282654047012329
+G0035,Dışişleri Bakanlığı Suriye'deki gelişmelere ilişkin açıklama yaptı.,Sıfırıncı gün,DOĞRU,DOĞRU,0.9938145875930786,True,False,YETERSİZ VERİ,RET,False,False,0.9610980749130249
+G0036,Türkiye geri dönüşüm oranlarını Avrupa ortalamasına yaklaştırdı.,Sıfırıncı gün,DOĞRU,DOĞRU,0.9944359064102173,True,False,YALAN,RED,False,True,0.0060975621454417706
+G0037,MEB yeni sistemle tüm ödevleri kaldırıyor.,Sıfırıncı gün,YALAN,DOĞRU,0.9954546689987183,False,True,YETERSİZ VERİ,RET,False,False,0.001220795209519565
+G0038,"WhatsApp artık ücretli, mesaj başına 0.10 TL ödenecek.",Sıfırıncı gün,YALAN,YALAN,0.6109776496887207,True,False,DOĞRU,ONAY,False,True,0.003027835162356496
+G0039,Cumhurbaşkanı G20 zirvesine katıldı.,Sıfırıncı gün,DOĞRU,DOĞRU,0.9956364035606384,True,False,YALAN,RED,False,False,0.6988435387611389
+G0040,Türk yatırımcılar Dubai'de ofis açtı.,Kısmen doğru,DOĞRU,DOĞRU,0.987418532371521,True,False,YALAN,RED,False,True,0.0015307451831176877
+G0041,Tarım Bakanlığı çiftçi destek ödemelerini başlattı.,Kısmen doğru,DOĞRU,DOĞRU,0.9940568208694458,True,False,YALAN,RED,False,True,0.06536578387022018
+G0042,Türk diasporası Avustralya'da kültür etkinliği düzenledi.,Kısmen doğru,DOĞRU,DOĞRU,0.9967008233070374,True,False,YETERSİZ VERİ,RET,False,False,0.00015843621804378927
+G0043,İstanbul'da metro tamamen ücretsiz hale geliyor.,Clickbait,YALAN,DOĞRU,0.9226576685905457,False,True,YETERSİZ VERİ,RET,False,False,0.08344116806983948
+G0044,Türk diasporası Fransa'da sivil toplum örgütü kurdu.,Kısmen doğru,DOĞRU,DOĞRU,0.9968996047973633,True,False,YETERSİZ VERİ,RET,False,False,0.00017813111480791122
+G0045,İstanbul'da iş insanları forumu düzenlendi.,Kısmen doğru,DOĞRU,DOĞRU,0.9864231944084167,True,False,YALAN,RED,False,True,0.00040924744098447263
+G0046,"Türkiye Kıbrıs'ı resmen ilhak etti, BM'ye bildirim yapıldı.",Clickbait,YALAN,DOĞRU,0.9850487112998962,False,True,YETERSİZ VERİ,KISMI,False,False,0.15140382945537567
+G0047,Türkiye'de bu ay 500 kişi kayıt dışı çalışma nedeniyle tutuklandı.,Kısmen doğru,YALAN,DOĞRU,0.9980413913726807,False,True,YETERSİZ VERİ,RET,False,False,0.00682395463809371
+G0048,SEDDK sigorta sektörü verilerini yayımladı.,Kısmen doğru,DOĞRU,DOĞRU,0.9937161803245544,True,False,YALAN,RED,False,True,1.7778551409719512e-05
+G0049,"Bu görüntü Türkiye değil, Ukrayna bombardımanından alındı.",Clickbait,YALAN,YALAN,0.9610025882720947,True,False,YALAN,RED,True,False,0.5458607077598572
+G0050,Türkiye'de bu yıl 3 milyon kişi işini kaybetti.,Kısmen doğru,YALAN,DOĞRU,0.9944837689399719,False,True,YETERSİZ VERİ,RET,False,False,0.004198795184493065
+G0051,Türkiye'de artık vatandaşlar iki pasaport alamıyor.,Kısmen doğru,YALAN,DOĞRU,0.6945356130599976,False,True,YETERSİZ VERİ,RET,False,False,0.03541072830557823
+G0052,"Bu şarkıcı sahte kimlikle yaşıyor, gerçek adı farklı.",Kısmen doğru,YALAN,YALAN,0.9555014371871948,True,False,YALAN,UYARI,True,False,0.0027149852830916643
+G0053,İnstagram hesabı sayısına göre vergi alınacak.,Kısmen doğru,YALAN,YALAN,0.8632736802101135,True,False,YETERSİZ VERİ,RET,False,False,0.000191104321856983
+G0054,Çevre Bakanlığı sıfır atık projesinin kapsamını genişletti.,Kısmen doğru,DOĞRU,DOĞRU,0.9959249496459961,True,False,YALAN,RED,False,True,0.03455362468957901
+G0055,Kartal sahilinde meydana gelen kaza sonrasında yaralanan vatandaşlar taburcu edildi.,Kısmen doğru,DOĞRU,DOĞRU,0.9936328530311584,True,False,YETERSİZ VERİ,RET,False,False,0.006363573484122753
+G0056,"Bilim insanları: Güneş 6 ay sonra sönüyor, hazırlıklı olun.",Kısmen doğru,YALAN,YALAN,0.6109283566474915,True,False,YETERSİZ VERİ,RET,False,False,0.0009181900531984866
+G0057,"Galatasaray maçı hakemi rüşvetle satın alındı, kayıt ortaya çıktı.",Clickbait,YALAN,YALAN,0.7221970558166504,True,False,YETERSİZ VERİ,RET,False,False,0.009596454910933971
+G0058,Seçimlerde kullanılan oyların yüzde 30'u geçersiz sayıldı.,Sıfırıncı gün,YALAN,DOĞRU,0.9966316819190979,False,True,YALAN,RED,True,False,0.014785407111048698
+G0059,Denizcilik Genel Müdürlüğü yeni düzenlemeyi yürürlüğe koydu.,Sıfırıncı gün,DOĞRU,DOĞRU,0.9921173453330994,True,False,YALAN,RED,False,True,1.6442494597868063e-05
+G0060,Borsa İstanbul'da BIST 100 endeksi rekor kırdı.,Sıfırıncı gün,DOĞRU,DOĞRU,0.9927451014518738,True,False,YALAN,RED,False,True,0.0003874761168844998

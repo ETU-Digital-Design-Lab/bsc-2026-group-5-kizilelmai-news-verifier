@@ -82,7 +82,14 @@ def main():
         import numpy as np
         from sentence_transformers import SentenceTransformer
         model = SentenceTransformer(str(args.embedding_model), local_files_only=True)
-        doc_vecs = model.encode(["passage: " + r["text"] for r in corpus], normalize_embeddings=True, convert_to_numpy=True)
+        npy_path = args.corpus.parent / "corpus_embeddings.npy"
+        if npy_path.exists():
+            doc_vecs = np.load(str(npy_path)).astype(np.float32)
+            norms = np.linalg.norm(doc_vecs, axis=1, keepdims=True)
+            norms[norms == 0] = 1e-9
+            doc_vecs = doc_vecs / norms
+        else:
+            doc_vecs = model.encode(["passage: " + r["text"] for r in corpus], normalize_embeddings=True, convert_to_numpy=True)
         neighbors = []
         for start in range(0, len(claims), 32):
             batch = claims[start:start + 32]
