@@ -30,57 +30,60 @@ def get_db_connection():
     return conn
 
 def init_db():
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS users (
-            id SERIAL PRIMARY KEY,
-            email TEXT UNIQUE NOT NULL,
-            password_hash TEXT NOT NULL,
-            role TEXT DEFAULT 'user',
-            is_verified BOOLEAN DEFAULT FALSE,
-            verify_code TEXT,
-            first_name TEXT,
-            last_name TEXT
-        )
-    ''')
-    
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS user_logs (
-            id SERIAL PRIMARY KEY,
-            user_email TEXT,
-            query TEXT NOT NULL,
-            response_status TEXT,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-    ''')
-
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS reports (
-            id SERIAL PRIMARY KEY,
-            user_email TEXT,
-            news_query TEXT NOT NULL,
-            news_details TEXT,
-            report_reason TEXT NOT NULL,
-            admin_response TEXT,
-            status TEXT DEFAULT 'pending',
-            source_id INTEGER,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-    ''')
-
-    # Varsayılan admin hesabını ekle (eğer yoksa)
-    cursor.execute("SELECT * FROM users WHERE email = 'admin'")
-    if not cursor.fetchone():
-        hashed_pw = pwd_context.hash("1234")
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
         cursor.execute('''
-            INSERT INTO users (email, password_hash, role, is_verified, first_name, last_name)
-            VALUES (%s, %s, %s, %s, %s, %s)
-        ''', ("admin", hashed_pw, "admin", True, "Sistem", "Yöneticisi"))
+            CREATE TABLE IF NOT EXISTS users (
+                id SERIAL PRIMARY KEY,
+                email TEXT UNIQUE NOT NULL,
+                password_hash TEXT NOT NULL,
+                role TEXT DEFAULT 'user',
+                is_verified BOOLEAN DEFAULT FALSE,
+                verify_code TEXT,
+                first_name TEXT,
+                last_name TEXT
+            )
+        ''')
         
-    conn.commit()
-    conn.close()
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS user_logs (
+                id SERIAL PRIMARY KEY,
+                user_email TEXT,
+                query TEXT NOT NULL,
+                response_status TEXT,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
+
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS reports (
+                id SERIAL PRIMARY KEY,
+                user_email TEXT,
+                news_query TEXT NOT NULL,
+                news_details TEXT,
+                report_reason TEXT NOT NULL,
+                admin_response TEXT,
+                status TEXT DEFAULT 'pending',
+                source_id INTEGER,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
+
+        # Varsayılan admin hesabını ekle (eğer yoksa)
+        cursor.execute("SELECT * FROM users WHERE email = 'admin'")
+        if not cursor.fetchone():
+            hashed_pw = pwd_context.hash("1234")
+            cursor.execute('''
+                INSERT INTO users (email, password_hash, role, is_verified, first_name, last_name)
+                VALUES (%s, %s, %s, %s, %s, %s)
+            ''', ("admin", hashed_pw, "admin", True, "Sistem", "Yöneticisi"))
+            
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        print(f"⚠️ [Uyarı] Auth veritabanına bağlanılamadı: {e}. (Postgres kapalı olabilir)")
 
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
