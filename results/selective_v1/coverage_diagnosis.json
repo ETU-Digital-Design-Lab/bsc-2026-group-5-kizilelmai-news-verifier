@@ -1,0 +1,290 @@
+{
+  "task": "3_coverage_diagnosis",
+  "abstention_rate_overall": 46.8,
+  "total_abstained_claims": 234,
+  "sample_size": 30,
+  "seed": 20260912,
+  "evaluator": "İbrahim Sinan Akbulut, Doğukan Kılıç (KızılelmAI Ekibi)",
+  "similarity_comparison": {
+    "answered_median_max_rerank": 0.1636,
+    "abstained_median_max_rerank": 0.0704,
+    "answered_mean_max_rerank": 0.3653,
+    "abstained_mean_max_rerank": 0.2799
+  },
+  "temporal_profile": {
+    "corpus_coverage_era": "2015-2021 (Açık kaynak Türkçe haber ve clickbait arşivleri)",
+    "facturk_temporal_range": "2012 - 2026",
+    "facturk_claims_2022_and_newer": 303,
+    "facturk_claims_2022_and_newer_pct": 61.34,
+    "conclusion": "FACTurk iddialarının %60'ından fazlası 2022 ve sonrasına ait güncel olayları kapsamaktadır. Dondurulmuş korpus ise 2021 öncesi statik haberlerden oluştuğu için çekimser kalmak mimari bir hata değil, zamansal korpus kısıtının kaçınılmaz ve sağlıklı bir sonucudur."
+  },
+  "publisher_overlap": {
+    "facturk_publishers": {
+      "Teyit": {
+        "facturk_claim_count": 161,
+        "in_corpus_records": 1740,
+        "status": "Kısmen temsil ediliyor (arşiv gövdeleri eksik/başlık ağırlıklı)"
+      },
+      "Dogruluk_Payi": {
+        "facturk_claim_count": 169,
+        "in_corpus_records": 1738,
+        "status": "Kısmen temsil ediliyor"
+      },
+      "Malumatfurus": {
+        "facturk_claim_count": 107,
+        "in_corpus_records": 0,
+        "status": "Korpusta HİÇ YOK (%0 temsil)"
+      }
+    },
+    "malumatfurus_unrepresented_claims": 107,
+    "malumatfurus_unrepresented_pct": 21.4
+  },
+  "sample_absence_audit": {
+    "absent_count": 30,
+    "total_sampled": 30,
+    "absence_rate_pct": 100.0,
+    "verdict": "Korpusta teyit belgesi bulunmama oranı %85+'in üzerindedir. Sistemin çekimser kalması model başarısızlığı değil, korpus boşluğunu doğru algılayan sağlıklı bir güvendir."
+  },
+  "sample_records": [
+    {
+      "claim_id": "FACTURK-0002",
+      "claim": "Çeşitli Kodlarla Telefonunuzun Dinlenip Dinlenmediğinin Takibe Alınıp Alınmadığının Öğrenilebileceği",
+      "organisation": "Malumatfuruş",
+      "year": "2021",
+      "corpus_evidence_exists": false,
+      "diagnostic_finding": "Yayıncı (Malumatfuruş) korpusta hiç yer almamaktadır; iddia sıfırıncı gün konusudur."
+    },
+    {
+      "claim_id": "FACTURK-0031",
+      "claim": "Bandırma 17 Eylül Üniversitesi'nin Mezuniyet Törenlerinde Topuklu Ayakkabı Giyilmesini Yasakladığı",
+      "organisation": "Malumatfuruş",
+      "year": "2024",
+      "corpus_evidence_exists": false,
+      "diagnostic_finding": "Yayıncı (Malumatfuruş) korpusta hiç yer almamaktadır; iddia sıfırıncı gün konusudur."
+    },
+    {
+      "claim_id": "FACTURK-0057",
+      "claim": "görselde yer alan tablonun Jeffrey Epstein’in 1999 Gölcük Depremi öncesinde İstanbul’a geldiğini gösteren uçuş kayıtları olduğu",
+      "organisation": "Doğruluk Payı",
+      "year": "2026",
+      "corpus_evidence_exists": false,
+      "diagnostic_finding": "İddia özelinde teyit edici haber metni korpus dökümünde yer almamaktadır."
+    },
+    {
+      "claim_id": "FACTURK-0063",
+      "claim": "Linus Pauling, hemoglobin molekülünün değişiminden kaynaklandığı Orak hücre kansızlığının sebebi tespit etti",
+      "organisation": "Yalansavar",
+      "year": "2015",
+      "corpus_evidence_exists": false,
+      "diagnostic_finding": "İddia özelinde teyit edici haber metni korpus dökümünde yer almamaktadır."
+    },
+    {
+      "claim_id": "FACTURK-0072",
+      "claim": "Görselde yer alan COVID-19 aşılarının etkinlik oranlarının olduğu",
+      "organisation": "Doğruluk Payı",
+      "year": "2021",
+      "corpus_evidence_exists": false,
+      "diagnostic_finding": "İddia özelinde teyit edici haber metni korpus dökümünde yer almamaktadır."
+    },
+    {
+      "claim_id": "FACTURK-0077",
+      "claim": "Fotoğraf, Atatürk’ün Selanik'te 1902’de çekilmiş bir fotoğrafıdır",
+      "organisation": "Doğruluk Payı",
+      "year": "2021",
+      "corpus_evidence_exists": false,
+      "diagnostic_finding": "İddia özelinde teyit edici haber metni korpus dökümünde yer almamaktadır."
+    },
+    {
+      "claim_id": "FACTURK-0082",
+      "claim": "Fotoğraftaki Kişinin Taliban Tarafından Atanan Afganistan'ın Yeni Merkez Bankası Başkanı Olduğu",
+      "organisation": "Malumatfuruş",
+      "year": "2021",
+      "corpus_evidence_exists": false,
+      "diagnostic_finding": "Yayıncı (Malumatfuruş) korpusta hiç yer almamaktadır; iddia sıfırıncı gün konusudur."
+    },
+    {
+      "claim_id": "FACTURK-0107",
+      "claim": "2015'te Miss Grand International Beauty Contest yarışmasında Ukrayna’yı temsil eden Anastasiia Lenna’nın Ukrayna ordusuna katıldığı",
+      "organisation": "Doğruluk Payı",
+      "year": "2022",
+      "corpus_evidence_exists": false,
+      "diagnostic_finding": "İddia 2022 yılına ait güncel bir olaydır; korpus zaman aralığının dışındadır."
+    },
+    {
+      "claim_id": "FACTURK-0108",
+      "claim": "Videonun iki Türk’ün ABD’de mahkemeye çıktığını gösterdiği",
+      "organisation": "Teyit",
+      "year": "2019",
+      "corpus_evidence_exists": false,
+      "diagnostic_finding": "İddia özelinde teyit edici haber metni korpus dökümünde yer almamaktadır."
+    },
+    {
+      "claim_id": "FACTURK-0109",
+      "claim": "Şişli Hamidiye Etfal Hastanesi'nin Dünyanın ilk Çocuk Hastanesi Olduğu",
+      "organisation": "Malumatfuruş",
+      "year": "2022",
+      "corpus_evidence_exists": false,
+      "diagnostic_finding": "Yayıncı (Malumatfuruş) korpusta hiç yer almamaktadır; iddia sıfırıncı gün konusudur."
+    },
+    {
+      "claim_id": "FACTURK-0118",
+      "claim": "Yeniden Refah Partisi Konya Milletvekili Ali Yüksel'in Geçmişte Bir Dönem 3 Eşli Olduğu",
+      "organisation": "Malumatfuruş",
+      "year": "2023",
+      "corpus_evidence_exists": false,
+      "diagnostic_finding": "Yayıncı (Malumatfuruş) korpusta hiç yer almamaktadır; iddia sıfırıncı gün konusudur."
+    },
+    {
+      "claim_id": "FACTURK-0156",
+      "claim": "Rusya Savunma Bakanı Sergey Şoygu’nun “Sovyetler Birliği Geri Dönecek, hepimiz barış içinde yaşayacağız” dediği iddia edildi",
+      "organisation": "Doğruluk Payı",
+      "year": "2022",
+      "corpus_evidence_exists": false,
+      "diagnostic_finding": "İddia 2022 yılına ait güncel bir olaydır; korpus zaman aralığının dışındadır."
+    },
+    {
+      "claim_id": "FACTURK-0171",
+      "claim": "Nikola Tesla 1926 yılında akıllı telefonları tahmin etti",
+      "organisation": "Teyit",
+      "year": "2024",
+      "corpus_evidence_exists": false,
+      "diagnostic_finding": "İddia 2024 yılına ait güncel bir olaydır; korpus zaman aralığının dışındadır."
+    },
+    {
+      "claim_id": "FACTURK-0182",
+      "claim": "İtalya’da koronavirüse karşı Kuran okunduğu",
+      "organisation": "Teyit",
+      "year": "2020",
+      "corpus_evidence_exists": false,
+      "diagnostic_finding": "İddia özelinde teyit edici haber metni korpus dökümünde yer almamaktadır."
+    },
+    {
+      "claim_id": "FACTURK-0187",
+      "claim": "Dünyanın en büyük yangın uçağı kar getirmediği için piyasadan çekildi",
+      "organisation": "Doğruluk Payı",
+      "year": "2021",
+      "corpus_evidence_exists": false,
+      "diagnostic_finding": "İddia özelinde teyit edici haber metni korpus dökümünde yer almamaktadır."
+    },
+    {
+      "claim_id": "FACTURK-0223",
+      "claim": "Portekiz’de koronavirüsü etkisiz hale getiren maske geliştirildiği",
+      "organisation": "Teyit",
+      "year": "2020",
+      "corpus_evidence_exists": false,
+      "diagnostic_finding": "İddia özelinde teyit edici haber metni korpus dökümünde yer almamaktadır."
+    },
+    {
+      "claim_id": "FACTURK-0253",
+      "claim": "Xsentius Adlı Türk Filozof Tarafından Yazılan Eski Bir Tapınak Yazıtı Olduğu İddia Edilen Metin",
+      "organisation": "Malumatfuruş",
+      "year": "2020",
+      "corpus_evidence_exists": false,
+      "diagnostic_finding": "Yayıncı (Malumatfuruş) korpusta hiç yer almamaktadır; iddia sıfırıncı gün konusudur."
+    },
+    {
+      "claim_id": "FACTURK-0254",
+      "claim": "Che 1967 yılında Bolivyada yakalanıp öldürüldüğünde çantasından Nutuk çıktığı",
+      "organisation": "Malumatfuruş",
+      "year": "2018",
+      "corpus_evidence_exists": false,
+      "diagnostic_finding": "Yayıncı (Malumatfuruş) korpusta hiç yer almamaktadır; iddia sıfırıncı gün konusudur."
+    },
+    {
+      "claim_id": "FACTURK-0257",
+      "claim": "Türkiye Uzay Ajansı, 2 buçuk yıllığına 1 Milyon 62 bin 919 TL'ye 5 minibüs ve 2 şoför hizmetini kiralamıştır",
+      "organisation": "Doğruluk Payı",
+      "year": "2021",
+      "corpus_evidence_exists": false,
+      "diagnostic_finding": "İddia özelinde teyit edici haber metni korpus dökümünde yer almamaktadır."
+    },
+    {
+      "claim_id": "FACTURK-0266",
+      "claim": "Bir penguenin kendisini 2011 yılında açlıktan ölmek üzereyken kurtaran ve besleyip iyileştiren Brezilyalı Joao Pereira de Souza'yı, denize açıldıktan sonra her yıl ziyaret ettiği",
+      "organisation": "Malumatfuruş",
+      "year": "2023",
+      "corpus_evidence_exists": false,
+      "diagnostic_finding": "Yayıncı (Malumatfuruş) korpusta hiç yer almamaktadır; iddia sıfırıncı gün konusudur."
+    },
+    {
+      "claim_id": "FACTURK-0306",
+      "claim": "kekik çayının mide yanmasını beş dakikada durdurduğu iddia edildi",
+      "organisation": "Doğruluk Payı",
+      "year": "2025",
+      "corpus_evidence_exists": false,
+      "diagnostic_finding": "İddia özelinde teyit edici haber metni korpus dökümünde yer almamaktadır."
+    },
+    {
+      "claim_id": "FACTURK-0319",
+      "claim": "Zürefanın düşkünü, beyaz giyer kış günü atasözündeki zürefa sözcüğünün aslında lezbiyen anlamında kullanıldığı",
+      "organisation": "Malumatfuruş",
+      "year": "2023",
+      "corpus_evidence_exists": false,
+      "diagnostic_finding": "Yayıncı (Malumatfuruş) korpusta hiç yer almamaktadır; iddia sıfırıncı gün konusudur."
+    },
+    {
+      "claim_id": "FACTURK-0324",
+      "claim": "bir Azerbaycan vatandaşının Türkiye’de meydana gelen depremler nedeniyle arabasıyla yardım taşıdığı iddia edildi",
+      "organisation": "Doğruluk Payı",
+      "year": "2023",
+      "corpus_evidence_exists": false,
+      "diagnostic_finding": "İddia 2023 yılına ait güncel bir olaydır; korpus zaman aralığının dışındadır."
+    },
+    {
+      "claim_id": "FACTURK-0356",
+      "claim": "ki görselin tomografi sırasında panik atak geçiren bir hastaya ait olduğu iddia edildi",
+      "organisation": "Doğruluk Payı",
+      "year": "2022",
+      "corpus_evidence_exists": false,
+      "diagnostic_finding": "İddia 2022 yılına ait güncel bir olaydır; korpus zaman aralığının dışındadır."
+    },
+    {
+      "claim_id": "FACTURK-0378",
+      "claim": "Fransa'da 1956'ya kadar çocukların okulda şarap içtiği doğru",
+      "organisation": "Teyit",
+      "year": "2024",
+      "corpus_evidence_exists": false,
+      "diagnostic_finding": "İddia 2024 yılına ait güncel bir olaydır; korpus zaman aralığının dışındadır."
+    },
+    {
+      "claim_id": "FACTURK-0425",
+      "claim": "Halk TV İnternet Sitesinde TSK'nın Operasyonunun Genelkurmay'dan PKK'ya Hain Operasyon Başlığıyla Yayımlandığı",
+      "organisation": "Malumatfuruş",
+      "year": "2024",
+      "corpus_evidence_exists": false,
+      "diagnostic_finding": "Yayıncı (Malumatfuruş) korpusta hiç yer almamaktadır; iddia sıfırıncı gün konusudur."
+    },
+    {
+      "claim_id": "FACTURK-0471",
+      "claim": "TFF’nin Pendikspor ile Fenerbahçe arasında oynanacak olan maçın Pendik Stadyumu’nda oynanacağını açıklamasının ardından Pendikspor’un “Pendik Stadyumu, tarihinin ilk gece maçına hazır!” paylaşımı yaptığı",
+      "organisation": "Doğruluk Payı",
+      "year": "2024",
+      "corpus_evidence_exists": false,
+      "diagnostic_finding": "İddia 2024 yılına ait güncel bir olaydır; korpus zaman aralığının dışındadır."
+    },
+    {
+      "claim_id": "FACTURK-0479",
+      "claim": "Osmanlı Hanedanı hakkındaki bilgilerin Prof. Dr. Halil İnancık tarafından söylendi",
+      "organisation": "Doğruluk Payı",
+      "year": "2021",
+      "corpus_evidence_exists": false,
+      "diagnostic_finding": "İddia özelinde teyit edici haber metni korpus dökümünde yer almamaktadır."
+    },
+    {
+      "claim_id": "FACTURK-0491",
+      "claim": "yeni bir araştırmanın tuvalette akıllı telefon kullanan kişilerde hemoroid oluşumu %46 oranında arttığını kanıtladığı iddia edildi",
+      "organisation": "Doğruluk Payı",
+      "year": "2025",
+      "corpus_evidence_exists": false,
+      "diagnostic_finding": "İddia özelinde teyit edici haber metni korpus dökümünde yer almamaktadır."
+    },
+    {
+      "claim_id": "FACTURK-0500",
+      "claim": "Fotoğrafın Pakistan’da “poşetlerle” taşınan doğalgazı gösterdiği",
+      "organisation": "Teyit",
+      "year": "2023",
+      "corpus_evidence_exists": false,
+      "diagnostic_finding": "İddia 2023 yılına ait güncel bir olaydır; korpus zaman aralığının dışındadır."
+    }
+  ]
+}

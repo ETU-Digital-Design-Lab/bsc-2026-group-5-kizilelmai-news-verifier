@@ -1,0 +1,99 @@
+{
+  "task": "1c_paired_significance_tests",
+  "pipeline_vs_baseline_on_266_answered": {
+    "description": "Comparison between Tam Pipeline and K-6 Baseline on the exact 266 claims where Pipeline answered.",
+    "claims_evaluated": 266,
+    "pipeline_accuracy": 0.5526,
+    "pipeline_macro_f1": 0.5382,
+    "baseline_accuracy": 0.5526,
+    "baseline_macro_f1": 0.5512,
+    "mcnemar_test": {
+      "contingency_table": {
+        "both_correct": 85,
+        "a_correct_b_wrong": 62,
+        "a_wrong_b_correct": 62,
+        "both_wrong": 57
+      },
+      "chi2_corrected": 0.008064516129032258,
+      "p_value_binomial_exact": 1.0
+    },
+    "paired_bootstrap": {
+      "observed_delta_macro_f1": -0.012989779291584291,
+      "delta_macro_f1_ci_95": [
+        -0.09737562214422801,
+        0.06775675445838863
+      ],
+      "p_value_f1": 0.779,
+      "observed_delta_accuracy": 0.0,
+      "delta_accuracy_ci_95": [
+        -0.08270676691729328,
+        0.08270676691729317
+      ],
+      "p_value_accuracy": 1.0
+    },
+    "conclusion": "No statistically significant difference between Pipeline and Baseline on answered claims (p > 0.05). Both systems achieve 55.26% accuracy."
+  },
+  "working_points": [
+    {
+      "target_coverage": 0.3,
+      "actual_coverage": 0.3,
+      "k_claims": 150,
+      "baseline_accuracy": 0.6667,
+      "baseline_macro_f1": 0.6645,
+      "pipeline_accuracy": 0.4533,
+      "pipeline_macro_f1": 0.4199
+    },
+    {
+      "target_coverage": 0.5,
+      "actual_coverage": 0.5,
+      "k_claims": 250,
+      "baseline_accuracy": 0.648,
+      "baseline_macro_f1": 0.6472,
+      "pipeline_accuracy": 0.524,
+      "pipeline_macro_f1": 0.5066
+    },
+    {
+      "target_coverage": 0.7,
+      "actual_coverage": 0.7,
+      "k_claims": 350,
+      "baseline_accuracy": 0.5857,
+      "baseline_macro_f1": 0.5847,
+      "pipeline_accuracy": 0.5526,
+      "pipeline_macro_f1": 0.5382
+    }
+  ],
+  "aurc": {
+    "baseline": 0.3422,
+    "pipeline": 0.4577
+  },
+  "ablation_paired_tests": {
+    "2_wo_k3_reranker": {
+      "config_name": "w/o K-3 Re-ranker",
+      "common_answered_claims": 230,
+      "mcnemar": {
+        "contingency_table": {
+          "both_correct": 115,
+          "a_correct_b_wrong": 17,
+          "a_wrong_b_correct": 11,
+          "both_wrong": 87
+        },
+        "chi2_corrected": 0.8928571428571429,
+        "p_value_binomial_exact": 0.34492845088243484
+      },
+      "paired_bootstrap": {
+        "observed_delta_macro_f1": 0.020787041082383828,
+        "delta_macro_f1_ci_95": [
+          -0.026891187185691078,
+          0.06929122705923042
+        ],
+        "p_value_f1": 0.393,
+        "observed_delta_accuracy": 0.026086956521739202,
+        "delta_accuracy_ci_95": [
+          -0.017391304347826098,
+          0.06956521739130439
+        ],
+        "p_value_accuracy": 0.283
+      }
+    }
+  }
+}

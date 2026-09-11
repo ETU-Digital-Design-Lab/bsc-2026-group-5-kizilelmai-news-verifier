@@ -1,0 +1,153 @@
+{
+  "task": "1a_matched_coverage_comparison",
+  "benchmark": "FACTurk 500 Binary Claims",
+  "sample_counts": {
+    "total_claims": 500,
+    "pipeline_answered": 266,
+    "pipeline_abstained": 234
+  },
+  "systems": {
+    "tam_pipeline_answered_only": {
+      "coverage_pct": 53.2,
+      "n_claims": 266,
+      "accuracy": 0.5526,
+      "macro_f1": 0.5382,
+      "accuracy_ci_95": [
+        0.4887,
+        0.6128
+      ],
+      "macro_f1_ci_95": [
+        0.4747,
+        0.596
+      ],
+      "per_class": {
+        "0": {
+          "precision": 0.5542857142857143,
+          "recall": 0.7028985507246377,
+          "f1": 0.6198083067092652,
+          "support": 138
+        },
+        "1": {
+          "precision": 0.5494505494505495,
+          "recall": 0.390625,
+          "f1": 0.4566210045662101,
+          "support": 128
+        }
+      }
+    },
+    "baseline_matched_coverage_top_confidence": {
+      "coverage_pct": 53.2,
+      "n_claims": 266,
+      "threshold_min_confidence": 0.83221602,
+      "accuracy": 0.6353,
+      "macro_f1": 0.6345,
+      "accuracy_ci_95": [
+        0.5789,
+        0.6917
+      ],
+      "macro_f1_ci_95": [
+        0.5769,
+        0.6892
+      ],
+      "per_class": {
+        "0": {
+          "precision": 0.5571428571428572,
+          "recall": 0.6902654867256637,
+          "f1": 0.616600790513834,
+          "support": 113
+        },
+        "1": {
+          "precision": 0.7222222222222222,
+          "recall": 0.5947712418300654,
+          "f1": 0.6523297491039427,
+          "support": 153
+        }
+      }
+    },
+    "baseline_on_exact_pipeline_answered_claims": {
+      "coverage_pct": 53.2,
+      "n_claims": 266,
+      "accuracy": 0.5526,
+      "macro_f1": 0.5512,
+      "accuracy_ci_95": [
+        0.4961,
+        0.6128
+      ],
+      "macro_f1_ci_95": [
+        0.4916,
+        0.6121
+      ],
+      "per_class": {
+        "0": {
+          "precision": 0.5664335664335665,
+          "recall": 0.5869565217391305,
+          "f1": 0.5765124555160143,
+          "support": 138
+        },
+        "1": {
+          "precision": 0.5365853658536586,
+          "recall": 0.515625,
+          "f1": 0.5258964143426295,
+          "support": 128
+        }
+      }
+    },
+    "baseline_on_pipeline_abstained_claims": {
+      "coverage_pct": 46.8,
+      "n_claims": 234,
+      "accuracy": 0.5513,
+      "macro_f1": 0.5433,
+      "accuracy_ci_95": [
+        0.4872,
+        0.6154
+      ],
+      "macro_f1_ci_95": [
+        0.4789,
+        0.6045
+      ],
+      "per_class": {
+        "0": {
+          "precision": 0.5384615384615384,
+          "recall": 0.4375,
+          "f1": 0.4827586206896552,
+          "support": 112
+        },
+        "1": {
+          "precision": 0.5594405594405595,
+          "recall": 0.6557377049180327,
+          "f1": 0.6037735849056604,
+          "support": 122
+        }
+      },
+      "finding": "Baseline achieves 55.13% accuracy on abstained claims, confirming these claims are near chance and genuinely hard to verify."
+    },
+    "baseline_full_coverage": {
+      "coverage_pct": 100.0,
+      "n_claims": 500,
+      "accuracy": 0.552,
+      "macro_f1": 0.5515,
+      "accuracy_ci_95": [
+        0.51,
+        0.592
+      ],
+      "macro_f1_ci_95": [
+        0.5083,
+        0.5919
+      ],
+      "per_class": {
+        "0": {
+          "precision": 0.5555555555555556,
+          "recall": 0.52,
+          "f1": 0.5371900826446281,
+          "support": 250
+        },
+        "1": {
+          "precision": 0.5488721804511278,
+          "recall": 0.584,
+          "f1": 0.5658914728682171,
+          "support": 250
+        }
+      }
+    }
+  }
+}

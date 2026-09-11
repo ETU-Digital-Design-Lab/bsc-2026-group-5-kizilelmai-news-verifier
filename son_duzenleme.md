@@ -73,7 +73,7 @@ Bu seti kurtarmak için harcanacak her çabanın yeni bir döngüsellik üretece
 ### S3 — Ölçüm Neden CPU'da Yapıldı? GPU Aktif Edildi mi?
 
 #### Cevap:
-**Evet, sanal ortamdaki CPU-only PyTorch tekeri kaldırılmış; CUDA 12.1 destekli `torch 2.5.1+cu121` kurulmuş ve donanım üzerindeki NVIDIA GeForce RTX 3050 Ti Laptop GPU (4 GB VRAM, FP16) tüm modeller için tam aktif edilmiştir.**
+**Evet, sanal ortamdaki CPU-only PyTorch tekeri kaldırılmış; CUDA 12.1 destekli `torch 2.5.1+cu121` kurulmuş ve donanım üzerindeki gerçek grafik kartımız olan NVIDIA GeForce RTX 3050 Ti Laptop GPU (4 GB VRAM, FP16) tüm modeller için tam aktif edilmiştir. XLM-RoBERTa-large tek başına ~3.8 GB VRAM gerektirdiğinden, 4 GB'lık kısıtlı VRAM bütçesinde bellek taşmasını (OOM) önlemek amacıyla modeller ardışık/sıralı olarak (sequential model loading / inference memory offload) GPU'ya alınıp koşturulmaktadır.**
 
 Eski CPU ölçümleri ile yeni GPU ölçümlerinin yan yana karşılaştırması aşağıdadır (100 bağımsız FACTurk sorgusu üzerinden `scripts/benchmark_latency.py` ile ölçülmüştür):
 
@@ -148,12 +148,13 @@ Aynı set (500 iddia), aynı korpus (30.347 kayıt), aynı tohum (seed=20260908)
 | **4** | Sadece BM25 (Dense Kapalı) | *Vektörel Anlamsal Aramanın Katkısı* | **0.4912** | **-0.0470** | [0.430, 0.551] | 215.8 ms |
 | **5** | w/o K-5 Sembolik Vetolar | *Sayı/Tarih/Olumsuzluk Vetolarının Katkısı* | **0.5085** | **-0.0297** | [0.447, 0.569] | 382.4 ms |
 | **6** | w/o K-8 Otorite | *Kaynak Güven Puanının Katkısı* | **0.5340** | **-0.0042** | [0.471, 0.592] | 487.9 ms |
-| *Ref* | *K-6 Only (Grounding Kapalı)* | *Kanıta Dayandırmanın Toplam Katkısı* | *0.5515* | *-0.0133* | *[0.508, 0.592]* | *10.1 ms* |
+| *Ref* | *K-6 Only (Grounding Kapalı)* | *Kanıta Dayandırmanın Toplam Katkısı* | *0.5515* | *+0.0133* | *[0.508, 0.592]* | *10.1 ms* |
 
 #### Ablasyon Bulgularının Özeti:
-1. **Sembolik Vetoların Katkısı ($\Delta\text{F1} = -0.0297$):** Sembolik vetolar devreden çıkarıldığında F1 skoru 0.5382'den 0.5085'e düşmektedir. NLI modelinin gözden kaçırdığı sayı ve tarih çelişkilerinin sembolik katmanda yakalanması, sistemin doğruluğuna doğrudan katkı sağlamaktadır.
-2. **Dense vs BM25 Araması ($\Delta\text{F1} = -0.0470$):** Vektörel arama kapatılıp yalnızca BM25 bırakıldığında sistemdeki en büyük çöküş (-4.7 puan) yaşanmaktadır. Bu durum, iddiaların birebir kelimelerle değil anlamsal varyasyonlarla korpusta temsil edildiğini açıkça göstermektedir.
-3. **Re-Ranker'ın Rolü ($\Delta\text{F1} = -0.0188$):** K-3 Cross-Encoder re-ranker, adayların doğru sıraya sokulmasında ~1.9 puanlık belirgin bir grounding artışı sağlamaktadır.
+1. **K-6 Baseline ile Tam Sistem Karşılaştırması ($\Delta\text{F1} = +0.0133$):** Tüm veri setine (%100 kapsama) zoraki karar veren K-6 salt üslup sınıflandırıcısı, Macro-F1'de tam sistemi kağıt üzerinde 0.0133 puan (+1.33%) geçmektedir. Ancak Ödev 1c eşleştirilmiş McNemar ve bootstrap testleri göstermiştir ki: Sistemin karar verdiği aynı 266 iddiada her iki sistem de tıpatıp aynı doğruluğu (%55.26) almakta olup F1 farkı istatistiksel olarak tamamen anlamsızdır ($p = 0.779$, McNemar $p = 1.0$). Baseline'ın çekimser kalınan 234 iddiadaki doğruluğu ise %55.13 (şans seviyesi) olup, çekimserlik mekanizmasının bilinemeyecek iddialarda doğru şekilde sustuğunu kanıtlamaktadır.
+2. **Sembolik Vetoların Katkısı ($\Delta\text{F1} = -0.0297$):** Sembolik vetolar devreden çıkarıldığında nokta F1 tahmini 0.5382'den 0.5085'e düşmektedir (Ödev 1c eşleştirilmiş testinde eşdeğer ortak kümede farkın %95 GA'sı incelendiğinde bu farkın örneklem varyansı içinde kaldığı ve büyük ölçüde sayı/tarih vetolarının koruyucu filtresinden kaynaklandığı görülmektedir).
+3. **Dense vs BM25 Araması ($\Delta\text{F1} = -0.0470$):** Vektörel arama kapatılıp yalnızca BM25 bırakıldığında sistemdeki en büyük çöküş yaşanmaktadır. Bu durum, iddiaların birebir anahtar kelimelerle değil anlamsal varyasyonlarla korpusta temsil edildiğini açıkça göstermektedir.
+4. **Re-Ranker'ın Rolü ($\Delta\text{F1} = -0.0188$):** K-3 Cross-Encoder re-ranker, adayların doğru sıraya sokulmasında katkı sağlamaktadır (ortak cevaplanan 230 iddiada $\Delta\text{F1} = +0.0208$, $p = 0.393$).
 
 *Artefaktlar:* `results/facturk_ablation_v1/<config>/predictions.csv`, `metrics.json`, `run_manifest.json`, `ablation_summary.json`.
 
@@ -170,9 +171,11 @@ FACTurk 500 iddiası üzerinde GPU ile ölçülen gerçek değerler:
 | İddia Tipi | Toplam İddia | Çekimser Kalınan | Çekimserlik Oranı | Kesin Karar Verilen | Hatalı Karar (Mesnetsiz) | Mesnetsiz Hüküm Oranı | Doğruluk (Accuracy) |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **Clickbait** | 69 | 33 | **%47.83** | 36 | 18 | **%50.00** | %50.00 |
-| **Kısmen Doğru (Nuanced)** | 4 | 2 | **%50.00** | 2 | 1 | **%50.00** | %50.00 |
+| **Kısmen Doğru (Nuanced)** | 4 | 2 | **2 / 4 (ham sayı)** | 2 | 1 | **1 / 2 (ham sayı)** | 1 / 2 |
 | **Sıfırıncı Gün (Zero-day)** | 427 | 199 | **%46.60** | 228 | 100 | **%43.86** | %56.14 |
 | **GENEL TOPLAM** | **500** | **234** | **%46.80** | **266** | **119** | **%44.74** | **%55.26** |
+
+*(Not: $n < 20$ olan 'Kısmen Doğru' kategorisinde istatistiksel yanıltıcılığı engellemek için yüzde yerine ham sayılar [2/4 ve 1/2] raporlanmıştır. İddiaların %85.4'ünün [427/500] 'Sıfırıncı Gün' kovasına düşmesinin nedeni, FACTurk'teki dış iddiaların sansasyonel/clickbait kalıplar veya bariz sayısal göstergeler içermeyen standart haber iddialarından oluşması ve kural tabanlı tip sınıflandırıcısının bunları varsayılan açık uçlu sıfırıncı gün kategorisine yönlendirmesidir.)*
 
 #### Bilimsel Anlamı:
 Sistem, korpusta yeterli kanıt bulamadığı iddiaların yaklaşık yarısında (%46.80) çekimser kalarak uydurma üretmemektedir. Konuştuğu (karar verdiği) 266 iddiada ise mesnetsiz hüküm oranı %44.74'tür (doğruluk %55.26). Özellikle sıfırıncı gün iddialarında çekimserlik mekanizması mesnetsiz hüküm oranını %43.86'ya kadar baskılamaktadır.
@@ -188,7 +191,7 @@ Sistem, korpusta yeterli kanıt bulamadığı iddiaların yaklaşık yarısında
   - **Doğrudan Özgül Haber Eşleşmesi:** **37 / 50 (%74.0)**
   - **Yayıncı Ana Sayfası / Portal Eşleşmesi:** **13 / 50 (%26.0)**
   - **Hatalı / Yanıltıcı Kaynak Atıfı:** **0 / 50 (%0.0)**
-- **Karar:** Sistemde hiçbir yanlış kaynak atfı bulunmamakla birlikte, URL'lerin bir kısmı haber bazlı değil yayıncı bazlı eşleştiği için makalede abartılı ifadelerden kaçınılacak; *"Kayıtların %98.91'i yayıncı üstverisine sahip olup, 50'lik rastgele örneklemde %74.0 doğrudan haber bağlantısı, %26.0 yayıncı dizini doğrulanmıştır"* yazılacaktır.
+- **Karar:** Ana sayfa doğrudan kanıt atfı sayılamayacağından, makalede kanıt atfı için **%74 makale düzeyi (etkin oran ≈ %73)** yazılacak; %98.91 değeri ise *"alan doluluk oranı (field fill-rate)"* olarak ayrı bir teknik üstveri metriği olarak sunulacaktır.
 - *Artefaktlar:* `results/provenance_spotcheck_v1.csv`, `results/provenance_spotcheck_summary.json`.
 
 ### 4.2 GPU'da Gecikme Tekrarı

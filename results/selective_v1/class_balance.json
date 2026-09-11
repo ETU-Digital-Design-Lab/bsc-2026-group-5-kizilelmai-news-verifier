@@ -1,0 +1,15 @@
+{
+  "task": "1d_class_balance_analysis",
+  "current_asymmetry": {
+    "yalan_recall": 0.7029,
+    "dogru_recall": 0.3906,
+    "cause": "Engine assigns status UYARI to YALAN, heavily weighting contradiction."
+  },
+  "optimal_threshold_tuning": {
+    "default_macro_f1": 0.5382,
+    "tuned_macro_f1": 0.512,
+    "optimal_threshold": 0.39,
+    "potential_gain_f1": -0.0262,
+    "caution": "This threshold shift is a post-hoc diagnostic. Under strict scientific methodology, it serves as a guideline for future calibration on a dedicated validation set."
+  }
+}

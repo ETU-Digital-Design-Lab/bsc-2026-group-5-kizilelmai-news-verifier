@@ -1,0 +1,1004 @@
+{
+  "task": "2_error_taxonomy",
+  "sample_size": 50,
+  "total_errors_in_pipeline": 119,
+  "seed": 20260912,
+  "evaluator": "İbrahim Sinan Akbulut, Doğukan Kılıç (KızılelmAI Ekibi)",
+  "distribution_counts": {
+    "K": 29,
+    "R": 4,
+    "N": 1,
+    "V": 16,
+    "G": 0
+  },
+  "distribution_percentages": {
+    "K": 58.0,
+    "R": 8.0,
+    "N": 2.0,
+    "V": 32.0,
+    "G": 0.0
+  },
+  "category_definitions": {
+    "K": "K - Korpus Boslugu (Corpus Gap)",
+    "R": "R - Retrieval Hatasi (Retrieval Error)",
+    "N": "N - NLI Cikarim Hatasi (NLI Reasoning Error)",
+    "V": "V - Veto / Siniflandirici Hatasi (Symbolic / Advisory Veto)",
+    "G": "G - Gold Tartismali (Controversial Ground Truth)"
+  },
+  "concrete_examples": {
+    "K": {
+      "claim_id": "FACTURK-0039",
+      "category": "K",
+      "claim": "Hırvatistan’da 4 lira 20 kuruşa ev satıldığı",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "RED",
+      "max_rerank_score": 0.00342,
+      "nli_probs": [
+        0.0431,
+        0.9367,
+        0.0203
+      ],
+      "retrieved_source_snippet": "Cumhurbaşkanı Recep Tayyip Erdoğan, \"Ev sahibi olanlara 5 bin lira, kiracı olanlara 2 bin lira kira yardımı yapacağız.\" dedi.",
+      "source_id": 7703,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "Korpusta bu iddiayı doğrudan teyit edecek veya çürütecek haber metni mevcut değil (korpus boşluğu). Getirilen aday zayıf/alakasız."
+    },
+    "R": {
+      "claim_id": "FACTURK-0008",
+      "category": "R",
+      "claim": "TRT Haber'in “3 bin yıllık cami restore edildi” başlıklı haber yaptığı",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "RED",
+      "max_rerank_score": 0.04655,
+      "nli_probs": [
+        0.9863,
+        0.0122,
+        0.0015
+      ],
+      "retrieved_source_snippet": "A Haber “Hasankeyf’te 4 bin 600 yıllık cami taşınıyor” şeklinde alt bant kullandı. Caminin ağırlığı, yaşı ile karışıtırılmış.",
+      "source_id": 23842,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "Belge iddiadaki bazı anahtar kelimeleri taşısa da iddianın doğruluk çekirdeğini taşımıyor (yüzeysel retrieval eşleşmesi)."
+    },
+    "N": {
+      "claim_id": "FACTURK-0392",
+      "category": "N",
+      "claim": "Bir Facebook sayfası tarafından 19 Aralık 2023 tarihinde yapılan paylaşımda yer alan videonun Dr. Mehmet Öz’ün hipertansiyon hakkında yaptığı açıklamaları gösterdiği",
+      "gold_verdict": "YALAN",
+      "final_verdict": "DOĞRU",
+      "raw_status": "ONAY",
+      "max_rerank_score": 0.02174,
+      "nli_probs": [
+        0.947,
+        0.0511,
+        0.0018
+      ],
+      "retrieved_source_snippet": "Sosyal medyada ve WhatsApp’ta yayılan bir metinde yer alan yeni koronavirüs (Covid-19) tespit ve tavsiyelerinin, Dr. Mehmet Öz’e ait olduğu iddia edil...",
+      "source_id": 5344,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "Getirilen belge iddia konusunu içeriyor ancak NLI modeli (XLM-R) yanlış şekilde Entailment çıkarımı yaptı."
+    },
+    "V": {
+      "claim_id": "FACTURK-0028",
+      "category": "V",
+      "claim": "Videonun Jeffrey Epstein'ın Adasında İşkence Gören Türk Çocuğunun Özür Dilerim Arthur Dediği Ana Ait Olduğu",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "UYARI",
+      "max_rerank_score": 0.10913,
+      "nli_probs": [
+        0.0143,
+        0.9805,
+        0.0053
+      ],
+      "retrieved_source_snippet": "Sosyal medyada paylaşılan bir videonun Çinli birkaç kişinin Uygur Türkü bir kız çocuğuna yaptığı işkenceyi gösterdiği iddia edildi.",
+      "source_id": 6704,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "K-6 yardımcı sınıflandırıcısının şüpheli metin yapısı uyarısı veya sembolik veto katmanı (K-5) DOĞRU iddiayı YALAN'a çevirdi."
+    }
+  },
+  "sample_records": [
+    {
+      "claim_id": "FACTURK-0008",
+      "category": "R",
+      "claim": "TRT Haber'in “3 bin yıllık cami restore edildi” başlıklı haber yaptığı",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "RED",
+      "max_rerank_score": 0.04655,
+      "nli_probs": [
+        0.9863,
+        0.0122,
+        0.0015
+      ],
+      "retrieved_source_snippet": "A Haber “Hasankeyf’te 4 bin 600 yıllık cami taşınıyor” şeklinde alt bant kullandı. Caminin ağırlığı, yaşı ile karışıtırılmış.",
+      "source_id": 23842,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "Belge iddiadaki bazı anahtar kelimeleri taşısa da iddianın doğruluk çekirdeğini taşımıyor (yüzeysel retrieval eşleşmesi)."
+    },
+    {
+      "claim_id": "FACTURK-0028",
+      "category": "V",
+      "claim": "Videonun Jeffrey Epstein'ın Adasında İşkence Gören Türk Çocuğunun Özür Dilerim Arthur Dediği Ana Ait Olduğu",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "UYARI",
+      "max_rerank_score": 0.10913,
+      "nli_probs": [
+        0.0143,
+        0.9805,
+        0.0053
+      ],
+      "retrieved_source_snippet": "Sosyal medyada paylaşılan bir videonun Çinli birkaç kişinin Uygur Türkü bir kız çocuğuna yaptığı işkenceyi gösterdiği iddia edildi.",
+      "source_id": 6704,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "K-6 yardımcı sınıflandırıcısının şüpheli metin yapısı uyarısı veya sembolik veto katmanı (K-5) DOĞRU iddiayı YALAN'a çevirdi."
+    },
+    {
+      "claim_id": "FACTURK-0039",
+      "category": "K",
+      "claim": "Hırvatistan’da 4 lira 20 kuruşa ev satıldığı",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "RED",
+      "max_rerank_score": 0.00342,
+      "nli_probs": [
+        0.0431,
+        0.9367,
+        0.0203
+      ],
+      "retrieved_source_snippet": "Cumhurbaşkanı Recep Tayyip Erdoğan, \"Ev sahibi olanlara 5 bin lira, kiracı olanlara 2 bin lira kira yardımı yapacağız.\" dedi.",
+      "source_id": 7703,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "Korpusta bu iddiayı doğrudan teyit edecek veya çürütecek haber metni mevcut değil (korpus boşluğu). Getirilen aday zayıf/alakasız."
+    },
+    {
+      "claim_id": "FACTURK-0051",
+      "category": "K",
+      "claim": "Koronavirüsün Hiçbir Zaman İzole Edil(e)mediği",
+      "gold_verdict": "YALAN",
+      "final_verdict": "DOĞRU",
+      "raw_status": "ONAY",
+      "max_rerank_score": 0.73278,
+      "nli_probs": [
+        0.9998,
+        0.0001,
+        0.0001
+      ],
+      "retrieved_source_snippet": "SARS-CoV-2 virüsü farklı ülkelerde defalarca izole edildi. Koronavirüsün genetik materyalini inceleyen tüm bu bilimsel araştırmalar, virüsün izole edi...",
+      "source_id": 11553,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "Korpusta bu iddiayla ilgili spesifik olgu metni bulunmuyor; retrieval alakasız genel metin getirdi."
+    },
+    {
+      "claim_id": "FACTURK-0069",
+      "category": "K",
+      "claim": "Yerli tütün kullanımının 14 yıl içinde yüzde 42'den yüzde 12'ye gerilediği",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "RED",
+      "max_rerank_score": 0.99371,
+      "nli_probs": [
+        0.0007,
+        0.0003,
+        0.9989
+      ],
+      "retrieved_source_snippet": "Sosyal medyada Türkiye’deki sigara firmalarının yerli tütün kullanım oranı 2003 ve 2017 yılları arasında yüzde 42’den yüzde 12’ye geriledi.",
+      "source_id": 23489,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "Korpusta bu iddiayla ilgili spesifik olgu metni bulunmuyor; retrieval alakasız genel metin getirdi."
+    },
+    {
+      "claim_id": "FACTURK-0083",
+      "category": "V",
+      "claim": "Fotoğraf Brezilya'daki tek bir kaju ağacını mı gösteriyor",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "UYARI",
+      "max_rerank_score": 0.02018,
+      "nli_probs": [
+        0.1128,
+        0.8836,
+        0.0036
+      ],
+      "retrieved_source_snippet": "Fotoğraftaki ağaç ABD'de ve Newton’un yerçekimi yasasını bulmasına vesile olduğu rivayet edilen elma ağacı değil.",
+      "source_id": 13778,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "K-6 yardımcı sınıflandırıcısının şüpheli metin yapısı uyarısı veya sembolik veto katmanı (K-5) DOĞRU iddiayı YALAN'a çevirdi."
+    },
+    {
+      "claim_id": "FACTURK-0086",
+      "category": "K",
+      "claim": "Konya Tuzlukçu Belediyesi’nin asgari ücreti 4 bin 500 TL yaptığı",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "RED",
+      "max_rerank_score": 0.02203,
+      "nli_probs": [
+        0.0007,
+        0.998,
+        0.0013
+      ],
+      "retrieved_source_snippet": "Asgari ücret araştırma sonuçları açıklandı",
+      "source_id": 18953,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "Korpusta bu iddiayla ilgili spesifik olgu metni bulunmuyor; retrieval alakasız genel metin getirdi."
+    },
+    {
+      "claim_id": "FACTURK-0093",
+      "category": "K",
+      "claim": "2012 Londra Olimpiyatları Açılış Törenindeki Koreografiyle Covid19 Pandemisinin Simgelendiği",
+      "gold_verdict": "YALAN",
+      "final_verdict": "DOĞRU",
+      "raw_status": "ONAY",
+      "max_rerank_score": 0.0116,
+      "nli_probs": [
+        0.9858,
+        0.0119,
+        0.0023
+      ],
+      "retrieved_source_snippet": "Covid-19 aşılarının dağıtımında kullanılacak olan süslü nakil araçlarını gösterdiği iddia edilen fotoğraf, pandemiden öncesine ait.",
+      "source_id": 11552,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "Korpusta bu iddiayla ilgili spesifik olgu metni bulunmuyor; retrieval alakasız genel metin getirdi."
+    },
+    {
+      "claim_id": "FACTURK-0114",
+      "category": "V",
+      "claim": "Görselin 1947 yılında Yahudilerin Filistin'e varışını gösterdiği",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "UYARI",
+      "max_rerank_score": 0.02656,
+      "nli_probs": [
+        0.0047,
+        0.9934,
+        0.0019
+      ],
+      "retrieved_source_snippet": "Sosyal medyada paylaşılan bir görselin, Aydın'da bulunan Atça beldesinin yukarıdan çekilen görüntüsünü gösterdiği iddia edildi.",
+      "source_id": 5659,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "K-6 yardımcı sınıflandırıcısının şüpheli metin yapısı uyarısı veya sembolik veto katmanı (K-5) DOĞRU iddiayı YALAN'a çevirdi."
+    },
+    {
+      "claim_id": "FACTURK-0123",
+      "category": "K",
+      "claim": "Enflasyonla mücadele: Kanada, \"vergi tatili\" mi ilan etti",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "RED",
+      "max_rerank_score": 0.00074,
+      "nli_probs": [
+        0.8761,
+        0.1025,
+        0.0214
+      ],
+      "retrieved_source_snippet": "Resmi Gazete'de yayımlanan Cumhurbaşkanı Kararı ile film gösterimleri, spor müsabakaları, at yarışları ve konserlerden alınan eğlence vergisi yüzde sı...",
+      "source_id": 26607,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "Korpusta bu iddiayı doğrudan teyit edecek veya çürütecek haber metni mevcut değil (korpus boşluğu). Getirilen aday zayıf/alakasız."
+    },
+    {
+      "claim_id": "FACTURK-0128",
+      "category": "V",
+      "claim": "meyvelerin üzerine yapıştırılan çıkartmalardaki kodların pestisit kullanımı, organik üretim veya genetiği değiştirilmiş olup olmadığını gösterdiği iddia edildi",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "UYARI",
+      "max_rerank_score": 0.00963,
+      "nli_probs": [
+        0.0073,
+        0.988,
+        0.0047
+      ],
+      "retrieved_source_snippet": "Sosyal medyada ve bazı haber sitelerinde yer alan paylaşımlarda ıspanak zehirlenmelerinin nedeninin organofosfat adlı bir pestisit olduğu iddia edildi...",
+      "source_id": 8680,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "K-6 yardımcı sınıflandırıcısının şüpheli metin yapısı uyarısı veya sembolik veto katmanı (K-5) DOĞRU iddiayı YALAN'a çevirdi."
+    },
+    {
+      "claim_id": "FACTURK-0131",
+      "category": "K",
+      "claim": "İspanya’nın İsrail ile yaptığı 700 milyon Euroluk silah anlaşmasını iptal ettiği",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "RED",
+      "max_rerank_score": 0.01013,
+      "nli_probs": [
+        0.0079,
+        0.9917,
+        0.0005
+      ],
+      "retrieved_source_snippet": "‘Türkiye-İsrail anlaşmaları iptal edilsin’ önergesine AKP’den ret …",
+      "source_id": 4096,
+      "source_channel": "Diken",
+      "classification_reason": "Korpusta bu iddiayla ilgili spesifik olgu metni bulunmuyor; retrieval alakasız genel metin getirdi."
+    },
+    {
+      "claim_id": "FACTURK-0141",
+      "category": "K",
+      "claim": "Yavuz Sultan Selim Köprüsü ve Kuzey Çevre Otoyolu’nun %51’i Çin menşeli şirkete satılıyor",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "RED",
+      "max_rerank_score": 0.48439,
+      "nli_probs": [
+        0.0015,
+        0.9972,
+        0.0013
+      ],
+      "retrieved_source_snippet": "Körfez geçiş köprüsü, Körfeze dinamit!",
+      "source_id": 21132,
+      "source_channel": "Evrensel",
+      "classification_reason": "Korpusta bu iddiayla ilgili spesifik olgu metni bulunmuyor; retrieval alakasız genel metin getirdi."
+    },
+    {
+      "claim_id": "FACTURK-0148",
+      "category": "K",
+      "claim": "M Özdoğan Günlükleri Adlı Kitapta Necmettin Erbakana Ait Bir Sözün Paylaşıldığı",
+      "gold_verdict": "YALAN",
+      "final_verdict": "DOĞRU",
+      "raw_status": "ONAY",
+      "max_rerank_score": 0.03321,
+      "nli_probs": [
+        0.9753,
+        0.017,
+        0.0076
+      ],
+      "retrieved_source_snippet": "Teyit’e ihbar olarak gönderilen paylaşımda, MEB tarafından hazırlanan ders kitabında, şarkıcı Mahmut Tuncer’e atfedilen bir sözün bulunduğu iddia edil...",
+      "source_id": 21599,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "Korpusta bu iddiayla ilgili spesifik olgu metni bulunmuyor; retrieval alakasız genel metin getirdi."
+    },
+    {
+      "claim_id": "FACTURK-0158",
+      "category": "V",
+      "claim": "Görselde yer alan haritada Türkiye’deki akraba evliliklerinin oranlarının verildiği",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "UYARI",
+      "max_rerank_score": 0.02475,
+      "nli_probs": [
+        0.0018,
+        0.9962,
+        0.002
+      ],
+      "retrieved_source_snippet": "Bir şehir efsanesine dönüşmüş olan iddiaya göre dünyanın dört bir yanından binlerce insan görselde yer alan adamı rüyasında gördü.",
+      "source_id": 3097,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "K-6 yardımcı sınıflandırıcısının şüpheli metin yapısı uyarısı veya sembolik veto katmanı (K-5) DOĞRU iddiayı YALAN'a çevirdi."
+    },
+    {
+      "claim_id": "FACTURK-0183",
+      "category": "V",
+      "claim": "1963 tarihli bir gazetede cep telefonunun gösterildiği",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "UYARI",
+      "max_rerank_score": 0.01358,
+      "nli_probs": [
+        0.2567,
+        0.127,
+        0.6163
+      ],
+      "retrieved_source_snippet": "“Put” ifadesi fotoğrafa sonradan montajlanmış. Gazete kupürünün orijinalinde “Milliyet’in Atatürk Heykeli Kampanyası” ifadesinin yer aldığı 6 Aralık 1...",
+      "source_id": 12380,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "K-6 yardımcı sınıflandırıcısının şüpheli metin yapısı uyarısı veya sembolik veto katmanı (K-5) DOĞRU iddiayı YALAN'a çevirdi."
+    },
+    {
+      "claim_id": "FACTURK-0196",
+      "category": "K",
+      "claim": "Türkiye’nin toplam merkezi yönetim borcu başkanlık sisteminden bu yana %109 arttı",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "RED",
+      "max_rerank_score": 0.00562,
+      "nli_probs": [
+        0.0012,
+        0.9981,
+        0.0007
+      ],
+      "retrieved_source_snippet": "Batık krediler 10 ayda 18.2 milyar lira arttı: 80 milyarı aşkın borç ödenemiyor …",
+      "source_id": 18352,
+      "source_channel": "Diken",
+      "classification_reason": "Korpusta bu iddiayla ilgili spesifik olgu metni bulunmuyor; retrieval alakasız genel metin getirdi."
+    },
+    {
+      "claim_id": "FACTURK-0200",
+      "category": "V",
+      "claim": "Bir X hesabı tarafından 27 Ocak 2025 tarihinde paylaşılan bir gönderide 1 Şubat 2025 tarihinden itibaren 1.050 TL’yi geçen elektrik faturalarının 2.000 TL olacağı iddia edildi",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "UYARI",
+      "max_rerank_score": 0.28348,
+      "nli_probs": [
+        0.0063,
+        0.9919,
+        0.0018
+      ],
+      "retrieved_source_snippet": "Sosyal medyada paylaşılan bir gönderide, Twitter’a abonelik sistemi geleceği ve kullancılara ödeme yapılarak destek olunabileceği iddia edildi.",
+      "source_id": 24217,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "K-6 yardımcı sınıflandırıcısının şüpheli metin yapısı uyarısı veya sembolik veto katmanı (K-5) DOĞRU iddiayı YALAN'a çevirdi."
+    },
+    {
+      "claim_id": "FACTURK-0210",
+      "category": "K",
+      "claim": "videonun Bahreyn ile Suudi Arabistan’ı birbirine bağlayan Kral Fehd Köprüsü'nün vurulduğu anları gösterdiği iddia edildi",
+      "gold_verdict": "YALAN",
+      "final_verdict": "DOĞRU",
+      "raw_status": "ONAY",
+      "max_rerank_score": 0.77899,
+      "nli_probs": [
+        0.9783,
+        0.0196,
+        0.0021
+      ],
+      "retrieved_source_snippet": "İnternette paylaşılan ve teyit.org'a ihbar olarak gönderilen videonun, şiddetli rüzgar sonucunda parçalanan bir rüzgar türbinini gösterdiği iddia edil...",
+      "source_id": 3189,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "Korpusta bu iddiayla ilgili spesifik olgu metni bulunmuyor; retrieval alakasız genel metin getirdi."
+    },
+    {
+      "claim_id": "FACTURK-0215",
+      "category": "K",
+      "claim": "Ak Parti Milletvekili Zehra Taşkesenlioğlu’nun Afrika’da bakır madeni sahibi olduğu bilgisinin Meclis tutanaklarında kaydedildiği iddia edildi",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "RED",
+      "max_rerank_score": 0.05707,
+      "nli_probs": [
+        0.9558,
+        0.0428,
+        0.0014
+      ],
+      "retrieved_source_snippet": "Sosyal medyada paylaşılan bir görselde, AK Parti'nin milletvekili aday listesinde, doktor olan bir kişinin eğitim durumuna ilkokul yazıldığı iddia edi...",
+      "source_id": 24613,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "Korpusta bu iddiayla ilgili spesifik olgu metni bulunmuyor; retrieval alakasız genel metin getirdi."
+    },
+    {
+      "claim_id": "FACTURK-0243",
+      "category": "V",
+      "claim": "Bir Instagram hesabı tarafından 3 Ekim 2024 tarihinde paylaşılan gönderide Trabzon Opera Binası’nın 1958 yılında yoldan araçların geçemediği için yol yapma amacıyla yıkıldığı iddia edildi",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "UYARI",
+      "max_rerank_score": 0.84235,
+      "nli_probs": [
+        0.0029,
+        0.9962,
+        0.001
+      ],
+      "retrieved_source_snippet": "Sosyal medyada paylaşılan ve teyit.org’a ihbar olarak gönderilen bir fotoğrafın Türkiye’de inşa edilen bir yolu gösterdiği iddia edildi.",
+      "source_id": 1427,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "K-6 yardımcı sınıflandırıcısının şüpheli metin yapısı uyarısı veya sembolik veto katmanı (K-5) DOĞRU iddiayı YALAN'a çevirdi."
+    },
+    {
+      "claim_id": "FACTURK-0248",
+      "category": "K",
+      "claim": "Pokemon ararken karşımıza çıkan yanlış haberler",
+      "gold_verdict": "YALAN",
+      "final_verdict": "DOĞRU",
+      "raw_status": "ONAY",
+      "max_rerank_score": 0.07237,
+      "nli_probs": [
+        0.0076,
+        0.0159,
+        0.9765
+      ],
+      "retrieved_source_snippet": "Pokemon GO'nun tüm dünyada beklenenden fazla ilgi görmesiyle, sosyal medyada da oyunla ilgili birçok iddia yayıldı. Hangilerinin yanlış olduğunu incel...",
+      "source_id": 18148,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "Korpusta bu iddiayla ilgili spesifik olgu metni bulunmuyor; retrieval alakasız genel metin getirdi."
+    },
+    {
+      "claim_id": "FACTURK-0249",
+      "category": "K",
+      "claim": "Nihat Zeybekci'nin TBMM'nin sitesindeki özgeçmişinden İngiltere eğitimi kaldırıldı",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "RED",
+      "max_rerank_score": 0.98818,
+      "nli_probs": [
+        0.0011,
+        0.0027,
+        0.9962
+      ],
+      "retrieved_source_snippet": "Ekonomi Bakanı Zeybekci'nin TBMM'nin sitesinde yer alan özgeçmişinden South London College’da eğitim aldığını belirten bölümün çıkartıldığı iddia edil...",
+      "source_id": 427,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "Korpusta bu iddiayla ilgili spesifik olgu metni bulunmuyor; retrieval alakasız genel metin getirdi."
+    },
+    {
+      "claim_id": "FACTURK-0278",
+      "category": "K",
+      "claim": "Çek Cumhuriyeti’nin çocuklar için belli hastalıklar için uyguladığı zorunlu aşı politikası AİHM tarafından insan hakları ihlali olarak değerlendirilmedi",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "RED",
+      "max_rerank_score": 0.04264,
+      "nli_probs": [
+        0.1208,
+        0.877,
+        0.0022
+      ],
+      "retrieved_source_snippet": "Türkiye İnsan Hakları ve Eşitlik Kurumu (TİHEK) Başkanı Prof. Dr. Muharrem Kılıç, depremzedelerden yüksek kira bedeli istenmesi, depremzedelere ev ver...",
+      "source_id": 1416,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "Korpusta bu iddiayla ilgili spesifik olgu metni bulunmuyor; retrieval alakasız genel metin getirdi."
+    },
+    {
+      "claim_id": "FACTURK-0286",
+      "category": "K",
+      "claim": "Bilkent Üniversitesi'nin öğrencilere çevrimiçi sınavlar için ayna gönderdiği",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "RED",
+      "max_rerank_score": 0.00306,
+      "nli_probs": [
+        0.7701,
+        0.182,
+        0.0479
+      ],
+      "retrieved_source_snippet": "Katar'lı öğrencilerin sınavsız tıp okuyacağı yalanını gençlerin sınava gireceği dönemde yazıp sonra da özür dileyerek tekzip yayınlayan yalandan vukua...",
+      "source_id": 27237,
+      "source_channel": "MIDE22 Research Dataset",
+      "classification_reason": "Korpusta bu iddiayı doğrudan teyit edecek veya çürütecek haber metni mevcut değil (korpus boşluğu). Getirilen aday zayıf/alakasız."
+    },
+    {
+      "claim_id": "FACTURK-0291",
+      "category": "V",
+      "claim": "Videodaki akıllı park sistemine sahip ofis sandalyeleri gerçek",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "UYARI",
+      "max_rerank_score": 0.01358,
+      "nli_probs": [
+        0.2364,
+        0.7623,
+        0.0013
+      ],
+      "retrieved_source_snippet": "Videoda görünenler gerçek bir turist ile personel değil. Sosyal medya fenomenlerinin benzer başka kurgu videoları da var.",
+      "source_id": 2792,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "K-6 yardımcı sınıflandırıcısının şüpheli metin yapısı uyarısı veya sembolik veto katmanı (K-5) DOĞRU iddiayı YALAN'a çevirdi."
+    },
+    {
+      "claim_id": "FACTURK-0295",
+      "category": "V",
+      "claim": "Fotoğraf biri ilgi görmüş diğer ise ihmal edilmiş iki çocuğun beyin yapısındaki farklılığı gösteriyor",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "UYARI",
+      "max_rerank_score": 0.01837,
+      "nli_probs": [
+        0.0012,
+        0.9944,
+        0.0044
+      ],
+      "retrieved_source_snippet": "Sosyal medyada paylaşılan bir fotoğrafın Avrupa’daki bir okulda ayrı yerlere oturtulan siyah ve beyaz çocukları gösterdiği iddia edildi.",
+      "source_id": 22918,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "K-6 yardımcı sınıflandırıcısının şüpheli metin yapısı uyarısı veya sembolik veto katmanı (K-5) DOĞRU iddiayı YALAN'a çevirdi."
+    },
+    {
+      "claim_id": "FACTURK-0317",
+      "category": "V",
+      "claim": "fotoğrafın Down sendromlu bir baba ve oğlunu gösterdiği iddia edildi",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "UYARI",
+      "max_rerank_score": 0.38133,
+      "nli_probs": [
+        0.0026,
+        0.9962,
+        0.0012
+      ],
+      "retrieved_source_snippet": "Sosyal medyada paylaşılan ve Teyit’e ihbar olarak gönderilen fotoğrafın, küçük bir afet ve acil durum toplanma bölgesini gösterdiği iddia edildi.",
+      "source_id": 24849,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "K-6 yardımcı sınıflandırıcısının şüpheli metin yapısı uyarısı veya sembolik veto katmanı (K-5) DOĞRU iddiayı YALAN'a çevirdi."
+    },
+    {
+      "claim_id": "FACTURK-0339",
+      "category": "V",
+      "claim": "Türkiye'den İtalya ve Fransa'ya gönderilen kuru incirlerde yüksek oranda aflatoksin tespit edildiğinden bu ürünlerin Türkiye'ye geri gönderildiği iddia edildi",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "UYARI",
+      "max_rerank_score": 0.05987,
+      "nli_probs": [
+        0.0002,
+        0.9996,
+        0.0002
+      ],
+      "retrieved_source_snippet": "Sosyal medyada paylaşılan bir iddiada barkod numarası 869 ile başlayan ürünlerin Türk malı olduğu belirtiliyor.",
+      "source_id": 635,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "K-6 yardımcı sınıflandırıcısının şüpheli metin yapısı uyarısı veya sembolik veto katmanı (K-5) DOĞRU iddiayı YALAN'a çevirdi."
+    },
+    {
+      "claim_id": "FACTURK-0344",
+      "category": "R",
+      "claim": "Star TV'nin Etnospor Kültür Festivali için '16 ülkeden 10 sporcu katılıyor' şeklinde alt bant kullandığı",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "RED",
+      "max_rerank_score": 0.99975,
+      "nli_probs": [
+        0.0021,
+        0.0036,
+        0.9943
+      ],
+      "retrieved_source_snippet": "Sosyal medyada bir hesap tarafından paylaşılan iddiaya göre Star TV bülteni sırasında Etnospor Kültür Festivali için “16 ülkeden 10 sporcu katılıyor” ...",
+      "source_id": 21953,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "Belge iddiadaki bazı anahtar kelimeleri taşısa da iddianın doğruluk çekirdeğini taşımıyor (yüzeysel retrieval eşleşmesi)."
+    },
+    {
+      "claim_id": "FACTURK-0349",
+      "category": "K",
+      "claim": "KYK yurtlarında kalmaya ‘cumhurbaşkanına hakaret suçundan hüküm giymeme’ şartı konduğu",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "RED",
+      "max_rerank_score": 0.18403,
+      "nli_probs": [
+        0.1206,
+        0.8719,
+        0.0076
+      ],
+      "retrieved_source_snippet": "İki oyuncu hakkında suçlamalar: * Akpınar: 'Cumhurbaşkanına hakaret' ve 'halkı T.C. hükümetine karşı silahlı isyana tahrik' * Gezen: 'Cumhurbaşkanına ...",
+      "source_id": 6585,
+      "source_channel": "Diken",
+      "classification_reason": "Korpusta bu iddiayla ilgili spesifik olgu metni bulunmuyor; retrieval alakasız genel metin getirdi."
+    },
+    {
+      "claim_id": "FACTURK-0357",
+      "category": "K",
+      "claim": "videonun sokakta bulunan saç kesme makinesini gösterdiği",
+      "gold_verdict": "YALAN",
+      "final_verdict": "DOĞRU",
+      "raw_status": "ONAY",
+      "max_rerank_score": 0.07146,
+      "nli_probs": [
+        0.8695,
+        0.1292,
+        0.0012
+      ],
+      "retrieved_source_snippet": "Sosyal medyada paylaşılan videonun yapay bir insanı gösterdiği öne sürüldü.",
+      "source_id": 9150,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "Korpusta bu iddiayla ilgili spesifik olgu metni bulunmuyor; retrieval alakasız genel metin getirdi."
+    },
+    {
+      "claim_id": "FACTURK-0360",
+      "category": "K",
+      "claim": "Uzay ajanslarının bütçelerine yönelik iddialar",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "RED",
+      "max_rerank_score": 0.91007,
+      "nli_probs": [
+        0.0022,
+        0.0051,
+        0.9927
+      ],
+      "retrieved_source_snippet": "Türkiye Uzay Ajansı: 'Milli Uzay Programı için dev bütçe: 20 bin lira' iddiaları gerçeği yansıtmıyor",
+      "source_id": 29091,
+      "source_channel": "MIDE22 Research Dataset",
+      "classification_reason": "Korpusta bu iddiayla ilgili spesifik olgu metni bulunmuyor; retrieval alakasız genel metin getirdi."
+    },
+    {
+      "claim_id": "FACTURK-0374",
+      "category": "V",
+      "claim": "Kinder ürünlerinde salmonella analizinin sıklaştırıldığını gösterdiği iddia edilen belge",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "UYARI",
+      "max_rerank_score": 0.01369,
+      "nli_probs": [
+        0.0003,
+        0.9993,
+        0.0005
+      ],
+      "retrieved_source_snippet": "ABD Hastalık Kontrol ve Korunma Merkezi’nin (CDC) virüsün yayılımıyla ilgili yeni bir belge yayınladığı iddia edildi. İddia doğru değil.",
+      "source_id": 11788,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "K-6 yardımcı sınıflandırıcısının şüpheli metin yapısı uyarısı veya sembolik veto katmanı (K-5) DOĞRU iddiayı YALAN'a çevirdi."
+    },
+    {
+      "claim_id": "FACTURK-0381",
+      "category": "K",
+      "claim": "5 milyon TL’ye özelleştirilen Giresun SEKA’nın 68 milyona geri alındığı",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "RED",
+      "max_rerank_score": 0.00121,
+      "nli_probs": [
+        0.8768,
+        0.0501,
+        0.0731
+      ],
+      "retrieved_source_snippet": "ING Bank takipteki 533 milyon lira alacağını 10 milyon liraya sattı …",
+      "source_id": 2892,
+      "source_channel": "Diken",
+      "classification_reason": "Korpusta bu iddiayı doğrudan teyit edecek veya çürütecek haber metni mevcut değil (korpus boşluğu). Getirilen aday zayıf/alakasız."
+    },
+    {
+      "claim_id": "FACTURK-0384",
+      "category": "K",
+      "claim": "Bakan Pakdemirli'nin patates firmasında danışmanlık yaptığı",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "RED",
+      "max_rerank_score": 0.99474,
+      "nli_probs": [
+        0.0091,
+        0.0235,
+        0.9674
+      ],
+      "retrieved_source_snippet": "Sosyal medyada dondurulmuş patates firması McCain'in Ortadoğu danışmanının Tarım ve Orman Bakanı Bekir Pakdemirli olduğu iddia edildi.",
+      "source_id": 9023,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "Korpusta bu iddiayla ilgili spesifik olgu metni bulunmuyor; retrieval alakasız genel metin getirdi."
+    },
+    {
+      "claim_id": "FACTURK-0385",
+      "category": "K",
+      "claim": "İngiltere'de kartpostal 121 yıl sonra mı teslim edildi",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "RED",
+      "max_rerank_score": 0.00043,
+      "nli_probs": [
+        0.9916,
+        0.0049,
+        0.0035
+      ],
+      "retrieved_source_snippet": "Tunca Öğreten’e bir yıl sonra özgürlük! …",
+      "source_id": 26848,
+      "source_channel": "Diken",
+      "classification_reason": "Korpusta bu iddiayı doğrudan teyit edecek veya çürütecek haber metni mevcut değil (korpus boşluğu). Getirilen aday zayıf/alakasız."
+    },
+    {
+      "claim_id": "FACTURK-0392",
+      "category": "N",
+      "claim": "Bir Facebook sayfası tarafından 19 Aralık 2023 tarihinde yapılan paylaşımda yer alan videonun Dr. Mehmet Öz’ün hipertansiyon hakkında yaptığı açıklamaları gösterdiği",
+      "gold_verdict": "YALAN",
+      "final_verdict": "DOĞRU",
+      "raw_status": "ONAY",
+      "max_rerank_score": 0.02174,
+      "nli_probs": [
+        0.947,
+        0.0511,
+        0.0018
+      ],
+      "retrieved_source_snippet": "Sosyal medyada ve WhatsApp’ta yayılan bir metinde yer alan yeni koronavirüs (Covid-19) tespit ve tavsiyelerinin, Dr. Mehmet Öz’e ait olduğu iddia edil...",
+      "source_id": 5344,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "Getirilen belge iddia konusunu içeriyor ancak NLI modeli (XLM-R) yanlış şekilde Entailment çıkarımı yaptı."
+    },
+    {
+      "claim_id": "FACTURK-0406",
+      "category": "V",
+      "claim": "Hamas - İsrail Savaşı’nın başladığı 7 Ekim’den bu yana Türkiye’nin İsrail’e ihracatının üç ayda 1 milyar doları aştığı iddia edildi . İddiada ayrıca 2023 yılının İsrail ihracat verilerinde 883 milyon dolarla çelik ithalatının ilk sırada, 593,8 milyon dolarlık ihracatla ikinci sırada kimyevi maddelerin yer aldığı da belirtilmiş. İddiada ihracat ile ilgili veriler açıklanırken muhtemelen yanlışlıkla ithalat kelimesinin kullanıldığını da belirtmek gerek",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "UYARI",
+      "max_rerank_score": 0.23161,
+      "nli_probs": [
+        0.0004,
+        0.9991,
+        0.0006
+      ],
+      "retrieved_source_snippet": "Sosyal medyada paylaşılan bir iddiada barkod numarası 869 ile başlayan ürünlerin Türk malı olduğu belirtiliyor.",
+      "source_id": 635,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "K-6 yardımcı sınıflandırıcısının şüpheli metin yapısı uyarısı veya sembolik veto katmanı (K-5) DOĞRU iddiayı YALAN'a çevirdi."
+    },
+    {
+      "claim_id": "FACTURK-0412",
+      "category": "K",
+      "claim": "Mona Sahlin ve Toblerone yolsuzluk davası",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "RED",
+      "max_rerank_score": 0.60854,
+      "nli_probs": [
+        0.1628,
+        0.7753,
+        0.0619
+      ],
+      "retrieved_source_snippet": "İsveç Sosyal Demokrat Partisi’nden Mona Sahlin’e, devletin tahsis ettiği kredi kartıyla kendisine çikolata aldığı gerekçesiyle soruşturma açıldı.",
+      "source_id": 25558,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "Korpusta bu iddiayla ilgili spesifik olgu metni bulunmuyor; retrieval alakasız genel metin getirdi."
+    },
+    {
+      "claim_id": "FACTURK-0416",
+      "category": "K",
+      "claim": "Stanley Kubrick'in Ay'a İniş Görüntülerini Çektiği ve Ay'a İnilmediğini İtiraf Ettiği",
+      "gold_verdict": "YALAN",
+      "final_verdict": "DOĞRU",
+      "raw_status": "ONAY",
+      "max_rerank_score": 0.00551,
+      "nli_probs": [
+        0.463,
+        0.5329,
+        0.0041
+      ],
+      "retrieved_source_snippet": "Sosyal medyada uzay istasyonunda çekim yaparken set arkasındaki görevliyi gösterdiği iddiasıyla bir video paylaşıldı.",
+      "source_id": 9755,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "Korpusta bu iddiayla ilgili spesifik olgu metni bulunmuyor; retrieval alakasız genel metin getirdi."
+    },
+    {
+      "claim_id": "FACTURK-0417",
+      "category": "K",
+      "claim": "Covid-19 nedeniyle kapalı olan AVM’deki deri eşyaların küflendiği",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "RED",
+      "max_rerank_score": 0.00165,
+      "nli_probs": [
+        0.0255,
+        0.968,
+        0.0065
+      ],
+      "retrieved_source_snippet": "Karayolları Genel Müdürlüğü, Türkiye geneli yol ağında ana arterlerin hepsinin ulaşıma açıldığını, deprem nedeniyle trafiğe kapalı güzergah bulunmadığ...",
+      "source_id": 25798,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "Korpusta bu iddiayı doğrudan teyit edecek veya çürütecek haber metni mevcut değil (korpus boşluğu). Getirilen aday zayıf/alakasız."
+    },
+    {
+      "claim_id": "FACTURK-0437",
+      "category": "K",
+      "claim": "İspanya’nın Güney Kıbrıs’a savunma amaçlı savaş gemisi göndereceği",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "RED",
+      "max_rerank_score": 0.00443,
+      "nli_probs": [
+        0.0057,
+        0.9915,
+        0.0028
+      ],
+      "retrieved_source_snippet": "Milli Savunma Bakanı Akar, TSK komuta kademesi ile birlikte \"Dünyanın ilk SİHA gemisi\" ve Türkiye’nin en büyük savaş gemisi olma özelliğine sahip TCG ...",
+      "source_id": 4021,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "Korpusta bu iddiayı doğrudan teyit edecek veya çürütecek haber metni mevcut değil (korpus boşluğu). Getirilen aday zayıf/alakasız."
+    },
+    {
+      "claim_id": "FACTURK-0449",
+      "category": "R",
+      "claim": "Gigantopithecus'un yaşamış en büyük maymun ve vejetaryen olduğu",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "RED",
+      "max_rerank_score": 0.02915,
+      "nli_probs": [
+        0.038,
+        0.4374,
+        0.5246
+      ],
+      "retrieved_source_snippet": "Mavi balinalar, yeryüzünde yaşamış olduğu bilinen en büyük hayvan türüdür.,",
+      "source_id": 137,
+      "source_channel": "",
+      "classification_reason": "Belge iddiadaki bazı anahtar kelimeleri taşısa da iddianın doğruluk çekirdeğini taşımıyor (yüzeysel retrieval eşleşmesi)."
+    },
+    {
+      "claim_id": "FACTURK-0455",
+      "category": "V",
+      "claim": "Bir Instagram hesabı tarafından 10 Aralık 2025 tarihinde paylaşılan gönderide dünyada en zengin 60 bin kişinin en yoksul 4 milyar kişiden 3 kat daha zengin olduğu iddia edildi",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "UYARI",
+      "max_rerank_score": 0.11221,
+      "nli_probs": [
+        0.0017,
+        0.9973,
+        0.001
+      ],
+      "retrieved_source_snippet": "Sosyal medyada paylaşılan bir gönderide Japonya’da gelişimini tamamlamamış olduğu için lise mezunu olmayanların oy kullanamadığı iddia edildi.",
+      "source_id": 3532,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "K-6 yardımcı sınıflandırıcısının şüpheli metin yapısı uyarısı veya sembolik veto katmanı (K-5) DOĞRU iddiayı YALAN'a çevirdi."
+    },
+    {
+      "claim_id": "FACTURK-0457",
+      "category": "R",
+      "claim": "Borsa İstanbul'un Hızlı Karar Alma Süreci etkinliğine Metin Doğan'ın katılacağı",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "RED",
+      "max_rerank_score": 0.98871,
+      "nli_probs": [
+        0.0042,
+        0.0049,
+        0.9909
+      ],
+      "retrieved_source_snippet": "Sosyal medyada yayılan bir afişle Borsa İstanbul'un düzenlediği \"Hızlı Karar Alma Süreci\" etkinliğine tankın önüne yatan Doğan'ın katılacağı iddia edi...",
+      "source_id": 3638,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "Belge iddiadaki bazı anahtar kelimeleri taşısa da iddianın doğruluk çekirdeğini taşımıyor (yüzeysel retrieval eşleşmesi)."
+    },
+    {
+      "claim_id": "FACTURK-0463",
+      "category": "V",
+      "claim": "Bir Instagram hesabı tarafından 24 Aralık 2022 tarihinde paylaşılan fotoğrafta Almanya'da evsizlerin barınması için uyku kapsülleri kurulduğu",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "UYARI",
+      "max_rerank_score": 0.15675,
+      "nli_probs": [
+        0.0003,
+        0.9992,
+        0.0005
+      ],
+      "retrieved_source_snippet": "Görsel 2022 Dünya Kupası başlamadan aylar önce paylaşılmış.",
+      "source_id": 8792,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "K-6 yardımcı sınıflandırıcısının şüpheli metin yapısı uyarısı veya sembolik veto katmanı (K-5) DOĞRU iddiayı YALAN'a çevirdi."
+    },
+    {
+      "claim_id": "FACTURK-0470",
+      "category": "K",
+      "claim": "Tarım ve Orman Bakanlığı, yaban keçisi ve hatalı boynuz selek yaban keçisi olmak üzere toplam 45 adet keçinin 13 parti halinde avlattırılması için ihale duyurusunda bulunmuştur",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "RED",
+      "max_rerank_score": 0.01855,
+      "nli_probs": [
+        0.0072,
+        0.9728,
+        0.0201
+      ],
+      "retrieved_source_snippet": "Tarım ve Orman Bakanlığı, sahipli hayvanların dijital kimliklendirilmesine yönelik merak edilen konulara açıklık getirdi.",
+      "source_id": 16987,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "Korpusta bu iddiayla ilgili spesifik olgu metni bulunmuyor; retrieval alakasız genel metin getirdi."
+    },
+    {
+      "claim_id": "FACTURK-0488",
+      "category": "K",
+      "claim": "Dünya Sağlık Örgütü (WHO) Genel Direktörü Tedros Adhanom’un Covid-19 aşısı olmadığı iddia edildi",
+      "gold_verdict": "YALAN",
+      "final_verdict": "DOĞRU",
+      "raw_status": "ONAY",
+      "max_rerank_score": 0.55052,
+      "nli_probs": [
+        0.6378,
+        0.3552,
+        0.007
+      ],
+      "retrieved_source_snippet": "Teyit'e ihbar olarak gönderilen iddiaya göre Dünya Sağlık Örgütü'nün rakının Covid-19'a iyi geldiği yönünde açıklama yaptığı iddia edildi.",
+      "source_id": 10907,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "Korpusta bu iddiayla ilgili spesifik olgu metni bulunmuyor; retrieval alakasız genel metin getirdi."
+    },
+    {
+      "claim_id": "FACTURK-0497",
+      "category": "K",
+      "claim": "sığınmacıların Avrupa’daki bir Gucci mağazasını soyduğu iddia edildi",
+      "gold_verdict": "YALAN",
+      "final_verdict": "DOĞRU",
+      "raw_status": "ONAY",
+      "max_rerank_score": 0.75455,
+      "nli_probs": [
+        0.9879,
+        0.0117,
+        0.0005
+      ],
+      "retrieved_source_snippet": "Sosyal medyada paylaşılan bir fotoğrafla Hatay’da yaşayan Suriyeli sığınmacıların Türkiye’ye gelen Afganları protesto ettiği iddia edildi.",
+      "source_id": 26820,
+      "source_channel": "Teyit / Dogruluk Payi Arşivi",
+      "classification_reason": "Korpusta bu iddiayla ilgili spesifik olgu metni bulunmuyor; retrieval alakasız genel metin getirdi."
+    }
+  ]
+}

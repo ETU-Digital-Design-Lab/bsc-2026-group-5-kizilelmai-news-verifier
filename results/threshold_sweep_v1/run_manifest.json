@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-09-11T22:46:38.571630+00:00",
+  "script": "C:\\Users\\sinan\\OneDrive - Erzurum Teknik Üniversitesi\\kizilelmAI\\scripts\\evaluation\\sweep_thresholds.py",
+  "git": {
+    "commit": "428fee871e5e7338c47f43bf619cf103b66c42d8",
+    "dirty": true
+  },
+  "input_sha256": {
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/results/facturk_full_v5/predictions.csv": "9889fc16e6b7798a786a346eb2cd03c06d8b8e6ef9dd40d0f2e3618201f07f9b"
+  },
+  "config": {
+    "threshold_range": [
+      0.5,
+      0.9
+    ],
+    "step": 0.05,
+    "neutral_threshold": 0.7
+  },
+  "code_sha256": {
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/scripts/evaluation/sweep_thresholds.py": "92ffb59ebc57610ae853af0ba39f039ed8a36b98d8a0967a49e64a57073e650b",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/scripts/evaluation/evaluation_common.py": "ccf728befa1828a891b84c322fbd2c347877625f5a48b951afab0855ea9bb8c1",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/engine/engine.py": "ab22925403f319e5fa555fca9edfc9001b6e73fd4337f9f84dfa8d9e91bf9365",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/evaluate.py": "5d257379d81445041ccde5a2768f4f7e82ae294390b9ebb9f44b4215f8b4e37f",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/ingest/auto_scraper.py": "28e0b827cf656cc23b05d7bd23abb4c24f600053b91339f337c63c02cfcee236",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/ingest/fast_populate_db.py": "fa0532646c9131dfc02c7c35a9c14931087f79a3e0ee5f3aa29c93bc1d00d77d",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/ingest/label_and_train.py": "ad125f66c99576fc9f5e9aa8c688f28adf7dd9c275d4617831622c6f5e89e065",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/ingest/prep_30k_data.py": "55498dd67aaa1bd382706bd1228fd8977fcc4c0bb39a99e79b352ccb3c36063f",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/ingest/processor.py": "c7061872ec60a41397112df8449bdaf342634d398bde0924d2b9e1b571d061fa",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/layers/__init__.py": "5a5219fdbe3575d32d1a9ee0e6be0a43a320729637bc602b2a529f9ec9353ed3",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/layers/constants.py": "13708ac2d6978d20b0d16f3069c1f86c91de42e7c7ccf7c157a588bae68d39f3",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/layers/k10_response.py": "9fd128288d1461086758209101696e40bcedc59bf84863226399cf40a61722c5",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/layers/k1_intent.py": "606dbd2c04557bc53ccc80aeb8491d000eea3f7dd5cf8cf3fb70ba2570b65036",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/layers/k2_retrieval.py": "90efc568cbe1b2c634bcecc484628eeca028826fc1215c968f616d8eaadabb2a",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/layers/k3_reranker.py": "42b1370aef30d945fb74ad4e27cd3c7b0d0b6b5fe1fefc2ccdc005d6bc12c0cf",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/layers/k4_nli.py": "24a26efb528a9b23f3c3600703c2a41f253c2fecd1851806884028b5bd159e6a",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/layers/k5_decision.py": "f3a0ebd62d9d3dc8c5c127dd0a9ed6b926aff16cba8f02d09110ac13644580ef",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/layers/k6_classifier.py": "24939531cd851e58387ca0a18a330a9687fd16126dd87b7058699102b079d1bc",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/layers/k8_authority.py": "b9e057dfcff278b2ffedcb0e614bfb8a4297478169ef3e927b9f7db85da4ceff",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/layers/k9_consensus.py": "622be717acc787653f581f4aee68880d542fd5d37e30380bf6f5544348ffe269",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/train_model.py": "02f760bf1ad16dd2081654f350388e0bf1c7b70e3b4476da4f38f7509ccb8b45",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/backend/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/backend/app.py": "0fc86d1fba21d08b1542fad983988a93b91420906c8419eda900ea1fab5a07e8",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/backend/auth.py": "edbee572cac5cd4fabe890d3e04eae950e307540cb4ef068267da6702064a1cd",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/backend/middleware/__init__.py": "f01a374e9c81e3db89b3a42940c4d6a5447684986a1296e42bf13f196eed6295",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/backend/middleware/cache.py": "1d3731edbc55bd507ad4c9f435f4ce4eaf1daf932c7d515513ded6de80c76ee3",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/backend/routers/__init__.py": "f01a374e9c81e3db89b3a42940c4d6a5447684986a1296e42bf13f196eed6295",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/backend/routers/admin.py": "a464060adf71e78b5c47259555a90037ed4c2097a4d90f6700538041dfde3da6",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/backend/routers/auth.py": "3138b540b9a6bbf20c2d1ed12edb9e35a5545f6a49f8a86a1cced2ab2fdcbdc6",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/backend/routers/verify.py": "3f75a4395353f792ca1218c6eb7904810147b8421701b035ac092be6b5f54722",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/shared/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/shared/evidence_schema.py": "041e748815e3638faa5b1cbf9d8e1fd1ffba5cebbd1db52c1dfe5e2cc342288d",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/shared/preprocess.py": "677c3d617f10cf825d9922f4297c6dbb15cfc47b2ef98049474c4cff0baaa53f",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/scripts/__init__.py": "f01a374e9c81e3db89b3a42940c4d6a5447684986a1296e42bf13f196eed6295"
+  },
+  "environment": {
+    "python": "3.10.11",
+    "os": "Windows-10-10.0.26200-SP0",
+    "cpu": "Intel64 Family 6 Model 141 Stepping 1, GenuineIntel",
+    "logical_cpus": 12,
+    "packages": {
+      "torch": "2.5.1+cu121",
+      "transformers": "5.16.1",
+      "sentence-transformers": "6.0.1",
+      "numpy": "2.2.6",
+      "pandas": "2.3.3",
+      "scikit-learn": "1.7.2",
+      "sqlalchemy": null
+    }
+  },
+  "publication_eligible": false,
+  "output_sha256": {
+    "threshold_sweep.csv": "fa6263901e389ee1aff5acb9db93edeb1a1d19566ae304c4f8a64083aacf426c",
+    "threshold_sweep.png": "d6076b138ea0b976a5185aff4f8fd6c18c29faf2c74fdf81f43f0af30ca88225",
+    "threshold_sweep_metrics.json": "733d8d3ba1030cd6d226ba53d39b9e23a0c938ffe67fdacc33be68489881c97e"
+  }
+}
