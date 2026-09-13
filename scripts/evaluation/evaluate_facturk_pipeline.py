@@ -1,4 +1,4 @@
-﻿"""Run the actual engine on FACTurk against a fixed local corpus, with full traces.
+"""Run the actual engine on FACTurk against a fixed local corpus, with full traces.
 
 This external claim-only experiment does not certify B2's human evidence-gold set.
 """
@@ -13,6 +13,11 @@ import random
 import sys
 import time
 from pathlib import Path
+
+_ROOT = Path(__file__).resolve().parents[2]
+for _p in (_ROOT / "scripts" / "evaluation", _ROOT / "scripts" / "audit", _ROOT):
+    if str(_p) not in sys.path:
+        sys.path.insert(0, str(_p))
 
 from evaluation_common import ROOT, LABELS, fresh_dir, read_csv, write_json, manifest, finish_manifest, sha256, bootstrap_metrics
 from audit_frozen_eval import audit

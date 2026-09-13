@@ -1,0 +1,2509 @@
+{
+  "threshold": 0.95,
+  "neighbors": [
+    {
+      "claim_id": "FACTURK-0001",
+      "record_id": "5084",
+      "cosine_similarity": 0.838397204875946
+    },
+    {
+      "claim_id": "FACTURK-0002",
+      "record_id": "19821",
+      "cosine_similarity": 0.8565269708633423
+    },
+    {
+      "claim_id": "FACTURK-0003",
+      "record_id": "29985",
+      "cosine_similarity": 0.8330868482589722
+    },
+    {
+      "claim_id": "FACTURK-0004",
+      "record_id": "13159",
+      "cosine_similarity": 0.8396050333976746
+    },
+    {
+      "claim_id": "FACTURK-0005",
+      "record_id": "2140",
+      "cosine_similarity": 0.8300041556358337
+    },
+    {
+      "claim_id": "FACTURK-0006",
+      "record_id": "7893",
+      "cosine_similarity": 0.8385393619537354
+    },
+    {
+      "claim_id": "FACTURK-0007",
+      "record_id": "11479",
+      "cosine_similarity": 0.8482388257980347
+    },
+    {
+      "claim_id": "FACTURK-0008",
+      "record_id": "23842",
+      "cosine_similarity": 0.855980396270752
+    },
+    {
+      "claim_id": "FACTURK-0009",
+      "record_id": "6311",
+      "cosine_similarity": 0.822097897529602
+    },
+    {
+      "claim_id": "FACTURK-0010",
+      "record_id": "24363",
+      "cosine_similarity": 0.8865227699279785
+    },
+    {
+      "claim_id": "FACTURK-0011",
+      "record_id": "14814",
+      "cosine_similarity": 0.8344583511352539
+    },
+    {
+      "claim_id": "FACTURK-0012",
+      "record_id": "15735",
+      "cosine_similarity": 0.8304857015609741
+    },
+    {
+      "claim_id": "FACTURK-0013",
+      "record_id": "12699",
+      "cosine_similarity": 0.8917474150657654
+    },
+    {
+      "claim_id": "FACTURK-0014",
+      "record_id": "6418",
+      "cosine_similarity": 0.8636050224304199
+    },
+    {
+      "claim_id": "FACTURK-0015",
+      "record_id": "19362",
+      "cosine_similarity": 0.8383532762527466
+    },
+    {
+      "claim_id": "FACTURK-0016",
+      "record_id": "29568",
+      "cosine_similarity": 0.8438833355903625
+    },
+    {
+      "claim_id": "FACTURK-0017",
+      "record_id": "11274",
+      "cosine_similarity": 0.8547476530075073
+    },
+    {
+      "claim_id": "FACTURK-0018",
+      "record_id": "1424",
+      "cosine_similarity": 0.8471240997314453
+    },
+    {
+      "claim_id": "FACTURK-0019",
+      "record_id": "10019",
+      "cosine_similarity": 0.8581424355506897
+    },
+    {
+      "claim_id": "FACTURK-0020",
+      "record_id": "24466",
+      "cosine_similarity": 0.8373030424118042
+    },
+    {
+      "claim_id": "FACTURK-0021",
+      "record_id": "9855",
+      "cosine_similarity": 0.8475232720375061
+    },
+    {
+      "claim_id": "FACTURK-0022",
+      "record_id": "26723",
+      "cosine_similarity": 0.85562664270401
+    },
+    {
+      "claim_id": "FACTURK-0023",
+      "record_id": "22908",
+      "cosine_similarity": 0.8405036330223083
+    },
+    {
+      "claim_id": "FACTURK-0024",
+      "record_id": "3993",
+      "cosine_similarity": 0.8329249620437622
+    },
+    {
+      "claim_id": "FACTURK-0025",
+      "record_id": "13320",
+      "cosine_similarity": 0.8607590794563293
+    },
+    {
+      "claim_id": "FACTURK-0026",
+      "record_id": "30444",
+      "cosine_similarity": 0.8327426910400391
+    },
+    {
+      "claim_id": "FACTURK-0027",
+      "record_id": "15752",
+      "cosine_similarity": 0.9402738213539124
+    },
+    {
+      "claim_id": "FACTURK-0028",
+      "record_id": "10902",
+      "cosine_similarity": 0.8442063331604004
+    },
+    {
+      "claim_id": "FACTURK-0029",
+      "record_id": "5759",
+      "cosine_similarity": 0.8676809072494507
+    },
+    {
+      "claim_id": "FACTURK-0030",
+      "record_id": "9533",
+      "cosine_similarity": 0.8388428688049316
+    },
+    {
+      "claim_id": "FACTURK-0031",
+      "record_id": "27568",
+      "cosine_similarity": 0.8421921730041504
+    },
+    {
+      "claim_id": "FACTURK-0032",
+      "record_id": "27818",
+      "cosine_similarity": 0.8732320070266724
+    },
+    {
+      "claim_id": "FACTURK-0033",
+      "record_id": "6984",
+      "cosine_similarity": 0.8493691682815552
+    },
+    {
+      "claim_id": "FACTURK-0034",
+      "record_id": "24220",
+      "cosine_similarity": 0.8596644401550293
+    },
+    {
+      "claim_id": "FACTURK-0035",
+      "record_id": "8688",
+      "cosine_similarity": 0.8459108471870422
+    },
+    {
+      "claim_id": "FACTURK-0036",
+      "record_id": "27634",
+      "cosine_similarity": 0.8353338241577148
+    },
+    {
+      "claim_id": "FACTURK-0037",
+      "record_id": "2984",
+      "cosine_similarity": 0.8620806932449341
+    },
+    {
+      "claim_id": "FACTURK-0038",
+      "record_id": "28170",
+      "cosine_similarity": 0.8320578336715698
+    },
+    {
+      "claim_id": "FACTURK-0039",
+      "record_id": "21529",
+      "cosine_similarity": 0.8369607925415039
+    },
+    {
+      "claim_id": "FACTURK-0040",
+      "record_id": "6336",
+      "cosine_similarity": 0.8553047180175781
+    },
+    {
+      "claim_id": "FACTURK-0041",
+      "record_id": "22652",
+      "cosine_similarity": 0.8474798202514648
+    },
+    {
+      "claim_id": "FACTURK-0042",
+      "record_id": "15283",
+      "cosine_similarity": 0.9095803499221802
+    },
+    {
+      "claim_id": "FACTURK-0043",
+      "record_id": "30084",
+      "cosine_similarity": 0.8565264344215393
+    },
+    {
+      "claim_id": "FACTURK-0044",
+      "record_id": "24749",
+      "cosine_similarity": 0.8562213182449341
+    },
+    {
+      "claim_id": "FACTURK-0045",
+      "record_id": "2797",
+      "cosine_similarity": 0.8650414943695068
+    },
+    {
+      "claim_id": "FACTURK-0046",
+      "record_id": "15238",
+      "cosine_similarity": 0.8881927728652954
+    },
+    {
+      "claim_id": "FACTURK-0047",
+      "record_id": "7658",
+      "cosine_similarity": 0.853602945804596
+    },
+    {
+      "claim_id": "FACTURK-0048",
+      "record_id": "7857",
+      "cosine_similarity": 0.8998621106147766
+    },
+    {
+      "claim_id": "FACTURK-0049",
+      "record_id": "13470",
+      "cosine_similarity": 0.8453279137611389
+    },
+    {
+      "claim_id": "FACTURK-0050",
+      "record_id": "8699",
+      "cosine_similarity": 0.8388398885726929
+    },
+    {
+      "claim_id": "FACTURK-0051",
+      "record_id": "13639",
+      "cosine_similarity": 0.8542791604995728
+    },
+    {
+      "claim_id": "FACTURK-0052",
+      "record_id": "27564",
+      "cosine_similarity": 0.8322977423667908
+    },
+    {
+      "claim_id": "FACTURK-0053",
+      "record_id": "861",
+      "cosine_similarity": 0.8640443086624146
+    },
+    {
+      "claim_id": "FACTURK-0054",
+      "record_id": "19847",
+      "cosine_similarity": 0.8280414342880249
+    },
+    {
+      "claim_id": "FACTURK-0055",
+      "record_id": "24272",
+      "cosine_similarity": 0.8215636014938354
+    },
+    {
+      "claim_id": "FACTURK-0056",
+      "record_id": "27788",
+      "cosine_similarity": 0.8287649154663086
+    },
+    {
+      "claim_id": "FACTURK-0057",
+      "record_id": "27847",
+      "cosine_similarity": 0.8428150415420532
+    },
+    {
+      "claim_id": "FACTURK-0058",
+      "record_id": "155",
+      "cosine_similarity": 0.8492797613143921
+    },
+    {
+      "claim_id": "FACTURK-0059",
+      "record_id": "4488",
+      "cosine_similarity": 0.8924649357795715
+    },
+    {
+      "claim_id": "FACTURK-0060",
+      "record_id": "4807",
+      "cosine_similarity": 0.8921805024147034
+    },
+    {
+      "claim_id": "FACTURK-0061",
+      "record_id": "23520",
+      "cosine_similarity": 0.8414700627326965
+    },
+    {
+      "claim_id": "FACTURK-0062",
+      "record_id": "21432",
+      "cosine_similarity": 0.8630756139755249
+    },
+    {
+      "claim_id": "FACTURK-0063",
+      "record_id": "28287",
+      "cosine_similarity": 0.8345186114311218
+    },
+    {
+      "claim_id": "FACTURK-0064",
+      "record_id": "9406",
+      "cosine_similarity": 0.8425791263580322
+    },
+    {
+      "claim_id": "FACTURK-0065",
+      "record_id": "14949",
+      "cosine_similarity": 0.9033693075180054
+    },
+    {
+      "claim_id": "FACTURK-0066",
+      "record_id": "28246",
+      "cosine_similarity": 0.8263466954231262
+    },
+    {
+      "claim_id": "FACTURK-0067",
+      "record_id": "25178",
+      "cosine_similarity": 0.8580232262611389
+    },
+    {
+      "claim_id": "FACTURK-0068",
+      "record_id": "29321",
+      "cosine_similarity": 0.8412458896636963
+    },
+    {
+      "claim_id": "FACTURK-0069",
+      "record_id": "23489",
+      "cosine_similarity": 0.8729596138000488
+    },
+    {
+      "claim_id": "FACTURK-0070",
+      "record_id": "13842",
+      "cosine_similarity": 0.8625826835632324
+    },
+    {
+      "claim_id": "FACTURK-0071",
+      "record_id": "24446",
+      "cosine_similarity": 0.8623743653297424
+    },
+    {
+      "claim_id": "FACTURK-0072",
+      "record_id": "7076",
+      "cosine_similarity": 0.8912686705589294
+    },
+    {
+      "claim_id": "FACTURK-0073",
+      "record_id": "28387",
+      "cosine_similarity": 0.8188813924789429
+    },
+    {
+      "claim_id": "FACTURK-0074",
+      "record_id": "29209",
+      "cosine_similarity": 0.8361777663230896
+    },
+    {
+      "claim_id": "FACTURK-0075",
+      "record_id": "2088",
+      "cosine_similarity": 0.8268309235572815
+    },
+    {
+      "claim_id": "FACTURK-0076",
+      "record_id": "16399",
+      "cosine_similarity": 0.9199644327163696
+    },
+    {
+      "claim_id": "FACTURK-0077",
+      "record_id": "18468",
+      "cosine_similarity": 0.8492847681045532
+    },
+    {
+      "claim_id": "FACTURK-0078",
+      "record_id": "25952",
+      "cosine_similarity": 0.8446053862571716
+    },
+    {
+      "claim_id": "FACTURK-0079",
+      "record_id": "4452",
+      "cosine_similarity": 0.8239191174507141
+    },
+    {
+      "claim_id": "FACTURK-0080",
+      "record_id": "17022",
+      "cosine_similarity": 0.848361074924469
+    },
+    {
+      "claim_id": "FACTURK-0081",
+      "record_id": "13077",
+      "cosine_similarity": 0.8865280747413635
+    },
+    {
+      "claim_id": "FACTURK-0082",
+      "record_id": "6833",
+      "cosine_similarity": 0.8452131748199463
+    },
+    {
+      "claim_id": "FACTURK-0083",
+      "record_id": "23361",
+      "cosine_similarity": 0.840887188911438
+    },
+    {
+      "claim_id": "FACTURK-0084",
+      "record_id": "16886",
+      "cosine_similarity": 0.8269869089126587
+    },
+    {
+      "claim_id": "FACTURK-0085",
+      "record_id": "23913",
+      "cosine_similarity": 0.8422663807868958
+    },
+    {
+      "claim_id": "FACTURK-0086",
+      "record_id": "5052",
+      "cosine_similarity": 0.8244416117668152
+    },
+    {
+      "claim_id": "FACTURK-0087",
+      "record_id": "8849",
+      "cosine_similarity": 0.8500698804855347
+    },
+    {
+      "claim_id": "FACTURK-0088",
+      "record_id": "18",
+      "cosine_similarity": 0.833723783493042
+    },
+    {
+      "claim_id": "FACTURK-0089",
+      "record_id": "7912",
+      "cosine_similarity": 0.9273709058761597
+    },
+    {
+      "claim_id": "FACTURK-0090",
+      "record_id": "26447",
+      "cosine_similarity": 0.8344795107841492
+    },
+    {
+      "claim_id": "FACTURK-0091",
+      "record_id": "11667",
+      "cosine_similarity": 0.9106893539428711
+    },
+    {
+      "claim_id": "FACTURK-0092",
+      "record_id": "18561",
+      "cosine_similarity": 0.854311466217041
+    },
+    {
+      "claim_id": "FACTURK-0093",
+      "record_id": "24822",
+      "cosine_similarity": 0.833503246307373
+    },
+    {
+      "claim_id": "FACTURK-0094",
+      "record_id": "5418",
+      "cosine_similarity": 0.8296765685081482
+    },
+    {
+      "claim_id": "FACTURK-0095",
+      "record_id": "14448",
+      "cosine_similarity": 0.819614052772522
+    },
+    {
+      "claim_id": "FACTURK-0096",
+      "record_id": "6934",
+      "cosine_similarity": 0.8521041870117188
+    },
+    {
+      "claim_id": "FACTURK-0097",
+      "record_id": "21067",
+      "cosine_similarity": 0.8283491134643555
+    },
+    {
+      "claim_id": "FACTURK-0098",
+      "record_id": "22514",
+      "cosine_similarity": 0.8536771535873413
+    },
+    {
+      "claim_id": "FACTURK-0099",
+      "record_id": "16060",
+      "cosine_similarity": 0.8455973863601685
+    },
+    {
+      "claim_id": "FACTURK-0100",
+      "record_id": "19632",
+      "cosine_similarity": 0.8483383655548096
+    },
+    {
+      "claim_id": "FACTURK-0101",
+      "record_id": "16835",
+      "cosine_similarity": 0.8671000599861145
+    },
+    {
+      "claim_id": "FACTURK-0102",
+      "record_id": "21076",
+      "cosine_similarity": 0.8572746515274048
+    },
+    {
+      "claim_id": "FACTURK-0103",
+      "record_id": "11846",
+      "cosine_similarity": 0.8361088633537292
+    },
+    {
+      "claim_id": "FACTURK-0104",
+      "record_id": "28325",
+      "cosine_similarity": 0.9296885132789612
+    },
+    {
+      "claim_id": "FACTURK-0105",
+      "record_id": "26716",
+      "cosine_similarity": 0.8230189085006714
+    },
+    {
+      "claim_id": "FACTURK-0106",
+      "record_id": "15684",
+      "cosine_similarity": 0.9081708192825317
+    },
+    {
+      "claim_id": "FACTURK-0107",
+      "record_id": "13808",
+      "cosine_similarity": 0.9214702248573303
+    },
+    {
+      "claim_id": "FACTURK-0108",
+      "record_id": "9220",
+      "cosine_similarity": 0.92233806848526
+    },
+    {
+      "claim_id": "FACTURK-0109",
+      "record_id": "24752",
+      "cosine_similarity": 0.8294901251792908
+    },
+    {
+      "claim_id": "FACTURK-0110",
+      "record_id": "10439",
+      "cosine_similarity": 0.8317222595214844
+    },
+    {
+      "claim_id": "FACTURK-0111",
+      "record_id": "23565",
+      "cosine_similarity": 0.831438422203064
+    },
+    {
+      "claim_id": "FACTURK-0112",
+      "record_id": "25225",
+      "cosine_similarity": 0.8649945259094238
+    },
+    {
+      "claim_id": "FACTURK-0113",
+      "record_id": "19837",
+      "cosine_similarity": 0.9032345414161682
+    },
+    {
+      "claim_id": "FACTURK-0114",
+      "record_id": "26450",
+      "cosine_similarity": 0.8378612995147705
+    },
+    {
+      "claim_id": "FACTURK-0115",
+      "record_id": "18311",
+      "cosine_similarity": 0.8420332074165344
+    },
+    {
+      "claim_id": "FACTURK-0116",
+      "record_id": "9150",
+      "cosine_similarity": 0.8482350707054138
+    },
+    {
+      "claim_id": "FACTURK-0117",
+      "record_id": "20071",
+      "cosine_similarity": 0.9055665731430054
+    },
+    {
+      "claim_id": "FACTURK-0118",
+      "record_id": "16318",
+      "cosine_similarity": 0.8271704912185669
+    },
+    {
+      "claim_id": "FACTURK-0119",
+      "record_id": "2797",
+      "cosine_similarity": 0.8718850016593933
+    },
+    {
+      "claim_id": "FACTURK-0120",
+      "record_id": "30022",
+      "cosine_similarity": 0.8558391332626343
+    },
+    {
+      "claim_id": "FACTURK-0121",
+      "record_id": "1756",
+      "cosine_similarity": 0.8315551280975342
+    },
+    {
+      "claim_id": "FACTURK-0122",
+      "record_id": "9366",
+      "cosine_similarity": 0.8783735036849976
+    },
+    {
+      "claim_id": "FACTURK-0123",
+      "record_id": "11310",
+      "cosine_similarity": 0.8354901671409607
+    },
+    {
+      "claim_id": "FACTURK-0124",
+      "record_id": "30347",
+      "cosine_similarity": 0.8644139766693115
+    },
+    {
+      "claim_id": "FACTURK-0125",
+      "record_id": "12715",
+      "cosine_similarity": 0.9347593188285828
+    },
+    {
+      "claim_id": "FACTURK-0126",
+      "record_id": "9119",
+      "cosine_similarity": 0.8734841346740723
+    },
+    {
+      "claim_id": "FACTURK-0127",
+      "record_id": "4506",
+      "cosine_similarity": 0.8292486667633057
+    },
+    {
+      "claim_id": "FACTURK-0128",
+      "record_id": "8377",
+      "cosine_similarity": 0.8436705470085144
+    },
+    {
+      "claim_id": "FACTURK-0129",
+      "record_id": "22441",
+      "cosine_similarity": 0.8419312834739685
+    },
+    {
+      "claim_id": "FACTURK-0130",
+      "record_id": "18172",
+      "cosine_similarity": 0.8543290495872498
+    },
+    {
+      "claim_id": "FACTURK-0131",
+      "record_id": "2629",
+      "cosine_similarity": 0.8358561396598816
+    },
+    {
+      "claim_id": "FACTURK-0132",
+      "record_id": "29016",
+      "cosine_similarity": 0.8414511680603027
+    },
+    {
+      "claim_id": "FACTURK-0133",
+      "record_id": "7658",
+      "cosine_similarity": 0.8331342935562134
+    },
+    {
+      "claim_id": "FACTURK-0134",
+      "record_id": "4929",
+      "cosine_similarity": 0.8272488117218018
+    },
+    {
+      "claim_id": "FACTURK-0135",
+      "record_id": "21673",
+      "cosine_similarity": 0.8378655910491943
+    },
+    {
+      "claim_id": "FACTURK-0136",
+      "record_id": "26917",
+      "cosine_similarity": 0.886502742767334
+    },
+    {
+      "claim_id": "FACTURK-0137",
+      "record_id": "9507",
+      "cosine_similarity": 0.8712014555931091
+    },
+    {
+      "claim_id": "FACTURK-0138",
+      "record_id": "11706",
+      "cosine_similarity": 0.8412407040596008
+    },
+    {
+      "claim_id": "FACTURK-0139",
+      "record_id": "24002",
+      "cosine_similarity": 0.8351125717163086
+    },
+    {
+      "claim_id": "FACTURK-0140",
+      "record_id": "81",
+      "cosine_similarity": 0.8454629182815552
+    },
+    {
+      "claim_id": "FACTURK-0141",
+      "record_id": "5257",
+      "cosine_similarity": 0.8538006544113159
+    },
+    {
+      "claim_id": "FACTURK-0142",
+      "record_id": "15848",
+      "cosine_similarity": 0.8382685780525208
+    },
+    {
+      "claim_id": "FACTURK-0143",
+      "record_id": "8560",
+      "cosine_similarity": 0.8877529501914978
+    },
+    {
+      "claim_id": "FACTURK-0144",
+      "record_id": "2959",
+      "cosine_similarity": 0.8857046365737915
+    },
+    {
+      "claim_id": "FACTURK-0145",
+      "record_id": "1424",
+      "cosine_similarity": 0.8446640968322754
+    },
+    {
+      "claim_id": "FACTURK-0146",
+      "record_id": "14239",
+      "cosine_similarity": 0.8473565578460693
+    },
+    {
+      "claim_id": "FACTURK-0147",
+      "record_id": "16651",
+      "cosine_similarity": 0.880980908870697
+    },
+    {
+      "claim_id": "FACTURK-0148",
+      "record_id": "5032",
+      "cosine_similarity": 0.8265564441680908
+    },
+    {
+      "claim_id": "FACTURK-0149",
+      "record_id": "5137",
+      "cosine_similarity": 0.8434857726097107
+    },
+    {
+      "claim_id": "FACTURK-0150",
+      "record_id": "4331",
+      "cosine_similarity": 0.8122515678405762
+    },
+    {
+      "claim_id": "FACTURK-0151",
+      "record_id": "3084",
+      "cosine_similarity": 0.8430294394493103
+    },
+    {
+      "claim_id": "FACTURK-0152",
+      "record_id": "5168",
+      "cosine_similarity": 0.8418319225311279
+    },
+    {
+      "claim_id": "FACTURK-0153",
+      "record_id": "14312",
+      "cosine_similarity": 0.8398788571357727
+    },
+    {
+      "claim_id": "FACTURK-0154",
+      "record_id": "21804",
+      "cosine_similarity": 0.8255339860916138
+    },
+    {
+      "claim_id": "FACTURK-0155",
+      "record_id": "3232",
+      "cosine_similarity": 0.8256052732467651
+    },
+    {
+      "claim_id": "FACTURK-0156",
+      "record_id": "4634",
+      "cosine_similarity": 0.8744919300079346
+    },
+    {
+      "claim_id": "FACTURK-0157",
+      "record_id": "22569",
+      "cosine_similarity": 0.8175399303436279
+    },
+    {
+      "claim_id": "FACTURK-0158",
+      "record_id": "7151",
+      "cosine_similarity": 0.8292295932769775
+    },
+    {
+      "claim_id": "FACTURK-0159",
+      "record_id": "1609",
+      "cosine_similarity": 0.8967916965484619
+    },
+    {
+      "claim_id": "FACTURK-0160",
+      "record_id": "19452",
+      "cosine_similarity": 0.8290504217147827
+    },
+    {
+      "claim_id": "FACTURK-0161",
+      "record_id": "27219",
+      "cosine_similarity": 0.9142876267433167
+    },
+    {
+      "claim_id": "FACTURK-0162",
+      "record_id": "2000",
+      "cosine_similarity": 0.9045689105987549
+    },
+    {
+      "claim_id": "FACTURK-0163",
+      "record_id": "29221",
+      "cosine_similarity": 0.8829690217971802
+    },
+    {
+      "claim_id": "FACTURK-0164",
+      "record_id": "12587",
+      "cosine_similarity": 0.8233011364936829
+    },
+    {
+      "claim_id": "FACTURK-0165",
+      "record_id": "14516",
+      "cosine_similarity": 0.8600289821624756
+    },
+    {
+      "claim_id": "FACTURK-0166",
+      "record_id": "12704",
+      "cosine_similarity": 0.8432675004005432
+    },
+    {
+      "claim_id": "FACTURK-0167",
+      "record_id": "22804",
+      "cosine_similarity": 0.8965407609939575
+    },
+    {
+      "claim_id": "FACTURK-0168",
+      "record_id": "3532",
+      "cosine_similarity": 0.9197160601615906
+    },
+    {
+      "claim_id": "FACTURK-0169",
+      "record_id": "2131",
+      "cosine_similarity": 0.8432794809341431
+    },
+    {
+      "claim_id": "FACTURK-0170",
+      "record_id": "5396",
+      "cosine_similarity": 0.8195341229438782
+    },
+    {
+      "claim_id": "FACTURK-0171",
+      "record_id": "1970",
+      "cosine_similarity": 0.8294064998626709
+    },
+    {
+      "claim_id": "FACTURK-0172",
+      "record_id": "6286",
+      "cosine_similarity": 0.8306287527084351
+    },
+    {
+      "claim_id": "FACTURK-0173",
+      "record_id": "28155",
+      "cosine_similarity": 0.8460481762886047
+    },
+    {
+      "claim_id": "FACTURK-0174",
+      "record_id": "30024",
+      "cosine_similarity": 0.8563530445098877
+    },
+    {
+      "claim_id": "FACTURK-0175",
+      "record_id": "17313",
+      "cosine_similarity": 0.8939164280891418
+    },
+    {
+      "claim_id": "FACTURK-0176",
+      "record_id": "11617",
+      "cosine_similarity": 0.8514568209648132
+    },
+    {
+      "claim_id": "FACTURK-0177",
+      "record_id": "10285",
+      "cosine_similarity": 0.8485831022262573
+    },
+    {
+      "claim_id": "FACTURK-0178",
+      "record_id": "28388",
+      "cosine_similarity": 0.8616165518760681
+    },
+    {
+      "claim_id": "FACTURK-0179",
+      "record_id": "20593",
+      "cosine_similarity": 0.9237874150276184
+    },
+    {
+      "claim_id": "FACTURK-0180",
+      "record_id": "4721",
+      "cosine_similarity": 0.8382608890533447
+    },
+    {
+      "claim_id": "FACTURK-0181",
+      "record_id": "10414",
+      "cosine_similarity": 0.8355514407157898
+    },
+    {
+      "claim_id": "FACTURK-0182",
+      "record_id": "19835",
+      "cosine_similarity": 0.8998317122459412
+    },
+    {
+      "claim_id": "FACTURK-0183",
+      "record_id": "12380",
+      "cosine_similarity": 0.8492814898490906
+    },
+    {
+      "claim_id": "FACTURK-0184",
+      "record_id": "1410",
+      "cosine_similarity": 0.8394891023635864
+    },
+    {
+      "claim_id": "FACTURK-0185",
+      "record_id": "12272",
+      "cosine_similarity": 0.849031388759613
+    },
+    {
+      "claim_id": "FACTURK-0186",
+      "record_id": "25178",
+      "cosine_similarity": 0.8504889011383057
+    },
+    {
+      "claim_id": "FACTURK-0187",
+      "record_id": "17272",
+      "cosine_similarity": 0.8484929203987122
+    },
+    {
+      "claim_id": "FACTURK-0188",
+      "record_id": "29415",
+      "cosine_similarity": 0.8242620229721069
+    },
+    {
+      "claim_id": "FACTURK-0189",
+      "record_id": "16210",
+      "cosine_similarity": 0.824532151222229
+    },
+    {
+      "claim_id": "FACTURK-0190",
+      "record_id": "7227",
+      "cosine_similarity": 0.8210395574569702
+    },
+    {
+      "claim_id": "FACTURK-0191",
+      "record_id": "5224",
+      "cosine_similarity": 0.8384957313537598
+    },
+    {
+      "claim_id": "FACTURK-0192",
+      "record_id": "19325",
+      "cosine_similarity": 0.8474870920181274
+    },
+    {
+      "claim_id": "FACTURK-0193",
+      "record_id": "4093",
+      "cosine_similarity": 0.838363766670227
+    },
+    {
+      "claim_id": "FACTURK-0194",
+      "record_id": "8602",
+      "cosine_similarity": 0.8491812944412231
+    },
+    {
+      "claim_id": "FACTURK-0195",
+      "record_id": "6471",
+      "cosine_similarity": 0.8445685505867004
+    },
+    {
+      "claim_id": "FACTURK-0196",
+      "record_id": "18352",
+      "cosine_similarity": 0.8303232789039612
+    },
+    {
+      "claim_id": "FACTURK-0197",
+      "record_id": "13711",
+      "cosine_similarity": 0.8567667007446289
+    },
+    {
+      "claim_id": "FACTURK-0198",
+      "record_id": "26284",
+      "cosine_similarity": 0.8561355471611023
+    },
+    {
+      "claim_id": "FACTURK-0199",
+      "record_id": "6504",
+      "cosine_similarity": 0.845731258392334
+    },
+    {
+      "claim_id": "FACTURK-0200",
+      "record_id": "12763",
+      "cosine_similarity": 0.8479197025299072
+    },
+    {
+      "claim_id": "FACTURK-0201",
+      "record_id": "24946",
+      "cosine_similarity": 0.9024495482444763
+    },
+    {
+      "claim_id": "FACTURK-0202",
+      "record_id": "19296",
+      "cosine_similarity": 0.8351089954376221
+    },
+    {
+      "claim_id": "FACTURK-0203",
+      "record_id": "29110",
+      "cosine_similarity": 0.8937931656837463
+    },
+    {
+      "claim_id": "FACTURK-0204",
+      "record_id": "10770",
+      "cosine_similarity": 0.8563671112060547
+    },
+    {
+      "claim_id": "FACTURK-0205",
+      "record_id": "20122",
+      "cosine_similarity": 0.8340616226196289
+    },
+    {
+      "claim_id": "FACTURK-0206",
+      "record_id": "29913",
+      "cosine_similarity": 0.9163169860839844
+    },
+    {
+      "claim_id": "FACTURK-0207",
+      "record_id": "27818",
+      "cosine_similarity": 0.850189208984375
+    },
+    {
+      "claim_id": "FACTURK-0208",
+      "record_id": "26920",
+      "cosine_similarity": 0.902839720249176
+    },
+    {
+      "claim_id": "FACTURK-0209",
+      "record_id": "6451",
+      "cosine_similarity": 0.8899259567260742
+    },
+    {
+      "claim_id": "FACTURK-0210",
+      "record_id": "24354",
+      "cosine_similarity": 0.8481279015541077
+    },
+    {
+      "claim_id": "FACTURK-0211",
+      "record_id": "24726",
+      "cosine_similarity": 0.8382078409194946
+    },
+    {
+      "claim_id": "FACTURK-0212",
+      "record_id": "23566",
+      "cosine_similarity": 0.807929515838623
+    },
+    {
+      "claim_id": "FACTURK-0213",
+      "record_id": "13687",
+      "cosine_similarity": 0.8408392071723938
+    },
+    {
+      "claim_id": "FACTURK-0214",
+      "record_id": "25037",
+      "cosine_similarity": 0.8329759836196899
+    },
+    {
+      "claim_id": "FACTURK-0215",
+      "record_id": "11212",
+      "cosine_similarity": 0.8266708850860596
+    },
+    {
+      "claim_id": "FACTURK-0216",
+      "record_id": "24788",
+      "cosine_similarity": 0.8250761032104492
+    },
+    {
+      "claim_id": "FACTURK-0217",
+      "record_id": "7981",
+      "cosine_similarity": 0.8373653888702393
+    },
+    {
+      "claim_id": "FACTURK-0218",
+      "record_id": "18561",
+      "cosine_similarity": 0.8417220115661621
+    },
+    {
+      "claim_id": "FACTURK-0219",
+      "record_id": "17009",
+      "cosine_similarity": 0.8267326951026917
+    },
+    {
+      "claim_id": "FACTURK-0220",
+      "record_id": "28708",
+      "cosine_similarity": 0.8535546660423279
+    },
+    {
+      "claim_id": "FACTURK-0221",
+      "record_id": "27853",
+      "cosine_similarity": 0.8728110790252686
+    },
+    {
+      "claim_id": "FACTURK-0222",
+      "record_id": "27097",
+      "cosine_similarity": 0.833166241645813
+    },
+    {
+      "claim_id": "FACTURK-0223",
+      "record_id": "6499",
+      "cosine_similarity": 0.9160186052322388
+    },
+    {
+      "claim_id": "FACTURK-0224",
+      "record_id": "2905",
+      "cosine_similarity": 0.816983699798584
+    },
+    {
+      "claim_id": "FACTURK-0225",
+      "record_id": "1948",
+      "cosine_similarity": 0.84294593334198
+    },
+    {
+      "claim_id": "FACTURK-0226",
+      "record_id": "13989",
+      "cosine_similarity": 0.8879653811454773
+    },
+    {
+      "claim_id": "FACTURK-0227",
+      "record_id": "258",
+      "cosine_similarity": 0.8321467638015747
+    },
+    {
+      "claim_id": "FACTURK-0228",
+      "record_id": "1816",
+      "cosine_similarity": 0.8553051948547363
+    },
+    {
+      "claim_id": "FACTURK-0229",
+      "record_id": "21516",
+      "cosine_similarity": 0.8306647539138794
+    },
+    {
+      "claim_id": "FACTURK-0230",
+      "record_id": "28011",
+      "cosine_similarity": 0.899773359298706
+    },
+    {
+      "claim_id": "FACTURK-0231",
+      "record_id": "4452",
+      "cosine_similarity": 0.8352701663970947
+    },
+    {
+      "claim_id": "FACTURK-0232",
+      "record_id": "2149",
+      "cosine_similarity": 0.9027096033096313
+    },
+    {
+      "claim_id": "FACTURK-0233",
+      "record_id": "28944",
+      "cosine_similarity": 0.8736333847045898
+    },
+    {
+      "claim_id": "FACTURK-0234",
+      "record_id": "8503",
+      "cosine_similarity": 0.838276207447052
+    },
+    {
+      "claim_id": "FACTURK-0235",
+      "record_id": "1270",
+      "cosine_similarity": 0.8229016661643982
+    },
+    {
+      "claim_id": "FACTURK-0236",
+      "record_id": "19977",
+      "cosine_similarity": 0.8945214152336121
+    },
+    {
+      "claim_id": "FACTURK-0237",
+      "record_id": "25130",
+      "cosine_similarity": 0.8429659605026245
+    },
+    {
+      "claim_id": "FACTURK-0238",
+      "record_id": "3621",
+      "cosine_similarity": 0.8258472681045532
+    },
+    {
+      "claim_id": "FACTURK-0239",
+      "record_id": "14780",
+      "cosine_similarity": 0.8670223355293274
+    },
+    {
+      "claim_id": "FACTURK-0240",
+      "record_id": "22881",
+      "cosine_similarity": 0.8537644743919373
+    },
+    {
+      "claim_id": "FACTURK-0241",
+      "record_id": "4182",
+      "cosine_similarity": 0.8292816877365112
+    },
+    {
+      "claim_id": "FACTURK-0242",
+      "record_id": "13858",
+      "cosine_similarity": 0.8321048021316528
+    },
+    {
+      "claim_id": "FACTURK-0243",
+      "record_id": "1427",
+      "cosine_similarity": 0.8447718620300293
+    },
+    {
+      "claim_id": "FACTURK-0244",
+      "record_id": "24349",
+      "cosine_similarity": 0.8353735208511353
+    },
+    {
+      "claim_id": "FACTURK-0245",
+      "record_id": "22773",
+      "cosine_similarity": 0.889578104019165
+    },
+    {
+      "claim_id": "FACTURK-0246",
+      "record_id": "24283",
+      "cosine_similarity": 0.8191196918487549
+    },
+    {
+      "claim_id": "FACTURK-0247",
+      "record_id": "24726",
+      "cosine_similarity": 0.9370315074920654
+    },
+    {
+      "claim_id": "FACTURK-0248",
+      "record_id": "18148",
+      "cosine_similarity": 0.8901792168617249
+    },
+    {
+      "claim_id": "FACTURK-0249",
+      "record_id": "427",
+      "cosine_similarity": 0.8967333436012268
+    },
+    {
+      "claim_id": "FACTURK-0250",
+      "record_id": "5953",
+      "cosine_similarity": 0.8447243571281433
+    },
+    {
+      "claim_id": "FACTURK-0251",
+      "record_id": "12330",
+      "cosine_similarity": 0.8329294919967651
+    },
+    {
+      "claim_id": "FACTURK-0252",
+      "record_id": "5630",
+      "cosine_similarity": 0.9207234382629395
+    },
+    {
+      "claim_id": "FACTURK-0253",
+      "record_id": "14814",
+      "cosine_similarity": 0.8265746235847473
+    },
+    {
+      "claim_id": "FACTURK-0254",
+      "record_id": "19084",
+      "cosine_similarity": 0.823298454284668
+    },
+    {
+      "claim_id": "FACTURK-0255",
+      "record_id": "26851",
+      "cosine_similarity": 0.8454149961471558
+    },
+    {
+      "claim_id": "FACTURK-0256",
+      "record_id": "24591",
+      "cosine_similarity": 0.8507270216941833
+    },
+    {
+      "claim_id": "FACTURK-0257",
+      "record_id": "12763",
+      "cosine_similarity": 0.869735598564148
+    },
+    {
+      "claim_id": "FACTURK-0258",
+      "record_id": "28345",
+      "cosine_similarity": 0.8538166284561157
+    },
+    {
+      "claim_id": "FACTURK-0259",
+      "record_id": "25585",
+      "cosine_similarity": 0.8377572894096375
+    },
+    {
+      "claim_id": "FACTURK-0260",
+      "record_id": "16683",
+      "cosine_similarity": 0.8465293645858765
+    },
+    {
+      "claim_id": "FACTURK-0261",
+      "record_id": "23464",
+      "cosine_similarity": 0.8226909637451172
+    },
+    {
+      "claim_id": "FACTURK-0262",
+      "record_id": "6336",
+      "cosine_similarity": 0.838810920715332
+    },
+    {
+      "claim_id": "FACTURK-0263",
+      "record_id": "10031",
+      "cosine_similarity": 0.8036358952522278
+    },
+    {
+      "claim_id": "FACTURK-0264",
+      "record_id": "19761",
+      "cosine_similarity": 0.8643677234649658
+    },
+    {
+      "claim_id": "FACTURK-0265",
+      "record_id": "6119",
+      "cosine_similarity": 0.8323865532875061
+    },
+    {
+      "claim_id": "FACTURK-0266",
+      "record_id": "15367",
+      "cosine_similarity": 0.8223612904548645
+    },
+    {
+      "claim_id": "FACTURK-0267",
+      "record_id": "20024",
+      "cosine_similarity": 0.8441232442855835
+    },
+    {
+      "claim_id": "FACTURK-0268",
+      "record_id": "10329",
+      "cosine_similarity": 0.8921561241149902
+    },
+    {
+      "claim_id": "FACTURK-0269",
+      "record_id": "23361",
+      "cosine_similarity": 0.8477968573570251
+    },
+    {
+      "claim_id": "FACTURK-0270",
+      "record_id": "10764",
+      "cosine_similarity": 0.8327893018722534
+    },
+    {
+      "claim_id": "FACTURK-0271",
+      "record_id": "28382",
+      "cosine_similarity": 0.8400697112083435
+    },
+    {
+      "claim_id": "FACTURK-0272",
+      "record_id": "10913",
+      "cosine_similarity": 0.9032096862792969
+    },
+    {
+      "claim_id": "FACTURK-0273",
+      "record_id": "26467",
+      "cosine_similarity": 0.8373797535896301
+    },
+    {
+      "claim_id": "FACTURK-0274",
+      "record_id": "5387",
+      "cosine_similarity": 0.8410516977310181
+    },
+    {
+      "claim_id": "FACTURK-0275",
+      "record_id": "2453",
+      "cosine_similarity": 0.8155211210250854
+    },
+    {
+      "claim_id": "FACTURK-0276",
+      "record_id": "19650",
+      "cosine_similarity": 0.8448043465614319
+    },
+    {
+      "claim_id": "FACTURK-0277",
+      "record_id": "12191",
+      "cosine_similarity": 0.8454996943473816
+    },
+    {
+      "claim_id": "FACTURK-0278",
+      "record_id": "10214",
+      "cosine_similarity": 0.8405293226242065
+    },
+    {
+      "claim_id": "FACTURK-0279",
+      "record_id": "13077",
+      "cosine_similarity": 0.8719760775566101
+    },
+    {
+      "claim_id": "FACTURK-0280",
+      "record_id": "8654",
+      "cosine_similarity": 0.8221431970596313
+    },
+    {
+      "claim_id": "FACTURK-0281",
+      "record_id": "26562",
+      "cosine_similarity": 0.8531578183174133
+    },
+    {
+      "claim_id": "FACTURK-0282",
+      "record_id": "26518",
+      "cosine_similarity": 0.8785334825515747
+    },
+    {
+      "claim_id": "FACTURK-0283",
+      "record_id": "7606",
+      "cosine_similarity": 0.8682969808578491
+    },
+    {
+      "claim_id": "FACTURK-0284",
+      "record_id": "2532",
+      "cosine_similarity": 0.8650658130645752
+    },
+    {
+      "claim_id": "FACTURK-0285",
+      "record_id": "397",
+      "cosine_similarity": 0.823874831199646
+    },
+    {
+      "claim_id": "FACTURK-0286",
+      "record_id": "7410",
+      "cosine_similarity": 0.8352952599525452
+    },
+    {
+      "claim_id": "FACTURK-0287",
+      "record_id": "13074",
+      "cosine_similarity": 0.8324496150016785
+    },
+    {
+      "claim_id": "FACTURK-0288",
+      "record_id": "6308",
+      "cosine_similarity": 0.8690323829650879
+    },
+    {
+      "claim_id": "FACTURK-0289",
+      "record_id": "10061",
+      "cosine_similarity": 0.8395540714263916
+    },
+    {
+      "claim_id": "FACTURK-0290",
+      "record_id": "29144",
+      "cosine_similarity": 0.8528317213058472
+    },
+    {
+      "claim_id": "FACTURK-0291",
+      "record_id": "29892",
+      "cosine_similarity": 0.8533496856689453
+    },
+    {
+      "claim_id": "FACTURK-0292",
+      "record_id": "6934",
+      "cosine_similarity": 0.8667036294937134
+    },
+    {
+      "claim_id": "FACTURK-0293",
+      "record_id": "29208",
+      "cosine_similarity": 0.8338669538497925
+    },
+    {
+      "claim_id": "FACTURK-0294",
+      "record_id": "28057",
+      "cosine_similarity": 0.8340602517127991
+    },
+    {
+      "claim_id": "FACTURK-0295",
+      "record_id": "22918",
+      "cosine_similarity": 0.831500768661499
+    },
+    {
+      "claim_id": "FACTURK-0296",
+      "record_id": "11532",
+      "cosine_similarity": 0.9386072158813477
+    },
+    {
+      "claim_id": "FACTURK-0297",
+      "record_id": "20",
+      "cosine_similarity": 0.8361322283744812
+    },
+    {
+      "claim_id": "FACTURK-0298",
+      "record_id": "22514",
+      "cosine_similarity": 0.8284673094749451
+    },
+    {
+      "claim_id": "FACTURK-0299",
+      "record_id": "16959",
+      "cosine_similarity": 0.8268978595733643
+    },
+    {
+      "claim_id": "FACTURK-0300",
+      "record_id": "749",
+      "cosine_similarity": 0.8476934432983398
+    },
+    {
+      "claim_id": "FACTURK-0301",
+      "record_id": "5707",
+      "cosine_similarity": 0.8574935793876648
+    },
+    {
+      "claim_id": "FACTURK-0302",
+      "record_id": "23619",
+      "cosine_similarity": 0.825236439704895
+    },
+    {
+      "claim_id": "FACTURK-0303",
+      "record_id": "13756",
+      "cosine_similarity": 0.866680383682251
+    },
+    {
+      "claim_id": "FACTURK-0304",
+      "record_id": "2462",
+      "cosine_similarity": 0.9025007486343384
+    },
+    {
+      "claim_id": "FACTURK-0305",
+      "record_id": "19632",
+      "cosine_similarity": 0.8633103370666504
+    },
+    {
+      "claim_id": "FACTURK-0306",
+      "record_id": "18255",
+      "cosine_similarity": 0.8475376963615417
+    },
+    {
+      "claim_id": "FACTURK-0307",
+      "record_id": "14201",
+      "cosine_similarity": 0.8294075131416321
+    },
+    {
+      "claim_id": "FACTURK-0308",
+      "record_id": "27529",
+      "cosine_similarity": 0.8513425588607788
+    },
+    {
+      "claim_id": "FACTURK-0309",
+      "record_id": "19677",
+      "cosine_similarity": 0.8935294151306152
+    },
+    {
+      "claim_id": "FACTURK-0310",
+      "record_id": "3964",
+      "cosine_similarity": 0.8502851724624634
+    },
+    {
+      "claim_id": "FACTURK-0311",
+      "record_id": "9657",
+      "cosine_similarity": 0.8543899655342102
+    },
+    {
+      "claim_id": "FACTURK-0312",
+      "record_id": "7452",
+      "cosine_similarity": 0.926243782043457
+    },
+    {
+      "claim_id": "FACTURK-0313",
+      "record_id": "11712",
+      "cosine_similarity": 0.8923860788345337
+    },
+    {
+      "claim_id": "FACTURK-0314",
+      "record_id": "20246",
+      "cosine_similarity": 0.8456190824508667
+    },
+    {
+      "claim_id": "FACTURK-0315",
+      "record_id": "25380",
+      "cosine_similarity": 0.8544664978981018
+    },
+    {
+      "claim_id": "FACTURK-0316",
+      "record_id": "6487",
+      "cosine_similarity": 0.9350711703300476
+    },
+    {
+      "claim_id": "FACTURK-0317",
+      "record_id": "22587",
+      "cosine_similarity": 0.8815582990646362
+    },
+    {
+      "claim_id": "FACTURK-0318",
+      "record_id": "18742",
+      "cosine_similarity": 0.8612980246543884
+    },
+    {
+      "claim_id": "FACTURK-0319",
+      "record_id": "28010",
+      "cosine_similarity": 0.8329076766967773
+    },
+    {
+      "claim_id": "FACTURK-0320",
+      "record_id": "25228",
+      "cosine_similarity": 0.8806455731391907
+    },
+    {
+      "claim_id": "FACTURK-0321",
+      "record_id": "25225",
+      "cosine_similarity": 0.9564364552497864
+    },
+    {
+      "claim_id": "FACTURK-0322",
+      "record_id": "1134",
+      "cosine_similarity": 0.8323890566825867
+    },
+    {
+      "claim_id": "FACTURK-0323",
+      "record_id": "10289",
+      "cosine_similarity": 0.830669641494751
+    },
+    {
+      "claim_id": "FACTURK-0324",
+      "record_id": "27696",
+      "cosine_similarity": 0.8407515287399292
+    },
+    {
+      "claim_id": "FACTURK-0325",
+      "record_id": "28722",
+      "cosine_similarity": 0.8498058319091797
+    },
+    {
+      "claim_id": "FACTURK-0326",
+      "record_id": "23950",
+      "cosine_similarity": 0.897795557975769
+    },
+    {
+      "claim_id": "FACTURK-0327",
+      "record_id": "16591",
+      "cosine_similarity": 0.8737900257110596
+    },
+    {
+      "claim_id": "FACTURK-0328",
+      "record_id": "7120",
+      "cosine_similarity": 0.8602728843688965
+    },
+    {
+      "claim_id": "FACTURK-0329",
+      "record_id": "29186",
+      "cosine_similarity": 0.8284260630607605
+    },
+    {
+      "claim_id": "FACTURK-0330",
+      "record_id": "6618",
+      "cosine_similarity": 0.8475868105888367
+    },
+    {
+      "claim_id": "FACTURK-0331",
+      "record_id": "7572",
+      "cosine_similarity": 0.845201849937439
+    },
+    {
+      "claim_id": "FACTURK-0332",
+      "record_id": "12338",
+      "cosine_similarity": 0.8547583818435669
+    },
+    {
+      "claim_id": "FACTURK-0333",
+      "record_id": "10566",
+      "cosine_similarity": 0.8477814197540283
+    },
+    {
+      "claim_id": "FACTURK-0334",
+      "record_id": "19685",
+      "cosine_similarity": 0.8867638111114502
+    },
+    {
+      "claim_id": "FACTURK-0335",
+      "record_id": "22812",
+      "cosine_similarity": 0.8492664098739624
+    },
+    {
+      "claim_id": "FACTURK-0336",
+      "record_id": "27942",
+      "cosine_similarity": 0.8417326211929321
+    },
+    {
+      "claim_id": "FACTURK-0337",
+      "record_id": "14578",
+      "cosine_similarity": 0.898562490940094
+    },
+    {
+      "claim_id": "FACTURK-0338",
+      "record_id": "23826",
+      "cosine_similarity": 0.8537455797195435
+    },
+    {
+      "claim_id": "FACTURK-0339",
+      "record_id": "22738",
+      "cosine_similarity": 0.8517704606056213
+    },
+    {
+      "claim_id": "FACTURK-0340",
+      "record_id": "8990",
+      "cosine_similarity": 0.8416222333908081
+    },
+    {
+      "claim_id": "FACTURK-0341",
+      "record_id": "6683",
+      "cosine_similarity": 0.8287144303321838
+    },
+    {
+      "claim_id": "FACTURK-0342",
+      "record_id": "19999",
+      "cosine_similarity": 0.8795970678329468
+    },
+    {
+      "claim_id": "FACTURK-0343",
+      "record_id": "7726",
+      "cosine_similarity": 0.8447951674461365
+    },
+    {
+      "claim_id": "FACTURK-0344",
+      "record_id": "21953",
+      "cosine_similarity": 0.9501255750656128
+    },
+    {
+      "claim_id": "FACTURK-0345",
+      "record_id": "3486",
+      "cosine_similarity": 0.8386019468307495
+    },
+    {
+      "claim_id": "FACTURK-0346",
+      "record_id": "3246",
+      "cosine_similarity": 0.8882566690444946
+    },
+    {
+      "claim_id": "FACTURK-0347",
+      "record_id": "25178",
+      "cosine_similarity": 0.8469328284263611
+    },
+    {
+      "claim_id": "FACTURK-0348",
+      "record_id": "17571",
+      "cosine_similarity": 0.8481607437133789
+    },
+    {
+      "claim_id": "FACTURK-0349",
+      "record_id": "29745",
+      "cosine_similarity": 0.8404908180236816
+    },
+    {
+      "claim_id": "FACTURK-0350",
+      "record_id": "1970",
+      "cosine_similarity": 0.8470584750175476
+    },
+    {
+      "claim_id": "FACTURK-0351",
+      "record_id": "28305",
+      "cosine_similarity": 0.8993245959281921
+    },
+    {
+      "claim_id": "FACTURK-0352",
+      "record_id": "15423",
+      "cosine_similarity": 0.8965129852294922
+    },
+    {
+      "claim_id": "FACTURK-0353",
+      "record_id": "10374",
+      "cosine_similarity": 0.8359060287475586
+    },
+    {
+      "claim_id": "FACTURK-0354",
+      "record_id": "18270",
+      "cosine_similarity": 0.9047602415084839
+    },
+    {
+      "claim_id": "FACTURK-0355",
+      "record_id": "12693",
+      "cosine_similarity": 0.8318995237350464
+    },
+    {
+      "claim_id": "FACTURK-0356",
+      "record_id": "20136",
+      "cosine_similarity": 0.859798014163971
+    },
+    {
+      "claim_id": "FACTURK-0357",
+      "record_id": "9150",
+      "cosine_similarity": 0.8513939380645752
+    },
+    {
+      "claim_id": "FACTURK-0358",
+      "record_id": "12068",
+      "cosine_similarity": 0.8424066305160522
+    },
+    {
+      "claim_id": "FACTURK-0359",
+      "record_id": "60",
+      "cosine_similarity": 0.8357647061347961
+    },
+    {
+      "claim_id": "FACTURK-0360",
+      "record_id": "5510",
+      "cosine_similarity": 0.8801616430282593
+    },
+    {
+      "claim_id": "FACTURK-0361",
+      "record_id": "10589",
+      "cosine_similarity": 0.876653254032135
+    },
+    {
+      "claim_id": "FACTURK-0362",
+      "record_id": "3189",
+      "cosine_similarity": 0.8530051708221436
+    },
+    {
+      "claim_id": "FACTURK-0363",
+      "record_id": "20211",
+      "cosine_similarity": 0.851232647895813
+    },
+    {
+      "claim_id": "FACTURK-0364",
+      "record_id": "1362",
+      "cosine_similarity": 0.8430178165435791
+    },
+    {
+      "claim_id": "FACTURK-0365",
+      "record_id": "18694",
+      "cosine_similarity": 0.8561338782310486
+    },
+    {
+      "claim_id": "FACTURK-0366",
+      "record_id": "6256",
+      "cosine_similarity": 0.8170382380485535
+    },
+    {
+      "claim_id": "FACTURK-0367",
+      "record_id": "12005",
+      "cosine_similarity": 0.8681422472000122
+    },
+    {
+      "claim_id": "FACTURK-0368",
+      "record_id": "24662",
+      "cosine_similarity": 0.9122519493103027
+    },
+    {
+      "claim_id": "FACTURK-0369",
+      "record_id": "4257",
+      "cosine_similarity": 0.8720512390136719
+    },
+    {
+      "claim_id": "FACTURK-0370",
+      "record_id": "25743",
+      "cosine_similarity": 0.8378531336784363
+    },
+    {
+      "claim_id": "FACTURK-0371",
+      "record_id": "25009",
+      "cosine_similarity": 0.9342759847640991
+    },
+    {
+      "claim_id": "FACTURK-0372",
+      "record_id": "4452",
+      "cosine_similarity": 0.8521416783332825
+    },
+    {
+      "claim_id": "FACTURK-0373",
+      "record_id": "10658",
+      "cosine_similarity": 0.8366597294807434
+    },
+    {
+      "claim_id": "FACTURK-0374",
+      "record_id": "30136",
+      "cosine_similarity": 0.8446605205535889
+    },
+    {
+      "claim_id": "FACTURK-0375",
+      "record_id": "13949",
+      "cosine_similarity": 0.8491634726524353
+    },
+    {
+      "claim_id": "FACTURK-0376",
+      "record_id": "24714",
+      "cosine_similarity": 0.8079482316970825
+    },
+    {
+      "claim_id": "FACTURK-0377",
+      "record_id": "23361",
+      "cosine_similarity": 0.8540163040161133
+    },
+    {
+      "claim_id": "FACTURK-0378",
+      "record_id": "23565",
+      "cosine_similarity": 0.8489227890968323
+    },
+    {
+      "claim_id": "FACTURK-0379",
+      "record_id": "21449",
+      "cosine_similarity": 0.842932403087616
+    },
+    {
+      "claim_id": "FACTURK-0380",
+      "record_id": "25178",
+      "cosine_similarity": 0.8491804003715515
+    },
+    {
+      "claim_id": "FACTURK-0381",
+      "record_id": "12704",
+      "cosine_similarity": 0.8193702697753906
+    },
+    {
+      "claim_id": "FACTURK-0382",
+      "record_id": "7754",
+      "cosine_similarity": 0.8477362990379333
+    },
+    {
+      "claim_id": "FACTURK-0383",
+      "record_id": "18530",
+      "cosine_similarity": 0.8511147499084473
+    },
+    {
+      "claim_id": "FACTURK-0384",
+      "record_id": "9023",
+      "cosine_similarity": 0.8902187347412109
+    },
+    {
+      "claim_id": "FACTURK-0385",
+      "record_id": "29362",
+      "cosine_similarity": 0.8191717863082886
+    },
+    {
+      "claim_id": "FACTURK-0386",
+      "record_id": "9101",
+      "cosine_similarity": 0.837994396686554
+    },
+    {
+      "claim_id": "FACTURK-0387",
+      "record_id": "6784",
+      "cosine_similarity": 0.8256296515464783
+    },
+    {
+      "claim_id": "FACTURK-0388",
+      "record_id": "16939",
+      "cosine_similarity": 0.8523023128509521
+    },
+    {
+      "claim_id": "FACTURK-0389",
+      "record_id": "544",
+      "cosine_similarity": 0.8320877552032471
+    },
+    {
+      "claim_id": "FACTURK-0390",
+      "record_id": "24618",
+      "cosine_similarity": 0.8289351463317871
+    },
+    {
+      "claim_id": "FACTURK-0391",
+      "record_id": "29892",
+      "cosine_similarity": 0.8452805280685425
+    },
+    {
+      "claim_id": "FACTURK-0392",
+      "record_id": "25178",
+      "cosine_similarity": 0.8476473093032837
+    },
+    {
+      "claim_id": "FACTURK-0393",
+      "record_id": "8836",
+      "cosine_similarity": 0.9211627840995789
+    },
+    {
+      "claim_id": "FACTURK-0394",
+      "record_id": "15510",
+      "cosine_similarity": 0.8548367619514465
+    },
+    {
+      "claim_id": "FACTURK-0395",
+      "record_id": "20842",
+      "cosine_similarity": 0.8633757829666138
+    },
+    {
+      "claim_id": "FACTURK-0396",
+      "record_id": "6734",
+      "cosine_similarity": 0.9104092121124268
+    },
+    {
+      "claim_id": "FACTURK-0397",
+      "record_id": "16260",
+      "cosine_similarity": 0.8441660404205322
+    },
+    {
+      "claim_id": "FACTURK-0398",
+      "record_id": "25178",
+      "cosine_similarity": 0.8565641641616821
+    },
+    {
+      "claim_id": "FACTURK-0399",
+      "record_id": "648",
+      "cosine_similarity": 0.8608304858207703
+    },
+    {
+      "claim_id": "FACTURK-0400",
+      "record_id": "22096",
+      "cosine_similarity": 0.8352510929107666
+    },
+    {
+      "claim_id": "FACTURK-0401",
+      "record_id": "17161",
+      "cosine_similarity": 0.8431084156036377
+    },
+    {
+      "claim_id": "FACTURK-0402",
+      "record_id": "11547",
+      "cosine_similarity": 0.8238105177879333
+    },
+    {
+      "claim_id": "FACTURK-0403",
+      "record_id": "12901",
+      "cosine_similarity": 0.9039990305900574
+    },
+    {
+      "claim_id": "FACTURK-0404",
+      "record_id": "23277",
+      "cosine_similarity": 0.8364085555076599
+    },
+    {
+      "claim_id": "FACTURK-0405",
+      "record_id": "635",
+      "cosine_similarity": 0.8537092804908752
+    },
+    {
+      "claim_id": "FACTURK-0406",
+      "record_id": "635",
+      "cosine_similarity": 0.8377807140350342
+    },
+    {
+      "claim_id": "FACTURK-0407",
+      "record_id": "14727",
+      "cosine_similarity": 0.8709247708320618
+    },
+    {
+      "claim_id": "FACTURK-0408",
+      "record_id": "15724",
+      "cosine_similarity": 0.8519283533096313
+    },
+    {
+      "claim_id": "FACTURK-0409",
+      "record_id": "1300",
+      "cosine_similarity": 0.8302567005157471
+    },
+    {
+      "claim_id": "FACTURK-0410",
+      "record_id": "30084",
+      "cosine_similarity": 0.849581778049469
+    },
+    {
+      "claim_id": "FACTURK-0411",
+      "record_id": "9405",
+      "cosine_similarity": 0.8389161825180054
+    },
+    {
+      "claim_id": "FACTURK-0412",
+      "record_id": "25558",
+      "cosine_similarity": 0.8675975799560547
+    },
+    {
+      "claim_id": "FACTURK-0413",
+      "record_id": "2640",
+      "cosine_similarity": 0.9384053945541382
+    },
+    {
+      "claim_id": "FACTURK-0414",
+      "record_id": "10077",
+      "cosine_similarity": 0.8450673818588257
+    },
+    {
+      "claim_id": "FACTURK-0415",
+      "record_id": "1375",
+      "cosine_similarity": 0.8281140327453613
+    },
+    {
+      "claim_id": "FACTURK-0416",
+      "record_id": "19286",
+      "cosine_similarity": 0.8537045121192932
+    },
+    {
+      "claim_id": "FACTURK-0417",
+      "record_id": "16841",
+      "cosine_similarity": 0.837321937084198
+    },
+    {
+      "claim_id": "FACTURK-0418",
+      "record_id": "24015",
+      "cosine_similarity": 0.8512301445007324
+    },
+    {
+      "claim_id": "FACTURK-0419",
+      "record_id": "22945",
+      "cosine_similarity": 0.8395876288414001
+    },
+    {
+      "claim_id": "FACTURK-0420",
+      "record_id": "23624",
+      "cosine_similarity": 0.8302285671234131
+    },
+    {
+      "claim_id": "FACTURK-0421",
+      "record_id": "5519",
+      "cosine_similarity": 0.862713098526001
+    },
+    {
+      "claim_id": "FACTURK-0422",
+      "record_id": "7487",
+      "cosine_similarity": 0.8585690259933472
+    },
+    {
+      "claim_id": "FACTURK-0423",
+      "record_id": "1465",
+      "cosine_similarity": 0.820103108882904
+    },
+    {
+      "claim_id": "FACTURK-0424",
+      "record_id": "19707",
+      "cosine_similarity": 0.8422118425369263
+    },
+    {
+      "claim_id": "FACTURK-0425",
+      "record_id": "15573",
+      "cosine_similarity": 0.8530913591384888
+    },
+    {
+      "claim_id": "FACTURK-0426",
+      "record_id": "15675",
+      "cosine_similarity": 0.8606635332107544
+    },
+    {
+      "claim_id": "FACTURK-0427",
+      "record_id": "15673",
+      "cosine_similarity": 0.8256598114967346
+    },
+    {
+      "claim_id": "FACTURK-0428",
+      "record_id": "24525",
+      "cosine_similarity": 0.8672217130661011
+    },
+    {
+      "claim_id": "FACTURK-0429",
+      "record_id": "11936",
+      "cosine_similarity": 0.865170955657959
+    },
+    {
+      "claim_id": "FACTURK-0430",
+      "record_id": "23694",
+      "cosine_similarity": 0.8387956619262695
+    },
+    {
+      "claim_id": "FACTURK-0431",
+      "record_id": "19220",
+      "cosine_similarity": 0.8497416973114014
+    },
+    {
+      "claim_id": "FACTURK-0432",
+      "record_id": "10302",
+      "cosine_similarity": 0.8406957387924194
+    },
+    {
+      "claim_id": "FACTURK-0433",
+      "record_id": "1970",
+      "cosine_similarity": 0.8246003985404968
+    },
+    {
+      "claim_id": "FACTURK-0434",
+      "record_id": "15787",
+      "cosine_similarity": 0.8347700834274292
+    },
+    {
+      "claim_id": "FACTURK-0435",
+      "record_id": "10971",
+      "cosine_similarity": 0.857600748538971
+    },
+    {
+      "claim_id": "FACTURK-0436",
+      "record_id": "29106",
+      "cosine_similarity": 0.8588240146636963
+    },
+    {
+      "claim_id": "FACTURK-0437",
+      "record_id": "1900",
+      "cosine_similarity": 0.8314242362976074
+    },
+    {
+      "claim_id": "FACTURK-0438",
+      "record_id": "28285",
+      "cosine_similarity": 0.8428686261177063
+    },
+    {
+      "claim_id": "FACTURK-0439",
+      "record_id": "25194",
+      "cosine_similarity": 0.8368206024169922
+    },
+    {
+      "claim_id": "FACTURK-0440",
+      "record_id": "17750",
+      "cosine_similarity": 0.849133312702179
+    },
+    {
+      "claim_id": "FACTURK-0441",
+      "record_id": "7836",
+      "cosine_similarity": 0.8407644629478455
+    },
+    {
+      "claim_id": "FACTURK-0442",
+      "record_id": "17970",
+      "cosine_similarity": 0.8497478365898132
+    },
+    {
+      "claim_id": "FACTURK-0443",
+      "record_id": "4452",
+      "cosine_similarity": 0.8442975878715515
+    },
+    {
+      "claim_id": "FACTURK-0444",
+      "record_id": "10913",
+      "cosine_similarity": 0.8918040990829468
+    },
+    {
+      "claim_id": "FACTURK-0445",
+      "record_id": "7505",
+      "cosine_similarity": 0.8849904537200928
+    },
+    {
+      "claim_id": "FACTURK-0446",
+      "record_id": "15663",
+      "cosine_similarity": 0.8324171304702759
+    },
+    {
+      "claim_id": "FACTURK-0447",
+      "record_id": "9722",
+      "cosine_similarity": 0.8262717723846436
+    },
+    {
+      "claim_id": "FACTURK-0448",
+      "record_id": "17625",
+      "cosine_similarity": 0.8332664966583252
+    },
+    {
+      "claim_id": "FACTURK-0449",
+      "record_id": "20596",
+      "cosine_similarity": 0.8221539855003357
+    },
+    {
+      "claim_id": "FACTURK-0450",
+      "record_id": "20046",
+      "cosine_similarity": 0.8297479748725891
+    },
+    {
+      "claim_id": "FACTURK-0451",
+      "record_id": "19719",
+      "cosine_similarity": 0.9174418449401855
+    },
+    {
+      "claim_id": "FACTURK-0452",
+      "record_id": "23438",
+      "cosine_similarity": 0.8443536162376404
+    },
+    {
+      "claim_id": "FACTURK-0453",
+      "record_id": "16831",
+      "cosine_similarity": 0.855636715888977
+    },
+    {
+      "claim_id": "FACTURK-0454",
+      "record_id": "394",
+      "cosine_similarity": 0.919115424156189
+    },
+    {
+      "claim_id": "FACTURK-0455",
+      "record_id": "6181",
+      "cosine_similarity": 0.8386722803115845
+    },
+    {
+      "claim_id": "FACTURK-0456",
+      "record_id": "13712",
+      "cosine_similarity": 0.8603579998016357
+    },
+    {
+      "claim_id": "FACTURK-0457",
+      "record_id": "3638",
+      "cosine_similarity": 0.8809739351272583
+    },
+    {
+      "claim_id": "FACTURK-0458",
+      "record_id": "24303",
+      "cosine_similarity": 0.8345392942428589
+    },
+    {
+      "claim_id": "FACTURK-0459",
+      "record_id": "27910",
+      "cosine_similarity": 0.8391724824905396
+    },
+    {
+      "claim_id": "FACTURK-0460",
+      "record_id": "9535",
+      "cosine_similarity": 0.8475340604782104
+    },
+    {
+      "claim_id": "FACTURK-0461",
+      "record_id": "29138",
+      "cosine_similarity": 0.8849654197692871
+    },
+    {
+      "claim_id": "FACTURK-0462",
+      "record_id": "20643",
+      "cosine_similarity": 0.8266847133636475
+    },
+    {
+      "claim_id": "FACTURK-0463",
+      "record_id": "2498",
+      "cosine_similarity": 0.8464180827140808
+    },
+    {
+      "claim_id": "FACTURK-0464",
+      "record_id": "20974",
+      "cosine_similarity": 0.8285080790519714
+    },
+    {
+      "claim_id": "FACTURK-0465",
+      "record_id": "29661",
+      "cosine_similarity": 0.8449500203132629
+    },
+    {
+      "claim_id": "FACTURK-0466",
+      "record_id": "4846",
+      "cosine_similarity": 0.829342246055603
+    },
+    {
+      "claim_id": "FACTURK-0467",
+      "record_id": "22812",
+      "cosine_similarity": 0.8285727500915527
+    },
+    {
+      "claim_id": "FACTURK-0468",
+      "record_id": "21518",
+      "cosine_similarity": 0.8398560285568237
+    },
+    {
+      "claim_id": "FACTURK-0469",
+      "record_id": "24613",
+      "cosine_similarity": 0.8884881734848022
+    },
+    {
+      "claim_id": "FACTURK-0470",
+      "record_id": "21185",
+      "cosine_similarity": 0.8361396193504333
+    },
+    {
+      "claim_id": "FACTURK-0471",
+      "record_id": "1442",
+      "cosine_similarity": 0.8354998826980591
+    },
+    {
+      "claim_id": "FACTURK-0472",
+      "record_id": "13584",
+      "cosine_similarity": 0.8248453736305237
+    },
+    {
+      "claim_id": "FACTURK-0473",
+      "record_id": "10109",
+      "cosine_similarity": 0.808738648891449
+    },
+    {
+      "claim_id": "FACTURK-0474",
+      "record_id": "14015",
+      "cosine_similarity": 0.9228215217590332
+    },
+    {
+      "claim_id": "FACTURK-0475",
+      "record_id": "12587",
+      "cosine_similarity": 0.8432065844535828
+    },
+    {
+      "claim_id": "FACTURK-0476",
+      "record_id": "27128",
+      "cosine_similarity": 0.825722873210907
+    },
+    {
+      "claim_id": "FACTURK-0477",
+      "record_id": "29738",
+      "cosine_similarity": 0.8699331283569336
+    },
+    {
+      "claim_id": "FACTURK-0478",
+      "record_id": "17814",
+      "cosine_similarity": 0.8305945992469788
+    },
+    {
+      "claim_id": "FACTURK-0479",
+      "record_id": "18363",
+      "cosine_similarity": 0.8247207403182983
+    },
+    {
+      "claim_id": "FACTURK-0480",
+      "record_id": "28586",
+      "cosine_similarity": 0.8726568222045898
+    },
+    {
+      "claim_id": "FACTURK-0481",
+      "record_id": "18274",
+      "cosine_similarity": 0.8349196314811707
+    },
+    {
+      "claim_id": "FACTURK-0482",
+      "record_id": "999",
+      "cosine_similarity": 0.8795585036277771
+    },
+    {
+      "claim_id": "FACTURK-0483",
+      "record_id": "5294",
+      "cosine_similarity": 0.8138370513916016
+    },
+    {
+      "claim_id": "FACTURK-0484",
+      "record_id": "15898",
+      "cosine_similarity": 0.8414291739463806
+    },
+    {
+      "claim_id": "FACTURK-0485",
+      "record_id": "3729",
+      "cosine_similarity": 0.8448221683502197
+    },
+    {
+      "claim_id": "FACTURK-0486",
+      "record_id": "6094",
+      "cosine_similarity": 0.9125388860702515
+    },
+    {
+      "claim_id": "FACTURK-0487",
+      "record_id": "16758",
+      "cosine_similarity": 0.8366566896438599
+    },
+    {
+      "claim_id": "FACTURK-0488",
+      "record_id": "24863",
+      "cosine_similarity": 0.8419784903526306
+    },
+    {
+      "claim_id": "FACTURK-0489",
+      "record_id": "1865",
+      "cosine_similarity": 0.8327169418334961
+    },
+    {
+      "claim_id": "FACTURK-0490",
+      "record_id": "2812",
+      "cosine_similarity": 0.8616118431091309
+    },
+    {
+      "claim_id": "FACTURK-0491",
+      "record_id": "15736",
+      "cosine_similarity": 0.8732640743255615
+    },
+    {
+      "claim_id": "FACTURK-0492",
+      "record_id": "7311",
+      "cosine_similarity": 0.82354736328125
+    },
+    {
+      "claim_id": "FACTURK-0493",
+      "record_id": "21947",
+      "cosine_similarity": 0.8645110130310059
+    },
+    {
+      "claim_id": "FACTURK-0494",
+      "record_id": "8609",
+      "cosine_similarity": 0.8364225029945374
+    },
+    {
+      "claim_id": "FACTURK-0495",
+      "record_id": "23036",
+      "cosine_similarity": 0.8282350301742554
+    },
+    {
+      "claim_id": "FACTURK-0496",
+      "record_id": "14928",
+      "cosine_similarity": 0.8809310793876648
+    },
+    {
+      "claim_id": "FACTURK-0497",
+      "record_id": "25941",
+      "cosine_similarity": 0.8417932391166687
+    },
+    {
+      "claim_id": "FACTURK-0498",
+      "record_id": "28436",
+      "cosine_similarity": 0.8424161672592163
+    },
+    {
+      "claim_id": "FACTURK-0499",
+      "record_id": "9642",
+      "cosine_similarity": 0.8468611836433411
+    },
+    {
+      "claim_id": "FACTURK-0500",
+      "record_id": "27629",
+      "cosine_similarity": 0.9361847043037415
+    }
+  ],
+  "flagged_claim_ids": [
+    "FACTURK-0321",
+    "FACTURK-0344"
+  ]
+}

@@ -179,10 +179,24 @@ class KizilelmaEngine:
         current_dir = os.path.dirname(os.path.abspath(__file__))
         # Proje kökü: KIZILELMAI/
         self.root_dir = os.path.dirname(os.path.dirname(os.path.dirname(current_dir)))
-        self.csv_path = os.environ.get(
-            "KIZILELMAI_CSV_PATH", 
-            os.path.join(self.root_dir, 'data', 'processed', 'egitim_verisi_final.csv')
-        )
+        
+        # Otomatik olarak .runtime/evaluation_models/models.json içindeki yerel offline yolları al
+        models_json_path = os.path.join(self.root_dir, '.runtime', 'evaluation_models', 'models.json')
+        if os.path.exists(models_json_path) and not self.model_paths:
+            try:
+                import json as _json
+                _m = _json.load(open(models_json_path, encoding='utf-8'))
+                for role in ('embedding', 'reranker', 'nli'):
+                    if role in _m and _m[role].get('path') and os.path.exists(_m[role]['path']):
+                        self.model_paths[role] = _m[role]['path']
+            except Exception:
+                pass
+
+        # Varsayılan korpus: v2 snapshot (e5-large precomputed vektörlü)
+        v2_corpus = os.path.join(self.root_dir, 'data', 'corpus_snapshots', 'local_csv_20260913_v2', 'corpus.csv')
+        default_csv = v2_corpus if os.path.exists(v2_corpus) else os.path.join(self.root_dir, 'data', 'processed', 'egitim_verisi_final.csv')
+        self.csv_path = os.environ.get("KIZILELMAI_CSV_PATH", default_csv)
+
         self.local_model_path = os.path.join(self.root_dir, 'src', 'ai_core', 'models', 'kizilelma_model_v1')
         self.classifier_model_path = os.path.join(self.root_dir, 'src', 'ai_core', 'models', 'kizilelma_classifier_v1')
         self.kb_path = os.path.join(self.root_dir, 'data', 'processed', 'knowledge_base.json')
@@ -266,41 +280,85 @@ class KizilelmaEngine:
     def load_search_model(self):
         if self.search_model is not None:
             return
-        print("⏳ Vektör Arama (Embedding) modeli yükleniyor...")
+        print("Vektor Arama (Embedding) modeli yukleniyor...")
         if os.path.exists(self.local_model_path):
-            print(f"📂 Yerel model kullanılıyor: {self.local_model_path}")
+            print("Yerel model kullaniliyor: %s" % self.local_model_path)
             self.search_model = SentenceTransformer(self.local_model_path)
         else:
-            self.search_model = SentenceTransformer('intfloat/multilingual-e5-small')
+            # Faz 2 (2026-09-13): multilingual-e5-small yerine e5-large kullan
+            # models.json içinde embedding.model_id zaten güncellendi.
+            _models_json = os.path.join(self.root_dir, '.runtime', 'evaluation_models', 'models.json')
+            _emb_model_id = 'intfloat/multilingual-e5-large'
+            _cache_dir = os.path.join(self.root_dir, '.runtime', 'evaluation_models', 'cache')
+            if os.path.exists(_models_json):
+                try:
+                    import json as _json
+                    _models_data = _json.loads(open(_models_json, encoding='utf-8').read())
+                    _emb_model_id = _models_data.get('embedding', {}).get('model_id', _emb_model_id)
+                    _emb_path = _models_data.get('embedding', {}).get('path', '')
+                    if _emb_path and os.path.exists(_emb_path):
+                        self.search_model = SentenceTransformer(_emb_path)
+                    else:
+                        self.search_model = SentenceTransformer(_emb_model_id, cache_folder=_cache_dir)
+                except Exception as _e:
+                    print("models.json okunamadi, fallback: %s" % _e)
+                    self.search_model = SentenceTransformer(_emb_model_id, cache_folder=_cache_dir)
+            else:
+                self.search_model = SentenceTransformer(_emb_model_id, cache_folder=_cache_dir)
         self.search_model.half()
-        print("✅ Vektör Arama modeli hazır (FP16)!")
+        print("Vektor Arama modeli hazir (FP16)!")
 
         # Embeddings Hesapla (Eğer PostgreSQL bağlı değilse RAM'e yükle - Hızlı Başlangıç Önbellekli)
         if not getattr(self, 'db_connected', False) and self.texts:
+            # Faz 2: e5-large precomputed embeddings önce kontrol et
+            _snapshot_dir = os.path.join(self.root_dir, 'data', 'corpus_snapshots', 'local_csv_20260913_v2')
+            _e5_large_npy = os.path.join(_snapshot_dir, 'embeddings_e5_large.npy')
             npy_path = self.csv_path.replace('.csv', '_embeddings.npy')
-            if os.path.exists(npy_path):
-                print(f"📂 Vektör önbelleği bulundu, RAM'e yükleniyor: {os.path.basename(npy_path)}")
+
+            # e5-large precomputed dosyası var mı ve boyut uyuşuyor mu?
+            _loaded_from_precomputed = False
+            if os.path.exists(_e5_large_npy):
                 try:
-                    self.text_embeddings = np.load(npy_path)
-                    if len(self.text_embeddings) == len(self.texts):
-                        print(f"✅ {len(self.text_embeddings)} vektör önbellekten başarıyla yüklendi (Anında açılış!).")
+                    _loaded = np.load(_e5_large_npy)
+                    if len(_loaded) == len(self.texts):
+                        self.text_embeddings = _loaded
+                        print("e5-large onceden hesaplanmis vektorler yuklendi: %d vektor, dim=%d" % (
+                              len(self.text_embeddings), self.text_embeddings.shape[1]))
+                        _loaded_from_precomputed = True
                     else:
-                        print("⚠️ Vektör sayısı uyuşmuyor, yeniden hesaplanıyor...")
+                        print("e5-large boyut uyusmuyor (%d vs %d), yeniden hesaplaniyor..." % (
+                              len(_loaded), len(self.texts)))
+                except Exception as _e:
+                    print("e5-large npy yuklenemedi: %s" % _e)
+
+            if not _loaded_from_precomputed:
+                # Legacy npy cache kontrol et
+                if os.path.exists(npy_path):
+                    print("Vektor onbellegi bulundu: %s" % os.path.basename(npy_path))
+                    try:
+                        self.text_embeddings = np.load(npy_path)
+                        if len(self.text_embeddings) == len(self.texts):
+                            print("%d vektor oncellekten yuklendi." % len(self.text_embeddings))
+                        else:
+                            print("Vektor sayisi uyusmuyor, yeniden hesaplaniyor...")
+                            self.text_embeddings = []
+                    except Exception as cache_err:
+                        print("Onbellek okunamadi: %s" % cache_err)
                         self.text_embeddings = []
-                except Exception as cache_err:
-                    print(f"⚠️ Önbellek okunamadı: {cache_err}, yeniden hesaplanıyor...")
-                    self.text_embeddings = []
-            
+
             if len(self.text_embeddings) == 0:
-                print("⏳ Çevrimdışı mod için vektörler RAM'e yükleniyor (Multilingual-E5-Small)...")
+                print("Vekorler RAM'e yukleniyor (e5-large)...")
                 try:
                     passage_texts = ["passage: " + str(t) for t in self.texts]
-                    self.text_embeddings = self.search_model.encode(passage_texts, convert_to_numpy=True, show_progress_bar=False).astype(np.float32)
+                    self.text_embeddings = self.search_model.encode(
+                        passage_texts, convert_to_numpy=True,
+                        show_progress_bar=False, batch_size=64
+                    ).astype(np.float32)
                     if not self.frozen_corpus_path:
                         np.save(npy_path, self.text_embeddings)
-                    print(f"✅ {len(self.text_embeddings)} vektör RAM'e başarıyla yüklendi ve önbelleğe kaydedildi.")
+                    print("%d vektor RAM'e yuklendi." % len(self.text_embeddings))
                 except Exception as e:
-                    print(f"⚠️ Çevrimdışı modda vektörler hesaplanırken hata oluştu: {e}")
+                    print("Vektorler hesaplanirken hata: %s" % e)
                     self.text_embeddings = []
                     if self.frozen_corpus_path:
                         raise RuntimeError("Frozen-run embeddings failed; evaluation cannot fall back.") from e
@@ -314,11 +372,11 @@ class KizilelmaEngine:
                 return
             print("Agir modeller yukleniyor (NLI + ReRanker)...")
 
-        # NLI Modeli (Gerekçelendirme)
+        # NLI Modeli (Gerekçelendirme) — K-4 Doğrulama Katmanı
         if self.nli_model is None:
-            self.nli_model = CrossEncoder(self.model_paths.get('nli', 'joeddav/xlm-roberta-large-xnli'))
-            if hasattr(self.nli_model, 'model') and self.nli_model.model:
-                self.nli_model.model.half()
+            from src.ai_core.layers.k4_nli import load_nli_model
+            dev = 0 if torch.cuda.is_available() else -1
+            self.nli_model = load_nli_model(self.model_paths.get('nli', 'joeddav/xlm-roberta-large-xnli'), device=dev)
 
         # --- YENI: Layer 3 Re-Ranker Modeli (Keskin Nişancı) ---
         if not getattr(self, "disable_reranker", False):
@@ -1125,13 +1183,20 @@ class KizilelmaEngine:
                     conf = max(55.0, conf - 20.0)
                     risk = max(risk, 55.0)
                     desc += " (⚠️ Yardımcı sınıflandırıcı metin yapısını şüpheli buldu.)"
-                # RET (Bulunamadı) durumunda, eğer K-6 çok yüksek güvenle yalan/şüpheli diyorsa ve hafif benzerlik varsa
-                elif status == "RET" and k6_label == 0 and k6_conf >= 0.90 and sim_score > 0.40:
-                    status = "UYARI"
-                    res["msg"] = "⚠️ **ŞÜPHELİ METİN YAPISI (K-6)**"
-                    desc = "Doğrudan kanıt kaydı yetersiz olmakla birlikte, metin yapısı teyit edilmiş yalan haber kalıplarıyla yüksek örtüşme göstermektedir."
-                    conf = round(k6_conf * 100, 1)
-                    risk = 75.0
+                # RET (Bulunamadı) durumunda dengeli K-6 kurtarma mekanizması:
+                elif status == "RET" and k6_conf >= 0.70 and (sim_score > 0.35 or k6_conf >= 0.85):
+                    if k6_label == 0:
+                        status = "UYARI"
+                        res["msg"] = "⚠️ **ŞÜPHELİ METİN YAPISI (K-6)**"
+                        desc = "Doğrudan kanıt kaydı yetersiz olmakla birlikte, metin yapısı teyit edilmiş yalan haber kalıplarıyla yüksek örtüşme göstermektedir."
+                        conf = round(k6_conf * 100, 1)
+                        risk = 75.0
+                    elif k6_label == 1:
+                        status = "ONAY"
+                        res["msg"] = "✅ **DOĞRULANABİLİR BİLGİ (K-6)**"
+                        desc = "Korpusta doğrudan kayıt bulunmamakla birlikte, metin yapısı ve güven sinyalleri iddianın gerçek olduğunu desteklemektedir."
+                        conf = round(k6_conf * 100, 1)
+                        risk = 15.0
 
         res["status"] = status
         res["conf"] = round(conf, 1)
@@ -1162,17 +1227,28 @@ class KizilelmaEngine:
         if diff_user and diff_source:
             diff_msg = f"\n⚠️ **Farklı Detay:** Siz **'{diff_user.upper()}'** dediniz, kaynakta **'{diff_source.upper()}'** geçiyor."
 
-        # 3. NLI ANALİZİ
-        score_contra, score_neutral, score_entail = nli_probs[0], nli_probs[1], nli_probs[2] # type: ignore
+        # 3. NLI ANALİZİ — K-4 Kanonik Sıra: [entailment=0, neutral=1, contradiction=2]
+        from src.ai_core.layers.k4_nli import IDX_ENTAILMENT, IDX_NEUTRAL, IDX_CONTRADICTION
+        score_entail = nli_probs[IDX_ENTAILMENT]
+        score_neutral = nli_probs[IDX_NEUTRAL]
+        score_contra = nli_probs[IDX_CONTRADICTION]
         confidence = max(score_contra, score_neutral, score_entail) * 100
         
-        # NLI modeli Nötr (Alakasız) diyorsa reddet
-        # AMA eğer akıllı fark analizinde net bir YER, KİŞİ, SAYI veya KRİTİK UNVAN mismatch'i varsa Nötr kontrolünü atla (Çünkü bu doğrudan bir bilgi yanlışlığıdır, alakasızlık değildir!)
-        has_critical_mismatch = diff_user is not None and diff_source is not None and diff_cat in ["YER", "KİŞİ", "SAYI", "KRİTİK UNVAN", "KİŞİ/YER/UNVAN"]
+        # NLI modeli Nötr (Alakasız) diyorsa reddet.
+        # Kritik fark kontrolü (YER, KİŞİ, SAYI), ancak belge ile iddia arasında asgari bir
+        # anlamsal bağ varsa (sig_rerank >= 0.01 veya sim_score >= 0.50) anlamlıdır.
+        # Tamamen alakasız bir belgedeki sayı/kişi farkı bilgi yanlışlığı değil, alakasızlıktır.
+        has_relevance = (sig_rerank >= 0.01 or sim_score >= 0.50)
+        has_critical_mismatch = (
+            has_relevance and
+            diff_user is not None and 
+            diff_source is not None and 
+            diff_cat in ["YER", "KİŞİ", "SAYI", "KRİTİK UNVAN", "KİŞİ/YER/UNVAN"]
+        )
 
         neutral_threshold = 0.75
-        if sig_rerank > 0.70 or sim_score > 0.65:
-            neutral_threshold = 0.92  # Güvenli eşleşmelerde eşiği esnetiyoruz
+        if sig_rerank > 0.015 or sim_score > 0.65:
+            neutral_threshold = 0.90  # Güvenli eşleşmelerde eşiği esnetiyoruz
             
         if score_neutral > neutral_threshold and not has_critical_mismatch:
             return {
@@ -1553,14 +1629,14 @@ class KizilelmaEngine:
         # Fark yoksa ve semantik uyuşma yüksekse, NLI çalışmasını bypass et (entailment olasılığını %100 yap)
         if diff_user is None and diff_source is None and (best_cand['sim'] > 0.60 or best_cand.get('sig_rerank', 0.0) > 0.70):
             print("⚡ NLP Mantıksal Bypass: Eşleşmede fark tespit edilmedi, NLI modeli atlandı (Bypass).")
-            probs = np.array([0.0, 0.0, 1.0])  # [contradiction=0, neutral=0, entailment=1]
+            probs = np.array([1.0, 0.0, 0.0], dtype=np.float32)  # Kanonik: [entailment=1, neutral=0, contradiction=0]
             if trace is not None:
                 trace["nli_bypassed"] = True
         else:
-            # NLI Tahmini: Her zaman [Kaynak, Gelen Soru] sırasıyla çalışmalıdır (Asimetrik).
-            input_pair = [best_cand['text'], clean_query]
-            logits = self.nli_model.predict([input_pair])[0] # type: ignore
-            probs = torch.nn.functional.softmax(torch.tensor(logits, dtype=torch.float32), dim=0).numpy()
+            # NLI Tahmini: K-4 katmanı üzerinden premise=kaynak, hypothesis=iddia
+            from src.ai_core.layers.k4_nli import run_nli
+            probs_list = run_nli(clean_query, best_cand['text'], self.nli_model)
+            probs = np.array(probs_list, dtype=np.float32)
             if trace is not None:
                 trace["nli_probs"] = [float(p) for p in probs]
             print(f"🔍 Kaynak: {best_cand['text']} | Sim: {best_cand['sim']:.2f} | NLI: {probs}")

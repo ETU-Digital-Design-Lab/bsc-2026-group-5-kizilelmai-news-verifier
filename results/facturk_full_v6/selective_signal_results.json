@@ -1,0 +1,183 @@
+{
+  "n_claims": 500,
+  "seed": 20260908,
+  "n_bootstrap": 2000,
+  "tables": {
+    "all_500": {
+      "n": 500,
+      "signals": {
+        "pipeline_nli_softmax_current": {
+          "aurc": 0.36,
+          "macro_f1_at_cov50": 0.5756,
+          "macro_f1_at_cov532": 0.5708,
+          "accuracy_at_cov50": 0.576,
+          "ece_minmax": 0.444
+        },
+        "pipeline_reranker_top1": {
+          "aurc": 0.3321,
+          "macro_f1_at_cov50": 0.6248,
+          "macro_f1_at_cov532": 0.631,
+          "accuracy_at_cov50": 0.628,
+          "ece_minmax": 0.3554
+        },
+        "pipeline_reranker_margin": {
+          "aurc": 0.3472,
+          "macro_f1_at_cov50": 0.6361,
+          "macro_f1_at_cov532": 0.6338,
+          "accuracy_at_cov50": 0.64,
+          "ece_minmax": 0.4083
+        },
+        "pipeline_reranker_top3mean": {
+          "aurc": 0.3686,
+          "macro_f1_at_cov50": 0.628,
+          "macro_f1_at_cov532": 0.6321,
+          "accuracy_at_cov50": 0.632,
+          "ece_minmax": 0.4135
+        },
+        "baseline_k6": {
+          "aurc": 0.3435,
+          "macro_f1_at_cov50": 0.6472,
+          "macro_f1_at_cov532": 0.6345,
+          "accuracy_at_cov50": 0.648,
+          "ece_minmax": 0.2039
+        }
+      }
+    },
+    "excl_k4_bypass": {
+      "n": 483,
+      "signals": {
+        "pipeline_nli_softmax_current": {
+          "aurc": 0.4126,
+          "macro_f1_at_cov50": 0.5364,
+          "macro_f1_at_cov532": 0.5352,
+          "accuracy_at_cov50": 0.5372,
+          "ece_minmax": 0.4597
+        },
+        "pipeline_reranker_top1": {
+          "aurc": 0.3731,
+          "macro_f1_at_cov50": 0.5971,
+          "macro_f1_at_cov532": 0.6079,
+          "accuracy_at_cov50": 0.6033,
+          "ece_minmax": 0.368
+        },
+        "pipeline_reranker_margin": {
+          "aurc": 0.3827,
+          "macro_f1_at_cov50": 0.6093,
+          "macro_f1_at_cov532": 0.6062,
+          "accuracy_at_cov50": 0.6157,
+          "ece_minmax": 0.4197
+        },
+        "pipeline_reranker_top3mean": {
+          "aurc": 0.3969,
+          "macro_f1_at_cov50": 0.6063,
+          "macro_f1_at_cov532": 0.6023,
+          "accuracy_at_cov50": 0.6116,
+          "ece_minmax": 0.4071
+        },
+        "baseline_k6": {
+          "aurc": 0.3425,
+          "macro_f1_at_cov50": 0.6483,
+          "macro_f1_at_cov532": 0.6338,
+          "accuracy_at_cov50": 0.6488,
+          "ece_minmax": 0.2034
+        }
+      }
+    }
+  },
+  "delta_aurc_nli_minus_reranker": {
+    "mean": 0.0286,
+    "ci95": [
+      -0.0105,
+      0.0691
+    ],
+    "p_two_sided": 0.165,
+    "note": "pozitif = re-ranker sinyali daha iyi"
+  },
+  "delta_aurc_reranker_minus_baseline": {
+    "mean": -0.0118,
+    "ci95": [
+      -0.0834,
+      0.0596
+    ],
+    "p_two_sided": 0.727,
+    "note": "pozitif = baseline daha iyi"
+  },
+  "split_half_stability": {
+    "repeats": 200,
+    "holdout_n": 250,
+    "reranker_better_count": 187,
+    "mean_delta_aurc": 0.0302
+  },
+  "measured_layer_latency": {
+    "K1_input_and_readiness": {
+      "mean_ms": 0.06,
+      "median_ms": 0.06,
+      "p95_ms": 0.09
+    },
+    "K1_intent": {
+      "mean_ms": 0.05,
+      "median_ms": 0.04,
+      "p95_ms": 0.07
+    },
+    "K1_normalization": {
+      "mean_ms": 0.01,
+      "median_ms": 0.01,
+      "p95_ms": 0.02
+    },
+    "K2_retrieval": {
+      "mean_ms": 145.74,
+      "median_ms": 137.82,
+      "p95_ms": 206.79
+    },
+    "K3_candidate_filters": {
+      "mean_ms": 6.35,
+      "median_ms": 6.38,
+      "p95_ms": 7.28
+    },
+    "K3_reranker": {
+      "mean_ms": 1698.84,
+      "median_ms": 1606.9,
+      "p95_ms": 2383.92
+    },
+    "K4_nli_and_bypass_check": {
+      "mean_ms": 191.36,
+      "median_ms": 155.67,
+      "p95_ms": 538.31
+    },
+    "K5_decision": {
+      "mean_ms": 134.88,
+      "median_ms": 108.11,
+      "p95_ms": 407.25
+    },
+    "K6_advisory": {
+      "mean_ms": 34.74,
+      "median_ms": 34.31,
+      "p95_ms": 37.57
+    },
+    "K7_context": {
+      "mean_ms": 0.0,
+      "median_ms": 0.0,
+      "p95_ms": 0.0
+    },
+    "K8_weighted_ranking": {
+      "mean_ms": 1.28,
+      "median_ms": 1.26,
+      "p95_ms": 1.59
+    },
+    "K9_advisory_consensus": {
+      "mean_ms": 0.01,
+      "median_ms": 0.01,
+      "p95_ms": 0.01
+    },
+    "END_TO_END": {
+      "mean_ms": 2216.69,
+      "median_ms": 2069.44,
+      "p95_ms": 3320.92
+    }
+  },
+  "decision_layer_passthrough": {
+    "identical_to_nli_probs": 483,
+    "of": 500,
+    "note": "K-5 karar olasılıkları, NLI atlanmadığı sürece K-4 softmax'ının aynısı."
+  }
+}
