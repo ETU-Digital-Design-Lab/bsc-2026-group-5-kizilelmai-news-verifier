@@ -1,0 +1,501 @@
+claim_id,year,date_published,organisation,gold_label,final_verdict,abstained,is_correct,is_neutral,source_url
+FACTURK-0001,2023,2023-04-27T16:54:07+00:00,Doğruluk Payı,0,YALAN,False,True,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/abd-de-cikan-bir-yasa-cocuklarin-aile-izni-olmadan-cinsiyet-degistirmesine-izin-mi-veriyor
+FACTURK-0002,2021,2021-03-21T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/telefonun-dinlenip-dinlenmedigini-anlamanin-yolu/
+FACTURK-0003,2019,2019-01-17T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/cinin-aya-goturdugu-pamuk-tohumlarinin-filizlendigi-iddiasi
+FACTURK-0004,2023,2023-10-07T00:00:00+00:00,Malumatfuruş,0,DOĞRU,False,False,False,https://www.malumatfurus.org/uefa-kupasi-kupa-2/
+FACTURK-0005,2025,2025-04-08T14:57:29+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/b-sinifi-ehliyete-sahip-olmak-125-cc-ye-kadar-olan-motosikletler-kullanmak-icin-yeterli-mi
+FACTURK-0006,Bilinmiyor,Bilinmiyor,Doğrula,0,YALAN,False,True,True,https://www.dogrula.org/dogrulamalar/videonun-rus-arama-kurtarma-personelinin-enkazdan-caldigi-paralari-gosterdigi-iddiasi/
+FACTURK-0007,2024,2024-04-23T14:26:58+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/kur-an-i-kerim-icinde-yakalanan-para-goruntuleri-turkiye-yle-mi-iliskili
+FACTURK-0008,2018,2018-04-23T00:00:00+00:00,Teyit,1,YALAN,False,False,False,https://teyit.org/analiz/trt-haberin-3-bin-yillik-cami-restore-edildi-baslikli-haber-yaptigi-iddiasi
+FACTURK-0009,Bilinmiyor,Bilinmiyor,Doğrula,1,YALAN,False,False,False,https://www.dogrula.org/dogrulamalar/eski-disisleri-bakani-tevfik-rustu-aras-domuz-cok-guzel-bir-gidadir-dedi-mi/
+FACTURK-0010,2022,2022-12-31T00:00:00+00:00,Malumatfuruş,0,YALAN,False,True,False,https://www.malumatfurus.org/taksimde-dogalgaz-bulundu/
+FACTURK-0011,2021,2021-12-06T00:00:00+00:00,Malumatfuruş,0,DOĞRU,False,False,False,https://www.malumatfurus.org/biraz-yorgunum-siiri/
+FACTURK-0012,2024,2024-04-12T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/insan-ve-nesneleri-gorunmez-yapabilen-mega-kalkan-gercek-mi
+FACTURK-0013,2021,2021-07-27T14:33:15+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/2020-islamilik-endeksi-siralamalarina-yonelik-iddialar
+FACTURK-0014,2025,2025-11-14T10:37:16+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/videodaki-goruntuler-sudan-ic-savasi-na-mi-ait
+FACTURK-0015,2022,2022-12-31T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/andrew-tate-greta-thunberg-pizza/
+FACTURK-0016,2021,2021-10-22T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/diyanetin-baldizla-zina-nikaha-zarar-vermez-fetvasi-verdigi-iddiasi
+FACTURK-0017,2022,2022-01-30T14:57:35+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/fotograf-445-kg-agirligindaki-bir-adamin-x-ray-goruntusu-mu-gosteriyor
+FACTURK-0018,2026,2026-02-09T00:00:00+00:00,Teyit,0,DOĞRU,False,False,False,https://teyit.org/analiz/epsteini-tel-avivde-bir-berberde-gosteren-fotograf-gercek-mi
+FACTURK-0019,2022,2022-06-29T00:00:00+00:00,Teyit,0,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/adanada-6-milyar-dolarlik-jelibon-bulundugu-iddiasi
+FACTURK-0020,2016,2016-04-07T12:31:59+00:00,Günün Yalanları,0,YALAN,False,True,True,https://gununyalanlari.com/yalan/417-ozgur-gundemin-erdogandan-sehirleri-bombalama-talimati-yalani
+FACTURK-0021,2023,2023-08-02T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,False,https://www.malumatfurus.org/yalancinin-mumu-yassiya-kadar-yanar/
+FACTURK-0022,2025,2025-07-30T15:43:54+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/bir-arastirmaya-gore-pandeminin-covid-gecirmeyen-kisileri-bile-5-5-ay-daha-hizli-yaslandirdigi-iddiasi-dogru-mu
+FACTURK-0023,2024,2024-04-29T10:40:54+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/video-bir-kisinin-bir-sanat-eseri-icerisinde-kendine-50-yilligina-muzeye-kapattigini-mi-gosteriyor
+FACTURK-0024,2023,2023-11-29T00:00:00+00:00,Malumatfuruş,1,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/anna-muzychuk-suudi-arabistan-protesto/
+FACTURK-0025,2016,2016-08-26T17:27:12+00:00,Günün Yalanları,0,YALAN,False,True,False,https://gununyalanlari.com/yalan/537-pkk-hdpnin-tsk-kimyasal-silah-kullaniyor-iddiasi
+FACTURK-0026,2023,2023-02-13T13:38:07+00:00,Doğrula,0,YALAN,False,True,True,https://www.dogrula.org/dogrulamalar/darulacezeye-nakledilecek-depremzede-cocuklar-icin-gonullulere-ihtiyac-oldugu-iddiasi/
+FACTURK-0027,2022,2022-12-02T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/kanada-fas-macinda-trt-spikerinin-devre-arasinda-degistigi-iddiasi
+FACTURK-0028,2024,2024-01-10T00:00:00+00:00,Malumatfuruş,1,YALAN,False,False,True,https://www.malumatfurus.org/epstein-adasindaki-turk-cocugu/
+FACTURK-0029,2020,2020-11-26T00:00:00+00:00,Teyit,1,YALAN,False,False,False,https://teyit.org/analiz/utahda-gizemli-bir-monolit-bulundugu-iddiasi
+FACTURK-0030,2025,2025-04-24T15:36:27+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/atm-ye-ak-47-ile-gidip-para-ceken-kisinin-serbest-kaldigi-iddiasi-dogru-mu
+FACTURK-0031,2024,2024-08-09T00:00:00+00:00,Malumatfuruş,1,YETERSİZ VERİ,True,False,False,https://www.malumatfurus.org/mezuniyet-toreni-topuklu-ayakkabi/
+FACTURK-0032,2018,2018-06-11T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/bitlisteki-cami-minaresine-ak-partinin-secim-afisi-asildigi-iddiasi
+FACTURK-0033,2025,2025-01-15T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/shakirayi-turkiyede-bir-markette-gosteren-fotograf-gercek-mi
+FACTURK-0034,2024,2024-09-23T12:33:42+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/bill-gates-asilara-karsi-cikanlari-susturmak-icin-yapay-zekayi-kullanacaklarina-dair-bir-aciklamada-bulundu-mu
+FACTURK-0035,2024,2024-01-26T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/ucagin-uzerindeki-insanlari-gosteren-fotograf-gercek-mi
+FACTURK-0036,2022,2022-09-13T10:24:50+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/ingiltere-hamile-kadinlar-icin-asi-onerisini-kaldirdi-mi
+FACTURK-0037,2023,2023-11-28T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/sahte-yarali/
+FACTURK-0038,2025,2025-05-20T00:00:00+00:00,Malumatfuruş,1,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/ataturk-timur/
+FACTURK-0039,2024,2024-01-30T00:00:00+00:00,Teyit,1,YALAN,False,False,True,https://teyit.org/analiz/hirvatistanda-4-lira-20-kurusa-ev-satildigi-iddiasi
+FACTURK-0040,2023,2023-11-14T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/videodaki-seffaf-kanatli-kelebek-gercek-mi
+FACTURK-0041,2018,2018-11-23T00:00:00+00:00,Teyit,1,YALAN,False,False,True,https://teyit.org/analiz/fotografin-erdogan-ve-sorosu-ayni-masada-gosterdigi-iddiasi
+FACTURK-0042,2025,2025-03-16T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/en-uzun-sure-oruc-tutan/
+FACTURK-0043,2022,2022-06-13T14:05:41+00:00,Doğrula,0,YETERSİZ VERİ,True,False,True,https://www.dogrula.org/dogrulamalar/rus-guclerinin-ele-gecirdigi-mariupol-sehrine-sovyetler-birligi-bayragi-diktigi-iddiasi/
+FACTURK-0044,2022,2022-03-01T13:53:39+00:00,Doğruluk Payı,0,YALAN,False,True,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/video-terk-edilmis-rus-tanklarinin-nasil-kullanilacagini-ogreten-ukraynali-kadini-mi-gosteriyor
+FACTURK-0045,2022,2022-08-29T17:31:09+00:00,Doğrula,0,YALAN,False,True,True,https://www.dogrula.org/dogrulamalar/kamyon-ucurum/
+FACTURK-0046,2018,2018-12-20T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/istanbul-havalimaninin-santiye-alanini-su-bastigi-iddiasi
+FACTURK-0047,2016,2016-07-01T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/aksam-ataturk-havalimani-guvenli-haberini-saldirinin-ardindan-kaldirdi
+FACTURK-0048,2022,2022-10-12T00:00:00+00:00,Teyit,0,YALAN,False,True,False,https://teyit.org/analiz/gorseldeki-burc-isimlerinin-osmanli-devletinde-kullanildigi-iddiasi
+FACTURK-0049,2026,2026-02-05T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/epstein-ile-suudi-veliaht-prensi-selmanin-fotografi-dosyalarda-mi-yer-aliyor
+FACTURK-0050,2025,2025-11-26T12:44:47+00:00,Doğruluk Payı,0,YALAN,False,True,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/ordinaryus-profesor-resat-kaynar-in-latife-hanim-in-mektuplari-hakkinda-itiraf-aciklamalari-dogru-mu
+FACTURK-0051,2021,2021-06-27T00:00:00+00:00,Malumatfuruş,0,DOĞRU,False,False,False,https://www.malumatfurus.org/koronavirus-izole/
+FACTURK-0052,2024,2024-01-30T15:22:42+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/icecek-endustrisi-analisti-garrett-nelson-un-coca-cola-nin-turkiye-deki-satislarindaki-dususun-tehlikeye-isaret-ettigini-soyledigi-dogru-mu
+FACTURK-0053,2025,2025-03-18T11:40:20+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/gorsel-hurriyet-in-formula-1-ile-ilgili-hatali-haberini-mi-gosteriyor
+FACTURK-0054,2024,2024-06-12T00:00:00+00:00,Teyit,0,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/cheetosun-seklini-maskotunun-testislerinden-aldigi-iddiasi
+FACTURK-0055,2021,2021-07-27T14:56:48+00:00,Doğruluk Payı,1,DOĞRU,False,True,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/konya-seker-in-17-milyar-863-milyon-tl-borcu-oldugu-iddiasi
+FACTURK-0056,2016,2016-06-21T19:28:05+00:00,Günün Yalanları,0,DOĞRU,False,False,False,https://gununyalanlari.com/yalan/483-oda-tvnin-hacibayramdaki-augustus-tapinagina-is-makineleri-girdi-yalani
+FACTURK-0057,2026,2026-02-13T16:58:18+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/gorsel-epstein-in-1999-depremi-oncesi-istanbul-a-geldigini-mi-gosteriyor
+FACTURK-0058,2021,2021-01-27T00:00:00+00:00,Malumatfuruş,0,DOĞRU,False,False,False,https://www.malumatfurus.org/kopek-cita-yarisi/
+FACTURK-0059,2020,2020-08-08T11:06:55+00:00,Günün Yalanları,0,YALAN,False,True,False,https://gununyalanlari.com/yalan/2651-okullarda-pandemi-nedeniyle-resim-ve-muzik-dersleri-kaldirilacak-yalani
+FACTURK-0060,2020,2020-08-04T00:00:00+00:00,Teyit,0,YALAN,False,True,False,https://teyit.org/analiz/lubnandaki-patlamayi-isidin-ustlendigi-iddiasi
+FACTURK-0061,2023,2023-11-29T00:00:00+00:00,Malumatfuruş,1,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/gunes-yaslanmasi/
+FACTURK-0062,2024,2024-10-28T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/enkaz-altinda-kalan-bebek/
+FACTURK-0063,2015,2015-06-27T08:52:58+00:00,Yalansavar,0,YETERSİZ VERİ,True,False,True,https://yalansavar.org/2015/06/27/nobel-hastaligi-baltayi-tasa-vuran-otoriteler/
+FACTURK-0064,2022,2022-12-29T00:00:00+00:00,Teyit,0,YALAN,False,True,True,https://teyit.org/analiz/gorselin-ekmek-caldigi-iddiasiyla-mahkemeye-cikarilan-cocugu-gosterdigi-iddiasi
+FACTURK-0065,2018,2018-06-24T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,False,https://teyit.org/analiz/icisleri-bakanligi-logosu-bulunan-secim-gorevlisi-kartlariyla-ilgili-iddia
+FACTURK-0066,2021,2021-01-18T13:17:26+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/japonya-osaka-da-hamidiye-markali-su-satildigi-iddiasi
+FACTURK-0067,2022,2022-06-17T21:00:23+00:00,Doğrula,0,YALAN,False,True,False,https://www.dogrula.org/dogrulamalar/yunanistan-basbakaninin-yer-aldigi-video-kaydi-2020ye-ait/
+FACTURK-0068,2024,2024-07-10T15:00:36+00:00,Doğruluk Payı,0,DOĞRU,False,False,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/mcdonald-s-boykot-sebebiyle-misir-dan-cekiliyor-mu
+FACTURK-0069,2018,2018-08-21T00:00:00+00:00,Teyit,1,YALAN,False,False,False,https://teyit.org/analiz/yerli-tutun-kullaniminin-14-yil-icinde-yuzde-42den-yuzde-12ye-geriledigi-iddiasi
+FACTURK-0070,2024,2024-04-11T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/kayanin-altindaki-binalari-gosteren-fotograf-gercek-mi
+FACTURK-0071,2023,2023-02-08T09:12:30+00:00,Doğrula,0,YETERSİZ VERİ,True,False,True,https://www.dogrula.org/dogrulamalar/goruntulerin-kahramanmarasin-deprem-oncesi-ve-sonrasini-gosterdigi-iddiasi/
+FACTURK-0072,2021,2021-03-01T20:15:53+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/gorselde-yer-alan-covid-19-asilarinin-etkinlik-oranlarinin-oldugu-iddiasi
+FACTURK-0073,2021,2021-09-17T15:18:34+00:00,Doğruluk Payı,0,YALAN,False,True,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/gorselin-afganistanli-grafiti-sanatcisi-shamsia-hassani-ye-ait-bir-calisma-oldugu-iddiasi
+FACTURK-0074,2021,2021-06-23T15:16:43+00:00,Doğruluk Payı,1,DOĞRU,False,True,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/matrix-teki-kodlarin-anlaminin-susi-tarifi-oldugu-iddiasi
+FACTURK-0075,2023,2023-06-15T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/kus-takip-cihazi/
+FACTURK-0076,2021,2021-02-15T00:00:00+00:00,Malumatfuruş,0,YALAN,False,True,False,https://www.malumatfurus.org/coco-star-beyazlatilmis-havuc/
+FACTURK-0077,2021,2021-12-29T10:14:01+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/mustafa-kemal-in-selanik-tren-gari-ndaki-fotografi-1902-yilina-mi-ait
+FACTURK-0078,2022,2022-07-01T18:41:31+00:00,Doğrula,1,YALAN,False,False,False,https://www.dogrula.org/dogrulamalar/turkiyenin-internet-hizinda-103-sirada-oldugu-iddiasi/
+FACTURK-0079,2023,2023-12-21T00:00:00+00:00,Malumatfuruş,0,YALAN,False,True,True,https://www.malumatfurus.org/temel-reis-frank-fiegel/
+FACTURK-0080,2023,2023-03-03T10:17:24+00:00,Doğrula,0,DOĞRU,False,False,False,https://www.dogrula.org/dogrulamalar/videonun-almanyada-nazizm-sembolune-boyanmis-abd-tanklarini-gosterdigi-iddiasi/
+FACTURK-0081,2023,2023-08-21T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/videodaki-yildirim-goruntusu-gercek-mi
+FACTURK-0082,2021,2021-09-10T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/afganistanin-yeni-merkez-bankasi-baskani/
+FACTURK-0083,2024,2024-02-23T00:00:00+00:00,Teyit,1,YALAN,False,False,True,https://teyit.org/analiz/fotograf-brezilyadaki-tek-bir-kaju-agacini-mi-gosteriyor
+FACTURK-0084,2023,2023-02-14T00:00:00+00:00,Malumatfuruş,1,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/ataturke-atfedilen-kaza-ve-kader-talih-ve-tesaduf-tabirleri-arapcadir-turkleri-alakadar-etmez-sozu/
+FACTURK-0085,2021,2021-03-05T16:35:13+00:00,Doğruluk Payı,1,YALAN,False,False,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/ingiliz-maresal-birdwood-un-ataturk-un-cenazesini-ayakta-selamladigi-iddiasi
+FACTURK-0086,2020,2020-12-17T11:46:36+00:00,Doğruluk Payı,1,YALAN,False,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/konya-tuzlukcu-belediyesi-nin-asgari-ucreti-4-bin-500-tl-yaptigi-iddiasi
+FACTURK-0087,2024,2024-02-29T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/seffaf-ekranli-dizustu-bilgisayar-gercek-mi
+FACTURK-0088,2023,2023-12-26T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/fosforlu-kediler-gercek-mi
+FACTURK-0089,2019,2019-12-24T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/cinin-dogu-turkistan-politikalarinin-arastirilmasi-onergesinin-ak-parti-oylariyla-reddedildigi-iddiasi
+FACTURK-0090,2017,2017-09-08T09:14:15+00:00,Günün Yalanları,0,YALAN,False,True,False,https://gununyalanlari.com/yalan/639-tcdd-makinist-alimlarinda-erkek-olma-sarti-ariyor-yalani
+FACTURK-0091,2020,2020-06-14T00:00:00+00:00,Teyit,1,YALAN,False,False,True,https://teyit.org/analiz/goruntulerin-kirsehirde-diyarbakir-tatli-salonuna-ismi-nedeniyle-duzenlenen-saldiriyi-gosterdigi-iddiasi
+FACTURK-0092,2023,2023-12-14T16:35:33+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/video-kamplardan-kacan-israil-askerlerini-mi-gosteriyor
+FACTURK-0093,2021,2021-12-04T00:00:00+00:00,Malumatfuruş,0,DOĞRU,False,False,False,https://www.malumatfurus.org/2012-londra-olimpiyat-toreni-covid/
+FACTURK-0094,2019,2019-06-11T00:00:00+00:00,Teyit,0,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/erdoganin-7-torununun-abdde-dogdugu-iddiasi
+FACTURK-0095,2019,2019-04-07T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/a-haberin-secim-analisti-olarak-ekrana-cikardigi-kenan-demirin-kebapci-oldugu-iddiasi
+FACTURK-0096,2021,2021-03-18T00:00:00+00:00,Teyit,0,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/konyada-chemtrails-ile-havadan-zehirleme-yapildigi-iddiasi
+FACTURK-0097,2019,2019-11-29T00:00:00+00:00,Teyit,0,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/konya-valisi-orhan-toprakin-cocuklarinin-isminin-fethullah-ve-gulen-oldugu-iddiasi
+FACTURK-0098,2021,2021-02-04T14:02:47+00:00,Doğruluk Payı,0,DOĞRU,False,False,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/gorseldeki-evlerin-suriyeliler-icin-yapildigi-iddiasi
+FACTURK-0099,2023,2023-04-20T00:00:00+00:00,Malumatfuruş,0,YALAN,False,True,True,https://www.malumatfurus.org/dudullu-bostanci-metro-hatti-insaat/
+FACTURK-0100,2022,2022-01-14T16:03:57+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/japonya-da-lavabo-tuvalete-bagli-mi
+FACTURK-0101,2025,2025-05-13T12:07:01+00:00,Doğruluk Payı,0,YALAN,False,True,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/video-teknedeki-insanlarin-dev-dalgalar-altinda-kaldigi-anlari-mi-gosteriyor
+FACTURK-0102,Bilinmiyor,Bilinmiyor,Doğrula,0,YETERSİZ VERİ,True,False,True,https://www.dogrula.org/dogrulamalar/bill-gatesin-fonladigi-dunya-sivrisinek-programiyla-ilgili-salgin-iddialari/
+FACTURK-0103,2023,2023-01-25T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/kor-buz-patencisi/
+FACTURK-0104,2017,2017-11-24T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/japonyada-gorevlilerin-yolculari-metroya-sigdirmaya-calistigi-iddiasi
+FACTURK-0105,2016,2016-12-05T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/ganada-sahte-abd-buyukelciligi-acildigi-iddiasi
+FACTURK-0106,2020,2020-07-09T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/fotograflarin-silede-yasanan-su-kesintisini-gosterdigi-iddiasi
+FACTURK-0107,2022,2022-03-04T16:59:19+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/ukraynali-model-anastasia-lenna-rusya-ya-karsi-ukrayna-ordusuna-mi-katildi
+FACTURK-0108,2019,2019-04-25T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,False,https://teyit.org/analiz/videonun-iki-turkun-abdde-mahkemeye-ciktigini-gosterdigi-iddiasi
+FACTURK-0109,2022,2022-05-29T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,False,https://www.malumatfurus.org/dunyanin-ilk-cocuk-hastanesi/
+FACTURK-0110,2023,2023-02-13T07:00:15+00:00,Doğrula,0,YALAN,False,True,False,https://www.dogrula.org/dogrulamalar/milano-baskonsoloslugunun-deprem-yardimlari-icin-yalnizca-diyanet-vakfini-gosterdigi-iddiasi/
+FACTURK-0111,2024,2024-08-16T10:06:43+00:00,Doğrula,1,YETERSİZ VERİ,True,False,True,https://www.dogrula.org/dogrulamalar/portekiz-sokaklarinda-sarap-aktigi-iddiasi/
+FACTURK-0112,2022,2022-10-25T13:26:15+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/trende-cinsel-iliskiye-giren-kisilerin-videosu-ingiltere-den-mi
+FACTURK-0113,2017,2017-06-29T00:00:00+00:00,Teyit,0,YALAN,False,True,False,https://teyit.org/analiz/arjantinde-yasayan-128-yasindaki-adamin-adolf-hitler-oldugu-iddiasi
+FACTURK-0114,2023,2023-10-19T00:00:00+00:00,Teyit,1,YALAN,False,False,True,https://teyit.org/analiz/gorselin-1947-yilinda-yahudilerin-filistine-varisini-gosterdigi-iddiasi
+FACTURK-0115,2023,2023-09-11T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/fotografin-kibrista-turk-bayragiyla-poz-veren-rum-birlikleri-gosterdigi-iddiasi
+FACTURK-0116,2023,2023-12-26T00:00:00+00:00,Teyit,1,YALAN,False,False,True,https://teyit.org/analiz/video-aynali-pele-kostumu-giyen-bir-taraftari-mi-gosteriyor
+FACTURK-0117,2021,2021-02-03T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/aerobik-dersi-veren-kadin-myanmardaki-darbeyi-kaydetti
+FACTURK-0118,2023,2023-06-02T00:00:00+00:00,Malumatfuruş,1,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/uc-esli/
+FACTURK-0119,2022,2022-01-24T00:00:00+00:00,Malumatfuruş,0,YALAN,False,True,True,https://www.malumatfurus.org/ucurumun-kenarinda-u-donusu-yapan-araba/
+FACTURK-0120,2021,2021-06-22T00:00:00+00:00,Teyit,0,YALAN,False,True,True,https://teyit.org/analiz/fotografin-yerli-ve-milli-rt-1453-adli-ucagi-gosterdigi-iddiasi
+FACTURK-0121,2022,2022-07-12T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/turkiye-cumhuriyeti-devleti-ben-turk-degilim-ama/
+FACTURK-0122,2022,2022-05-09T14:10:48+00:00,Doğruluk Payı,0,YALAN,False,True,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/kuzey-kutbu-nda-cekildigi-iddia-edilen-ay-videosu-gercek-mi
+FACTURK-0123,2024,2024-11-26T00:00:00+00:00,Teyit,1,YALAN,False,False,False,https://teyit.org/analiz/enflasyonla-mucadele-kanada-vergi-tatili-mi-ilan-etti
+FACTURK-0124,2024,2024-10-07T14:56:58+00:00,Doğruluk Payı,0,DOĞRU,False,False,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/video-hindistan-daki-israil-buyukelciligi-ne-yapilan-saldiriyi-mi-gosteriyor
+FACTURK-0125,2020,2020-07-15T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/resmin-bulgar-ve-yunan-askerleri-turk-askerinin-fesine-hac-cizerken-gosterdigi-iddiasi
+FACTURK-0126,2021,2021-05-25T15:40:14+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/turkiye-nin-avrupa-nin-en-buyuk-plastik-atik-coplugu-haline-geldigi-iddiasi
+FACTURK-0127,2021,2021-06-02T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/bir-de-kuslar-var-hakim-bey-her-seyin-basi-onlar-dizelerinin-ahmed-arife-ait-oldugu-iddiasi/
+FACTURK-0128,2024,2024-11-27T15:55:58+00:00,Doğruluk Payı,1,YALAN,False,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/meyve-etiketlerindeki-kodlarin-anlami-hakkindaki-iddialar-dogru-mu
+FACTURK-0129,2026,2026-02-05T00:00:00+00:00,Teyit,1,YALAN,False,False,True,https://teyit.org/analiz/simpsonlarda-bir-adadaki-bazi-urpertici-tipler-gizlice-dunyayi-yonetiyor-yazdigi-iddiasi
+FACTURK-0130,2024,2024-07-22T00:00:00+00:00,Malumatfuruş,1,YALAN,False,False,True,https://www.malumatfurus.org/hahamlarin-duasi/
+FACTURK-0131,2025,2025-09-19T16:20:26+00:00,Doğruluk Payı,1,YALAN,False,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/ispanya-israil-ile-yaptigi-700-milyon-euroluk-silah-anlasmasini-iptal-mi-etti
+FACTURK-0132,2020,2020-11-04T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/erzincan-depreminde-mahkumlar-1-gun-serbest-birakildi/
+FACTURK-0133,2022,2022-12-16T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/singapurda-tren-camlarinin-binalara-gelince-matlastigi-iddiasi
+FACTURK-0134,2024,2024-11-22T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/dunyanin-manyetik-kuzey-kutbu-rusyaya-dogru-mu-kayiyor
+FACTURK-0135,2023,2023-06-26T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/cinde-binanin-icinden-tren-hatti-gectigi-iddiasi
+FACTURK-0136,2017,2017-06-01T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/kumbetin-arkasina-ogrenci-yurdu-yapildigi-iddiasi
+FACTURK-0137,2022,2022-11-21T14:38:02+00:00,Doğrula,0,YALAN,False,True,True,https://www.dogrula.org/dogrulamalar/videonun-pence-kilic-hava-harekatinda-turk-askerini-gosterdigi-iddiasi/
+FACTURK-0138,2020,2020-03-21T18:45:20+00:00,Günün Yalanları,0,DOĞRU,False,False,False,https://gununyalanlari.com/yalan/2380-fransiz-sanofi-firmasi-tarafindan-uretilen-plaquenil-isimli-ilac-koronavirusu-tedavi-ediyor-yalani
+FACTURK-0139,2026,2026-01-06T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/nicolas-maduronun-dea-memuru-ile-fotografi-gercek-mi
+FACTURK-0140,2019,2019-05-30T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/mustafa-kemal-ataturk-hayattayken-19-mayisin-bayram-olmadigi-iddiasi/
+FACTURK-0141,2021,2021-04-15T16:50:04+00:00,Doğruluk Payı,1,YALAN,False,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/yavuz-sultan-selim-koprusu-ve-kuzey-cevre-otoyolu-nun-51-nin-cin-menseli-sirkete-satilacagi-iddiasi
+FACTURK-0142,2024,2024-11-27T16:27:40+00:00,Doğruluk Payı,0,YALAN,False,True,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/video-abd-ucak-gemisinin-husiler-tarafindan-vuruldugunu-mu-gosteriyor
+FACTURK-0143,2018,2018-06-23T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/oy-pusulalari-uzerinde-oy-kullanilacak-ilin-isminin-yazili-olmasi-gerektigi-iddiasi
+FACTURK-0144,2022,2022-04-14T16:36:58+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/istanbul-halinde-sebzelerin-cope-dokuldugunu-gosteren-video-guncel-mi
+FACTURK-0145,2021,2021-02-28T00:00:00+00:00,Malumatfuruş,0,YALAN,False,True,True,https://www.malumatfurus.org/protez-dis-gorunumlu-flas-bellek/
+FACTURK-0146,2023,2023-11-07T12:19:37+00:00,Doğruluk Payı,0,DOĞRU,False,False,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/video-dilan-polat-ve-engin-polat-in-evinde-bulunan-paralari-mi-gosteriyor
+FACTURK-0147,2021,2021-05-07T13:29:21+00:00,Doğruluk Payı,0,YALAN,False,True,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/videonun-su-anda-kayip-olan-atlarin-ibb-tarafindan-olduruldugunu-gosterdigi-iddiasi
+FACTURK-0148,2020,2020-08-13T00:00:00+00:00,Malumatfuruş,0,DOĞRU,False,False,False,https://www.malumatfurus.org/m-ozdogan-gunlukleri-necmettin-erbakan/
+FACTURK-0149,2023,2023-12-08T00:00:00+00:00,Malumatfuruş,1,YALAN,False,False,True,https://www.malumatfurus.org/kedi-pisirme/
+FACTURK-0150,2025,2025-10-14T19:58:12+00:00,Doğrula,0,YETERSİZ VERİ,True,False,True,https://www.dogrula.org/dogrulamalar/britney-spearsin-eski-esi-sam-ashgarinin-kucukken-hayrani-olarak-kendisiyle-fotograf-cektirdigi-iddiasi/
+FACTURK-0151,2021,2021-07-14T15:22:14+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/prof-dr-mehmet-ceyhan-in-covid-19-asilarinin-sorumlulugunu-almadigi-iddiasi
+FACTURK-0152,2023,2023-08-17T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/bulent-ecevit-1999-marmara-depremi/
+FACTURK-0153,2024,2024-06-24T13:37:34+00:00,Doğruluk Payı,0,DOĞRU,False,False,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/tom-hanks-in-kefiye-taktigi-gorsel-guncel-mi
+FACTURK-0154,2020,2020-06-15T00:00:00+00:00,Malumatfuruş,0,DOĞRU,False,False,False,https://www.malumatfurus.org/aristonun-biz-tekrar-tekrar-yaptigimiz-seyleriz/
+FACTURK-0155,2025,2025-05-23T00:00:00+00:00,Malumatfuruş,1,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/fuhus-veresiye/
+FACTURK-0156,2022,2022-08-01T16:19:29+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/rusya-savunma-bakani-sergey-soygu-sovyetler-birligi-geri-donecek-dedi-mi
+FACTURK-0157,2023,2023-06-27T00:00:00+00:00,Malumatfuruş,1,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/ibn-haldunun-arap-tarifi/
+FACTURK-0158,2021,2021-03-22T17:09:39+00:00,Doğruluk Payı,1,YALAN,False,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/gorselde-yer-alan-haritada-turkiye-deki-akraba-evliligi-oranlari-verildigi-iddiasi
+FACTURK-0159,2022,2022-07-01T11:26:26+00:00,Doğrula,0,DOĞRU,False,False,False,https://www.dogrula.org/dogrulamalar/rize-artvin-havalimanina-3-milyon-yolcu-garantisi-verildigi-iddiasi/
+FACTURK-0160,2023,2023-09-07T00:00:00+00:00,Teyit,1,YALAN,False,False,False,https://teyit.org/analiz/cin-seddinin-bir-bolumu-yikildi-mi
+FACTURK-0161,2023,2023-01-10T12:46:34+00:00,Doğruluk Payı,0,YALAN,False,True,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/video-israil-polisinin-filistinli-bir-cocugu-bogdugu-ani-mi-gosteriyor
+FACTURK-0162,2019,2019-05-07T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/mebin-almanca-ders-kitabinda-bir-kadinin-montajla-basortulu-gosterildigi-iddiasi
+FACTURK-0163,2018,2018-12-28T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/turkiyenin-2018de-yari-ozgur-ulke-statusunden-ozgur-olmayan-ulke-statusune-geriledigi-iddiasi
+FACTURK-0164,2021,2021-02-13T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/on-olum-sarkisi-cevdet-kudret/
+FACTURK-0165,2021,2021-11-18T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/klaus-schwab-tutuklandi/
+FACTURK-0166,2022,2022-01-24T11:28:31+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/giresun-seka-fabrikasi-5-milyon-liraya-ozellestirilip-68-milyon-liraya-geri-mi-alindi
+FACTURK-0167,2023,2023-09-26T15:40:59+00:00,Doğruluk Payı,0,YALAN,False,True,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/paylasimdaki-fotograf-sapka-takmadigi-icin-idama-goturulen-kisileri-mi-gosteriyor
+FACTURK-0168,2023,2023-05-03T10:43:54+00:00,Doğrula,0,YALAN,False,True,False,https://www.dogrula.org/dogrulamalar/japonyada-lise-mezunu-olmayanlar-oy-kullanamiyor-iddiasi/
+FACTURK-0169,2024,2024-01-23T14:22:28+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/toblerone-cikolatalar-hakkinda-toplatilma-karari-verildigi-dogru-mu
+FACTURK-0170,2024,2024-05-16T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,False,https://www.malumatfurus.org/uyandim-uyandim-hep-seni-dusundum/
+FACTURK-0171,2024,2024-09-12T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/nikola-tesla-1926-yilinda-akilli-telefonlari-tahmin-etti-mi
+FACTURK-0172,2023,2023-05-09T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/ismet-inonu-saldiri/
+FACTURK-0173,2021,2021-01-27T00:00:00+00:00,Teyit,0,YALAN,False,True,False,https://teyit.org/analiz/yalniz-turklerin-korku-filmi-izlerken-guldugu-ve-turkiyede-kimsenin-korku-filmi-yuzunden-olmedigi-iddiasi
+FACTURK-0174,2023,2023-02-14T12:23:26+00:00,Doğruluk Payı,0,DOĞRU,False,False,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/kopeklerin-kurtarildigi-video-kahramanmaras-depremleri-sonrasinda-cekilmedi
+FACTURK-0175,2022,2022-07-01T10:21:05+00:00,Doğrula,0,YETERSİZ VERİ,True,False,True,https://www.dogrula.org/dogrulamalar/abd-baskani-joe-bidenin-toplanti-esnasinda-uyudugu-iddiasi/
+FACTURK-0176,2024,2024-03-15T14:27:38+00:00,Doğruluk Payı,0,YALAN,False,True,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/video-fransa-da-gece-yarisi-yoldan-gecen-kizlari-rahatsiz-eden-turkleri-mi-gosteriyor
+FACTURK-0177,2020,2020-11-10T00:00:00+00:00,Malumatfuruş,0,YALAN,False,True,True,https://www.malumatfurus.org/ataturku-zeybek-oynarken/
+FACTURK-0178,2022,2022-03-01T11:51:12+00:00,Doğruluk Payı,0,YALAN,False,True,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/video-ukrayna-ordusuna-katilacak-olan-bir-babanin-ailesine-veda-ettigi-anlari-mi-gosteriyor
+FACTURK-0179,2023,2023-01-10T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/mekkede-ovalar-ve-daglarin-yesillendigi-iddiasi
+FACTURK-0180,2024,2024-03-14T00:00:00+00:00,Malumatfuruş,0,YALAN,False,True,True,https://www.malumatfurus.org/isvec-malmode-bir-tren/
+FACTURK-0181,2016,2016-01-14T19:16:53+00:00,Günün Yalanları,0,YALAN,False,True,False,https://gununyalanlari.com/yalan/297-cumhuriyetin-mit-uyardi-izlendi-ancak-durdurulamadi-yalani
+FACTURK-0182,2020,2020-04-21T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,False,https://teyit.org/analiz/italyada-koronaviruse-karsi-kuran-okundugu-iddiasi
+FACTURK-0183,2023,2023-04-21T00:00:00+00:00,Teyit,1,YALAN,False,False,False,https://teyit.org/analiz/1963-tarihli-bir-gazetede-cep-telefonunun-gosterildigi-iddiasi
+FACTURK-0184,2022,2022-12-14T15:59:42+00:00,Doğruluk Payı,1,YALAN,False,False,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/kyk-kredi-burslari-son-10-yilda-dolar-bazinda-ne-kadar-degisti
+FACTURK-0185,2019,2019-03-26T00:00:00+00:00,Teyit,1,YALAN,False,False,True,https://teyit.org/analiz/ak-parti-heyetinden-birinin-vatandaslara-seyin-trene-baktigi-gibi-bakiyorlar-dedigi-iddiasi
+FACTURK-0186,2026,2026-02-20T12:06:05+00:00,Doğruluk Payı,1,DOĞRU,False,True,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/video-1918-yilinda-batum-alindiktan-sonra-enver-pasa-yi-beklerken-eglenen-askerleri-mi-gosteriyor
+FACTURK-0187,2021,2021-08-10T10:22:49+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/dunyanin-en-buyuk-yangin-ucaginin-kar-getirmedigi-icin-piyasadan-cekildigi-iddiasi
+FACTURK-0188,2026,2026-03-04T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/sasi-komutan/
+FACTURK-0189,2022,2022-10-17T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/sayistayin-amasradaki-madenle-ilgili-2019-yilinda-uyarida-bulundugu-iddiasi
+FACTURK-0190,2016,2016-01-26T16:24:03+00:00,Günün Yalanları,0,YALAN,False,True,False,https://gununyalanlari.com/yalan/315-ethanin-turkiye-daesin-de-cenevreye-katilmasini-istedi-yalani
+FACTURK-0191,2024,2024-04-26T00:00:00+00:00,Teyit,1,YALAN,False,False,False,https://teyit.org/analiz/agustos-boceklerinin-omru-yaklasik-dort-hafta-mi
+FACTURK-0192,2019,2019-12-17T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/aleyna-tilkiye-ilham-veren-genc-odulu-verildigi-iddiasi
+FACTURK-0193,Bilinmiyor,Bilinmiyor,Doğrula,1,DOĞRU,False,True,False,https://www.dogrula.org/dogrulamalar/abd-baskani-donald-trump-obama-ciftini-maymun-olarak-gosteren-bir-video-paylasti-mi/
+FACTURK-0194,2023,2023-06-20T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/imf-raporuna-gore-zombi-sirket-sayisinin-en-cok-turkiyede-oldugu-iddiasi
+FACTURK-0195,2017,2017-01-17T06:01:13+00:00,Yalansavar,0,YALAN,False,True,True,https://yalansavar.org/2017/01/17/safsatacinin-safsatasi/
+FACTURK-0196,2021,2021-08-17T10:55:40+00:00,Doğruluk Payı,1,YALAN,False,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/turkiye-nin-toplam-merkezi-yonetim-borcunun-baskanlik-sisteminden-bu-yana-109-arttigi-iddiasi
+FACTURK-0197,2023,2023-06-12T11:43:14+00:00,Doğruluk Payı,0,YALAN,False,True,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/paylasimdaki-dolar-yakma-videosu-guncel-mi
+FACTURK-0198,2023,2023-02-20T12:55:12+00:00,Doğruluk Payı,1,DOĞRU,False,True,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/video-adiyaman-in-en-az-hasarli-ilcelerinden-kahta-yi-gosteriyor
+FACTURK-0199,2021,2021-05-24T17:08:00+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/uyurken-sag-tarafa-yatmanin-saglik-icin-faydali-oldugu-iddiasi
+FACTURK-0200,2025,2025-01-28T15:15:27+00:00,Doğruluk Payı,1,YALAN,False,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/1-subat-2025-ten-itibaren-elektrik-faturalarina-duzenleme-geliyor-mu
+FACTURK-0201,2017,2017-01-24T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/mehmet-simsekin-turkiye-esadsiz-bir-anlasmada-israr-edemez-dedigi-iddiasi
+FACTURK-0202,2023,2023-02-17T00:00:00+00:00,Teyit,1,YALAN,False,False,True,https://teyit.org/analiz/cengiz-holdinge-3-milyar-tllik-yatirim-tesviki-verildigi-iddiasi
+FACTURK-0203,2019,2019-01-08T00:00:00+00:00,Teyit,0,YALAN,False,True,False,https://teyit.org/analiz/rtukun-cin-kelimesini-yasakladigi-iddiasi
+FACTURK-0204,2025,2025-12-10T14:25:01+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/son-arastirmalarin-birkac-milyon-yil-icinde-y-kromozomunun-yok-olacagini-gosterdigi-iddiasi-dogru-mu
+FACTURK-0205,2021,2021-02-18T14:02:51+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/japonya-da-esek-arili-krakerlerin-bulundugu-iddiasi
+FACTURK-0206,2019,2019-06-01T00:00:00+00:00,Malumatfuruş,0,YALAN,False,True,False,https://www.malumatfurus.org/tip-ogrencisinin-nihat-hatipogluna-namaz-vakti-geldiginde-ameliyati-birakma-hakkinda-soru-sordugu-iddiasi/
+FACTURK-0207,2020,2020-08-11T00:00:00+00:00,Teyit,1,YALAN,False,False,True,https://teyit.org/analiz/fotograf-latin-alfabesine-gecis-iddasi
+FACTURK-0208,2017,2017-08-15T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,False,https://teyit.org/analiz/nazi-almanyasindan-kacan-alman-bilim-insanlarinin-turkiyeye-sigindigi-iddiasi
+FACTURK-0209,2019,2019-03-08T00:00:00+00:00,Teyit,0,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/karisiyla-konusmamak-icin-62-yil-sagir-dilsiz-taklidi-yapan-adam-iddiasi
+FACTURK-0210,2026,2026-03-06T16:55:29+00:00,Doğruluk Payı,0,DOĞRU,False,False,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/video-kral-fehd-koprusu-nun-vuruldugu-anlari-mi-gosteriyor
+FACTURK-0211,2024,2024-02-26T00:00:00+00:00,Teyit,0,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/suudi-arabistan-veliaht-prensinin-soyledigi-iddia-edilen-sozler
+FACTURK-0212,2022,2022-11-02T00:00:00+00:00,Malumatfuruş,0,YALAN,False,True,True,https://www.malumatfurus.org/candas-tolga-isik-hadi-ozisik/
+FACTURK-0213,2025,2025-01-31T10:48:39+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/donald-trump-in-hamas-a-50-milyon-dolar-degerinde-prezevatif-gonderilecegini-tespit-ettik-aciklamasi-yaptigi-dogru-mu
+FACTURK-0214,2023,2023-01-28T00:00:00+00:00,Malumatfuruş,0,DOĞRU,False,False,False,https://www.malumatfurus.org/japon-bakan-ataturk/
+FACTURK-0215,2022,2022-11-21T16:12:35+00:00,Doğruluk Payı,1,YALAN,False,False,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/meclis-tutanaklarinda-zehra-taskesenlioglu-nun-afrika-da-bakir-madeni-oldugu-bilgisi-kaydedildi-mi
+FACTURK-0216,2025,2025-01-31T12:46:51+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/ispanya-ya-ihrac-edilen-bademlerde-limitin-63-kati-siyanur-mu-tespit-edildi
+FACTURK-0217,2021,2021-05-25T11:24:17+00:00,Doğruluk Payı,1,YALAN,False,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/dovize-olan-bagimliligin-en-fazla-turkiye-ve-sili-de-arttigi-iddiasi
+FACTURK-0218,2021,2021-10-24T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/peygamber-develeri-fotografi/
+FACTURK-0219,2012,2012-03-11T22:00:56+00:00,Yalansavar,0,YETERSİZ VERİ,True,False,True,https://yalansavar.org/2012/03/12/falcilar-medyumlar-ve-dogaustu-gucleri/
+FACTURK-0220,2022,2022-12-26T13:57:08+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/kafatasinin-83-u-parcalanan-kisinin-implantlar-sayesinde-eski-goruntusune-kavustugu-iddiasi-dogru-mu
+FACTURK-0221,2020,2020-08-14T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/fotografin-istanbul-okmeydanindaki-tasin-eski-ve-yeni-halini-gosterdigi-iddiasi
+FACTURK-0222,2024,2024-05-10T15:11:21+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/meb-in-acikladigi-yeni-mufredatta-din-ogretimine-toplam-572-sayfa-ayirdigi-iddiasi-dogru-mu
+FACTURK-0223,2020,2020-07-30T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,False,https://teyit.org/analiz/portekizde-koronavirusu-etkisiz-hale-getiren-maske-gelistirildigi-iddiasi
+FACTURK-0224,2022,2022-06-17T09:24:49+00:00,Doğrula,0,YALAN,False,True,True,https://www.dogrula.org/dogrulamalar/2012-londra-olimpiyatlari-acilis-gosterisi-pandemiyi-ongormedi/
+FACTURK-0225,2022,2022-04-21T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/sevdicegim/
+FACTURK-0226,2018,2018-06-29T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/videonun-24-haziran-gecesi-istanbulda-cekildigi-iddiasi
+FACTURK-0227,2023,2023-04-24T08:32:56+00:00,Doğrula,0,YALAN,False,True,True,https://www.dogrula.org/dogrulamalar/video-bakan-musun-karsisindaki-vatandasi-dinlemedigini-mi-gosteriyor/
+FACTURK-0228,2023,2023-02-26T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/yonlendirilmis-enerji-silahi/
+FACTURK-0229,2024,2024-05-15T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/papaz-erigini-imam-erigine-cevirme/
+FACTURK-0230,2022,2022-04-25T09:53:21+00:00,Doğruluk Payı,0,YALAN,False,True,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/gorsel-tarihteki-ilk-kedi-fotografi-mi
+FACTURK-0231,2024,2024-07-05T00:00:00+00:00,Malumatfuruş,0,YALAN,False,True,True,https://www.malumatfurus.org/4-kere-hacca-gidip-geldim-aha-dayiya-sor/
+FACTURK-0232,2018,2018-09-13T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/bazi-israil-vatandaslarinin-protesto-icin-topluca-arapca-dersi-almaya-basladigi-iddiasi
+FACTURK-0233,2021,2021-08-24T09:55:18+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/gorselde-yer-alan-fotografin-1970-yilinda-afganistan-in-baskenti-kabil-de-cekildigi-iddiasi
+FACTURK-0234,2024,2024-02-25T14:33:44+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/video-suudi-prensi-muhammed-bin-selman-in-kur-an-dunyadaki-tum-teroristlerin-guvendigi-ve-alinti-yaptigi-bir-kitap-dedigini-mi-gosteriyor
+FACTURK-0235,2022,2022-08-02T15:26:06+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/turkiye-dunyadaki-incirin-26-sini-ureterek-bu-alanda-birinci-oldu-mu
+FACTURK-0236,2020,2020-07-27T00:00:00+00:00,Teyit,0,YALAN,False,True,False,https://teyit.org/analiz/netflix-1-agustos-2020de-turkiyeden-cekilmiyor
+FACTURK-0237,2024,2024-11-27T16:41:51+00:00,Doğruluk Payı,1,YALAN,False,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/kontoryum-elementinin-varligina-turkiye-nin-34-u-inaniyor-mu
+FACTURK-0238,2023,2023-06-14T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/hollandada-halka-ucretsiz-gunes-kremi-mi-dagitilacak
+FACTURK-0239,2024,2024-10-02T12:46:59+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/video-hizbullah-in-tel-aviv-e-saldirisi-sonucu-yanan-bir-binayi-mi-gosteriyor
+FACTURK-0240,2021,2021-01-10T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/devlet-bahceliye-asi-yapan-hemsire/
+FACTURK-0241,2021,2021-05-28T17:11:40+00:00,Doğruluk Payı,1,YALAN,False,False,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/fransa-da-mekanlarin-acildigi-ve-18-yasindaki-herkese-kulturel-faaliyetler-icin-300-euro-verilecegi-iddiasi
+FACTURK-0242,2019,2019-01-21T17:52:53+00:00,Günün Yalanları,0,YETERSİZ VERİ,True,False,True,https://gununyalanlari.com/yalan/2024-iranli-press-tvnin-menbicteki-teror-saldirisinin-oldugu-bolgede-turk-ajaninin-kimligi-bulundu-yalani
+FACTURK-0243,2024,2024-10-16T17:22:25+00:00,Doğruluk Payı,1,YALAN,False,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/trabzon-opera-binasi-1958-de-yol-yapmak-icin-yikildi-mi
+FACTURK-0244,2023,2023-12-08T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/dunyanin-en-buyuk-buzdaginin-hareket-etmeye-basladigi-dogru-mu
+FACTURK-0245,2023,2023-01-17T00:00:00+00:00,Teyit,1,YALAN,False,False,False,https://teyit.org/analiz/videonun-buz-kalibinin-cikardigi-sesi-gosterdigi-iddiasi
+FACTURK-0246,2025,2025-06-20T12:53:59+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/sultan-ii-abdulhamit-istanbul-un-fethi-kutlamalarina-izin-vermedi-mi
+FACTURK-0247,2023,2023-03-28T13:47:33+00:00,Doğruluk Payı,0,YALAN,False,True,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/videoda-yer-alan-rahip-sisman-kadinlar-cennete-giremez-dedi-mi
+FACTURK-0248,2016,2016-07-13T00:00:00+00:00,Teyit,0,DOĞRU,False,False,False,https://teyit.org/analiz/pokemon-ararken-karsimiza-cikan-yanlis-haberler
+FACTURK-0249,2017,2017-02-08T00:00:00+00:00,Teyit,1,YALAN,False,False,False,https://teyit.org/analiz/nihat-zeybekcinin-tbmmnin-sitesindeki-ozgecmisinden-ingiltere-egitimi-kaldirildi-iddiasi
+FACTURK-0250,2024,2024-05-29T17:32:34+00:00,Doğruluk Payı,0,YALAN,False,True,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/gorseller-portekiz-de-megalodon-kopek-baliginin-kiyiya-vurdugunu-mu-gosteriyor
+FACTURK-0251,2024,2024-03-08T00:00:00+00:00,Malumatfuruş,1,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/tren-bekleyen-bakan/
+FACTURK-0252,2019,2019-01-30T00:00:00+00:00,Teyit,0,YALAN,False,True,False,https://teyit.org/analiz/nasa-astronotu-sunita-williamsin-aydan-dondukten-sonra-musluman-oldugu-iddiasi
+FACTURK-0253,2020,2020-08-18T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/xsentius-eski-bir-tapinak-yaziti/
+FACTURK-0254,2018,2018-07-23T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,False,https://www.malumatfurus.org/chenin-cantasindan-cikmayan-nutuk-ve-kose-yazarlari/
+FACTURK-0255,2021,2021-11-10T13:55:06+00:00,Doğruluk Payı,1,YALAN,False,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/avrupa-da-son-2-yilda-elektrik-fiyatlarina-gelen-zamlar-ile-ilgili-iddialar
+FACTURK-0256,2022,2022-06-28T11:41:10+00:00,Doğrula,0,YALAN,False,True,True,https://www.dogrula.org/dogrulamalar/videonun-ukraynadaki-azovstal-tunelini-gosterdigi-iddiasi/
+FACTURK-0257,2021,2021-05-28T11:04:19+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/turkiye-uzay-ajansi-nin-1-milyon-62-bin-919-tl-ye-minibus-kiraladigi-iddiasi-920
+FACTURK-0258,2020,2020-05-15T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/nusaybinde-cocuklari-korkutmak-icin-polisin-havaya-ates-actigi-iddiasini-nasil-dogruladik
+FACTURK-0259,2023,2023-02-07T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/kizilay-ve-afadin-ikinci-el-giysi-yardimi-kabul-etmedigi-iddiasi
+FACTURK-0260,2021,2021-09-09T00:00:00+00:00,Malumatfuruş,1,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/ciplak-milletvekili/
+FACTURK-0261,2023,2023-05-18T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/damacana-kokeni/
+FACTURK-0262,2024,2024-11-22T00:00:00+00:00,Malumatfuruş,1,YALAN,False,False,True,https://www.malumatfurus.org/ataturk-ses-kaydi/
+FACTURK-0263,2023,2023-06-13T13:39:56+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/eyup-sabri-tuncer-vehbi-koc-tarafindan-iflastan-kurtarildi-mi
+FACTURK-0264,2018,2018-11-12T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,False,https://teyit.org/analiz/fotografin-turkiyenin-washington-buyukelciliginde-cekildigi-iddiasi
+FACTURK-0265,2023,2023-11-10T16:54:37+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/yoav-gallant-turklerin-sahada-olduklarina-eminim-dedi-mi
+FACTURK-0266,2023,2023-09-13T00:00:00+00:00,Malumatfuruş,1,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/penguen-kurtaricisini-gormek-icin/
+FACTURK-0267,2021,2021-03-12T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/istiklal-marsinin-aslinin-arapca/
+FACTURK-0268,2021,2021-07-27T00:00:00+00:00,Malumatfuruş,0,DOĞRU,False,False,False,https://www.malumatfurus.org/suriyeliler-gitmiyoruz-mitingi/
+FACTURK-0269,2023,2023-09-24T00:00:00+00:00,Malumatfuruş,1,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/selde-zarar-gormeyen-ev/
+FACTURK-0270,2022,2022-08-15T12:24:02+00:00,Doğruluk Payı,0,DOĞRU,False,False,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/vikipedi-nancy-pelosi-nin-olum-tarihini-acikladi-mi
+FACTURK-0271,2019,2019-06-23T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/ataturkun-cocuklara-bira-icirdigi-iddiasi/
+FACTURK-0272,Bilinmiyor,Bilinmiyor,Doğrula,0,YALAN,False,True,True,https://www.dogrula.org/dogrulamalar/fotograf-edirnede-istiklal-marsi-okuyanlara-korna-calan-bir-kisinin-dovuldugu-ani-mi-gosteriyor/
+FACTURK-0273,2020,2020-07-08T17:29:00+00:00,Günün Yalanları,0,YETERSİZ VERİ,True,False,True,https://gununyalanlari.com/yalan/2600-izmirde-cami-hoparlorlerinden-muslum-gurses-sarkisi-calindi-yalani
+FACTURK-0274,2024,2024-04-03T00:00:00+00:00,Teyit,0,YALAN,False,True,False,https://teyit.org/analiz/fotograf-iranli-komutan-ismail-kaaninin-kadin-kiligina-girdigini-mi-gosteriyor
+FACTURK-0275,2025,2025-12-05T17:02:19+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/nene-hatun-un-yoksulluk-nedeniyle-ismet-inonu-ye-bir-dilekce-yazdigi-ve-dilekceden-sonra-maasinin-kesildigi-iddiasi-dogru-mu
+FACTURK-0276,2023,2023-08-31T09:27:57+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/video-diyanet-isleri-baskani-ali-erbas-in-kizini-mi-gosteriyor
+FACTURK-0277,2018,2018-02-08T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/vampirler-uzun-yasar-isimli-konferans-iddiasi
+FACTURK-0278,2021,2021-04-22T15:55:58+00:00,Doğruluk Payı,1,YALAN,False,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/cek-cumhuriyeti-nin-cocuklar-icin-zorunlu-asi-politikasinin-aihm-tarafindan-onaylandigi-iddiasi
+FACTURK-0279,2025,2025-05-14T10:42:28+00:00,Doğruluk Payı,0,YALAN,False,True,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/video-yerde-hareket-eden-tanimlanamayan-bir-varligi-mi-gosteriyor
+FACTURK-0280,2019,2019-11-08T16:06:55+00:00,Günün Yalanları,0,YALAN,False,True,True,https://gununyalanlari.com/yalan/2311-soganli-botanik-parki-imara-acildi-yalani
+FACTURK-0281,2023,2023-02-17T06:41:54+00:00,Doğrula,0,YALAN,False,True,True,https://www.dogrula.org/dogrulamalar/diyanet-isleri-baskaninin-sahsi-olarak-310-milyon-lira-bagisladigi-iddiasi/
+FACTURK-0282,2022,2022-11-18T00:00:00+00:00,Teyit,1,YALAN,False,False,True,https://teyit.org/analiz/fotografin-dunyanin-en-uzun-burunlu-insanini-gosterdigi-iddiasi
+FACTURK-0283,2021,2021-06-11T16:29:02+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/biontech-ceo-su-ugur-sahin-in-covid-19-asisi-olmadigi-iddiasi
+FACTURK-0284,2022,2022-09-12T10:43:23+00:00,Doğrula,0,YALAN,False,True,False,https://www.dogrula.org/dogrulamalar/videodaki-kisinin-kralice-ii-elizabeth-oldugu-iddiasi/
+FACTURK-0285,2020,2020-06-27T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/ozledim-seni-can-yucel/
+FACTURK-0286,2020,2020-12-23T00:00:00+00:00,Teyit,1,YALAN,False,False,False,https://teyit.org/analiz/bilkent-universitesinin-ogrencilere-cevrimici-sinavlar-icin-ayna-gonderdigi-iddiasi
+FACTURK-0287,2020,2020-05-28T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/hollandada-bir-kilise-canlariyla-uzun-ince-bir-yoldayim-calindigi-iddiasi
+FACTURK-0288,2021,2021-01-09T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/whatsappin-degistirdigi-gizlilik-sozlesmesi-hakkinda-iddialar
+FACTURK-0289,2024,2024-11-06T15:57:04+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/apollo-11-astronotlari-ay-dan-dondukten-sonra-anitkabir-i-ziyaret-etti-mi
+FACTURK-0290,2025,2025-07-16T14:49:00+00:00,Doğruluk Payı,1,YALAN,False,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/turizm-sektorunde-calisan-iscilerin-7-gunde-bir-yerine-11-gunde-bir-haftalik-izin-yapabilecegi-iddiasi-dogru-mu
+FACTURK-0291,2023,2023-11-21T00:00:00+00:00,Teyit,1,YALAN,False,False,True,https://teyit.org/analiz/videodaki-akilli-park-sistemine-sahip-ofis-sandalyeleri-gercek-mi
+FACTURK-0292,2023,2023-01-04T11:56:03+00:00,Doğruluk Payı,0,YALAN,False,True,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/video-bir-ucagin-chemtrails-puskurttugu-ani-mi-gosteriyor
+FACTURK-0293,2017,2017-07-26T15:26:37+00:00,Günün Yalanları,0,YETERSİZ VERİ,True,False,True,https://gununyalanlari.com/yalan/653-mahmut-tanalin-hatali-turkiye-fransa-ve-almanya-karsilastirmasi
+FACTURK-0294,2025,2025-03-21T16:55:44+00:00,Doğruluk Payı,0,DOĞRU,False,False,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/meksika-da-bir-apartmanin-hicbir-sismik-hareket-olmaksizin-yer-degistirdigi-iddiasi-dogru-mu
+FACTURK-0295,2021,2021-06-25T16:03:24+00:00,Doğruluk Payı,1,YALAN,False,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/fotografin-biri-ilgi-gormus-digeri-ise-ihmal-edilmis-iki-cocugun-beyin-yapisindaki-farkliligi-gosterdigi-iddiasi
+FACTURK-0296,2022,2022-12-26T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,False,https://teyit.org/analiz/1954te-kurulan-tuzla-cip-fabrikasi-ile-ilgili-iddialar
+FACTURK-0297,2024,2024-04-17T10:31:10+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/beypazari-maden-sularinin-isvicre-federal-gida-guvenligi-ve-veterinerlik-isleri-dairesi-tarafindan-asiri-seviyede-bor-tespit-edildigi-iddiasi-dogru-mu
+FACTURK-0298,2023,2023-11-10T00:00:00+00:00,Malumatfuruş,1,YALAN,False,False,True,https://www.malumatfurus.org/arabistanli-lawrence-evi/
+FACTURK-0299,2020,2020-01-26T17:34:27+00:00,Günün Yalanları,0,YALAN,False,True,False,https://gununyalanlari.com/yalan/2365-siirt-hassa-hatun-kiz-ogrenci-yurdunda-catlaklar-meydana-geldi-yalani
+FACTURK-0300,2017,2017-08-07T20:06:29+00:00,Yalansavar,0,YALAN,False,True,True,https://yalansavar.org/2017/08/07/manyetik-alanlardaki-gizli-gecitler/
+FACTURK-0301,2024,2024-07-08T16:41:38+00:00,Doğruluk Payı,0,DOĞRU,False,False,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/mostar-koprusune-turk-bayraginin-yansitildigini-gosteren-fotografin-guncel-oldugu-iddiasi-dogru-mu
+FACTURK-0302,2020,2020-06-30T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/kiyamam-sana-adli-sarkinin-sozlerini-karakoy-genelevinde-calisan-bir-kadinin-yazdigi-iddiasi/
+FACTURK-0303,2022,2022-09-16T14:31:41+00:00,Doğrula,0,YETERSİZ VERİ,True,False,True,https://www.dogrula.org/dogrulamalar/kuleli-askeri-lisesinin-yabancilara-satildigi-iddiasi/
+FACTURK-0304,2017,2017-03-30T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/9-ile-baslayan-kimlik-numaralari-ve-suriyelilerin-oy-kullanmasina-iliskin-iddia
+FACTURK-0305,2023,2023-08-10T00:00:00+00:00,Teyit,1,YALAN,False,False,True,https://teyit.org/analiz/japonyada-egitim-ogrenciler-okullardaki-temizlikten-mi-sorumlu
+FACTURK-0306,2025,2025-12-05T16:48:44+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/kekik-cayinin-mide-yanmasini-bes-dakikada-durdurdugu-iddiasi-dogru-mu
+FACTURK-0307,2016,2016-05-27T16:15:59+00:00,Günün Yalanları,0,YALAN,False,True,True,https://gununyalanlari.com/yalan/448-sozcu-murat-aydinin-okullara-sehit-adi-neden-verilmiyor-yalani
+FACTURK-0308,2023,2023-12-21T00:00:00+00:00,Teyit,1,YALAN,False,False,True,https://teyit.org/analiz/turkiye-kira-artis-oraninda-dunya-birincisi-mi
+FACTURK-0309,2024,2024-04-29T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/toplu-kus-olumu/
+FACTURK-0310,2022,2022-01-21T15:18:06+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/abd-baskani-biden-in-bas-saglik-danismani-dr-anthony-fauci-yargilandi-mi
+FACTURK-0311,2023,2023-12-26T00:00:00+00:00,Teyit,1,YALAN,False,False,False,https://teyit.org/analiz/turkiye-en-cok-calisan-ve-en-az-kazanan-avrupa-ulkelerinden-biri-mi
+FACTURK-0312,2019,2019-08-26T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/vegan-beslenen-is-insani-diskisini-bagislayarak-ogrencilere-burs-sagladi
+FACTURK-0313,2019,2019-02-04T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,False,https://teyit.org/analiz/mehmet-ozhaseki-yi-afrika-daki-bir-feto-okulunun-onunde-gosteren-fotograf-iddiasi
+FACTURK-0314,2021,2021-08-25T17:04:32+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/turkiye-nin-dunya-ekonomisindeki-payinin-1980-de-0-86-2020-de-de-0-85-oldugu-iddiasi
+FACTURK-0315,2024,2024-05-03T16:57:15+00:00,Doğruluk Payı,0,YALAN,False,True,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/video-abd-deki-filistin-protestolarinda-ogrenciye-yonelik-polis-siddetini-mi-gosteriyor
+FACTURK-0316,2020,2020-05-19T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/trt-haber-ekraninda-19-mayis-cumhuriyet-bayrami-kutlu-olsun-yazdigi-iddiasi
+FACTURK-0317,2022,2022-12-12T13:40:26+00:00,Doğruluk Payı,1,YALAN,False,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/fotograf-down-sendromlu-baba-ve-doktor-olan-oglunu-mu-gosteriyor
+FACTURK-0318,2021,2021-05-18T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/vucuda-yapisan-miknatis/
+FACTURK-0319,2023,2023-10-28T00:00:00+00:00,Malumatfuruş,1,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/zurefa-lezbiyen/
+FACTURK-0320,2019,2019-10-11T17:50:12+00:00,Günün Yalanları,0,YETERSİZ VERİ,True,False,True,https://gununyalanlari.com/yalan/2244-pkk-yanlisi-sosyal-medya-hesaplarinin-baris-pinari-harekatinda-siviller-hedef-aliniyor-yalani
+FACTURK-0321,2023,2023-01-20T00:00:00+00:00,Teyit,0,YALAN,False,True,False,https://teyit.org/analiz/videonun-britanyada-uygulanan-domuz-terapisini-gosterdigi-iddiasi
+FACTURK-0322,2024,2024-11-05T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/alexin-fenerbahcede-ilk-maci/
+FACTURK-0323,2023,2023-04-19T00:00:00+00:00,Malumatfuruş,1,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/tanri-birdir-ve-buyuktur/
+FACTURK-0324,2023,2023-02-17T12:22:46+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/azerbaycanli-vatandas-arabasiyla-turkiye-de-meydana-gelen-deprem-nedeniyle-yardim-tasidi
+FACTURK-0325,2023,2023-07-16T11:07:32+00:00,Doğrula,0,YETERSİZ VERİ,True,False,True,https://www.dogrula.org/dogrulamalar/resmi-gazetede-yayinlanan-karar-ile-universite-harclarinin-geri-getirildigi-iddiasi/
+FACTURK-0326,2021,2021-08-06T12:21:01+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/time-dergisinin-turkiye-deki-yanginlari-onceden-bildigi-iddiasi
+FACTURK-0327,2023,2023-10-02T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/kara-ile-deniz-birlesti/
+FACTURK-0328,2025,2025-01-30T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/1-subat-2025ten-itibaren-elektrik-faturalarina-duzenleme-gelecegi-dogru-mu
+FACTURK-0329,2022,2022-07-06T15:31:11+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/yunanistan-da-asgari-ucretle-1088-yumurta-alinabildigi-dogru-mu
+FACTURK-0330,2021,2021-12-19T00:00:00+00:00,Malumatfuruş,0,YALAN,False,True,True,https://www.malumatfurus.org/asgari-ucret-tarihi-zam/
+FACTURK-0331,2019,2019-04-16T00:00:00+00:00,Teyit,1,YALAN,False,False,True,https://teyit.org/analiz/fotograflarin-mugla-guvercinlikte-yangin-sonrasi-yapilasmaya-acilan-yerleri-gosterdigi-iddiasi
+FACTURK-0332,2017,2017-11-07T00:00:00+00:00,Teyit,0,YALAN,False,True,True,https://teyit.org/analiz/sosyal-medya-platformlarinin-anlastigi-tum-konusmalarin-kaydedilecegi-iddiasi
+FACTURK-0333,2022,2022-06-21T13:36:13+00:00,Doğrula,0,YETERSİZ VERİ,True,False,True,https://www.dogrula.org/dogrulamalar/covid-19-asilarina-karsi-olan-liderler-suikaste-mi-ugradi/
+FACTURK-0334,2016,2016-10-04T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/meb-48-sayisini-yanlis-okudu
+FACTURK-0335,2021,2021-04-29T00:00:00+00:00,Malumatfuruş,0,YALAN,False,True,True,https://www.malumatfurus.org/kutul-amare-bayrami/
+FACTURK-0336,2025,2025-11-18T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/selcuk-bayraktarin-f-35lere-yonelik-aciklamasi-gercek-mi
+FACTURK-0337,2021,2021-11-10T14:56:00+00:00,Doğruluk Payı,0,YALAN,False,True,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/pfizer-ceo-su-albert-bourla-nin-tutuklandigi-iddiasi
+FACTURK-0338,2024,2024-12-06T13:36:50+00:00,Doğruluk Payı,0,DOĞRU,False,False,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/videonun-kaliforniya-depremini-gosterdigi-iddiasi-dogru-mu
+FACTURK-0339,2024,2024-07-26T10:26:53+00:00,Doğruluk Payı,1,YALAN,False,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/turkiye-den-italya-ve-fransa-ya-gonderilen-kuru-incirlerde-aflatoksin-tespit-edildiginden-turkiye-ye-geri-gonderildigi-iddiasi-dogru-mu
+FACTURK-0340,2025,2025-01-20T17:50:11+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/videonun-camlari-kirilan-bir-camiyi-gosterdigi-iddiasi-dogru-mu
+FACTURK-0341,2019,2019-01-23T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/salvador-dali-icin-istanbulda-lokma-dokuldugu-iddiasi
+FACTURK-0342,2022,2022-07-01T13:54:15+00:00,Doğrula,0,YETERSİZ VERİ,True,False,False,https://www.dogrula.org/dogrulamalar/meb-butcesiyle-suriyeli-ogrencilere-antalyada-festival-duzenlenecegi-iddiasi/
+FACTURK-0343,2022,2022-06-14T13:56:01+00:00,Doğrula,0,YETERSİZ VERİ,True,False,True,https://www.dogrula.org/dogrulamalar/avrupali-yetkililerin-turkiye-silah-sistemleri-ile-donatilmali-aciklamasi-yaptigi-iddiasi/
+FACTURK-0344,2019,2019-10-08T00:00:00+00:00,Teyit,1,YALAN,False,False,False,https://teyit.org/analiz/star-tvnin-etnospor-kultur-festivali-icin-16-ulkeden-10-sporcu-katiliyor-seklinde-alt-bant-kullandigi-iddiasi
+FACTURK-0345,Bilinmiyor,Bilinmiyor,Doğrula,1,DOĞRU,False,True,False,https://www.dogrula.org/dogrulamalar/abd-baskani-donald-trump-kral-yok-protestocularina-diski-bombasi-attigi-yapay-zeka-videosu-paylasti-mi/
+FACTURK-0346,2019,2019-08-20T00:00:00+00:00,Teyit,0,YALAN,False,True,False,https://teyit.org/analiz/mufredata-recep-tayyip-erdoganin-hayati-ve-eserleri-isimli-bir-ders-eklenmedi
+FACTURK-0347,2025,2025-11-17T14:20:36+00:00,Doğruluk Payı,1,YALAN,False,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/turkiye-ve-almanya-daki-ayni-urun-fiyatlari-arasindaki-fark-dogru-mu
+FACTURK-0348,2025,2025-03-07T00:00:00+00:00,Malumatfuruş,1,YALAN,False,False,True,https://www.malumatfurus.org/alkol-sebili/
+FACTURK-0349,2021,2021-04-15T00:00:00+00:00,Teyit,1,YALAN,False,False,True,https://teyit.org/analiz/kyk-yurtlarinda-kalmaya-cumhurbaskanina-hakaret-sucundan-hukum-giymeme-sarti-kondugu-iddiasi
+FACTURK-0350,2023,2023-02-10T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/kemal-kilicdaroglunun-duzce-depremi-etki-analiz-raporuna-yonelik-iddialari
+FACTURK-0351,2022,2022-06-28T11:25:11+00:00,Doğrula,0,DOĞRU,False,False,False,https://www.dogrula.org/dogrulamalar/ibbnin-suriyelilere-verdigi-yardim-kartlarini-iptal-ettigi-iddiasi/
+FACTURK-0352,2022,2022-11-25T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/taksim-saldirisiyla-ilgili-onergenin-ak-parti-ve-mhp-oylariyla-reddedildigi-iddiasi
+FACTURK-0353,2025,2025-12-18T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/kapi-zili-gibisin/
+FACTURK-0354,2020,2020-06-30T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/turkiyenin-koronavirusle-mucadele-icin-filistine-5-milyon-dolar-yardimda-bulundugu-iddiasi
+FACTURK-0355,2024,2024-01-03T00:00:00+00:00,Malumatfuruş,1,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/ikiye-bolunen-kupa/
+FACTURK-0356,2022,2022-02-22T10:45:53+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/gorsel-tomografi-sirasinda-panik-atak-geciren-bir-hastayi-gosteriyor-mu
+FACTURK-0357,2025,2025-11-06T17:26:42+00:00,Doğruluk Payı,0,DOĞRU,False,False,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/video-sokaktaki-bir-sac-kesme-makinesini-mi-gosteriyor
+FACTURK-0358,2025,2025-05-16T14:59:28+00:00,Doğruluk Payı,0,DOĞRU,False,False,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/konya-nin-turkiye-fay-haritasinda-fay-uzerinde-olmadigi-iddiasi-dogru-mu
+FACTURK-0359,2023,2023-09-25T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/antarktikadaki-deniz-buzu-seviyesi-mevsimsel-ortalamanin-altinda-mi
+FACTURK-0360,2021,2021-02-16T11:17:00+00:00,Doğruluk Payı,1,YALAN,False,False,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/uzay-ajanslarinin-butcelerine-yonelik-iddialar
+FACTURK-0361,2021,2021-03-29T16:34:46+00:00,Doğruluk Payı,1,YALAN,False,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/gorselin-covid-19-un-tahrip-ettigi-akcigeri-gosterdigi-iddiasi
+FACTURK-0362,2025,2025-10-20T10:12:39+00:00,Doğruluk Payı,1,YALAN,False,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/video-dalga-sebebiyle-cami-kirilan-bir-feribotu-mu-gosteriyor
+FACTURK-0363,2022,2022-11-07T00:00:00+00:00,Teyit,0,YALAN,False,True,True,https://teyit.org/analiz/fotografin-hz-ademin-uc-boyutlu-modelini-gosterdigi-iddiasi
+FACTURK-0364,2024,2024-05-21T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/arkeolojik-kazi-dna-testi/
+FACTURK-0365,2021,2021-07-14T17:16:16+00:00,Doğruluk Payı,0,YALAN,False,True,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/fotografin-ay-da-kasklarini-cikaran-astronotlari-gosterdigi-iddiasi
+FACTURK-0366,2022,2022-01-27T16:43:43+00:00,Doğruluk Payı,1,YALAN,False,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/turk-firmasi-karsan-otobusleri-norvec-te-kullanilmaya-baslanacak-mi
+FACTURK-0367,2022,2022-10-24T16:36:55+00:00,Doğruluk Payı,1,DOĞRU,False,True,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/diyanet-isleri-baskanligi-nin-2023-icin-ongorulen-butcesi-35-milyar-910-milyon-653-bin-tl-mi
+FACTURK-0368,2020,2020-06-22T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,False,https://teyit.org/analiz/a-haberin-avrupa-ulkelerinin-benzin-fiyatlarini-tlye-cevirerek-aktardigi-iddiasi
+FACTURK-0369,2023,2023-08-21T00:00:00+00:00,Teyit,0,YALAN,False,True,False,https://teyit.org/analiz/sosyal-medyada-paylasilan-dev-yilan-videosu-vanda-mi-cekildi
+FACTURK-0370,2021,2021-05-20T10:38:03+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/1962-yilinda-tanzanya-da-yasanan-gulme-krizi-salgini-yuzunden-14-okulun-kapandigi-iddiasi
+FACTURK-0371,2021,2021-05-20T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/hadi-ozisikin-sedat-pekerle-goruntulu-konusma-yaptigi-sirada-atasehirdeki-social-lounge-kafede-oldugu-iddiasi
+FACTURK-0372,2025,2025-11-17T15:24:27+00:00,Doğruluk Payı,1,DOĞRU,False,True,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/video-selcuk-bayraktar-in-f-35-ucaklar-hakkindaki-aciklamalarini-mi-gosteriyor
+FACTURK-0373,2024,2024-10-01T00:00:00+00:00,Malumatfuruş,0,DOĞRU,False,False,False,https://www.malumatfurus.org/dusmanin-ulkesi-viran-olacak/
+FACTURK-0374,2022,2022-04-21T00:00:00+00:00,Teyit,1,YALAN,False,False,True,https://teyit.org/analiz/kinder-urunlerinde-salmonella-analizinin-siklastirildigini-gosterdigi-iddia-edilen-belge
+FACTURK-0375,2023,2023-05-10T07:52:07+00:00,Doğrula,0,YETERSİZ VERİ,True,False,True,https://www.dogrula.org/dogrulamalar/trtnin-propaganda-konusmalarinda-yalnizca-muharrem-inceyi-cikardigi-iddiasi/
+FACTURK-0376,2021,2021-05-31T13:31:46+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/29-mayis-2021-tarihinde-valide-sultan-gemisi-nde-fetih-kutlamalari-yapildigi-iddiasi
+FACTURK-0377,2024,2024-08-06T00:00:00+00:00,Malumatfuruş,1,DOĞRU,False,True,False,https://www.malumatfurus.org/gelin-selalesi/
+FACTURK-0378,2024,2024-06-13T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/fransada-1956ya-kadar-cocuklarin-okulda-sarap-ictigi-dogru-mu
+FACTURK-0379,2024,2024-05-08T00:00:00+00:00,Malumatfuruş,1,YALAN,False,False,True,https://www.malumatfurus.org/aloha-havayollari-kazasi/
+FACTURK-0380,2023,2023-03-10T16:51:23+00:00,Doğruluk Payı,0,YALAN,False,True,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/video-6-subat-depremlerinden-sonra-bolgede-yapilan-calismalari-mi-gosteriyor
+FACTURK-0381,2020,2020-09-25T00:00:00+00:00,Teyit,1,YALAN,False,False,False,https://teyit.org/analiz/5-milyon-tlye-ozellestirilen-giresun-sekanin-68-milyona-geri-alindigi-iddiasi
+FACTURK-0382,2022,2022-06-12T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/kadin-karateci-garson/
+FACTURK-0383,2023,2023-06-27T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/fotografin-ciltteki-igne-deligini-gosterdigi-iddiasi
+FACTURK-0384,2019,2019-03-13T00:00:00+00:00,Teyit,1,YALAN,False,False,False,https://teyit.org/analiz/bakan-pakdemirlinin-patates-firmasinda-danismanlik-yaptigi-iddiasi
+FACTURK-0385,2024,2024-08-23T00:00:00+00:00,Teyit,1,YALAN,False,False,False,https://teyit.org/analiz/ingilterede-kartpostal-121-yil-sonra-mi-teslim-edildi
+FACTURK-0386,2025,2025-12-29T14:27:05+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/abd-de-yapilan-bir-arastirmanin-ev-erkegi-babalarin-ogullarinin-75-inin-escinsel-ya-da-trans-oldugunu-gosterdigi-iddiasi-dogru-mu
+FACTURK-0387,2021,2021-12-24T14:44:44+00:00,Doğruluk Payı,0,YALAN,False,True,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/mcdonald-s-egzersiz-bisikletini-musterilerini-zayiflatmak-icin-mi-koydu
+FACTURK-0388,2020,2020-09-21T15:25:52+00:00,Günün Yalanları,0,YALAN,False,True,False,https://gununyalanlari.com/yalan/2762-ekrem-imamoglunun-kurbagalidere-islah-calismasi-yalani
+FACTURK-0389,2025,2025-08-12T16:05:01+00:00,Doğruluk Payı,0,YALAN,False,True,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/gonderi-hamdi-ulukaya-nin-aciklamalarini-mi-gosteriyor
+FACTURK-0390,2024,2024-02-29T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/anne-terligi-tasvir-edilen-antik-vazo-gercek-mi
+FACTURK-0391,2023,2023-04-01T00:00:00+00:00,Malumatfuruş,1,YETERSİZ VERİ,True,False,False,https://www.malumatfurus.org/boyutlar-arasi-gecit/
+FACTURK-0392,2024,2024-01-17T10:54:38+00:00,Doğruluk Payı,0,DOĞRU,False,False,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/video-dr-mehmet-oz-un-hipertansiyon-hakkindaki-aciklamalarini-mi-gosteriyor
+FACTURK-0393,2017,2017-07-10T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,False,https://teyit.org/analiz/chp-milletvekilleri-adalet-mitingi-yerine-kazlicesme-mitingi-fotografi-paylasti-iddiasi
+FACTURK-0394,2022,2022-04-23T00:00:00+00:00,Malumatfuruş,0,YALAN,False,True,True,https://www.malumatfurus.org/1-milyon-dolarlik-banknot/
+FACTURK-0395,2022,2022-07-01T18:27:18+00:00,Doğrula,1,YALAN,False,False,True,https://www.dogrula.org/dogrulamalar/4-ayda-434-kisinin-intihar-ettigi-iddiasi/
+FACTURK-0396,2019,2019-07-24T00:00:00+00:00,Teyit,0,YALAN,False,True,False,https://teyit.org/analiz/ankaradaki-suriyelilerin-is-yerlerinin-kapatilacagina-dair-iddialar
+FACTURK-0397,2022,2022-05-25T12:02:54+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/nasa-nin-salda-golu-yle-ilgili-bir-koruma-aciklamasi-var-mi
+FACTURK-0398,2023,2023-11-03T15:40:31+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/israil-buyukelcisinin-birlesmis-milletler-genel-konseyinden-kovuldugu-video-guncel-mi
+FACTURK-0399,2022,2022-10-19T16:47:51+00:00,Doğruluk Payı,0,YALAN,False,True,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/putin-artik-sadece-turkiye-ye-gaz-verecegiz-dedi-mi
+FACTURK-0400,2022,2022-09-03T21:31:26+00:00,Doğrula,0,YETERSİZ VERİ,True,False,True,https://www.dogrula.org/dogrulamalar/ingilteredeki-asi-merkezi-yasa-geregi-degil-guvenlik-endisesi-sebebiyle-kapatildi/
+FACTURK-0401,2025,2025-10-23T14:28:23+00:00,Doğruluk Payı,1,DOĞRU,False,True,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/video-bir-astronotun-uzayda-yaptigi-serbest-yuruyusu-mu-gosteriyor
+FACTURK-0402,2016,2016-11-23T18:08:05+00:00,Günün Yalanları,0,YALAN,False,True,True,https://gununyalanlari.com/yalan/567-kemal-kilicdaroglunun-pkkya-karsi-mucadele-eden-sehitlerin-cocuklari-ve-kardesleri-askerlik-yapacak-iddiasi
+FACTURK-0403,2022,2022-07-01T18:22:42+00:00,Doğrula,0,YALAN,False,True,False,https://www.dogrula.org/dogrulamalar/maggie-smithin-gencligini-gosterdigi-iddia-edilen-fotograf-loretta-younga-ait/
+FACTURK-0404,2024,2024-01-20T00:00:00+00:00,Malumatfuruş,1,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/havada-ucagin-tekerini-degistiren/
+FACTURK-0405,2023,2023-10-29T00:00:00+00:00,Malumatfuruş,0,DOĞRU,False,False,False,https://www.malumatfurus.org/729-barkod-israil/
+FACTURK-0406,2024,2024-01-10T15:09:43+00:00,Doğruluk Payı,1,YALAN,False,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/turkiye-nin-israil-e-ihracati-uc-ayda-1-milyar-dolari-asti-mi
+FACTURK-0407,2019,2019-04-02T00:00:00+00:00,Teyit,0,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/dunyanin-ilk-ayrilik-mektubu-hakkindaki-haber-1-nisan-sakasi
+FACTURK-0408,2022,2022-07-13T00:00:00+00:00,Malumatfuruş,0,YALAN,False,True,True,https://www.malumatfurus.org/128-kiloluk-general/
+FACTURK-0409,2024,2024-05-06T00:00:00+00:00,Teyit,0,YALAN,False,True,False,https://teyit.org/analiz/senegalin-fransizca-yerine-arapcayi-resmi-dil-ilan-ettigi-iddiasi
+FACTURK-0410,2022,2022-06-29T16:20:56+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/ukrayna-da-yanlislikla-hollanda-bayragi-mi-yakildi
+FACTURK-0411,2021,2021-02-19T17:12:32+00:00,Doğruluk Payı,1,DOĞRU,False,True,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/turkiye-nin-milli-gelirinin-2-5-i-ile-vatandaslarina-en-az-yardim-yapan-ulkeler-kategorisinde-oldugu-iddiasi
+FACTURK-0412,2018,2018-04-06T00:00:00+00:00,Teyit,1,YALAN,False,False,True,https://teyit.org/analiz/mona-sahlin-toblerone-yolsuzluk-davasi
+FACTURK-0413,2017,2017-12-19T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/kirilan-tasarruflu-ampullerin-civa-zehirlenmesine-sebep-olabildigi-iddiasi
+FACTURK-0414,2022,2022-07-08T12:45:15+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/arda-turan-biz-bu-alemin-en-guzel-kizini-bir-aksam-gunesinde-iki-bira-ile-tarihe-gomduk-dedi-mi
+FACTURK-0415,2024,2024-06-26T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/muzede-yere-birakilan-gozlugun-sanat-eseri-sanildigi-iddiasi
+FACTURK-0416,2022,2022-09-21T00:00:00+00:00,Malumatfuruş,0,DOĞRU,False,False,True,https://www.malumatfurus.org/stanley-kubrick-aya-inis-goruntuleri/
+FACTURK-0417,2020,2020-05-20T00:00:00+00:00,Teyit,1,YALAN,False,False,True,https://teyit.org/analiz/covid-19-nedeniyle-kapali-olan-avmdeki-deri-esyalarin-kuflendigi-iddiasi
+FACTURK-0418,2024,2024-03-15T12:07:17+00:00,Doğruluk Payı,0,YALAN,False,True,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/gorsel-hakkinda-sorusturma-acilan-adana-muftusunu-mu-gosteriyor
+FACTURK-0419,2022,2022-06-21T14:41:44+00:00,Doğrula,1,YETERSİZ VERİ,True,False,True,https://www.dogrula.org/dogrulamalar/turkiyenin-yerli-koronavirus-asisi-faz-3-asamasinda-acil-kullanim-onayi-alabilir-iddiasi/
+FACTURK-0420,2024,2024-09-20T00:00:00+00:00,Teyit,0,YALAN,False,True,True,https://teyit.org/analiz/gorselin-ayder-yaylasinda-yilda-bir-defa-acan-kedi-cicegini-gosterdigi-iddiasi
+FACTURK-0421,2015,2015-10-26T18:55:02+00:00,Günün Yalanları,0,YALAN,False,True,False,https://gununyalanlari.com/yalan/176-mehmet-altanin-sid-bombalanmiyor-yalani
+FACTURK-0422,2022,2022-06-27T11:35:09+00:00,Doğrula,0,YALAN,False,True,False,https://www.dogrula.org/dogrulamalar/cumhurbaskaninin-darlaninca-zam-ustune-zam-yapiyoruz-dedigi-iddiasi/
+FACTURK-0423,2021,2021-01-28T11:12:00+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/hollandali-milletvekilinin-islam-karsiti-kitap-yazarken-musluman-oldugu-iddiasi
+FACTURK-0424,2025,2025-04-11T17:19:58+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/hiz-sinirina-uyuldugunda-surekli-yesil-isiga-denk-gelmeyi-saglayan-sisteme-yesil-dalga-sistemi-denildigi-iddiasi-dogru-mu
+FACTURK-0425,2024,2024-11-30T00:00:00+00:00,Malumatfuruş,1,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/halktv-pkk/
+FACTURK-0426,2023,2023-02-13T15:07:41+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/kahramanmaras-ta-saglam-gozuken-zuccaciye-magazasi-videosu-6-subat-depreminden-sonra-cekilmis
+FACTURK-0427,2023,2023-10-19T16:08:10+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/kuzey-kore-lideri-kim-jong-un-un-musluman-liderler-hakkindaki-aciklamalari-dogru-mu
+FACTURK-0428,2025,2025-01-24T14:31:19+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/cin-de-hmpv-adinda-yeni-bir-virus-bulundugu-iddiasi-dogru-mu
+FACTURK-0429,2019,2019-03-29T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/ogrencilerin-boludaki-ak-parti-mitingine-katildigi-iddiasi
+FACTURK-0430,2021,2021-02-19T16:17:12+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/rize-de-cay-bardagi-seklinde-heykelin-yapim-asamasinda-oldugu-iddiasi
+FACTURK-0431,2023,2023-03-24T00:00:00+00:00,Malumatfuruş,1,YALAN,False,False,True,https://www.malumatfurus.org/baska-gezegende-hac/
+FACTURK-0432,2023,2023-06-12T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/bir-timsahin-kendi-kendine-uredigi-iddiasi
+FACTURK-0433,2023,2023-03-08T00:00:00+00:00,Malumatfuruş,0,DOĞRU,False,False,False,https://www.malumatfurus.org/iyi-adamlar-yalnizliktan-oluyor-iyi-kadinlar-ise/
+FACTURK-0434,2025,2025-02-10T12:49:59+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/google-sokak-goruntulerinde-kongo-daki-bir-ormanda-galatasaray-formali-bir-kisi-bulundugu-dogru-mu
+FACTURK-0435,2023,2023-07-06T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/threads-hesabini-silen-kullanicilarin-instagram-hesabinin-da-silinecegi-iddiasi
+FACTURK-0436,2025,2025-04-30T17:27:41+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/video-urfa-da-ev-kirasini-odeyemedigi-icin-bebegiyle-evden-atilan-bir-kadini-mi-gosteriyor
+FACTURK-0437,2026,2026-03-05T17:17:59+00:00,Doğruluk Payı,1,YALAN,False,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/ispanya-nin-guney-kibris-a-savunma-amacli-savas-gemisi-gonderecegi-dogru-mu
+FACTURK-0438,2020,2020-07-21T00:00:00+00:00,Teyit,0,DOĞRU,False,False,False,https://teyit.org/analiz/ates-olcum-cihazlarinin-epifiz-bezine-zarar-verdigi-iddiasi
+FACTURK-0439,2022,2022-11-29T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/bir-ogrencinin-eksi-netle-universiteye-yerlestirildigi-iddiasi
+FACTURK-0440,2020,2020-03-03T07:14:27+00:00,Yalansavar,0,YETERSİZ VERİ,True,False,True,https://yalansavar.org/2020/03/03/podcast-22-uydurma-haberler/
+FACTURK-0441,2023,2023-09-28T15:46:26+00:00,Doğruluk Payı,0,DOĞRU,False,False,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/fotograf-kandahar-devi-ni-gosteriyor-mu
+FACTURK-0442,2024,2024-07-29T09:48:07+00:00,Doğruluk Payı,0,DOĞRU,False,False,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/bill-gates-kurtcuk-sutu-uretip-entomilk-adiyla-piyasaya-surdu-mu
+FACTURK-0443,2020,2020-08-28T00:00:00+00:00,Malumatfuruş,0,DOĞRU,False,False,False,https://www.malumatfurus.org/ataturk-trablusgarp-cocuk/
+FACTURK-0444,2022,2022-09-01T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/edirnede-istiklal-marsi/
+FACTURK-0445,2022,2022-10-12T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/insan-vucudundaki-kemiklerin-dortte-birinin-ayaklarda-oldugu-iddiasi
+FACTURK-0446,2024,2024-02-28T15:40:55+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/rtuk-vole-youtube-kanalina-lisans-almasi-icin-72-saat-sure-mi-tanidi
+FACTURK-0447,2023,2023-02-04T00:00:00+00:00,Teyit,1,YALAN,False,False,True,https://teyit.org/analiz/cinli-milyarderin-buyudugu-koye-luks-daireler-yaptirdigi-iddiasi
+FACTURK-0448,2023,2023-09-13T00:00:00+00:00,Malumatfuruş,1,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/orta-dogu-yeni-avrupa-olacak/
+FACTURK-0449,2021,2021-02-19T14:00:05+00:00,Doğruluk Payı,1,DOĞRU,False,True,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/gigantopithecus-un-yasamis-en-buyuk-maymun-ve-vejetaryen-oldugu-iddiasi
+FACTURK-0450,2020,2020-01-30T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/kizilayin-baskent-gazin-yaptigi-bagisla-ensar-vakfiyla-proje-yuruttugu-iddiasi
+FACTURK-0451,2018,2018-02-12T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/brezilyadan-ithal-edilen-hayvanlarin-turkiyeye-kotu-kosullarda-getirildigi-iddiasi
+FACTURK-0452,2023,2023-05-13T10:56:21+00:00,Doğrula,0,YALAN,False,True,True,https://www.dogrula.org/dogrulamalar/memleket-partisinden-64-bin-uyenin-istifa-edip-ak-partiye-katildigi-iddiasi/
+FACTURK-0453,2023,2023-08-20T00:00:00+00:00,Malumatfuruş,1,DOĞRU,False,True,False,https://www.malumatfurus.org/ters-yildirim/
+FACTURK-0454,2020,2020-07-25T00:00:00+00:00,Teyit,1,YALAN,False,False,True,https://teyit.org/analiz/istanbul-valiligindeki-tadilat-icin-3-milyon-liradan-fazla-bedelli-ihale-yapildigi-iddiasi
+FACTURK-0455,2025,2025-12-23T16:20:38+00:00,Doğruluk Payı,1,YALAN,False,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/dunyada-en-zengin-60-bin-kisi-en-yoksul-4-milyar-kisiden-3-kat-zengin-mi
+FACTURK-0456,2018,2018-11-21T00:00:00+00:00,Teyit,1,YALAN,False,False,True,https://teyit.org/analiz/fotografin-ak-parti-milletvekili-radiye-sezer-katircioglunun-camide-konusma-yaptigini-gosterdigi-iddiasi
+FACTURK-0457,2017,2017-05-27T00:00:00+00:00,Teyit,1,YALAN,False,False,False,https://teyit.org/analiz/borsa-istanbulun-hizli-karar-alma-sureci-etkinligine-metin-doganin-katilacagi-iddiasi
+FACTURK-0458,2023,2023-07-28T00:00:00+00:00,Malumatfuruş,1,DOĞRU,False,True,False,https://www.malumatfurus.org/kuzey-kore-isvec-volvo/
+FACTURK-0459,2019,2019-02-26T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/izmirdeki-rayli-sistemlere-30-bin-tl-ayrildigi-iddiasi
+FACTURK-0460,2023,2023-02-18T21:27:49+00:00,Doğruluk Payı,1,YALAN,False,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/diyanet-depremzede-cocuklarin-evlatlik-alinmasiyla-ilgili-aciklamada-bulundu
+FACTURK-0461,2021,2021-04-09T15:18:34+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/paylasimdaki-fotograflarin-11-yil-ara-ile-suriye-nin-farkli-bolgelerinde-cekildigi-iddiasi-42
+FACTURK-0462,2024,2024-04-18T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,False,https://teyit.org/analiz/heinekenin-eski-model-telefon-urettigi-iddiasi
+FACTURK-0463,2022,2022-12-29T13:06:56+00:00,Doğruluk Payı,1,YALAN,False,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/almanya-da-evsizlerin-barinmasi-icin-uyku-kapsulleri-mi-kuruldu
+FACTURK-0464,2025,2025-08-29T16:14:13+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/zultanit-tasi-yalnizca-turkiye-den-mi-cikar
+FACTURK-0465,2021,2021-08-02T14:19:50+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/yol-kenarindaki-beyaz-tabelalarin-konum-gosterdigi-iddiasi
+FACTURK-0466,2016,2016-10-12T00:00:00+00:00,Malumatfuruş,0,YALAN,False,True,True,https://www.malumatfurus.org/birlesmis-milletler-yanlis/
+FACTURK-0467,2018,2018-06-14T00:00:00+00:00,Malumatfuruş,0,YALAN,False,True,True,https://www.malumatfurus.org/baska-bir-ulkede-mevlid-kandilinin-kutlanmadigina-ve-kutlu-dogum-haftasi-hurafesine-inanan-kose-yazarlari/
+FACTURK-0468,2025,2025-03-25T12:33:26+00:00,Doğruluk Payı,0,YALAN,False,True,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/video-amerika-nin-eyaleti-nevada-daki-girisi-olan-cikisi-olmayan-tuneli-mi-gosteriyor
+FACTURK-0469,2018,2018-05-29T00:00:00+00:00,Teyit,1,YALAN,False,False,False,https://teyit.org/analiz/dis-hekimi-fusun-kumete-ak-parti-milletvekili-aday-listesinde-ilkokul-mezunu-yazildigi-iddiasi
+FACTURK-0470,2021,2021-05-25T12:25:22+00:00,Doğruluk Payı,1,YALAN,False,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/tarim-ve-orman-bakanligi-tarafindan-45-yaban-kecisinin-avlattirilmasi-icin-ihale-ilani-verildigi-iddiasi
+FACTURK-0471,2024,2024-11-21T12:14:21+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/tff-nin-fenerbahce-maci-aciklamasindan-sonra-pendikspor-un-ilk-gece-maci-paylasimi-yaptigi-iddiasi-dogru-mu
+FACTURK-0472,2022,2022-09-13T16:52:54+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/katar-yatirim-fonu-avrasya-tuneli-ne-ortak-mi-oldu
+FACTURK-0473,2020,2020-10-14T00:00:00+00:00,Malumatfuruş,0,DOĞRU,False,False,False,https://www.malumatfurus.org/bu-dunyada-en-iyi-ben-yenilirim/
+FACTURK-0474,2018,2018-09-04T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,False,https://teyit.org/analiz/turkiyede-ve-avrupada-bulunan-starbucks-subelerinin-sayilari-hakkindaki-iddialar
+FACTURK-0475,2024,2024-02-06T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/hem-asik-ol-hem-sair-hem-tanima-sarabi/
+FACTURK-0476,2025,2025-03-02T00:00:00+00:00,Malumatfuruş,1,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/norvec-abd-gemilerine-petrol/
+FACTURK-0477,2021,2021-12-03T00:00:00+00:00,Teyit,0,YALAN,False,True,True,https://teyit.org/analiz/sars-cov-varyantlarinin-cikis-tarihlerinin-onceden-belirlendigini-kanitladigi-iddia-edilen-tablo
+FACTURK-0478,2023,2023-12-13T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/japonyada-demans-hastalarinin-calistigi-yanlis-siparisler-restorani-mi-var
+FACTURK-0479,2021,2021-05-25T15:06:34+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/prof-dr-halil-inalcik-a-ait-oldugu-iddia-edilen-paylasima-dair
+FACTURK-0480,2023,2023-09-28T00:00:00+00:00,Teyit,1,YALAN,False,False,False,https://teyit.org/analiz/yerel-secimlerde-e-devlet-uzerinden-adres-degisikligi-icin-son-tarih-1-ekim-2023-mu
+FACTURK-0481,2022,2022-02-02T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/diyari-kufru-gezdim-beldeler-kasaneler-gordum/
+FACTURK-0482,2016,2016-08-31T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/cumhurbaskanligi-kulliyesinde-zikir
+FACTURK-0483,2024,2024-05-09T16:26:25+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/onur-dedetas-in-sinem-dedetas-belediye-baskani-olduktan-sonra-atandigi-iddiasi-dogru-mu
+FACTURK-0484,2017,2017-02-21T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,True,https://teyit.org/analiz/pariste-siginmacilarin-konaklamasini-engellemek-icin-kopru-altina-kayalar-yerlestirildi-iddiasi
+FACTURK-0485,2021,2021-02-22T21:33:18+00:00,Doğruluk Payı,0,YALAN,False,True,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/mackenzie-bezos-un-dunyanin-en-zengin-kadini-oldugu-iddiasi
+FACTURK-0486,2022,2022-10-27T17:10:43+00:00,Doğruluk Payı,0,YALAN,False,True,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/video-ingiltere-basbakani-rishi-sunak-i-ibiza-da-dans-ederken-mi-gosteriyor
+FACTURK-0487,2022,2022-05-30T10:20:50+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/amber-heard-mahkemedeki-ifadesinde-film-alintisi-mi-kullandi
+FACTURK-0488,2022,2022-08-29T11:05:54+00:00,Doğruluk Payı,0,DOĞRU,False,False,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/dso-baskani-tedros-adhanom-covid-19-asisi-olmadi-mi
+FACTURK-0489,2023,2023-05-21T00:00:00+00:00,Malumatfuruş,0,YETERSİZ VERİ,True,False,True,https://www.malumatfurus.org/ateist-imam/
+FACTURK-0490,2025,2025-09-19T14:58:52+00:00,Doğruluk Payı,0,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/taze-zencefilin-rahim-ve-yumurtalik-kanserini-tedavi-ettigi-iddiasi-dogru-mu
+FACTURK-0491,2025,2025-05-28T15:36:02+00:00,Doğruluk Payı,1,YETERSİZ VERİ,True,False,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/tuvalette-akilli-telefon-kullananlarda-hemoroid-olusumunun-46-oraninda-arttigi-iddiasi-dogru-mu
+FACTURK-0492,2024,2024-06-25T00:00:00+00:00,Teyit,1,YALAN,False,False,False,https://teyit.org/analiz/abdli-jacob-miller-alnindan-vurulmasina-ragmen-yasamaya-devam-etti-mi
+FACTURK-0493,2023,2023-03-10T00:00:00+00:00,Malumatfuruş,0,YALAN,False,True,False,https://www.malumatfurus.org/sedat-peker-cumhur-ittifaki/
+FACTURK-0494,2022,2022-06-28T08:47:29+00:00,Doğrula,0,YETERSİZ VERİ,True,False,True,https://www.dogrula.org/dogrulamalar/turk-bilim-insani-kok-hucreden-insan-beyni-uretmedi/
+FACTURK-0495,2016,2016-03-16T17:53:02+00:00,Günün Yalanları,0,YALAN,False,True,True,https://gununyalanlari.com/yalan/388-rusyanin-hama-ve-humusta-teroristleri-temizledik-yalani
+FACTURK-0496,2020,2020-05-15T00:00:00+00:00,Teyit,1,YALAN,False,False,True,https://teyit.org/analiz/goruntulerin-dominik-kiyilarindaki-plastik-kirliligini-gosterdigi-iddiasi
+FACTURK-0497,2024,2024-02-23T10:45:47+00:00,Doğruluk Payı,0,DOĞRU,False,False,False,https://www.dogrulukpayi.com/dogruluk-kontrolu/siginmacilar-avrupa-da-gucci-magazasini-soydu-mu
+FACTURK-0498,2024,2024-02-21T00:00:00+00:00,Teyit,1,DOĞRU,False,True,False,https://teyit.org/analiz/fotograf-1700-yillik-bir-yumurtayi-mi-gosteriyor
+FACTURK-0499,2025,2025-10-13T13:02:33+00:00,Doğruluk Payı,0,YALAN,False,True,True,https://www.dogrulukpayi.com/dogruluk-kontrolu/video-suud-hanedanina-karsi-yapilan-protestolari-mi-gosteriyor
+FACTURK-0500,2023,2023-01-17T00:00:00+00:00,Teyit,1,YETERSİZ VERİ,True,False,False,https://teyit.org/analiz/fotografin-pakistanda-posetlerle-tasindigini-gosterdigi-iddiasi

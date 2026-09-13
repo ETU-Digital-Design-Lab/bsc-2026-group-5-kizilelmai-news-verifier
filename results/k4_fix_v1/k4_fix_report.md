@@ -124,7 +124,7 @@ Düzeltilmiş K-4 NLI katmanı ile FACTurk 500 benchmark'ı baştan sona koştur
 
 ### Kritik Bulgular:
 1. **K-4 Düzeltmesi AURC Hatalarını Çökertti:** NLI softmax sinyalinin AURC riski 0.4494'ten 0.3600'a indi; %50 kapsamada Macro-F1 0.5277'den **0.5756**'ya fırladı (+4.8 puan).
-2. **K-3 Re-Ranker Baseline'ı Geçti:** Re-ranker Top-1 güven sinyali olarak kullanıldığında AURC **0.3321** değerine ulaşarak Baseline K-6'nın (0.3435) **altına inmiştir** (daha düşük seçici risk).
-3. **Split-Half Kararlılığı:** 200 holdout tekrarının **187'sinde (%93.5)** Re-Ranker sinyali NLI softmax'ından daha üstün seçici risk-kapsama eğrisi vermiştir.
-4. **Makale Çıkarımı:** Kanıta dayandırma mimarisinde çekimserlik eşiğinin salt NLI softmax'ı yerine K-3 Re-ranker güven marjı ile kombine edilmesi gerektiği matematiksel ve deneysel olarak kanıtlanmıştır.
+2. **K-3 Re-Ranker ile Baseline Başabaş (İstatistiki Olarak Eşdeğer):** Re-ranker Top-1 güven sinyali AURC = 0.3321 ve Baseline K-6 AURC = 0.3435 üretmiştir ($\Delta = -0.0118$). Ancak %95 Güven Aralığı $[-0.083, +0.060]$ ve eşleştirilmiş $p = 0.727$ olduğundan aradaki fark istatistiki olarak anlamlı değildir; iki sinyal seçici risk ayrımı bakımından **başabaş** düzeydedir (benzer şekilde NLI Softmax sinyaline karşı da $\Delta = 0.0286, p = 0.165$ ile anlamlı bir üstünlük bulunmamakta, başabaş kalmaktadır).
+3. **Split-Half Kararlılığı:** 200 holdout tekrarının **187'sinde (%93.5)** Re-Ranker sinyali NLI softmax'ından daha kararlı seçici risk-kapsama eğrisi vermiştir.
+4. **Makale Çıkarımı:** Kanıta dayandırma mimarisinde çekimserlik eşiğinin salt NLI softmax'ı yerine K-3 Re-ranker güven marjı ile kombine edilmesinin güvenilirliği desteklediği gözlemlenmiştir.
 

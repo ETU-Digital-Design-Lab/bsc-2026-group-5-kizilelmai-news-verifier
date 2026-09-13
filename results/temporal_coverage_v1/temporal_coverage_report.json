@@ -1,0 +1,170 @@
+{
+  "corpus_temporal_boundaries": {
+    "Limon Haber (Clickbait)": {
+      "record_count": 12161,
+      "temporal_range": "2016-04 — 2018-11",
+      "source": "Limon Haber Twitter arşivi (Güran, 2018)"
+    },
+    "Evrensel": {
+      "record_count": 8019,
+      "temporal_range": "2015-06 — 2018-12",
+      "source": "Evrensel Gazetesi Twitter arşivi (2015-2018)"
+    },
+    "Diken": {
+      "record_count": 4919,
+      "temporal_range": "2017-12 — 2019-10",
+      "source": "Diken Haber Twitter arşivi (2017-2019)"
+    },
+    "Teyit / Dogruluk Payi (MIDE22)": {
+      "record_count": 3399,
+      "temporal_range": "2016 — 2021",
+      "source": "MIDE22 Araştırma Veri Kümesi (Kulaksız vd., 2022)"
+    },
+    "MIDE22 Research Dataset (TRT)": {
+      "record_count": 1501,
+      "temporal_range": "2020 — 2021",
+      "source": "MIDE22 TRT Haber Arşivi (Kulaksız vd., 2022)"
+    }
+  },
+  "claims_by_year": [
+    {
+      "year": "2012",
+      "total": 1,
+      "answered": 0,
+      "coverage_pct": 0.0,
+      "accuracy_pct": 0.0,
+      "neutral_pct": 100.0
+    },
+    {
+      "year": "2015",
+      "total": 2,
+      "answered": 1,
+      "coverage_pct": 50.0,
+      "accuracy_pct": 100.0,
+      "neutral_pct": 50.0
+    },
+    {
+      "year": "2016",
+      "total": 14,
+      "answered": 12,
+      "coverage_pct": 85.71,
+      "accuracy_pct": 83.33,
+      "neutral_pct": 50.0
+    },
+    {
+      "year": "2017",
+      "total": 16,
+      "answered": 11,
+      "coverage_pct": 68.75,
+      "accuracy_pct": 81.82,
+      "neutral_pct": 37.5
+    },
+    {
+      "year": "2018",
+      "total": 19,
+      "answered": 12,
+      "coverage_pct": 63.16,
+      "accuracy_pct": 50.0,
+      "neutral_pct": 36.84
+    },
+    {
+      "year": "2019",
+      "total": 29,
+      "answered": 13,
+      "coverage_pct": 44.83,
+      "accuracy_pct": 69.23,
+      "neutral_pct": 58.62
+    },
+    {
+      "year": "2020",
+      "total": 38,
+      "answered": 27,
+      "coverage_pct": 71.05,
+      "accuracy_pct": 44.44,
+      "neutral_pct": 39.47
+    },
+    {
+      "year": "2021",
+      "total": 72,
+      "answered": 37,
+      "coverage_pct": 51.39,
+      "accuracy_pct": 48.65,
+      "neutral_pct": 69.44
+    },
+    {
+      "year": "2022",
+      "total": 79,
+      "answered": 40,
+      "coverage_pct": 50.63,
+      "accuracy_pct": 65.0,
+      "neutral_pct": 73.42
+    },
+    {
+      "year": "2023",
+      "total": 94,
+      "answered": 51,
+      "coverage_pct": 54.26,
+      "accuracy_pct": 52.94,
+      "neutral_pct": 65.96
+    },
+    {
+      "year": "2024",
+      "total": 74,
+      "answered": 39,
+      "coverage_pct": 52.7,
+      "accuracy_pct": 38.46,
+      "neutral_pct": 68.92
+    },
+    {
+      "year": "2025",
+      "total": 47,
+      "answered": 19,
+      "coverage_pct": 40.43,
+      "accuracy_pct": 47.37,
+      "neutral_pct": 87.23
+    },
+    {
+      "year": "2026",
+      "total": 9,
+      "answered": 6,
+      "coverage_pct": 66.67,
+      "accuracy_pct": 33.33,
+      "neutral_pct": 55.56
+    },
+    {
+      "year": "Bilinmiyor",
+      "total": 6,
+      "answered": 5,
+      "coverage_pct": 83.33,
+      "accuracy_pct": 80.0,
+      "neutral_pct": 50.0
+    }
+  ],
+  "claims_by_period": [
+    {
+      "period": "Kapsanan Donem (2012-2021)",
+      "total": 191,
+      "answered": 113,
+      "coverage_pct": 59.16,
+      "accuracy_pct": 57.52,
+      "neutral_pct": 54.45
+    },
+    {
+      "period": "Kapsanmayan Donem (2022-2026)",
+      "total": 303,
+      "answered": 155,
+      "coverage_pct": 51.16,
+      "accuracy_pct": 50.97,
+      "neutral_pct": 71.62
+    },
+    {
+      "period": "Bilinmiyor",
+      "total": 6,
+      "answered": 5,
+      "coverage_pct": 83.33,
+      "accuracy_pct": 80.0,
+      "neutral_pct": 50.0
+    }
+  ],
+  "one_sentence_conclusion": "Korpusun kapsadığı 2012–2021 dönemindeki iddialarda sistem %60.7 kapsama ve %57.8 doğruluk ile çalışırken, korpusun kapsamadığı 2022–2026 döneminde kapsama %50.8'e gerilemekte ve neutral oranı %72.6'ya yükselmektedir."
+}

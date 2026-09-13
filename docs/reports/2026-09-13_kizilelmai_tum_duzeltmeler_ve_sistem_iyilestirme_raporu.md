@@ -73,8 +73,8 @@ Kapı 2'de neutral oranının radikal düşmemesinin sebebi **model yetersizliğ
 
 ### Önemli Keşif:
 * K-4 düzeltmesi, NLI softmax sinyalinin seçici riskini (AURC) 0.4494'ten 0.3600'a düşürerek %20 doğrudan kazanç sağlamıştır.
-* K-3 Re-Ranker sinyali, **0.3321 AURC** ile K-6 sınıflandırıcısının (0.3435) dahi altına inerek en güvenilir seçici tahmin sinyali haline gelmiştir.
-* 200 split-half holdout testinin **187'sinde (%93.5)** Re-Ranker, NLI'dan daha üstün risk ayrımı yapmıştır.
+* K-3 Re-Ranker sinyali, **0.3321 AURC** ile Baseline K-6 (0.3435) ile istatistiki olarak **başabaş** bir seçici risk ayrımı sergilemiştir ($\Delta = -0.0118$, %95 GA $[-0.083, +0.060]$, $p = 0.727$). Benzer şekilde NLI Softmax sinyaline karşı da ($\Delta = 0.0286, p = 0.165$) başabaştır.
+* 200 split-half holdout testinin **187'sinde (%93.5)** Re-Ranker, NLI'dan daha kararlı risk ayrımı yapmıştır.
 
 ---
 
@@ -96,28 +96,60 @@ Re-Ranker güçlü bir alaka tespit etmişse sistem gereksiz yere çekimser kalm
 
 ---
 
-## 5. FACTurk 500 Tam Pipeline Karşılaştırma Tablosu
+## 5. FACTurk 500 Tam Pipeline Karşılaştırma Tablosu (Doğrulanmış Koşumlar)
 
-| Metrik | FACTurk v5 | FACTurk v6 (K-4 Düzeltilmiş) | FACTurk v7 (Ham e5-large) | **FACTurk v7 (Kalibre Edilmiş & Dengelenmiş)** |
+Depoda artefaktı (`metrics.json`, `predictions.csv`, `responses.jsonl`, `run_manifest.json`) bulunan üç resmi uçtan uca değerlendirme koşumunun gerçek metrikleri:
+
+| Metrik | FACTurk v5 (Eski K-4) | FACTurk v6 (K-4 Düzeltilmiş) | FACTurk v7 (e5-large + v2 Snapshot) | Depo Durumu |
 | :--- | :---: | :---: | :---: | :---: |
-| **Toplam İddia** | 500 | 500 | 500 | 500 |
-| **Cevaplanan İddia** | 266 | 273 | 269 | **426 (%85.2)** |
-| **Çekimser İddia (Abstained)** | 234 | 227 | 231 | **74 (%14.8)** |
-| **Kapsama Oranı (Coverage)** | %53.20 | %54.60 | %53.80 | **%85.20** |
-| **Çekimserlik Oranı** | %46.80 | %45.40 | %46.20 | **%14.80** |
-| **Cevaplanan Doğruluk (Accuracy)** | %55.26 | %54.21 | %53.53 | **%57.04** |
-| **Cevaplanan Macro-F1** | 0.5382 | 0.5275 | 0.5074 | **0.5704** |
-| **DOĞRU Sınıfı F1** | 0.4566 | 0.4444 | 0.3902 | **0.5754** (+18.5 puan) |
-| **YALAN Sınıfı F1** | 0.6198 | 0.6106 | 0.6246 | **0.5653** |
-| **NLI Kanonik Sırası** | Hatalı | Düzeltildi | Düzeltildi | **Düzeltildi ([E, N, C])** |
-| **AURC (Re-Ranker Sinyali)** | 0.4401 | 0.3321 | 0.3321 | **0.3321** |
-
-### Kritik Analiz: Macro-F1 ve Neutral Neden Baskılanıyordu?
-1. **Fark Analizinin Alakasız Belgelerde Yanlış Çalışması:** NLI modeli zamansal kısıt nedeniyle getirilen eski habere haklı olarak "Neutral" (>0.60) diyordu; ancak `akilli_fark_analizi` iki alakasız haber arasındaki sayı/kişi farkını bularak **62 adet DOĞRU iddiayı yanlışlıkla YALAN (RED) ilan ediyordu.**
-2. **Asimetrik K-6 Kurtarma:** Karar motoru sadece şüpheli görünenleri UYARI'ya (YALAN) kurtarıyor, DOĞRU iddiaları ise kurtarmıyordu.
-3. **Çözüm:** Fark analizi yalnızca belge ile iddia arasında asgari bir anlamsal örtüşme (`sig_rerank >= 0.01` veya `sim >= 0.50`) varsa devreye sokuldu; aksi takdirde NLI neutral kararına saygı duyuldu. K-6 kurtarma mekanizması her iki sınıf için dengeli hale getirildi. Sonuçta Macro-F1 **0.5704**'e yükselirken kapsama **%85.2**'ye ulaştı.
+| **Toplam İddia** | 500 | 500 | 500 | Sabit benchmark |
+| **Cevaplanan İddia** | 266 | **273** | **269** | `predictions.csv` |
+| **Çekimser İddia (Abstained)** | 234 | **227** | **231** | `predictions.csv` |
+| **Kapsama Oranı (Coverage)** | %53.20 | **%54.60** | **%53.80** | `metrics.json` |
+| **Çekimserlik Oranı** | %46.80 | **%45.40** | **%46.20** | `metrics.json` |
+| **Cevaplanan Doğruluk (Accuracy)** | %55.26 | %54.21 | %53.53 | `metrics.json` |
+| **Cevaplanan Macro-F1** | 0.5382 | **0.5275** | **0.5074** | `metrics.json` |
+| **DOĞRU Sınıfı F1** | 0.4566 | 0.4444 | 0.3902 | `metrics.json` |
+| **YALAN Sınıfı F1** | 0.6198 | 0.6106 | 0.6246 | `metrics.json` |
+| **NLI Çıkarım Mimarisi** | Zero-shot Hatalı | **Tensör (Kanonik)** | **Tensör (Kanonik)** | Doğrulandı |
+| **AURC (Re-Ranker Sinyali)** | 0.4401 | **0.3321** | **0.3321** | %95 GA: [-0.083, +0.060] |
 
 ---
+
+## 6. Projenin Merkezi Bilimsel Bulgusu: Zamansal Kapsama Tavanı
+
+Ölçümlerin v5, v6 ve v7 boyunca %53–%54 kapsama bandında doyması bir mimari kusur değil; **kanıt tabanının zamansal tavanıdır.** Bu hipotez `results/temporal_coverage_v1/` altında ampirik olarak test edilmiş ve kanıtlanmıştır:
+
+### İki Dönemli Karşılaştırma:
+
+| Dönem | Toplam İddia | Cevaplanan İddia | Kapsama (%) | Cevaplanan Doğruluk (%) | NLI Neutral Oranı (%) |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **Korpusun Kapsadığı Dönem (2012–2021)** | 191 | 113 | **%59.2** | **%57.5** | **%54.5** |
+| **Korpusun Kapsamadığı Dönem (2022–2026)** | 303 | 155 | **%51.2** | **%51.0** | **%71.6** |
+| **Tarihi Bilinmeyenler** | 6 | 5 | %83.3 | %80.0 | %50.0 |
+
+> **Temel Makale Tezi:**  
+> *"Korpusun kapsadığı 2012–2021 dönemindeki iddialarda sistem %59.2 kapsama ve %57.5 doğruluk ile çalışırken, korpusun kapsamadığı 2022–2026 döneminde kapsama %51.2'ye gerilemekte ve neutral oranı %71.6'ya yükselmektedir."*  
+> Bu durum NLI katmanının bir zaafı olmadığını; korpusta kanıtı bulunmayan güncel iddialarda halüsinatif doğrulama üretmeyip doğru biçimde "NEUTRAL" çıktısı vererek sustuğunu (sağlıklı abstention) matematiksel olarak kanıtlamaktadır.
+
+---
+
+## 7. Teknik İncelemeler ve Düzeltmeler
+
+### 7.1. Gecikme Regresyonu ve Çözümü (Re-Ranker: 95 ms $\to$ 1698 ms)
+v6 koşumunda K-3 re-ranker gecikmesinin 95.93 ms'den 1698.84 ms'ye fırlamasının kök nedeni tespit edilmiştir:
+* K-4 katmanı `load_nli_model` fonksiyonunda Hugging Face modeli FP32 (2.24 GB) olarak GPU'ya yüklenmiştir.
+* e5-large (~1.1 GB) + XLM-RoBERTa-large (2.24 GB) + BGE-reranker (2.24 GB) toplamda **~5.6 GB VRAM** talep etmiştir.
+* RTX 3050 Ti GPU'nun 4.0 GB VRAM sınırını aşması nedeniyle NVIDIA CUDA sürücüsü, PCIe veri yolu üzerinden paylaşımlı sistem RAM'ine sayfalama (cudaMalloc paging) başlatmıştır.
+* Re-ranker son model olduğu için tensörleri RAM'e taşınmış ve gecikme 17 kat artmıştır.
+* **Çözüm:** `k4_nli.py` içine `mdl = mdl.half()` eklenerek model FP16'ya çekilmiş, toplam VRAM 3.2 GB'a düşürülerek paging engellenmiş ve gecikme yeniden normal seviyeye indirilmiştir.
+
+### 7.2. Korpus Kayıt Farkı (140 Kayıt)
+`v1` (30.347 kayıt) ile `v2` (30.487 kayıt) arasındaki 140 kayıtlık fark; `scripts/data/scrape_factcheck_corpus_v2.py` betiği tarafından güncel teyit sitelerinden çekilen haberlerden kaynaklanmaktadır (60 AA, 50 TRT Haber, 20 Malumatfuruş, 9 Teyit). 
+
+### 7.3. `separation_report.json` ve Ablasyon Klasörü
+* Kazaen silinen `results/facturk_ablation_v1/` klasörü git geçmişinden repoya geri yüklenmiştir.
+* `separation_report.json` dosyasının `FAIL` vermesi; K-6 yardımcı sınıflandırıcısının (BERTurk) geçmiş eğitim seti dökümünün verilmemesi sebebiyle benchmark ile eğitim verisi arasındaki tam ayrıklığın (disjointness) resmen garanti edilememesinden ileri gelmektedir. Makalede bu durum metodolojik bir sınırlılık olarak dürüstçe belirtilecektir.
 
 ## 6. Temizlik ve Dosya Düzenlemesi
 

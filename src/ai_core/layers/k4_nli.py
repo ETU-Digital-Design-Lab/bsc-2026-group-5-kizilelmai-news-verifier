@@ -85,6 +85,8 @@ def load_nli_model(model_name: str = DEFAULT_MODEL, device: int = -1) -> NLIMode
     dev = "cuda:%d" % device if (device is not None and device >= 0 and torch.cuda.is_available()) else "cpu"
     tok = AutoTokenizer.from_pretrained(model_name)
     mdl = AutoModelForSequenceClassification.from_pretrained(model_name).to(dev)
+    if dev.startswith("cuda"):
+        mdl = mdl.half()
 
     id2label: Dict[int, str] = {int(k): str(v).lower() for k, v in mdl.config.id2label.items()}
     order: List[int] = []
