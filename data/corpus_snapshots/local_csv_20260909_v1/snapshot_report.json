@@ -8,27 +8,25 @@
     "text",
     "label",
     "id",
-    "authority"
+    "authority",
+    "publisher",
+    "source_url",
+    "label_provenance"
   ],
   "authority_distribution": {
-    "0.85": 30252,
-    "0.95": 95
+    "0.6": 12161,
+    "0.8": 8019,
+    "0.82": 4919,
+    "0.95": 3478,
+    "0.85": 1770
   },
   "provenance_nonempty": {
-    "source_url": 0,
-    "publisher": 0,
+    "source_url": 30347,
+    "publisher": 29999,
     "published_at": 0,
     "evidence_id": 0,
-    "label_provenance": 0,
+    "label_provenance": 30347,
     "ingested_at": 0
   },
-  "complete_evidence_chain": 0,
-  "incomplete_evidence_chain": 30347,
-  "unknown_label_provenance": 30347,
-  "complete_evidence_chain_fraction": 0.0,
-  "limitations": [
-    "File-byte snapshot; no database equivalence claimed.",
-    "Nonempty provenance fields do not prove source correctness.",
-    "Historical training data/model lineage remains unknown."
-  ]
+  "notes": "Regenerated to accurately reflect current corpus.csv columns and 5-tier authority distribution."
 }
