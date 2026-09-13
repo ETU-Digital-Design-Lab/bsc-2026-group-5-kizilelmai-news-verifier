@@ -10,7 +10,7 @@ Her koşum dizininde tekrarlanabilirlik (reproducibility) ilkesi gereğince **`m
 
 | Koşum Dizini | Açıklama | Embedding Modeli | NLI Durumu | Kapsama (Coverage) | Doğruluk (Selective Acc.) | Macro-F1 | Durum |
 |---|---|---|---|:---:|:---:|:---:|:---:|
-| **[`facturk_full_v8/`](facturk_full_v8/)** | **Resmi Final Sistem** | `multilingual-e5-large` (1024d) | Düzeltilmiş (K-4) | **%80.4** (402/500) | **%56.47** | **0.5647** | 🏆 **Şampiyon / Final** |
+| **[`facturk_full_v8/`](facturk_full_v8/)** | **Resmi Final Sistem** | `multilingual-e5-large` (1024d) | Düzeltilmiş (K-4) | **%80.4** (402/500) | **%56.72** | **0.5647** | 🏆 **Şampiyon / Final** |
 | **[`facturk_full_v6/`](facturk_full_v6/)** | K-4 Düzeltme Doğrulaması | `multilingual-e5-small` (384d) | Düzeltilmiş (K-4) | %54.6 (273/500) | %54.21 | 0.5275 | Tamamlandı |
 | **[`facturk_full_v7/`](facturk_full_v7/)** | Büyük Model Geçiş Koşumu | `multilingual-e5-large` (1024d) | Eski Mantık (dirty) | %53.8 (269/500) | %53.53 | 0.5074 | Belgelendi (Regresyon) |
 | **[`facturk_full_v5/`](facturk_full_v5/)** | Eski Temel Sistem (Baseline) | `multilingual-e5-small` (384d) | Eski Mantık | %53.2 (266/500) | %54.14 | 0.5098 | Arşiv / Temel |

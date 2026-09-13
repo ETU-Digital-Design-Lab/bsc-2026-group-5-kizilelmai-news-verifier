@@ -81,7 +81,7 @@ Sistem, bağımsız **FACTurk-500** (Altuncu, SIU 2026) benchmark veri seti üze
 | **v5** | Eski Temel Sistem (Baseline) | e5-small (384d) | Eski Sıra | 266 / 500 | %53.2 | %54.14 | 0.5098 | Arşiv |
 | **v6** | K-4 NLI Etiket Düzeltmesi | e5-small (384d) | **Düzeltilmiş** | 273 / 500 | %54.6 | %54.21 | 0.5275 | Doğrulandı |
 | **v7** | Büyük Model Geçişi (Ara Koşum) | e5-large (1024d) | Eski Sıra (dirty) | 269 / 500 | %53.8 | %53.53 | 0.5074 | Analiz Edildi |
-| **v8** | **Nihai Şampiyon Sistem** | **e5-large (1024d)** | **Düzeltilmiş** | **402 / 500** | **%80.4** | **%56.47** | **0.5647** | 🏆 **Resmi Final** |
+| **v8** | **Nihai Şampiyon Sistem** | **e5-large (1024d)** | **Düzeltilmiş** | **402 / 500** | **%80.4** | **%56.72** | **0.5647** | 🏆 **Resmi Final** |
 
 > **Önemli Bulgular:**
 > 1. **K-4 Düzeltmesi + e5-large Sinerjisi:** Düzeltilmiş NLI motoru ile `e5-large` modelinin birlikte kullanıldığı **v8 koşumunda sistem kapsaması %54'ten %80.4'e sıçramıştır.**
