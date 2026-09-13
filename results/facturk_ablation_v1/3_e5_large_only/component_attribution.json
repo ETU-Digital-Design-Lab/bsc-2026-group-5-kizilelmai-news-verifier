@@ -1,0 +1,23 @@
+{
+  "ablation_id": "3_e5_large_only",
+  "ablation_label": "e5-large yalnız (v6 pipeline + büyük embedding)",
+  "isolation_variable": "embedding_model: e5-small → e5-large",
+  "v6_reference": {
+    "macro_f1": 0.5275181723779854,
+    "coverage": 0.546
+  },
+  "this_run": {
+    "macro_f1": 0.5647401433691757,
+    "coverage": 0.804,
+    "macro_f1_ci_95": {
+      "low": 0.5139490279475994,
+      "high": 0.6120811084926102,
+      "defined_resamples": 2000
+    }
+  },
+  "delta": {
+    "macro_f1": 0.0372,
+    "coverage": 0.258
+  },
+  "interpretation": "Bu deltanın tamamı yalnızca embedding boyutunun küçük→büyük geçişinden kaynaklanmaktadır. akilli_fark_analizi ve K-6 rescue değişiklikleri bu koşumda devrede değildir."
+}
