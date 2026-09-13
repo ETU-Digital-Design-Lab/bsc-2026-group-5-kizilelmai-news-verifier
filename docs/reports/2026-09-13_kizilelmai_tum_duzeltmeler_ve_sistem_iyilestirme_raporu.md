@@ -98,21 +98,34 @@ Re-Ranker güçlü bir alaka tespit etmişse sistem gereksiz yere çekimser kalm
 
 ## 5. FACTurk 500 Tam Pipeline Karşılaştırma Tablosu (Doğrulanmış Koşumlar)
 
-Depoda artefaktı (`metrics.json`, `predictions.csv`, `responses.jsonl`, `run_manifest.json`) bulunan üç resmi uçtan uca değerlendirme koşumunun gerçek metrikleri:
+Depoda artefaktı (`metrics.json`, `predictions.csv`, `responses.jsonl`, `run_manifest.json`) bulunan **dört** resmi uçtan uca değerlendirme koşumunun gerçek metrikleri:
 
-| Metrik | FACTurk v5 (Eski K-4) | FACTurk v6 (K-4 Düzeltilmiş) | FACTurk v7 (e5-large + v2 Snapshot) | Depo Durumu |
-| :--- | :---: | :---: | :---: | :---: |
-| **Toplam İddia** | 500 | 500 | 500 | Sabit benchmark |
-| **Cevaplanan İddia** | 266 | **273** | **269** | `predictions.csv` |
-| **Çekimser İddia (Abstained)** | 234 | **227** | **231** | `predictions.csv` |
-| **Kapsama Oranı (Coverage)** | %53.20 | **%54.60** | **%53.80** | `metrics.json` |
-| **Çekimserlik Oranı** | %46.80 | **%45.40** | **%46.20** | `metrics.json` |
-| **Cevaplanan Doğruluk (Accuracy)** | %55.26 | %54.21 | %53.53 | `metrics.json` |
-| **Cevaplanan Macro-F1** | 0.5382 | **0.5275** | **0.5074** | `metrics.json` |
-| **DOĞRU Sınıfı F1** | 0.4566 | 0.4444 | 0.3902 | `metrics.json` |
-| **YALAN Sınıfı F1** | 0.6198 | 0.6106 | 0.6246 | `metrics.json` |
-| **NLI Çıkarım Mimarisi** | Zero-shot Hatalı | **Tensör (Kanonik)** | **Tensör (Kanonik)** | Doğrulandı |
-| **AURC (Re-Ranker Sinyali)** | 0.4401 | **0.3321** | **0.3321** | %95 GA: [-0.083, +0.060] |
+> [!IMPORTANT]
+> **v7 Koşumu Metodolojik Uyarı:** v7 (`git dirty=True`, commit `68acafb`) K-4 NLI düzeltmesi tamamlanmadan önce çalıştırılmıştır. O koşumda NLI katmanı hâlâ hatalı `CrossEncoder` (zero-shot classification) mimarisini kullanıyordu. Bu nedenle e5-large'ın gerçek etkisi v7'de ölçülemedi. Doğru ölçüm için bkz. **v8 (Nihai Sistem)**.
+
+| Metrik | v5 (Eski K-4) | v6 (K-4 Düzeltilmiş) | v7 ⚠️ dirty | **v8 — Nihai Sistem** | Depo Artefaktı |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **NLI Mimarisi** | Zero-shot ❌ | Tensör ✅ | Zero-shot ❌ (dirty) | **Tensör ✅** | `k4_nli.py` |
+| **Embedding Modeli** | e5-small | e5-small | e5-large | **e5-large** | `models.json` |
+| **Toplam İddia** | 500 | 500 | 500 | **500** | — |
+| **Cevaplanan İddia** | 266 | 273 | 269 | **402** | `predictions.csv` |
+| **Çekimser (Abstained)** | 234 | 227 | 231 | **98** | `predictions.csv` |
+| **Kapsama (Coverage)** | %53.2 | %54.6 | %53.8 | **%80.4** | `metrics.json` |
+| **Cevaplanan Doğruluk** | %55.3 | %54.2 | %53.5 | **%56.7** | `metrics.json` |
+| **Cevaplanan Macro-F1** | 0.5382 | 0.5275 | 0.5074 | **0.5647** | `metrics.json` |
+| **F1 %95 GA** | — | — | — | **[0.514, 0.612]** | bootstrap 2000 |
+| **DOĞRU Sınıfı F1** | 0.4566 | 0.4444 | 0.3902 | **0.5323** | `metrics.json` |
+| **YALAN Sınıfı F1** | 0.6198 | 0.6106 | 0.6246 | **0.5972** | `metrics.json` |
+| **AURC (Re-Ranker)** | 0.4401 | 0.3321 | 0.3321 | **0.3321** | %95 GA: [-0.083, +0.060] |
+
+### v7 → v8 Regresyon Analizi
+
+v7'de kapsamanın %53.8'e düştüğü — e5-large kullanılmasına rağmen v6 seviyesini bile geçemediği — ablasyon analizinde tespit edilmiştir. Bileşen izolasyonu (`results/facturk_ablation_v1/3_e5_large_only/`) şunu ortaya koymuştur:
+
+- **e5-large tek başına** (v6 K-4 kodu + e5-large) → Kapsama **%80.4**, Macro-F1 **0.5647**
+- **v7** (e5-large + dirty repo = bozuk NLI) → Kapsama %53.8, Macro-F1 0.5074
+
+Buradan şu sonuç çıkmaktadır: v7 metriklerindeki düşüşün tamamı, K-4 NLI düzeltmesinin uygulanmadan (`dirty=True`) çalıştırılmasından kaynaklanmaktadır. **v8**, temiz HEAD kodu (K-4 tensör mimarisi + FP16) ve e5-large kombinasyonunun doğru ölçümüdür ve projenin **nihai resmi sistemi** olarak kabul edilmektedir.
 
 ---
 
