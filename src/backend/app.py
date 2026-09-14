@@ -39,15 +39,21 @@ redis_client, REDIS_AVAILABLE = init_redis()
 # ---- YAŞAM DÖNGÜSÜ ----
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    print("🚀 Otomatik Haber Scraper servisi arka planda başlatılıyor...")
-    scraper_process = subprocess.Popen(
-        [sys.executable, os.path.join(SRC_DIR, "ai_core", "ingest", "auto_scraper.py")],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-    )
+    scraper_enabled = os.environ.get("SCRAPER_ENABLED", "0").strip() == "1"
+    scraper_process = None
+    if scraper_enabled:
+        print("🚀 Otomatik Haber Scraper servisi arka planda başlatılıyor...")
+        scraper_process = subprocess.Popen(
+            [sys.executable, os.path.join(SRC_DIR, "ai_core", "ingest", "auto_scraper.py")],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+    else:
+        print("⏸️  Otomatik Haber Scraper DEVRE DIŞI (SCRAPER_ENABLED=0). Korpus donuk kalır.")
     yield
-    print("🛑 Kapanış: Otomatik Haber Scraper servisi durduruluyor...")
-    scraper_process.terminate()
+    if scraper_process is not None:
+        print("🛑 Kapanış: Otomatik Haber Scraper servisi durduruluyor...")
+        scraper_process.terminate()
 
 
 # ---- UYGULAMA ----
