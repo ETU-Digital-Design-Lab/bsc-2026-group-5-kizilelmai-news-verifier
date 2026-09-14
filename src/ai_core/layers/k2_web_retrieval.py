@@ -190,11 +190,20 @@ class TemporalWebRetriever:
         except Exception:
             return None
 
-    def search_google_news_rss(self, query: str) -> List[Dict[str, Any]]:
+    def search_google_news_rss(self, query: str, claim_date: Optional[str] = None) -> List[Dict[str, Any]]:
         """Google News RSS akışından haberleri çeker ve decode eder."""
         results = []
         try:
-            encoded_q = urllib.parse.quote(query)
+            # Tarih kısıtı varsa query'e ekle (t+7 gün kuralı)
+            search_query = query
+            if claim_date:
+                c_dt = self.parse_date(claim_date)
+                if c_dt:
+                    start_date = c_dt - timedelta(days=2) # 2 gün öncesinden
+                    end_date = c_dt + timedelta(days=7) # 7 gün sonrasına kadar
+                    search_query += f" after:{start_date.strftime('%Y-%m-%d')} before:{end_date.strftime('%Y-%m-%d')}"
+                    
+            encoded_q = urllib.parse.quote(search_query)
             rss_url = f"https://news.google.com/rss/search?q={encoded_q}&hl=tr&gl=TR&ceid=TR:tr"
             resp = self.session.get(rss_url, timeout=self.timeout)
             if resp.status_code != 200:
@@ -274,9 +283,9 @@ class TemporalWebRetriever:
         if not query:
             return []
 
-        search_results = self.search_google_news_rss(query)
+        search_results = self.search_google_news_rss(query, claim_date)
         if len(search_results) < 2 and fallback_query and fallback_query != query:
-            fb_hits = self.search_google_news_rss(fallback_query)
+            fb_hits = self.search_google_news_rss(fallback_query, claim_date)
             for hit in fb_hits:
                 if not any(x["url"] == hit["url"] for x in search_results):
                     search_results.append(hit)

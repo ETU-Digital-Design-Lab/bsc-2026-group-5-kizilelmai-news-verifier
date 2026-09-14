@@ -41,6 +41,7 @@ from .text_heuristics import (
 )
 from .knowledge_store import KnowledgeStoreMixin, PROVENANCE_FIELDS
 from .response_generator import ResponseGeneratorMixin
+from .classifier import LearnedDecisionClassifier
 
 # K-8: Kaynak bazlı otorite tablosu (çeşitlendirilmiş güvenilirlik skorları)
 SOURCE_AUTHORITY_TABLE = {
@@ -128,6 +129,8 @@ class KizilelmaEngine(TextAnalysisMixin, KnowledgeStoreMixin, ResponseGeneratorM
         self.rerank_model = None # type: Any
         self.context_buffer = [] # type: List[Dict[str, Any]]
         self.MAX_CONTEXT = 3
+        
+        self.decision_classifier = LearnedDecisionClassifier()
 
         # --- Thread Safety ---
         self._model_lock = threading.Lock()
@@ -493,6 +496,26 @@ class KizilelmaEngine(TextAnalysisMixin, KnowledgeStoreMixin, ResponseGeneratorM
 
     def karar_motoru(self, user_query, db_record, nli_probs, sim_score, sig_rerank=0.0, k6_prediction=None, k9_consensus=None):
         res = self._raw_karar_motoru(user_query, db_record, nli_probs, sim_score, sig_rerank)
+        
+        # Adım C: Öğrenilmiş Karar Katmanı
+        if getattr(self, "decision_classifier", None) and self.decision_classifier.is_loaded:
+            entail = float(nli_probs[0])
+            contra = float(nli_probs[2])
+            neutral = float(nli_probs[1])
+            ml_pred, ml_conf = self.decision_classifier.predict(entail, contra, neutral, float(sig_rerank))
+            
+            if ml_pred != -1 and ml_conf > 0.65:
+                if ml_pred == 1 and res['status'] == 'RED':
+                    res['status'] = 'ONAY'
+                    res['msg'] = '✅ **DOĞRULANDI (ML KATMANI)**'
+                    res['desc'] = 'Öğrenilmiş karar katmanı NLI ve Rerank skorlarını değerlendirerek bilginin doğru olduğuna hükmetti.'
+                    res['conf'] = int(ml_conf * 100)
+                elif ml_pred == 0 and res['status'] == 'ONAY':
+                    res['status'] = 'RED'
+                    res['msg'] = '❌ **BİLGİ YANLIŞLIĞI (ML KATMANI)**'
+                    res['desc'] = 'Öğrenilmiş karar katmanı NLI ve Rerank skorlarını değerlendirerek bilginin yanlış olduğuna hükmetti.'
+                    res['conf'] = int(ml_conf * 100)
+
         return self._calibrate_decision(res, k6_prediction, k9_consensus, db_record.get('label'), sim_score)
 
     def _raw_karar_motoru(self, user_query, db_record, nli_probs, sim_score, sig_rerank=0.0):
@@ -782,7 +805,7 @@ class KizilelmaEngine(TextAnalysisMixin, KnowledgeStoreMixin, ResponseGeneratorM
             bm25_scores = self.bm25.get_scores(tokenized_query)
         
         # 3. RECIPROCAL RANK FUSION (Hibrit Harmanlama)
-        candidate_limit = 20 if torch.cuda.is_available() else 5
+        candidate_limit = 40 if torch.cuda.is_available() else 20
         if getattr(self, "disable_dense", False):
             sparse_order = np.argsort(bm25_scores)[::-1]
             top_indices = list(sparse_order[:candidate_limit])
