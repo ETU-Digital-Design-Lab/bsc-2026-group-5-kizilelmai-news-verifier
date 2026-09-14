@@ -1,0 +1,52 @@
+{
+  "dataset": "FACTurk-80 Oracle Evidence Test",
+  "total_claims": 80,
+  "answered_claims": 69,
+  "abstained_claims": 11,
+  "coverage": 0.8625,
+  "correct_predictions": 63,
+  "accuracy_on_answered": 0.913,
+  "accuracy_wilson_ci_95": [
+    0.823,
+    0.9595
+  ],
+  "macro_f1_on_answered": 0.9131,
+  "per_class": {
+    "DOĞRU": {
+      "precision": 0.8857,
+      "recall": 0.9394,
+      "f1": 0.9118,
+      "support": 33
+    },
+    "YALAN": {
+      "precision": 0.9412,
+      "recall": 0.8889,
+      "f1": 0.9143,
+      "support": 36
+    }
+  },
+  "period_breakdown": {
+    "pre_2022": {
+      "total": 40,
+      "answered": 36,
+      "coverage": 0.9,
+      "correct": 35,
+      "accuracy": 0.9722,
+      "wilson_ci_95": [
+        0.8583,
+        0.9951
+      ]
+    },
+    "post_2022": {
+      "total": 40,
+      "answered": 33,
+      "coverage": 0.825,
+      "correct": 28,
+      "accuracy": 0.8485,
+      "wilson_ci_95": [
+        0.6908,
+        0.9335
+      ]
+    }
+  }
+}

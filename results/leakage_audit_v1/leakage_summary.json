@@ -1,0 +1,96 @@
+{
+  "total_claims": 500,
+  "answered_claims": 403,
+  "total_injected_records": 139,
+  "injected_factchecking_records": 29,
+  "injected_publisher_distribution": {
+    "aa.com.tr": 60,
+    "trthaber.com": 50,
+    "malumatfurus.org": 20,
+    "teyit.org": 9
+  },
+  "v9_total_leakage_hits": 6,
+  "v9_total_leakage_hit_rate": 0.012,
+  "v9_factchecking_leakage_hits": 6,
+  "v9_factchecking_leakage_hit_rate": 0.012,
+  "hits_detail": [
+    {
+      "claim_id": "FACTURK-0044",
+      "claim_text": "ki videonun Rusya-Ukrayna çatışmaları sırasında terk edilen bir Rus askeri aracının nasıl kullanılacağını öğreten Ukraynalı bir kadını gösterdiği",
+      "gold_verdict": "YALAN",
+      "final_verdict": "YALAN",
+      "raw_status": "RED",
+      "abstained": false,
+      "selected_source_id": 30356,
+      "injected_publisher": "teyit.org",
+      "injected_source_url": "https://teyit.org/analiz/videonun-rusya-ukrayna-savasindaki-bir-catismada-askerin-uzerinden-tank-gectigi-anlari-gosterdigi-iddiasi",
+      "is_factchecking_site": true,
+      "is_correct": true
+    },
+    {
+      "claim_id": "FACTURK-0057",
+      "claim_text": "görselde yer alan tablonun Jeffrey Epstein’in 1999 Gölcük Depremi öncesinde İstanbul’a geldiğini gösteren uçuş kayıtları olduğu",
+      "gold_verdict": "YALAN",
+      "final_verdict": "YALAN",
+      "raw_status": "UYARI",
+      "abstained": false,
+      "selected_source_id": 30352,
+      "injected_publisher": "teyit.org",
+      "injected_source_url": "https://teyit.org/analiz/chpnin-anitkabir-ziyaretini-gosteren-videonun-eski-tarihli-oldugu-iddiasi",
+      "is_factchecking_site": true,
+      "is_correct": true
+    },
+    {
+      "claim_id": "FACTURK-0149",
+      "claim_text": "Videonun İtalya'da Bir Göçmenin Sokakta Öldürdüğü Kediyi Pişirdiği Ana Ait Olduğu",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "RED",
+      "abstained": false,
+      "selected_source_id": 30352,
+      "injected_publisher": "teyit.org",
+      "injected_source_url": "https://teyit.org/analiz/chpnin-anitkabir-ziyaretini-gosteren-videonun-eski-tarihli-oldugu-iddiasi",
+      "is_factchecking_site": true,
+      "is_correct": false
+    },
+    {
+      "claim_id": "FACTURK-0253",
+      "claim_text": "Xsentius Adlı Türk Filozof Tarafından Yazılan Eski Bir Tapınak Yazıtı Olduğu İddia Edilen Metin",
+      "gold_verdict": "YALAN",
+      "final_verdict": "YALAN",
+      "raw_status": "RED",
+      "abstained": false,
+      "selected_source_id": 30352,
+      "injected_publisher": "teyit.org",
+      "injected_source_url": "https://teyit.org/analiz/chpnin-anitkabir-ziyaretini-gosteren-videonun-eski-tarihli-oldugu-iddiasi",
+      "is_factchecking_site": true,
+      "is_correct": true
+    },
+    {
+      "claim_id": "FACTURK-0256",
+      "claim_text": "Videonun Ukrayna’daki Azovstal Tüneli’ni gösterdiği",
+      "gold_verdict": "YALAN",
+      "final_verdict": "YALAN",
+      "raw_status": "RED",
+      "abstained": false,
+      "selected_source_id": 30356,
+      "injected_publisher": "teyit.org",
+      "injected_source_url": "https://teyit.org/analiz/videonun-rusya-ukrayna-savasindaki-bir-catismada-askerin-uzerinden-tank-gectigi-anlari-gosterdigi-iddiasi",
+      "is_factchecking_site": true,
+      "is_correct": true
+    },
+    {
+      "claim_id": "FACTURK-0317",
+      "claim_text": "fotoğrafın Down sendromlu bir baba ve oğlunu gösterdiği iddia edildi",
+      "gold_verdict": "DOĞRU",
+      "final_verdict": "YALAN",
+      "raw_status": "RED",
+      "abstained": false,
+      "selected_source_id": 30365,
+      "injected_publisher": "malumatfurus.org",
+      "injected_source_url": "https://www.malumatfurus.org/down-sendromlu-model/",
+      "is_factchecking_site": true,
+      "is_correct": false
+    }
+  ]
+}
