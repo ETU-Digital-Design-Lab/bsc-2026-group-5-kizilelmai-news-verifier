@@ -76,6 +76,7 @@ def main():
     p.add_argument("--overwrite", action="store_true", help="Overwrite existing output directory")
     p.add_argument("--status", type=str, default="COMPLETED_WITH_PROVENANCE_LIMITATIONS", help="Final status to set in run manifest if completed")
     p.add_argument("--publication-eligible", action="store_true", help="Mark publication_eligible as True in manifest")
+    p.add_argument("--enable-web-retrieval", action="store_true", help="Enable K-2 temporal web retrieval fallback for uncovered claims")
     args = p.parse_args()
     if args.overwrite and args.output_dir.exists():
         for item in args.output_dir.iterdir():
@@ -144,7 +145,8 @@ def main():
         with (out / "engine_stdout.log").open("w", encoding="utf-8") as log, contextlib.redirect_stdout(log):
             start = time.perf_counter()
             engine = KizilelmaEngine(corpus_path=corpus_path, model_paths={**{role: item["path"] for role, item in models.items()},
-                                                                        "classifier": str(args.checkpoint.resolve())})
+                                                                        "classifier": str(args.checkpoint.resolve())},
+                                     enable_web_retrieval=args.enable_web_retrieval)
             record["engine_initialization_ms"] = (time.perf_counter() - start) * 1000
             if engine.classifier_model is None or engine.classifier_tokenizer is None:
                 raise ValueError("K-6 failed to load; refuse to call a reduced runtime full system.")
@@ -152,6 +154,7 @@ def main():
             record["config"]["candidate_limit"] = 20 if torch.cuda.is_available() else 5
             record["config"]["authority_weight"] = engine.AUTHORITY_WEIGHT
             record["config"]["retrieval_threshold"] = engine.RETRIEVAL_THRESHOLD
+            record["config"]["enable_web_retrieval"] = args.enable_web_retrieval
             record["status"] = "RUNNING"
             write_json(out / "run_manifest.json", record)
             # Semantic overlap scan uses the very embeddings/index used for inference.
@@ -199,7 +202,8 @@ def main():
                 for index, row in enumerate(rows, 1):
                     if row["benchmark_id"] in done_ids:
                         continue
-                    response = engine.ask(row["claim"], include_trace=True, independent=True)
+                    claim_date = row.get("date_published") or row.get("claim_date") or row.get("date") or None
+                    response = engine.ask(row["claim"], claim_date=claim_date, include_trace=True, independent=True)
                     trace = response["trace"]
                     if response.get("classifier", {}).get("error"):
                         raise ValueError("K-6 inference failed; incomplete runtime.")

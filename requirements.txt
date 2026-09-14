@@ -26,3 +26,7 @@ passlib
 bcrypt==3.2.2
 pyjwt
 python-dotenv
+trafilatura>=1.12
+duckduckgo-search>=6.2
+python-dateutil>=2.9
+googlenewsdecoder>=0.1.7

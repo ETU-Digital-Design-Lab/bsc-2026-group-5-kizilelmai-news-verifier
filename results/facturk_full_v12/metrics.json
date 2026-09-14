@@ -1,0 +1,105 @@
+{
+  "point_estimates": {
+    "coverage": 0.402,
+    "abstention_rate": 0.598,
+    "answered_only": {
+      "accuracy": 0.6766169154228856,
+      "macro_f1": 0.6750404178584754,
+      "per_class": {
+        "DOĞRU": {
+          "precision": 0.7653061224489796,
+          "recall": 0.6410256410256411,
+          "f1": 0.6976744186046512,
+          "support": 117
+        },
+        "YALAN": {
+          "precision": 0.5922330097087378,
+          "recall": 0.7261904761904762,
+          "f1": 0.6524064171122995,
+          "support": 84
+        }
+      }
+    }
+  },
+  "bootstrap": {
+    "method": "iid claim percentile, fixed label universe",
+    "seed": 20260908,
+    "resamples": 2000,
+    "confidence": 0.95,
+    "intervals": {
+      "coverage": {
+        "low": 0.358,
+        "high": 0.446,
+        "defined_resamples": 2000
+      },
+      "abstention_rate": {
+        "low": 0.554,
+        "high": 0.642,
+        "defined_resamples": 2000
+      },
+      "answered_only.accuracy": {
+        "low": 0.6086844464365756,
+        "high": 0.7365985667588634,
+        "defined_resamples": 2000
+      },
+      "answered_only.macro_f1": {
+        "low": 0.6050646109646454,
+        "high": 0.7343189908265905,
+        "defined_resamples": 2000
+      },
+      "answered_only.per_class.DOĞRU.precision": {
+        "low": 0.6777777777777778,
+        "high": 0.8470728291316526,
+        "defined_resamples": 2000
+      },
+      "answered_only.per_class.DOĞRU.recall": {
+        "low": 0.5535670943134535,
+        "high": 0.7232142857142857,
+        "defined_resamples": 2000
+      },
+      "answered_only.per_class.DOĞRU.f1": {
+        "low": 0.621035575048733,
+        "high": 0.7605663897917418,
+        "defined_resamples": 2000
+      },
+      "answered_only.per_class.YALAN.precision": {
+        "low": 0.4903799019607843,
+        "high": 0.6868844696969696,
+        "defined_resamples": 2000
+      },
+      "answered_only.per_class.YALAN.recall": {
+        "low": 0.626197458455523,
+        "high": 0.8209088486140724,
+        "defined_resamples": 2000
+      },
+      "answered_only.per_class.YALAN.f1": {
+        "low": 0.5660110862381409,
+        "high": 0.7272727272727273,
+        "defined_resamples": 2000
+      }
+    }
+  },
+  "three_outcome_confusion_matrix": {
+    "DOĞRU": {
+      "DOĞRU": 75,
+      "YALAN": 42,
+      "YETERSİZ VERİ": 133
+    },
+    "YALAN": {
+      "DOĞRU": 23,
+      "YALAN": 61,
+      "YETERSİZ VERİ": 166
+    },
+    "YETERSİZ VERİ": {
+      "DOĞRU": 0,
+      "YALAN": 0,
+      "YETERSİZ VERİ": 0
+    }
+  },
+  "counts": {
+    "total": 500,
+    "answered": 201,
+    "abstained": 299
+  },
+  "metric_policy": "Binary gold has no gold insufficient-evidence class. Accuracy and macro-F1 apply only to answered claims; abstentions are neither correct nor incorrect. Report coverage beside every answered-only metric. Insufficient-evidence precision/recall/F1 are not identifiable with this gold schema."
+}

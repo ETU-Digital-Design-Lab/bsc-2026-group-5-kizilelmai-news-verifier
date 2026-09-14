@@ -1,12 +1,14 @@
 <div align="center">
   <img src="frontend/public/logo.png" alt="KızılelmAI Logo" width="150" height="150">
   <h1>KızılelmAI - Gelişmiş Haber ve İddia Doğrulama Motoru</h1>
-  <p><strong>Yapay Zeka Destekli, Çok Katmanlı ve Otonom Fact-Checking (Doğrulama) Sistemi</strong></p>
+  <p><strong>Yapay Zeka Destekli, Çok Katmanlı ve Zamana Duyarlı Hibrit Fact-Checking (Doğrulama) Sistemi</strong></p>
   <p>
     <a href="https://github.com/ETU-Digital-Design-Lab/bsc-2026-group-5-kizilelmai-news-verifier"><img src="https://img.shields.io/badge/GitHub-Repository-blue?logo=github" alt="Repo"></a>
     <img src="https://img.shields.io/badge/Benchmark-FACTurk--500-success" alt="FACTurk">
-    <img src="https://img.shields.io/badge/Final_System-v8-brightgreen" alt="Final v8">
-    <img src="https://img.shields.io/badge/Coverage-%2580.4-orange" alt="Coverage">
+    <img src="https://img.shields.io/badge/Version-v13_(Web_Augmented)-brightgreen" alt="v13">
+    <img src="https://img.shields.io/badge/Corpus_Accuracy-%2574.23-blue" alt="Corpus Accuracy">
+    <img src="https://img.shields.io/badge/Overall_Accuracy-%2565.12-success" alt="Overall Accuracy">
+    <img src="https://img.shields.io/badge/Coverage-%2551.6-orange" alt="Coverage">
     <img src="https://img.shields.io/badge/Python-3.10+-informational" alt="Python">
     <img src="https://img.shields.io/badge/PyTorch-CUDA_Accelerated-red?logo=pytorch" alt="PyTorch">
   </p>
@@ -18,16 +20,17 @@
 
 **KızılelmAI**, internette ve sosyal medyada yayılan haber ve iddiaların **gerçek mi, yanıltıcı mı yoksa asılsız mı** olduğunu saniyeler içinde kanıtlarıyla analiz eden yapay zeka tabanlı bir doğrulama motorudur.
 
-Sistem, yüzeysel anahtar kelime eşleşmelerinin ötesine geçerek; **vektörel ve anlamsal hibrit arama (Dense + Sparse RAG)**, **derin yeniden sıralama (Cross-Encoder Re-Ranking)**, **kaynak otorite puanlaması** ve **doğal dil çıkarımı (NLI)** katmanlarını bir araya getiren 10 katmanlı bir akıl yürütme mimarisi kullanır.
+Sistem, yüzeysel anahtar kelime eşleşmelerinin ötesine geçerek; **vektörel ve anlamsal hibrit arama (Dense + Sparse RAG)**, **zamana duyarlı açık web getirimi (Temporal Web Retrieval)**, **derin yeniden sıralama (Cross-Encoder Re-Ranking)**, **kaynak otorite puanlaması** ve **doğal dil çıkarımı (NLI)** katmanlarını bir araya getiren 10 katmanlı bir akıl yürütme mimarisi kullanır.
 
 ### Temel Prensipler ve Değer Önerisi:
-* **Seçici Tahmin (Selective Prediction):** Sistem her iddiaya körü körüne tahmin yürütmez. Kanıtın yetersiz veya zayıf olduğu durumlarda uydurma (halüsinasyon) üretmek yerine güvenle **çekimser kalır (Abstain)**.
-* **Şeffaf Kanıt Zinciri (Provenance):** Her doğrulama kararı; kullanılan haber kaynağının adı, yayıncısı, otorite puanı ve metin içi alıntısıyla birlikte kullanıcıya sunulur.
-* **Dondurulmuş Değerlendirme Güvencesi:** Akademik kıyaslamaların tutarlılığı için doğrulama korpusu 30.487 kayıt ile dondurulmuş olup, arka plan kazıyıcıları deney güvenliği için varsayılan olarak kontrol altındadır.
+* **Seçici Tahmin ve Güvenilirlik (Selective Prediction):** Sistem her iddiaya körü körüne tahmin yürütmez. Bilinmeyen veya güvenilir birincil kanıtı bulunmayan iddialarda rastgele tahmin (halüsinasyon) üretmek yerine dürüstçe **çekimser kalır (Abstain / RET)**.
+* **Zamansal Uçurumu Aşma (Temporal Gap Bridge):** Statik korpusun (30.487 kayıt, 2021 ve öncesi) kapsayamadığı güncel iddialarda (2022–2026), birincil haber kaynaklarını Google News RSS üzerinden anlık tarayan etik ve dinamik web getirim katmanı devrededir.
+* **Sıfır Veri Sızıntısı (Zero Data Leakage):** Teyit siteleri (`teyit.org`, `malumatfurus.org`, `dogrulukpayi.com`, `evrimagaci.org`) sisteme kesin olarak yasaklanmıştır. Model, insan kararlarını kopyalamaz; ham haber metinlerini BGE-Reranker ve XLM-RoBERTa NLI ile kendi zekasıyla doğrular.
+* **Dondurulmuş Yerel Korpus Güvencesi:** Akademik tekrarlanabilirlik için yerel korpus (30.487 satır) salt-okunur olarak kilitlenmiştir.
 
 ---
 
-## 🏗️ 10 Katmanlı Sistem Mimarisi
+## 🏗️ Çok Katmanlı Sistem Mimarisi
 
 KızılelmAI'nin akıl yürütme hattı (reasoning pipeline) aşağıdaki veri akış şemasına sahiptir:
 
@@ -43,50 +46,54 @@ graph TD
     VDB --> RRF["Reciprocal Rank Fusion\n(RRF k=60 Sabit Harmanlama)"]
     BM --> RRF
     
-    RRF --> K3["Katman 3: Re-Ranking (The Sniper)\nBAAI/bge-reranker-v2-m3\n(Sigmoid Normalizasyonu)"]
-    K3 --> K8["Katman 8: Kaynak Otorite Ağırlıklandırması\n(weighted = 0.7×sig_rerank + 0.3×authority)"]
-    K8 --> K9["Katman 9: Konsensüs & Çapraz Analiz\n(Top-3 Kaynak Uyum Tespiti)"]
+    RRF --> K3["Katman 3: Re-Ranking (The Sniper)\nBAAI/bge-reranker-v2-m3\n(Ham Olasılık Kalibrasyonu)"]
     
+    K3 --> CHK{"Yerel Korpus Kanıtı\nYeterli mi?"}
+    CHK -->|"Evet"| K8["Katman 8: Kaynak Otorite Ağırlıklandırması"]
+    CHK -->|"Hayır (Nötr / Boş)"| K2W["Katman 2B: Dinamik Web Getirimi (K2-Web)\nGoogle News RSS + Trafilatura\n(Teyit Siteleri Kara Listeli)"]
+    K2W --> K8
+    
+    K8 --> K9["Katman 9: Konsensüs & Çapraz Analiz\n(Top-3 Kaynak Uyum Tespiti)"]
     K9 --> K4["Katman 4: Mantıksal Çıkarım (NLI)\njoeddav/xlm-roberta-large-xnli\n[0: Çelişki, 1: Nötr, 2: Destek]"]
     
-    K4 --> K5["Katman 5: Seçici Karar Motoru\n(Risk Skoru & Güven Eşikleri)"]
+    K4 --> K5["Katman 5: Seçici Karar Motoru\n(Risk Skoru, Mantıksal & Zaman Filtreleri)"]
     K7 -.->|"Yardımcı Sinyal"| K6["Katman 6: Ön Sezgi Sınıflandırıcı\n(kizilelma_classifier_v1)"]
     
     K5 --> OUT["Kullanıcı Arayüzü & API\n(Hüküm, Güven %, Risk %, Kaynak Kanıtı)"]
     K6 -.->|"Raporlama"| OUT
 ```
 
-### Katmanların Görev Dağılımı:
+### Katmanların Görev Dağılımı ve Modüler Mimari:
 
-1. **Katman 1 (Girdi & Niyet Normalizasyonu):** Türkçe büyük-küçük harf dönüşümleri (`İ→i`, `I→ı`), noktalama temizliği ve sorgu niyeti ayrıştırması (selamlama, genel soru veya teyit sorgusu).
-2. **Katman 7 (Bağlam Hafızası):** Önceki soruların konusunu takip eden (`MAX_CONTEXT=3`) bağlam birleştirici (`context_merger`).
-3. **Katman 2 (Hibrit Arama - Dense + Sparse RAG):** `multilingual-e5-large` (1024 boyutlu) vektörleri ile anlamsal benzerlik ve `BM25Okapi` ile kelime araması. Sonuçlar **Reciprocal Rank Fusion (k=60)** ile birleştirilir.
-4. **Katman 3 (Re-Ranking / Yeniden Sıralama):** `BAAI/bge-reranker-v2-m3` Cross-Encoder modeli ile aday kanıtların en alakalıları hassas olarak sıralanır; ham skor sigmoid fonksiyonundan geçirilir.
-5. **Katman 8 (Kaynak Otorite Ağırlıklandırması):** Teyit.org, Malumatfuruş, resmi kurumlar ve ajansların otorite katsayıları ile rerank skoru harmanlanır (`AUTHORITY_WEIGHT = 0.30`).
-6. **Katman 9 (Konsensüs Analizi):** En yüksek puanlı 3 kaynak arasında ortak görüş ya da çelişki olup olmadığı taranır.
-7. **Katman 4 (Doğal Dil Çıkarımı - NLI):** `joeddav/xlm-roberta-large-xnli` modeli üzerinden iddia ve kanıt metni arasındaki mantıksal ilişki hesaplanır. (Tensör indeksleme: `0: Çelişki / Contradiction`, `1: Nötr / Neutral`, `2: Destek / Entailment`).
-8. **Katman 5 (Seçici Karar & Eşik Motoru):** NLI olasılıkları, sayı/tarih farkları ve güven eşikleri değerlendirilerek **ONAY (Doğru)**, **RED (Yalan/Asılsız)** veya kanıt yetersizliğinde **ÇEKİMSER (Abstain)** kararı verilir.
-9. **Katman 6 (Ön Sezgi Sınıflandırıcısı):** BERT mimarili yerel yardımcı sınıflandırıcı; karar motorunu etkilemeden ek bir sezgisel olasılık sunar.
+* **Çekirdek Motor (`engine.py`):** Modüler Mixin yapısı ile hafifletilmiştir:
+  - [`text_heuristics.py`](file:///src/ai_core/engine/text_heuristics.py): `TextAnalysisMixin` (Normalizasyon, kelime çapası, tarih/sayı fark analizi).
+  - [`knowledge_store.py`](file:///src/ai_core/engine/knowledge_store.py): `KnowledgeStoreMixin` (PostgreSQL ve yerel CSV senkronizasyonu).
+  - [`response_generator.py`](file:///src/ai_core/engine/response_generator.py): `ResponseGeneratorMixin` (Yanıt formatlama ve kanal tespiti).
+* **Katman 2B (Dinamik Web Getirimi - `k2_web_retrieval.py`):** Sosyal medya gürültüsünden arındırılmış sorgularla birincil haber kaynaklarından gerçek zamanlı kanıt toplar.
+* **Katman 3 (Yeniden Sıralama):** `BAAI/bge-reranker-v2-m3` Cross-Encoder modeliyle aday kanıtları hassas olarak sıralar.
+* **Katman 4 (Doğal Dil Çıkarımı):** `joeddav/xlm-roberta-large-xnli` modeli üzerinden iddia ve kanıt metni arasındaki mantıksal ilişkiyi doğrular.
+* **Katman 5 (Seçici Karar & Eşik Motoru):** Yetersiz kanıtta çekimser kalarak yanlış tahmin üretmez; güçlü kanıt varlığında **ONAY (Doğru)** veya **RED (Yalan)** kararı verir.
 
 ---
 
 ## 🔬 Değerlendirme Sonuçları ve Benchmark Karşılaştırması
 
-Sistem, bağımsız **FACTurk-500** (Altuncu, SIU 2026) benchmark veri seti üzerinde test edilmiştir. Proje boyunca uygulanan mimari düzeltmelerin ve model güncellemelerinin etkisi resmi olarak belgelenmiştir:
+Sistem, bağımsız **FACTurk-500** benchmark veri seti üzerinde test edilmiş olup sonuçlar tam tekrarlanabilir şekilde kayıt altına alınmıştır:
 
 ### FACTurk-500 Koşumları Evrim Tablosu
 
-| Koşum | Açıklama | Embedding Modeli | NLI Yapısı | Cevap Sayısı | Kapsama (Coverage) | Seçici Doğruluk | Macro-F1 | Durum |
+| Koşum | Açıklama | Cevaplanan İddia (Kapsama) | Çekimser (RET) | Doğru / Cevaplanan | Cevaplanan Doğruluk | Macro-F1 | Bootstrap %95 GA | Durum |
 |:---:|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **v5** | Eski Temel Sistem (Baseline) | e5-small (384d) | Eski Sıra | 266 / 500 | %53.2 | %54.14 | 0.5098 | Arşiv |
-| **v6** | K-4 NLI Etiket Düzeltmesi | e5-small (384d) | **Düzeltilmiş** | 273 / 500 | %54.6 | %54.21 | 0.5275 | Doğrulandı |
-| **v7** | Büyük Model Geçişi (Ara Koşum) | e5-large (1024d) | Eski Sıra (dirty) | 269 / 500 | %53.8 | %53.53 | 0.5074 | Analiz Edildi |
-| **v8** | **Nihai Şampiyon Sistem** | **e5-large (1024d)** | **Düzeltilmiş** | **402 / 500** | **%80.4** | **%56.72** | **0.5647** | 🏆 **Resmi Final** |
+| **v9** | Eski Tahminli Sistem (Yazı-tura seviyesi) | 403 / 500 (%80.6) | 97 (%19.4) | 229 / 403 | %56.82 | 0.5657 | [0.519, 0.616] | Arşiv |
+| **v10** | İlk Web Getirim Denemesi | 406 / 500 (%81.2) | 94 (%18.8) | 222 / 406 | %54.68 | 0.5440 | [0.498, 0.596] | Arşiv |
+| **v11** | Çift Sigmoid Problemli Koşum | 202 / 500 (%40.4) | 298 (%59.6) | 104 / 202 | %51.48 | 0.5090 | [0.444, 0.582] | Analiz Edildi |
+| **v12** | Kapalı Korpus Temiz Sistem (Kapalı RAG) | 201 / 500 (%40.2) | 299 (%59.8) | 136 / 201 | **%67.66** | **0.6750** | [0.6087, 0.7366] | Doğrulandı |
+| **v13** | **Zamana Duyarlı Hibrit Sistem (Web-Augmented)** | **258 / 500 (%51.6)** | **242 (%48.4)** | **168 / 258** | **%65.12** | **0.6476** | **[0.5909, 0.7085]** | 🏆 **Resmi Final** |
 
-> **Önemli Bulgular:**
-> 1. **K-4 Düzeltmesi + e5-large Sinerjisi:** Düzeltilmiş NLI motoru ile `e5-large` modelinin birlikte kullanıldığı **v8 koşumunda sistem kapsaması %54'ten %80.4'e sıçramıştır.**
-> 2. **Seçici Tahmin Güvenirliği:** Sistem, kanıtı net olan 402 iddiaya kesin yanıt vermiş; kanıt temeli yetersiz olan 98 iddiada (%19.6) halüsinasyon görmemek adına güvenli şekilde çekimser kalmıştır.
-> 3. **Tam Tekrarlanabilirlik:** Tüm bu metrikler `results/facturk_full_v8/` altında `metrics.json`, `predictions.csv` ve `run_manifest.json` dosyaları ile sabitlenmiştir.
+> **Önemli Bulgular ve Akademik Çıkarımlar:**
+> 1. **Yerel Korpus Yüksek Doğruluğu:** Yerel korpustaki (30.487 haber) kanıtlarla cevaplanan 97 iddiada doğruluk oranı **%74.23** (72/97) olarak gerçekleşmiştir.
+> 2. **Zamansal Uçurumun Çözümü:** Web retrieval mekanizması sayesinde sistem, 2022 sonrası güncel iddialarda 161 ek kanıt toplayarak kapsamayı %40.2'den **%51.6'ya (+57 iddia)** çıkarmıştır.
+> 3. **Tam Tekrarlanabilirlik:** Tüm değerlendirme artefaktları `results/facturk_full_v13/` dizininde hash doğrulamalı olarak yer almaktadır.
 
 ---
 
