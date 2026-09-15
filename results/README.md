@@ -8,12 +8,17 @@ Her koşum dizininde tekrarlanabilirlik (reproducibility) ilkesi gereğince **`m
 
 ## 🏆 Temel Benchmark Koşumları Karşılaştırması
 
-| Koşum Dizini | Açıklama | Embedding Modeli | NLI Durumu | Kapsama (Coverage) | Doğruluk (Selective Acc.) | Macro-F1 | Durum |
+| Koşum Dizini | Açıklama | Embedding / Getirim | NLI & Karar Durumu | Kapsama (Coverage) | Doğruluk (Selective Acc.) | Macro-F1 | Durum |
 |---|---|---|---|:---:|:---:|:---:|:---:|
-| **[`facturk_full_v8/`](facturk_full_v8/)** | **Resmi Final Sistem** | `multilingual-e5-large` (1024d) | Düzeltilmiş (K-4) | **%80.4** (402/500) | **%56.72** | **0.5647** | 🏆 **Şampiyon / Final** |
-| **[`facturk_full_v6/`](facturk_full_v6/)** | K-4 Düzeltme Doğrulaması | `multilingual-e5-small` (384d) | Düzeltilmiş (K-4) | %54.6 (273/500) | %54.21 | 0.5275 | Tamamlandı |
-| **[`facturk_full_v7/`](facturk_full_v7/)** | Büyük Model Geçiş Koşumu | `multilingual-e5-large` (1024d) | Eski Mantık (dirty) | %53.8 (269/500) | %53.53 | 0.5074 | Belgelendi (Regresyon) |
-| **[`facturk_full_v5/`](facturk_full_v5/)** | Eski Temel Sistem (Baseline) | `multilingual-e5-small` (384d) | Eski Mantık | %53.2 (266/500) | %54.14 | 0.5098 | Arşiv / Temel |
+| **[`facturk_full_v17/`](facturk_full_v17/)** | **Gelişmiş Varlık & Framing Temizlemeli Sistem** | `e5-large` + Hibrit Web | K-4 Doğrulanmış + Yalanlama Tespiti | **%46.00** (230/500) | **%70.87** | **0.7078** | 🏆 **Resmi Altın Oran (Final)** |
+| **[`facturk_full_v16/`](facturk_full_v16/)** | Esnek Web Fallback Koşumu | `e5-large` + Hibrit Web | K-4 Doğrulanmış + Dengeli Eşikler | %43.40 (217/500) | %72.35 | 0.7235 | Doğrulandı |
+| **[`facturk_full_v15/`](facturk_full_v15/)** | Kesin Filtreli Yüksek Doğruluk Koşumu | `e5-large` + Hibrit Web | K-4 Doğrulanmış + Katı Eşik | %33.60 (168/500) | %75.00 | 0.7487 | Maksimum Doğruluk |
+| **[`facturk_full_v14/`](facturk_full_v14/)** | Aday Sınırı 40 + Karar Modeli | `e5-large` + Web | Hatalı ML Karar Ezmesi | %57.00 (285/500) | %62.11 | 0.6197 | Analiz Edildi |
+| **[`facturk_full_v13/`](facturk_full_v13/)** | Zamana Duyarlı Hibrit Sistem (Web Fallback) | `e5-large` + Web | K-4 Doğrulanmış | %51.60 (258/500) | %65.12 | 0.6476 | Arşiv |
+| **[`facturk_full_v12/`](facturk_full_v12/)** | Kapalı Korpus Temiz Sistem (Kapalı RAG) | `e5-large` (1024d) | K-4 Gerçek NLI (premise/hyp) | %40.20 (201/500) | %67.66 | 0.6750 | Arşiv |
+| **[`facturk_full_v8/`](facturk_full_v8/)** | Yüksek Kapsama Zorlama | `e5-large` (1024d) | Gevşek Eşikler | %80.40 (402/500) | %56.72 | 0.5647 | Arşiv |
+| **[`facturk_full_v6/`](facturk_full_v6/)** | K-4 Düzeltme Doğrulaması | `e5-small` (384d) | K-4 Düzeltilmiş | %54.60 (273/500) | %54.21 | 0.5275 | Arşiv |
+| **[`facturk_full_v5/`](facturk_full_v5/)** | Eski Temel Sistem (Baseline) | `e5-small` (384d) | Eski Sıfır-atış Mantık | %53.20 (266/500) | %55.26 | 0.5382 | Arşiv / Temel |
 
 ---
 

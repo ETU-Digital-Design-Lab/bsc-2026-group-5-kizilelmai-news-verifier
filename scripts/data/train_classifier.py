@@ -36,9 +36,9 @@ def main():
             nli_probs = ast.literal_eval(row["nli_probs"])
             rerank_scores = ast.literal_eval(row["rerank_scores"])
             
-            entail = nli_probs[0]
-            contradict = nli_probs[1]
-            neutral = nli_probs[2]
+            entail = float(nli_probs[0])
+            neutral = float(nli_probs[1])
+            contradict = float(nli_probs[2])
             
             max_rerank = max(rerank_scores) if rerank_scores else 0.0
             

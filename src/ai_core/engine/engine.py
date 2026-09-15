@@ -496,26 +496,6 @@ class KizilelmaEngine(TextAnalysisMixin, KnowledgeStoreMixin, ResponseGeneratorM
 
     def karar_motoru(self, user_query, db_record, nli_probs, sim_score, sig_rerank=0.0, k6_prediction=None, k9_consensus=None):
         res = self._raw_karar_motoru(user_query, db_record, nli_probs, sim_score, sig_rerank)
-        
-        # Adım C: Öğrenilmiş Karar Katmanı
-        if getattr(self, "decision_classifier", None) and self.decision_classifier.is_loaded:
-            entail = float(nli_probs[0])
-            contra = float(nli_probs[2])
-            neutral = float(nli_probs[1])
-            ml_pred, ml_conf = self.decision_classifier.predict(entail, contra, neutral, float(sig_rerank))
-            
-            if ml_pred != -1 and ml_conf > 0.65:
-                if ml_pred == 1 and res['status'] == 'RED':
-                    res['status'] = 'ONAY'
-                    res['msg'] = '✅ **DOĞRULANDI (ML KATMANI)**'
-                    res['desc'] = 'Öğrenilmiş karar katmanı NLI ve Rerank skorlarını değerlendirerek bilginin doğru olduğuna hükmetti.'
-                    res['conf'] = int(ml_conf * 100)
-                elif ml_pred == 0 and res['status'] == 'ONAY':
-                    res['status'] = 'RED'
-                    res['msg'] = '❌ **BİLGİ YANLIŞLIĞI (ML KATMANI)**'
-                    res['desc'] = 'Öğrenilmiş karar katmanı NLI ve Rerank skorlarını değerlendirerek bilginin yanlış olduğuna hükmetti.'
-                    res['conf'] = int(ml_conf * 100)
-
         return self._calibrate_decision(res, k6_prediction, k9_consensus, db_record.get('label'), sim_score)
 
     def _raw_karar_motoru(self, user_query, db_record, nli_probs, sim_score, sig_rerank=0.0):
@@ -579,8 +559,8 @@ class KizilelmaEngine(TextAnalysisMixin, KnowledgeStoreMixin, ResponseGeneratorM
                     "conf": 95, "risk": 85, "cat": "OLAY_OLUMSUZLUK"
                 }
 
-            # B. Hiçbir fark bulunamadıysa veya NLI entailment çok güçlüyse doğrudan doğrula!
-            if score_entail >= 0.70 or (not diff_user and not diff_source):
+            # B. Hiçbir fark bulunamadıysa veya NLI entailment güçlüyse doğrula
+            if score_entail >= 0.60 or ((not diff_user and not diff_source) and score_entail >= 0.40 and score_entail >= score_contra):
                 return {
                     "status": "ONAY", "msg": "✅ **DOĞRULANDI**",
                     "desc": "Doğrulandı, bilgi güvenilir kaynaklarla uyuşuyor.",
@@ -913,14 +893,13 @@ class KizilelmaEngine(TextAnalysisMixin, KnowledgeStoreMixin, ResponseGeneratorM
             if getattr(self, "enable_web_retrieval", False) or not self.frozen_corpus_path:
                 web_candidates = self._try_web_retrieval(raw_query, claim_date=claim_date)
                 if web_candidates:
-                    candidates = web_candidates
-                    if trace is not None:
-                        trace["web_retrieval_used"] = True
-                else:
-                    # Ne yerel korpusta ne de webde güvenilir kanıt yoksa boş tahmin yapma
-                    candidates = []
-            else:
-                candidates = []
+                    if not candidates or web_candidates[0]['sig_rerank'] >= candidates[0]['sig_rerank']:
+                        candidates = web_candidates
+                        if trace is not None:
+                            trace["web_retrieval_used"] = True
+                    else:
+                        candidates = sorted(candidates + web_candidates, key=lambda x: x['sig_rerank'], reverse=True)
+                # Not: Webden sonuç dönmese bile yerel adaylar (varsa) korunur!
 
         if trace is not None:
             trace["accepted_source_ids"] = [c["id"] for c in candidates]
@@ -959,12 +938,12 @@ class KizilelmaEngine(TextAnalysisMixin, KnowledgeStoreMixin, ResponseGeneratorM
         print(f"🎯 Sniper Seçimi (Ağırlıklı): {best_cand['text'][:50]}... | Otorite: {best_cand['authority']}")
         
         # Mantıksal NLI Bypass Optimizasyonu:
-        # Eğer fark analizinde hiçbir fark bulunamazsa, NLI modelinin kararı yoksayılır ve karar motoru doğrudan ONAY/UYARI döner.
-        # Bu durumda NLI modelini çalıştırmayarak 1-2 saniye zaman kazanabiliriz.
         diff_user, diff_source, diff_match_score, diff_cat = self.akilli_fark_analizi(raw_query, best_cand['text'])
         
-        # Fark yoksa ve semantik uyuşma yüksekse, NLI çalışmasını bypass et (entailment olasılığını %100 yap)
-        if diff_user is None and diff_source is None and (best_cand['sim'] > 0.60 or best_cand.get('sig_rerank', 0.0) > 0.70):
+        # Fark yoksa, semantik uyuşma çok yüksekse ve kaynak yalanlama içermiyorsa NLI bypass et
+        cand_text_lower = best_cand['text'].lower()
+        has_debunk_kw = any(w in cand_text_lower for w in ["yalan", "iddia", "asılsız", "sahte", "montaj", "şüphe", "iddiası"])
+        if diff_user is None and diff_source is None and best_cand['sim'] >= 0.88 and not has_debunk_kw and best_cand.get('label') == 1:
             print("⚡ NLP Mantıksal Bypass: Eşleşmede fark tespit edilmedi, NLI modeli atlandı (Bypass).")
             probs = np.array([1.0, 0.0, 0.0], dtype=np.float32)  # Kanonik: [entailment=1, neutral=0, contradiction=0]
             if trace is not None:
@@ -1106,11 +1085,18 @@ class KizilelmaEngine(TextAnalysisMixin, KnowledgeStoreMixin, ResponseGeneratorM
 
                 # Asgari anlamsal bağ ve kelime çapası kontrolü
                 is_rel, _ = self.kelime_capasi_kontrolu(query, c["text"], sim, sig_scores[i])
-                if is_rel and (sig_scores[i] >= 0.28 or (sig_scores[i] >= 0.20 and sim >= 0.50)):
+                if is_rel and (sig_scores[i] >= 0.28 or (sig_scores[i] >= 0.20 and sim >= 0.48)):
                     c["sim"] = sim
                     c["rerank_score"] = rerank_scores[i]
                     c["sig_rerank"] = sig_scores[i]
-                    c["label"] = 1  # Birincil haber/resmi metin doğru olgu kabul edilir
+                    
+                    t_lower = c["text"].lower()
+                    is_debunk = any(k in t_lower for k in [
+                        "yalanlandı", "asılsız", "iddiası yalan", "gerçeği yansıtmıyor", 
+                        "dezenformasyon", "doğru değil", "montaj olduğu", "kurgu olduğu", 
+                        "sahte olduğu", "iddialar asılsız", "iddiaları yalanladı"
+                    ])
+                    c["label"] = 0 if is_debunk else 1
                     scored_candidates.append(c)
 
             scored_candidates.sort(key=lambda x: x["sig_rerank"], reverse=True)

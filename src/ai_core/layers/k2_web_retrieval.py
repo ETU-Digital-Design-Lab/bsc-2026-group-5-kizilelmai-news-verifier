@@ -78,18 +78,24 @@ BLACKLIST_DOMAINS = [
     "snopes.com",
 ]
 
-# Türkçe arama için gürültülü bağlaçlar
+# Türkçe arama için gürültülü bağlaçlar ve sosyal medya / teyit framing kelimeleri
 TURKISH_STOPWORDS = {
     "acaba", "ama", "ancak", "artik", "aslinda", "bana", "belki", "ben", "benden", 
     "beni", "benim", "beri", "biri", "birkac", "biz", "bizden", "bize", "bizi", 
     "bizim", "bu", "buna", "bunda", "bundan", "bunu", "bunun", "burada", "cok", 
     "cunku", "da", "daha", "dahi", "de", "defa", "diye", "eger", "en", "gibi", 
     "hem", "hep", "hepsi", "her", "hic", "icin", "ile", "ise", "kadar", "kez", 
-    "ki", "kim", "mu", "mi", "mu", "mu", "nasil", "ne", "neden", "nerde", 
+    "ki", "kim", "mu", "mi", "mu", "mü", "nasil", "ne", "neden", "nerde", 
     "nerede", "nereye", "nicin", "o", "ona", "ondan", "onlar", "onlardan", 
     "onlari", "onlarin", "onu", "onun", "oysa", "oysaki", "pek", "sey", "siz", 
     "sizden", "size", "sizi", "sizin", "su", "suna", "sunda", "sundan", "sunu", 
-    "tumu", "ve", "veya", "ya", "yani", "yoksa"
+    "tumu", "ve", "veya", "ya", "yani", "yoksa", "bir",
+    "tarafından", "tarafindan", "tarihinde", "videonun", "videodaki", "görüntülerin",
+    "goruntulerin", "fotoğrafın", "fotografin", "fotoğraftaki", "fotograftaki", "iddiası",
+    "iddiasi", "iddia", "edildi", "edildiği", "edildigi", "edilen", "paylaşılan", "paylasilan",
+    "hesabı", "hesabi", "hesabından", "hesabindan", "başlıklı", "baslikli", "ait", "olduğu",
+    "oldugu", "ilişkin", "iliskin", "ilişkili", "iliskili", "yönünde", "yonunde", "şeklinde",
+    "seklinde", "hakkında", "hakkinda", "birlikte", "göre", "gore", "üzerine", "uzerine"
 }
 
 DEFAULT_USER_AGENT = (
@@ -123,38 +129,31 @@ class TemporalWebRetriever:
             return ""
 
         text = claim_text
-        # Sosyal medya ve teyit framing kalıplarını temizle
-        meta_prefixes = [
-            r'^(?:sosyal medyada|bir x hesab[ıi]|bir instagram hesab[ıi]|bir twitter hesab[ıi]|payla[şs][ıi]lan|videonun|foto[ğg]raf[ıi]n|iddian[ıi]n|iddias[ıi]|g[öo]r[üu]nt[üu]lerin|haberlerde yer alan)\s+',
-            r'^(?:bir x kullan[ıi]c[ıi]s[ıi]|kullan[ıi]c[ıi]lar[ıi]n|baz[ıi] hesaplar[ıi]n)\s+'
+        meta_patterns = [
+            r'(?:sosyal medyada|bir x hesab[ıi]|bir instagram hesab[ıi]|bir twitter hesab[ıi]|payla[şs][ıi]lan|videonun|foto[ğg]raf[ıi]n|iddian[ıi]n|iddias[ıi]|g[öo]r[üu]nt[üu]lerin|haberlerde yer alan)',
+            r'(?:bir x kullan[ıi]c[ıi]s[ıi]|kullan[ıi]c[ıi]lar[ıi]n|baz[ıi] hesaplar[ıi]n|taraf[ıi]ndan payla[şs][ıi]lan|taraf[ıi]ndan yay[ıi]nlanan)',
+            r'(?:iddias[ıi]|iddia edildi|oldu[ğg]u iddia edildi|g[öo]sterdi[ğg]i|[öo]ne s[üu]r[üu]ld[üu]|belirtildi|a[çc][ıi]kland[ıi]|payla[şs][ıi]ld[ıi]|yans[ıi]tt[ıi][ğg][ıi]|anla[şs][ıi]ld[ıi][ğg][ıi])'
         ]
-        for p in meta_prefixes:
+        for p in meta_patterns:
             text = re.sub(p, ' ', text, flags=re.IGNORECASE)
-
-        meta_suffixes = [
-            r'\s+(?:iddias[ıi]|iddia edildi|oldu[ğg]u iddia edildi|g[öo]sterdi[ğg]i|[öo]ne s[üu]r[üu]ld[üu]|belirtildi|a[çc][ıi]kland[ıi]|payla[şs][ıi]ld[ıi])$',
-            r'\s+(?:yans[ıi]tt[ıi][ğg][ıi]|anla[şs][ıi]ld[ıi][ğg][ıi])$'
-        ]
-        for s in meta_suffixes:
-            text = re.sub(s, ' ', text, flags=re.IGNORECASE)
 
         clean = re.sub(r'[^\w\s\d]', ' ', text, flags=re.UNICODE)
         words = clean.strip().split()
         filtered = [w for w in words if w.lower() not in TURKISH_STOPWORDS and len(w) > 1]
 
         if not filtered:
-            return " ".join(words[:4])
+            return " ".join(words[:5])
 
-        # Google News RSS için ideal uzunluk 3 ila 5 kelimedir.
-        return " ".join(filtered[:5])
+        # Google News RSS için ideal uzunluk 4 ila 6 kelimedir.
+        return " ".join(filtered[:6])
 
     def extract_fallback_query(self, claim_text: str) -> str:
-        """Genişletilmiş yedek arama sorgusu: En karakteristik 2-3 terimi seçer."""
+        """Genişletilmiş yedek arama sorgusu: En karakteristik 3-4 terimi seçer."""
         clean_q = self.extract_clean_query(claim_text)
         words = clean_q.split()
-        if len(words) <= 3:
+        if len(words) <= 4:
             return clean_q
-        return " ".join(words[:3])
+        return " ".join(words[:4])
 
     def is_blacklisted(self, url: str) -> bool:
         """URL teyit sitesi veya yasaklı domain içeriyor mu?"""
@@ -279,17 +278,34 @@ class TemporalWebRetriever:
     def search_news(
         self, query: str, claim_date: Optional[str] = None, fallback_query: Optional[str] = None
     ) -> List[Dict[str, Any]]:
-        """Hibrit haber araması: Önce Google News RSS, yetersizse fallback sorgusu veya DuckDuckGo."""
+        """Hibrit haber araması: Önce Google News RSS (tarihli), yetersizse tarihsiz Google News RSS ve DuckDuckGo."""
         if not query:
             return []
 
-        search_results = self.search_google_news_rss(query, claim_date)
+        search_results = []
+        # 1. Tarih kısıtlı arama dene (varsa)
+        if claim_date:
+            search_results = self.search_google_news_rss(query, claim_date)
+            if len(search_results) < 2 and fallback_query and fallback_query != query:
+                fb_hits = self.search_google_news_rss(fallback_query, claim_date)
+                for hit in fb_hits:
+                    if not any(x["url"] == hit["url"] for x in search_results):
+                        search_results.append(hit)
+
+        # 2. Tarihsiz doğrudan arama (tarih kısıtı sonuç vermediyse veya yetersizse)
+        if len(search_results) < 2:
+            no_date_hits = self.search_google_news_rss(query, claim_date=None)
+            for hit in no_date_hits:
+                if not any(x["url"] == hit["url"] for x in search_results):
+                    search_results.append(hit)
+
         if len(search_results) < 2 and fallback_query and fallback_query != query:
-            fb_hits = self.search_google_news_rss(fallback_query, claim_date)
+            fb_hits = self.search_google_news_rss(fallback_query, claim_date=None)
             for hit in fb_hits:
                 if not any(x["url"] == hit["url"] for x in search_results):
                     search_results.append(hit)
 
+        # 3. DuckDuckGo araması (hala yetersizse)
         if len(search_results) < 2:
             ddg_hits = self.search_duckduckgo(query)
             for hit in ddg_hits:
@@ -299,7 +315,7 @@ class TemporalWebRetriever:
         if claim_date:
             c_dt = self.parse_date(claim_date)
             if c_dt:
-                cutoff_future = c_dt + timedelta(days=7)
+                cutoff_future = c_dt + timedelta(days=30)
                 filtered = []
                 for r in search_results:
                     art_dt = self.parse_date(r.get("date"))

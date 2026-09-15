@@ -5,10 +5,10 @@
   <p>
     <a href="https://github.com/ETU-Digital-Design-Lab/bsc-2026-group-5-kizilelmai-news-verifier"><img src="https://img.shields.io/badge/GitHub-Repository-blue?logo=github" alt="Repo"></a>
     <img src="https://img.shields.io/badge/Benchmark-FACTurk--500-success" alt="FACTurk">
-    <img src="https://img.shields.io/badge/Version-v13_(Web_Augmented)-brightgreen" alt="v13">
-    <img src="https://img.shields.io/badge/Corpus_Accuracy-%2574.23-blue" alt="Corpus Accuracy">
-    <img src="https://img.shields.io/badge/Overall_Accuracy-%2565.12-success" alt="Overall Accuracy">
-    <img src="https://img.shields.io/badge/Coverage-%2551.6-orange" alt="Coverage">
+    <img src="https://img.shields.io/badge/Version-v17_(Golden_Balanced)-brightgreen" alt="v17">
+    <img src="https://img.shields.io/badge/Overall_Accuracy-%2570.87-success" alt="Overall Accuracy">
+    <img src="https://img.shields.io/badge/Macro_F1-0.7078-blue" alt="Macro F1">
+    <img src="https://img.shields.io/badge/Coverage-%2546.0-orange" alt="Coverage">
     <img src="https://img.shields.io/badge/Python-3.10+-informational" alt="Python">
     <img src="https://img.shields.io/badge/PyTorch-CUDA_Accelerated-red?logo=pytorch" alt="PyTorch">
   </p>
@@ -69,31 +69,37 @@ graph TD
   - [`text_heuristics.py`](file:///src/ai_core/engine/text_heuristics.py): `TextAnalysisMixin` (Normalizasyon, kelime çapası, tarih/sayı fark analizi).
   - [`knowledge_store.py`](file:///src/ai_core/engine/knowledge_store.py): `KnowledgeStoreMixin` (PostgreSQL ve yerel CSV senkronizasyonu).
   - [`response_generator.py`](file:///src/ai_core/engine/response_generator.py): `ResponseGeneratorMixin` (Yanıt formatlama ve kanal tespiti).
-* **Katman 2B (Dinamik Web Getirimi - `k2_web_retrieval.py`):** Sosyal medya gürültüsünden arındırılmış sorgularla birincil haber kaynaklarından gerçek zamanlı kanıt toplar.
+* **Katman 2B (Dinamik Web Getirimi - `k2_web_retrieval.py`):** Sosyal medya gürültüsünden ve teyit şablonlarından arındırılmış sorgularla birincil haber kaynaklarından gerçek zamanlı kanıt toplar.
 * **Katman 3 (Yeniden Sıralama):** `BAAI/bge-reranker-v2-m3` Cross-Encoder modeliyle aday kanıtları hassas olarak sıralar.
-* **Katman 4 (Doğal Dil Çıkarımı):** `joeddav/xlm-roberta-large-xnli` modeli üzerinden iddia ve kanıt metni arasındaki mantıksal ilişkiyi doğrular.
+* **Katman 4 (Doğal Dil Çıkarımı):** `joeddav/xlm-roberta-large-xnli` modeli üzerinden iddia ve kanıt metni arasındaki mantıksal ilişkiyi (Destek/Çelişki/Nötr) doğrular.
 * **Katman 5 (Seçici Karar & Eşik Motoru):** Yetersiz kanıtta çekimser kalarak yanlış tahmin üretmez; güçlü kanıt varlığında **ONAY (Doğru)** veya **RED (Yalan)** kararı verir.
 
 ---
 
 ## 🔬 Değerlendirme Sonuçları ve Benchmark Karşılaştırması
 
-Sistem, bağımsız **FACTurk-500** benchmark veri seti üzerinde test edilmiş olup sonuçlar tam tekrarlanabilir şekilde kayıt altına alınmıştır:
+Sistem, bağımsız **FACTurk-500** benchmark veri seti üzerinde test edilmiş olup tüm koşumlar tekrarlanabilir şekilde kayıt altına alınmıştır:
 
 ### FACTurk-500 Koşumları Evrim Tablosu
 
 | Koşum | Açıklama | Cevaplanan İddia (Kapsama) | Çekimser (RET) | Doğru / Cevaplanan | Cevaplanan Doğruluk | Macro-F1 | Bootstrap %95 GA | Durum |
 |:---:|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **v9** | Eski Tahminli Sistem (Yazı-tura seviyesi) | 403 / 500 (%80.6) | 97 (%19.4) | 229 / 403 | %56.82 | 0.5657 | [0.519, 0.616] | Arşiv |
-| **v10** | İlk Web Getirim Denemesi | 406 / 500 (%81.2) | 94 (%18.8) | 222 / 406 | %54.68 | 0.5440 | [0.498, 0.596] | Arşiv |
-| **v11** | Çift Sigmoid Problemli Koşum | 202 / 500 (%40.4) | 298 (%59.6) | 104 / 202 | %51.48 | 0.5090 | [0.444, 0.582] | Analiz Edildi |
-| **v12** | Kapalı Korpus Temiz Sistem (Kapalı RAG) | 201 / 500 (%40.2) | 299 (%59.8) | 136 / 201 | **%67.66** | **0.6750** | [0.6087, 0.7366] | Doğrulandı |
-| **v13** | **Zamana Duyarlı Hibrit Sistem (Web-Augmented)** | **258 / 500 (%51.6)** | **242 (%48.4)** | **168 / 258** | **%65.12** | **0.6476** | **[0.5909, 0.7085]** | 🏆 **Resmi Final** |
+| **v5** | Erken Temel Sistem (Baseline) | 266 / 500 (%53.2) | 234 (%46.8) | 147 / 266 | %55.26 | 0.5382 | [0.492, 0.612] | Arşiv |
+| **v6** | K-4 Doğrulama Koşumu | 273 / 500 (%54.6) | 227 (%45.4) | 148 / 273 | %54.21 | 0.5275 | [0.483, 0.601] | Arşiv |
+| **v7** | Büyük Model Geçiş Koşumu | 269 / 500 (%53.8) | 231 (%46.2) | 144 / 269 | %53.53 | 0.5074 | [0.475, 0.595] | Arşiv |
+| **v8** | Yüksek Kapsama Zorlama | 402 / 500 (%80.4) | 98 (%19.6) | 228 / 402 | %56.72 | 0.5647 | [0.518, 0.615] | Arşiv |
+| **v9** | Referans Yüksek Kapsam Koşumu | 403 / 500 (%80.6) | 97 (%19.4) | 229 / 403 | %56.82 | 0.5657 | [0.519, 0.616] | Arşiv |
+| **v12** | Kapalı Korpus Temiz Sistem (Kapalı RAG) | 201 / 500 (%40.2) | 299 (%59.8) | 136 / 201 | %67.66 | 0.6750 | [0.6087, 0.7366] | Arşiv |
+| **v13** | Zamana Duyarlı Hibrit Sistem | 258 / 500 (%51.6) | 242 (%48.4) | 168 / 258 | %65.12 | 0.6476 | [0.5909, 0.7085] | Arşiv |
+| **v14** | Aday Sınırı 40 + Karar Modeli | 285 / 500 (%57.0) | 215 (%43.0) | 177 / 285 | %62.11 | 0.6197 | [0.5625, 0.6750] | Analiz Edildi |
+| **v15** | Kesin Filtreli Yüksek Doğruluk Koşumu | 168 / 500 (%33.6) | 332 (%66.4) | 126 / 168 | **%75.00** | **0.7487** | [0.6818, 0.8132] | Maksimum Doğruluk |
+| **v16** | Esnek Web Fallback Koşumu | 217 / 500 (%43.4) | 283 (%56.6) | 157 / 217 | **%72.35** | **0.7235** | [0.6620, 0.7793] | Yüksek Denge |
+| **v17** | **Gelişmiş Varlık ve Framing Temizlemeli Sistem** | **230 / 500 (%46.0)** | **270 (%54.0)** | **163 / 230** | **%70.87** | **0.7078** | **[0.6490, 0.7668]** | 🏆 **Resmi Altın Oran (Final)** |
 
-> **Önemli Bulgular ve Akademik Çıkarımlar:**
-> 1. **Yerel Korpus Yüksek Doğruluğu:** Yerel korpustaki (30.487 haber) kanıtlarla cevaplanan 97 iddiada doğruluk oranı **%74.23** (72/97) olarak gerçekleşmiştir.
-> 2. **Zamansal Uçurumun Çözümü:** Web retrieval mekanizması sayesinde sistem, 2022 sonrası güncel iddialarda 161 ek kanıt toplayarak kapsamayı %40.2'den **%51.6'ya (+57 iddia)** çıkarmıştır.
-> 3. **Tam Tekrarlanabilirlik:** Tüm değerlendirme artefaktları `results/facturk_full_v13/` dizininde hash doğrulamalı olarak yer almaktadır.
+> **Önemli Bulgular ve Çıkarımlar:**
+> 1. **Seçici Tahmin Başarısı:** v17 koşumu, 500 iddiadan 230'una cevap vererek **%70.87 doğruluk** ve **%70.78 Macro-F1** ile projenin en dengeli üretim konfigürasyonunu oluşturmuştur.
+> 2. **Sınıf Dengesi:** DOĞRU Precision %77.88, YALAN Recall %75.00 olarak gerçekleşmiş; model tek taraflı doğrulamaya veya yalanlamaya kaymadan dengeli çalışmıştır.
+> 3. **Tam Tekrarlanabilirlik:** Tüm değerlendirme artefaktları `results/facturk_full_v17/` dizininde hash doğrulamalı olarak yer almaktadır.
 
 ---
 

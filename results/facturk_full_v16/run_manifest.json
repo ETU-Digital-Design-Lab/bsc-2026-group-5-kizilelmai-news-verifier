@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "created_at_utc": "2026-09-14T22:19:48.572017+00:00",
+  "created_at_utc": "2026-09-15T11:25:35.436731+00:00",
   "script": "C:\\Users\\sinan\\OneDrive - Erzurum Teknik Üniversitesi\\kizilelmAI\\scripts\\evaluation\\evaluate_facturk_pipeline.py",
   "git": {
-    "commit": "aa4156d514043f1f2807c938a8adbac573c69886",
+    "commit": "4903c9f625855cb032f4f7eeb49c4e89b18eb4b9",
     "dirty": true
   },
   "input_sha256": {
@@ -42,7 +42,7 @@
     "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/engine/classifier.py": "1a3679b0a8bc1b718aa8d1fa3fe57e77ba29cdbc37245bfefd8b991430ee95a8",
-    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/engine/engine.py": "022fb2fa0f3b0e209cf769944e344a51a446c0affb8e94c30da47bc338302e48",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/engine/engine.py": "33ba490bea87321be3985f93de03cd507e26bf88ffc6cbf310c75ee108286f25",
     "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/engine/knowledge_store.py": "0480485378e93ba8d40c3f875faea8d67b0b8b2db31ddfe50c83d75f353d1248",
     "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/engine/response_generator.py": "67b43396dcf53a609a6f413379a725059f9a7afd1c8e49db72bee0a9c4ebc8a8",
     "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/engine/text_heuristics.py": "8a0ac909ac9592be515d70bf03257f2e2412694601f914498e1460499a318efa",
@@ -57,7 +57,7 @@
     "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/layers/k10_response.py": "9fd128288d1461086758209101696e40bcedc59bf84863226399cf40a61722c5",
     "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/layers/k1_intent.py": "606dbd2c04557bc53ccc80aeb8491d000eea3f7dd5cf8cf3fb70ba2570b65036",
     "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/layers/k2_retrieval.py": "90efc568cbe1b2c634bcecc484628eeca028826fc1215c968f616d8eaadabb2a",
-    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/layers/k2_web_retrieval.py": "c4f884fab4ba59b1e2c1c563ffe998e9683b5aa42ddd99a5bee8749588605cad",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/layers/k2_web_retrieval.py": "fb934add4b74d429a56f3f82d2912c1fd442f7fc05f82dce24fd0bb8c57ecaa0",
     "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/layers/k3_reranker.py": "42b1370aef30d945fb74ad4e27cd3c7b0d0b6b5fe1fefc2ccdc005d6bc12c0cf",
     "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/layers/k4_nli.py": "6b3d33afd952ea09013c934d874703bb871a807cada30a5dc78aada598d405de",
     "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/layers/k5_decision.py": "88a35bcc9287b9293982a6242752cfb69582bcee8a61a46fa067756cf969e594",
@@ -156,7 +156,7 @@
     "tokenizer.json": "36c9681b1c49c34f83550432b4eb73b66609ab2895c6a2fdcf1f99adf3d2eb36",
     "tokenizer_config.json": "5c7e36e741163f505d90bf15e2b111ca3f967c14836eaf1e37d177efa29136a6"
   },
-  "engine_initialization_ms": 28632.205399997474,
+  "engine_initialization_ms": 17591.315699995903,
   "hardware": {
     "ram_bytes": 16948453376,
     "torch": "2.5.1+cu121",
@@ -170,11 +170,11 @@
   },
   "completed_claims": 500,
   "output_sha256": {
-    "engine_stdout.log": "cf694f76850ee748b9fce9bb881b3f6728bbe8f1782eec4a03cab7d7c97529d9",
-    "metrics.json": "fced62fbaf3828591ff9a40de8a6e233066a1cb13b4c96369481c526732fb4e9",
+    "engine_stdout.log": "88235d5d75c294f047a961da6b7fc300447165fea9af3de52f8938bd08106cad",
+    "metrics.json": "3b5d2231943574a139abd593fa58e89d1bec5c9011cc6bd6b8dc8cd69a4644d9",
     "nearest_neighbors.json": "ad54c6254b05e3fe92547ffab9ed9aade27cac721b860aa9b3d4a87225c34336",
-    "predictions.csv": "46549c553e14f556251c6e02f0ee306257160114da205dce3ec9306fcfd07a2a",
-    "responses.jsonl": "daf6d8ea52298aba4328774baf207c5f128de82ce2f44b01b5dcb9b193854a3c",
+    "predictions.csv": "7dbb46d19ace92321f2a6c585f06922d9f1828ad9f9cb1d908f9d7a54c102f4e",
+    "responses.jsonl": "ebd820f044332676f79b9d83afd40de88b39418d120d66438393e10aa032ccc6",
     "separation_report.json": "553aebcfe2e29caf517d07c5f6632ed3d7e04b6a6f372e4b2833381e3856eb65"
   }
 }

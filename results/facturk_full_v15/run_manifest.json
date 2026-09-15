@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "created_at_utc": "2026-09-14T22:19:48.572017+00:00",
+  "created_at_utc": "2026-09-15T08:48:27.603954+00:00",
   "script": "C:\\Users\\sinan\\OneDrive - Erzurum Teknik Üniversitesi\\kizilelmAI\\scripts\\evaluation\\evaluate_facturk_pipeline.py",
   "git": {
-    "commit": "aa4156d514043f1f2807c938a8adbac573c69886",
+    "commit": "4903c9f625855cb032f4f7eeb49c4e89b18eb4b9",
     "dirty": true
   },
   "input_sha256": {
@@ -42,7 +42,7 @@
     "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/engine/classifier.py": "1a3679b0a8bc1b718aa8d1fa3fe57e77ba29cdbc37245bfefd8b991430ee95a8",
-    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/engine/engine.py": "022fb2fa0f3b0e209cf769944e344a51a446c0affb8e94c30da47bc338302e48",
+    "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/engine/engine.py": "d69f0804aef7ba8686c0ed32707b094220e5cfa0c223b90f51bf729b52bb906e",
     "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/engine/knowledge_store.py": "0480485378e93ba8d40c3f875faea8d67b0b8b2db31ddfe50c83d75f353d1248",
     "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/engine/response_generator.py": "67b43396dcf53a609a6f413379a725059f9a7afd1c8e49db72bee0a9c4ebc8a8",
     "C:/Users/sinan/OneDrive - Erzurum Teknik Üniversitesi/kizilelmAI/src/ai_core/engine/text_heuristics.py": "8a0ac909ac9592be515d70bf03257f2e2412694601f914498e1460499a318efa",
@@ -156,7 +156,7 @@
     "tokenizer.json": "36c9681b1c49c34f83550432b4eb73b66609ab2895c6a2fdcf1f99adf3d2eb36",
     "tokenizer_config.json": "5c7e36e741163f505d90bf15e2b111ca3f967c14836eaf1e37d177efa29136a6"
   },
-  "engine_initialization_ms": 28632.205399997474,
+  "engine_initialization_ms": 17731.438900002104,
   "hardware": {
     "ram_bytes": 16948453376,
     "torch": "2.5.1+cu121",
@@ -170,11 +170,11 @@
   },
   "completed_claims": 500,
   "output_sha256": {
-    "engine_stdout.log": "cf694f76850ee748b9fce9bb881b3f6728bbe8f1782eec4a03cab7d7c97529d9",
-    "metrics.json": "fced62fbaf3828591ff9a40de8a6e233066a1cb13b4c96369481c526732fb4e9",
+    "engine_stdout.log": "7c657517696079606fa5242baec5612edeb1d75b3ee2b70f6347ff8b0d308c85",
+    "metrics.json": "9c37c6f9c044d103f2a65e6c75a7e141d17246a65243fdd237f7e89d003a9e95",
     "nearest_neighbors.json": "ad54c6254b05e3fe92547ffab9ed9aade27cac721b860aa9b3d4a87225c34336",
-    "predictions.csv": "46549c553e14f556251c6e02f0ee306257160114da205dce3ec9306fcfd07a2a",
-    "responses.jsonl": "daf6d8ea52298aba4328774baf207c5f128de82ce2f44b01b5dcb9b193854a3c",
+    "predictions.csv": "c12779301f6c4efd108d5b4787794f4fd96b7343cc8730c560e036c31fd8c6d0",
+    "responses.jsonl": "fdc11141edc659dd944dee2265975eec30fa3eb0f184affd8029eb53c3e58751",
     "separation_report.json": "553aebcfe2e29caf517d07c5f6632ed3d7e04b6a6f372e4b2833381e3856eb65"
   }
 }
