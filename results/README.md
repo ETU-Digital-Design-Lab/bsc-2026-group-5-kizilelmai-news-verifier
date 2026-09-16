@@ -26,10 +26,15 @@ Her koşum dizininde tekrarlanabilirlik (reproducibility) ilkesi gereğince **`m
 
 ## 🔬 Özel Analiz ve Doğrulama Dizinleri
 
+* **[`debunk_audit_v1/`](debunk_audit_v1/):** D1 Denetimi — Yalanlama filtresi 2x2 çapraz kırılımı ve anahtar kelime analizi.
+* **[`temporal_leakage_audit_v1/`](temporal_leakage_audit_v1/):** D2 Denetimi — Zamansal sızıntı, tarihli pencere vs. tarihsiz arama doğruluk karşılaştırması.
+* **[`k6_influence_audit_v1/`](k6_influence_audit_v1/):** K-6 Sınıflandırıcı Etki Denetimi (+k6_override ve +k6_rescue sıfır etki kanıtı).
+* **[`paired_comparison_v12_v17/`](paired_comparison_v12_v17/):** v12 vs v17 McNemar eşleştirilmiş istatistiksel karşılaştırma testi.
+* **[`nearest_neighbors_percentile_v1/`](nearest_neighbors_percentile_v1/):** e5-large yüzdelik tabanlı en yakın komşu analizi (p99 eşiği).
 * **[`facturk_ablation_v1/`](facturk_ablation_v1/):** Bileşen izolasyon ablasyonları (Re-ranker etkisi, Embedding etkisi, NLI etkisi).
 * **[`k4_fix_v1/`](k4_fix_v1/):** K-4 NLI ters etiket hatasının matematiksel doğrulama raporu ve iki kapılı (Gate 1 & Gate 2) test JSON'ı.
 * **[`corrections_v1/`](corrections_v1/):** Altı temel mimari iyileştirmenin (otorite, bağlam, konsensüs, vb.) kayıtları.
-* **[`selective_v1/`](selective_v1/):** Seçici tahmin (Selective Prediction), çekimserlik (abstain) ve hata taksonomisi raporu.
+* **[`selective_v1/`](selective_v1/):** Seçici tahmin (Selective Prediction), sabit %40 kapsama karşılaştırması ve risk-kapsama eğrisi.
 * **[`temporal_coverage_v1/`](temporal_coverage_v1/):** Zamansal analiz ve yayıncı seviyesinde kaynak (publisher-level provenance) doğrulamaları.
 * **[`latency_v1/`](latency_v1/):** Donanım (NVIDIA RTX 3050 Ti GPU) üzerinde katman bazlı çıkarım ve gecikme ölçümleri.
 * **[`provenance_v4/`](provenance_v4/):** Kaynak atıf ve doğrulama denetim sonuçları.

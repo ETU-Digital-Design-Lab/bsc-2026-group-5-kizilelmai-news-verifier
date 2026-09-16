@@ -1,0 +1,14 @@
+{
+  "benchmark_total_claims": 500,
+  "v17_answered_claims": 230,
+  "v17_overall_accuracy": 0.7087,
+  "k6_override_count": 0,
+  "k6_rescue_count": 0,
+  "k6_verdict_flipping_count": 0,
+  "k6_abstention_to_answer_count": 0,
+  "claims_answered_due_to_k6": 0,
+  "k6_concur_count": 93,
+  "k6_dissent_count": 81,
+  "decision_source": "100% NLI and rule-based (engine.py _raw_karar_motoru)",
+  "k6_role_in_v17": "Advisory only (calibrates numerical confidence/risk scores, never flips status)"
+}

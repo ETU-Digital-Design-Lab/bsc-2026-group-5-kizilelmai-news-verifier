@@ -1,0 +1,501 @@
+claim_id,gold_verdict,final_verdict,raw_status,abstained,is_correct,k6_available,k6_predicted_label,k6_confidence,k6_override,k6_rescue,k6_concur,k6_dissent
+FACTURK-0001,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9521,False,False,False,False
+FACTURK-0002,YALAN,YALAN,RED,False,True,True,0,0.6943,False,False,False,False
+FACTURK-0003,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.8496,False,False,True,False
+FACTURK-0004,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.9619,False,False,False,False
+FACTURK-0005,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.8872,False,False,False,False
+FACTURK-0006,YALAN,YALAN,RED,False,True,True,0,0.9487,False,False,True,False
+FACTURK-0007,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.5693,False,False,False,False
+FACTURK-0008,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.5845,False,False,False,False
+FACTURK-0009,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.8779,False,False,False,False
+FACTURK-0010,YALAN,YALAN,UYARI,False,True,True,1,0.7607,False,False,False,True
+FACTURK-0011,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.5894,False,False,False,False
+FACTURK-0012,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.5083,False,False,False,False
+FACTURK-0013,DOĞRU,YETERSİZ VERİ,KISMI,True,False,True,1,0.9619,False,False,False,False
+FACTURK-0014,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.8237,False,False,False,False
+FACTURK-0015,YALAN,YALAN,RED,False,True,True,1,0.6641,False,False,False,False
+FACTURK-0016,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.749,False,False,True,False
+FACTURK-0017,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.7974,False,False,False,False
+FACTURK-0018,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.6504,False,False,False,False
+FACTURK-0019,YALAN,DOĞRU,ONAY,False,False,True,1,0.9175,False,False,True,False
+FACTURK-0020,YALAN,YALAN,RED,False,True,True,1,0.8667,False,False,False,True
+FACTURK-0021,YALAN,YALAN,RED,False,True,True,0,0.5752,False,False,False,False
+FACTURK-0022,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.8428,False,False,False,False
+FACTURK-0023,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.8745,False,False,False,False
+FACTURK-0024,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.9771,False,False,False,False
+FACTURK-0025,YALAN,YALAN,RED,False,True,True,1,0.7339,False,False,False,True
+FACTURK-0026,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.8306,False,False,False,False
+FACTURK-0027,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.748,False,False,True,False
+FACTURK-0028,DOĞRU,YALAN,RED,False,False,True,0,0.9199,False,False,True,False
+FACTURK-0029,DOĞRU,DOĞRU,ONAY,False,True,True,0,0.7192,False,False,False,True
+FACTURK-0030,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.814,False,False,False,False
+FACTURK-0031,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.9307,False,False,True,False
+FACTURK-0032,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.8071,False,False,False,False
+FACTURK-0033,DOĞRU,DOĞRU,ONAY,False,True,True,0,0.7715,False,False,False,True
+FACTURK-0034,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.811,False,False,False,False
+FACTURK-0035,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.8818,False,False,False,False
+FACTURK-0036,YALAN,DOĞRU,ONAY,False,False,True,1,0.8379,False,False,True,False
+FACTURK-0037,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.5757,False,False,False,False
+FACTURK-0038,DOĞRU,DOĞRU,ONAY,False,True,True,0,0.792,False,False,False,True
+FACTURK-0039,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.9521,False,False,False,False
+FACTURK-0040,DOĞRU,YALAN,RED,False,False,True,0,0.8604,False,False,True,False
+FACTURK-0041,DOĞRU,DOĞRU,ONAY,False,True,True,0,0.9116,False,False,False,True
+FACTURK-0042,YALAN,DOĞRU,ONAY,False,False,True,1,0.6997,False,False,False,False
+FACTURK-0043,YALAN,YALAN,RED,False,True,True,1,0.8511,False,False,False,True
+FACTURK-0044,YALAN,YALAN,RED,False,True,True,0,0.9277,False,False,True,False
+FACTURK-0045,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9546,False,False,False,False
+FACTURK-0046,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.5786,False,False,False,False
+FACTURK-0047,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.8096,False,False,False,False
+FACTURK-0048,YALAN,YALAN,UYARI,False,True,True,0,0.9243,False,False,True,False
+FACTURK-0049,DOĞRU,DOĞRU,ONAY,False,True,True,0,0.6567,False,False,False,False
+FACTURK-0050,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9404,False,False,False,False
+FACTURK-0051,YALAN,DOĞRU,ONAY,False,False,True,0,0.5034,False,False,False,False
+FACTURK-0052,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.8442,False,False,False,False
+FACTURK-0053,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.9121,False,False,True,False
+FACTURK-0054,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.8257,False,False,False,False
+FACTURK-0055,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.9331,False,False,True,False
+FACTURK-0056,YALAN,YALAN,RED,False,True,True,1,0.646,False,False,False,False
+FACTURK-0057,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.7666,False,False,False,False
+FACTURK-0058,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.8623,False,False,False,False
+FACTURK-0059,YALAN,YALAN,UYARI,False,True,True,1,0.6221,False,False,False,False
+FACTURK-0060,YALAN,YALAN,UYARI,False,True,True,1,0.8662,False,False,False,True
+FACTURK-0061,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.8921,False,False,False,False
+FACTURK-0062,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.5742,False,False,False,False
+FACTURK-0063,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.7432,False,False,False,False
+FACTURK-0064,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9487,False,False,False,False
+FACTURK-0065,DOĞRU,DOĞRU,ONAY,False,True,True,0,0.873,False,False,False,True
+FACTURK-0066,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.9155,False,False,False,False
+FACTURK-0067,YALAN,YALAN,UYARI,False,True,True,1,0.6479,False,False,False,False
+FACTURK-0068,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.8672,False,False,False,False
+FACTURK-0069,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.9941,False,False,True,False
+FACTURK-0070,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.8359,False,False,False,False
+FACTURK-0071,YALAN,YALAN,RED,False,True,True,0,0.5288,False,False,False,False
+FACTURK-0072,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.8906,False,False,False,False
+FACTURK-0073,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.7012,False,False,False,False
+FACTURK-0074,DOĞRU,DOĞRU,ONAY,False,True,True,0,0.5815,False,False,False,False
+FACTURK-0075,YALAN,DOĞRU,ONAY,False,False,True,1,0.6328,False,False,False,False
+FACTURK-0076,YALAN,YALAN,UYARI,False,True,True,1,0.7109,False,False,False,True
+FACTURK-0077,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.8862,False,False,False,False
+FACTURK-0078,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.8584,False,False,False,False
+FACTURK-0079,YALAN,YALAN,RED,False,True,True,0,0.9111,False,False,True,False
+FACTURK-0080,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9062,False,False,False,False
+FACTURK-0081,DOĞRU,DOĞRU,ONAY,False,True,True,0,0.7734,False,False,False,True
+FACTURK-0082,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.8721,False,False,False,False
+FACTURK-0083,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.9004,False,False,False,False
+FACTURK-0084,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.7383,False,False,False,False
+FACTURK-0085,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.7412,False,False,False,False
+FACTURK-0086,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.9502,False,False,True,False
+FACTURK-0087,DOĞRU,YALAN,RED,False,False,True,0,0.855,False,False,True,False
+FACTURK-0088,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.8882,False,False,False,False
+FACTURK-0089,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.9941,False,False,True,False
+FACTURK-0090,YALAN,DOĞRU,ONAY,False,False,True,1,0.7759,False,False,True,False
+FACTURK-0091,DOĞRU,YALAN,RED,False,False,True,0,0.8447,False,False,True,False
+FACTURK-0092,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.7163,False,False,False,False
+FACTURK-0093,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.687,False,False,False,False
+FACTURK-0094,YALAN,YALAN,RED,False,True,True,1,0.6851,False,False,False,False
+FACTURK-0095,DOĞRU,YALAN,RED,False,False,True,1,0.832,False,False,False,True
+FACTURK-0096,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.9692,False,False,False,False
+FACTURK-0097,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.584,False,False,False,False
+FACTURK-0098,YALAN,DOĞRU,ONAY,False,False,True,0,0.9277,False,False,False,True
+FACTURK-0099,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.5542,False,False,False,False
+FACTURK-0100,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.9043,False,False,False,False
+FACTURK-0101,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9517,False,False,False,False
+FACTURK-0102,YALAN,DOĞRU,ONAY,False,False,True,1,0.6304,False,False,False,False
+FACTURK-0103,YALAN,YALAN,RED,False,True,True,0,0.7397,False,False,True,False
+FACTURK-0104,DOĞRU,DOĞRU,ONAY,False,True,True,0,0.939,False,False,False,True
+FACTURK-0105,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.9331,False,False,True,False
+FACTURK-0106,DOĞRU,DOĞRU,ONAY,False,True,True,0,0.9272,False,False,False,True
+FACTURK-0107,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.9517,False,False,False,False
+FACTURK-0108,DOĞRU,DOĞRU,ONAY,False,True,True,0,0.9351,False,False,False,True
+FACTURK-0109,YALAN,YALAN,RED,False,True,True,1,0.7642,False,False,False,True
+FACTURK-0110,YALAN,YALAN,RED,False,True,True,1,0.6328,False,False,False,False
+FACTURK-0111,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.6743,False,False,False,False
+FACTURK-0112,YALAN,DOĞRU,ONAY,False,False,True,1,0.7578,False,False,True,False
+FACTURK-0113,YALAN,YALAN,UYARI,False,True,True,1,0.7397,False,False,False,True
+FACTURK-0114,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.939,False,False,False,False
+FACTURK-0115,DOĞRU,DOĞRU,ONAY,False,True,True,0,0.9189,False,False,False,True
+FACTURK-0116,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.9429,False,False,False,False
+FACTURK-0117,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.8662,False,False,True,False
+FACTURK-0118,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.8892,False,False,True,False
+FACTURK-0119,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9009,False,False,False,False
+FACTURK-0120,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9351,False,False,False,False
+FACTURK-0121,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.6294,False,False,False,False
+FACTURK-0122,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.938,False,False,False,False
+FACTURK-0123,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.7119,False,False,False,False
+FACTURK-0124,YALAN,YALAN,RED,False,True,True,0,0.916,False,False,True,False
+FACTURK-0125,DOĞRU,DOĞRU,ONAY,False,True,True,0,0.7544,False,False,False,True
+FACTURK-0126,DOĞRU,YALAN,RED,False,False,True,1,0.9097,False,False,False,True
+FACTURK-0127,YALAN,YALAN,RED,False,True,True,0,0.6875,False,False,False,False
+FACTURK-0128,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.9136,False,False,False,False
+FACTURK-0129,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.9019,False,False,False,False
+FACTURK-0130,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.9326,False,False,False,False
+FACTURK-0131,DOĞRU,YALAN,RED,False,False,True,1,0.9897,False,False,False,True
+FACTURK-0132,YALAN,YALAN,RED,False,True,True,1,0.9561,False,False,False,True
+FACTURK-0133,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.938,False,False,False,False
+FACTURK-0134,DOĞRU,YALAN,RED,False,False,True,0,0.5117,False,False,False,False
+FACTURK-0135,DOĞRU,YALAN,RED,False,False,True,1,0.9146,False,False,False,True
+FACTURK-0136,DOĞRU,DOĞRU,ONAY,False,True,True,0,0.5054,False,False,False,False
+FACTURK-0137,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9087,False,False,False,False
+FACTURK-0138,YALAN,YALAN,RED,False,True,True,1,0.6309,False,False,False,False
+FACTURK-0139,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.6558,False,False,False,False
+FACTURK-0140,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.6387,False,False,False,False
+FACTURK-0141,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.9805,False,False,False,False
+FACTURK-0142,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9048,False,False,False,False
+FACTURK-0143,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.6865,False,False,False,False
+FACTURK-0144,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9419,False,False,False,False
+FACTURK-0145,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9165,False,False,False,False
+FACTURK-0146,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9321,False,False,False,False
+FACTURK-0147,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9365,False,False,False,False
+FACTURK-0148,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.6182,False,False,False,False
+FACTURK-0149,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.9092,False,False,False,False
+FACTURK-0150,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.5879,False,False,False,False
+FACTURK-0151,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.7656,False,False,False,False
+FACTURK-0152,YALAN,YALAN,RED,False,True,True,1,0.8481,False,False,False,True
+FACTURK-0153,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.9805,False,False,False,False
+FACTURK-0154,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.5425,False,False,False,False
+FACTURK-0155,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.9097,False,False,True,False
+FACTURK-0156,YALAN,YALAN,RED,False,True,True,1,0.6836,False,False,False,False
+FACTURK-0157,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.7866,False,False,False,False
+FACTURK-0158,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.9067,False,False,False,False
+FACTURK-0159,YALAN,DOĞRU,ONAY,False,False,True,1,0.8208,False,False,True,False
+FACTURK-0160,DOĞRU,YALAN,UYARI,False,False,True,1,0.8857,False,False,False,True
+FACTURK-0161,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9346,False,False,False,False
+FACTURK-0162,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.9565,False,False,True,False
+FACTURK-0163,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.9673,False,False,False,False
+FACTURK-0164,YALAN,YALAN,RED,False,True,True,1,0.7734,False,False,False,True
+FACTURK-0165,YALAN,YALAN,UYARI,False,True,True,1,0.7778,False,False,False,True
+FACTURK-0166,DOĞRU,YALAN,RED,False,False,True,1,0.998,False,False,False,True
+FACTURK-0167,YALAN,YALAN,UYARI,False,True,True,0,0.9541,False,False,True,False
+FACTURK-0168,YALAN,YALAN,UYARI,False,True,True,1,0.5273,False,False,False,False
+FACTURK-0169,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.8472,False,False,False,False
+FACTURK-0170,YALAN,YALAN,RED,False,True,True,1,0.8203,False,False,False,True
+FACTURK-0171,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.7329,False,False,False,False
+FACTURK-0172,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.8174,False,False,False,False
+FACTURK-0173,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.5684,False,False,False,False
+FACTURK-0174,YALAN,DOĞRU,ONAY,False,False,True,0,0.9351,False,False,False,True
+FACTURK-0175,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.5518,False,False,False,False
+FACTURK-0176,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9175,False,False,False,False
+FACTURK-0177,YALAN,DOĞRU,ONAY,False,False,True,0,0.9136,False,False,False,True
+FACTURK-0178,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9507,False,False,False,False
+FACTURK-0179,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.8984,False,False,True,False
+FACTURK-0180,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.6641,False,False,False,False
+FACTURK-0181,YALAN,YALAN,UYARI,False,True,True,0,0.5195,False,False,False,False
+FACTURK-0182,DOĞRU,YETERSİZ VERİ,KISMI,True,False,True,1,0.9224,False,False,False,False
+FACTURK-0183,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.8306,False,False,False,False
+FACTURK-0184,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.9966,False,False,True,False
+FACTURK-0185,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.5596,False,False,False,False
+FACTURK-0186,DOĞRU,DOĞRU,ONAY,False,True,True,0,0.9458,False,False,False,True
+FACTURK-0187,DOĞRU,YALAN,RED,False,False,True,1,0.5259,False,False,False,False
+FACTURK-0188,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.8384,False,False,False,False
+FACTURK-0189,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.9492,False,False,False,False
+FACTURK-0190,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.7671,False,False,False,False
+FACTURK-0191,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.7959,False,False,False,False
+FACTURK-0192,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.7544,False,False,False,False
+FACTURK-0193,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.7354,False,False,True,False
+FACTURK-0194,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.75,False,False,True,False
+FACTURK-0195,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9067,False,False,False,False
+FACTURK-0196,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.9741,False,False,False,False
+FACTURK-0197,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9092,False,False,False,False
+FACTURK-0198,DOĞRU,DOĞRU,ONAY,False,True,True,0,0.9058,False,False,False,True
+FACTURK-0199,DOĞRU,YALAN,RED,False,False,True,1,0.6611,False,False,False,False
+FACTURK-0200,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.9243,False,False,False,False
+FACTURK-0201,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.9751,False,False,True,False
+FACTURK-0202,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.9966,False,False,True,False
+FACTURK-0203,YALAN,YALAN,UYARI,False,True,True,0,0.7002,False,False,True,False
+FACTURK-0204,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.7134,False,False,True,False
+FACTURK-0205,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.6602,False,False,False,False
+FACTURK-0206,YALAN,YALAN,UYARI,False,True,True,1,0.7549,False,False,False,True
+FACTURK-0207,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.9434,False,False,False,False
+FACTURK-0208,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.9443,False,False,True,False
+FACTURK-0209,YALAN,YALAN,UYARI,False,True,True,1,0.5737,False,False,False,False
+FACTURK-0210,YALAN,DOĞRU,ONAY,False,False,True,0,0.8345,False,False,False,True
+FACTURK-0211,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.8955,False,False,False,False
+FACTURK-0212,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.6738,False,False,False,False
+FACTURK-0213,DOĞRU,YALAN,RED,False,False,True,1,0.855,False,False,False,True
+FACTURK-0214,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.7563,False,False,False,False
+FACTURK-0215,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.7163,False,False,True,False
+FACTURK-0216,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.9897,False,False,False,False
+FACTURK-0217,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.9414,False,False,False,False
+FACTURK-0218,YALAN,YALAN,RED,False,True,True,1,0.5693,False,False,False,False
+FACTURK-0219,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.8979,False,False,False,False
+FACTURK-0220,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.9199,False,False,False,False
+FACTURK-0221,DOĞRU,YETERSİZ VERİ,KISMI,True,False,True,0,0.9375,False,False,False,False
+FACTURK-0222,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.6895,False,False,False,False
+FACTURK-0223,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.939,False,False,True,False
+FACTURK-0224,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.6689,False,False,False,False
+FACTURK-0225,YALAN,YALAN,RED,False,True,True,0,0.5835,False,False,False,False
+FACTURK-0226,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.6396,False,False,False,False
+FACTURK-0227,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9419,False,False,False,False
+FACTURK-0228,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.8447,False,False,False,False
+FACTURK-0229,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.5073,False,False,False,False
+FACTURK-0230,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9321,False,False,False,False
+FACTURK-0231,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.8828,False,False,False,False
+FACTURK-0232,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.6143,False,False,False,False
+FACTURK-0233,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.5181,False,False,False,False
+FACTURK-0234,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.79,False,False,False,False
+FACTURK-0235,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.7939,False,False,False,False
+FACTURK-0236,YALAN,YALAN,UYARI,False,True,True,1,0.7598,False,False,False,True
+FACTURK-0237,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.9365,False,False,False,False
+FACTURK-0238,DOĞRU,DOĞRU,ONAY,False,True,True,0,0.7139,False,False,False,True
+FACTURK-0239,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.6943,False,False,False,False
+FACTURK-0240,YALAN,YALAN,UYARI,False,True,True,1,0.5596,False,False,False,False
+FACTURK-0241,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.9595,False,False,False,False
+FACTURK-0242,YALAN,YALAN,RED,False,True,True,1,0.979,False,False,False,True
+FACTURK-0243,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.9194,False,False,False,False
+FACTURK-0244,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.6001,False,False,False,False
+FACTURK-0245,DOĞRU,DOĞRU,ONAY,False,True,True,0,0.9375,False,False,False,True
+FACTURK-0246,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.9043,False,False,False,False
+FACTURK-0247,YALAN,YALAN,UYARI,False,True,True,0,0.9258,False,False,True,False
+FACTURK-0248,YALAN,DOĞRU,ONAY,False,False,True,0,0.8599,False,False,False,True
+FACTURK-0249,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.6133,False,False,False,False
+FACTURK-0250,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9434,False,False,False,False
+FACTURK-0251,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.8779,False,False,False,False
+FACTURK-0252,YALAN,YALAN,UYARI,False,True,True,1,0.5625,False,False,False,False
+FACTURK-0253,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.7949,False,False,False,False
+FACTURK-0254,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.9785,False,False,False,False
+FACTURK-0255,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.9956,False,False,False,False
+FACTURK-0256,YALAN,YALAN,RED,False,True,True,0,0.9229,False,False,True,False
+FACTURK-0257,DOĞRU,YALAN,RED,False,False,True,1,0.957,False,False,False,True
+FACTURK-0258,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.9697,False,False,False,False
+FACTURK-0259,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.5464,False,False,False,False
+FACTURK-0260,DOĞRU,YALAN,RED,False,False,True,1,0.9829,False,False,False,True
+FACTURK-0261,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.7441,False,False,False,False
+FACTURK-0262,DOĞRU,YALAN,RED,False,False,True,0,0.9443,False,False,True,False
+FACTURK-0263,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.8135,False,False,False,False
+FACTURK-0264,DOĞRU,YETERSİZ VERİ,KISMI,True,False,True,0,0.6909,False,False,False,False
+FACTURK-0265,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.6758,False,False,False,False
+FACTURK-0266,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.9644,False,False,True,False
+FACTURK-0267,YALAN,YALAN,RED,False,True,True,1,0.562,False,False,False,False
+FACTURK-0268,YALAN,DOĞRU,ONAY,False,False,True,0,0.8877,False,False,False,True
+FACTURK-0269,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.7168,False,False,False,False
+FACTURK-0270,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.7251,False,False,False,False
+FACTURK-0271,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.5645,False,False,False,False
+FACTURK-0272,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9507,False,False,False,False
+FACTURK-0273,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.6665,False,False,False,False
+FACTURK-0274,YALAN,YALAN,RED,False,True,True,0,0.9438,False,False,True,False
+FACTURK-0275,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.7739,False,False,False,False
+FACTURK-0276,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.8315,False,False,False,False
+FACTURK-0277,DOĞRU,DOĞRU,ONAY,False,True,True,0,0.8042,False,False,False,True
+FACTURK-0278,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.9927,False,False,False,False
+FACTURK-0279,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9419,False,False,False,False
+FACTURK-0280,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.7368,False,False,False,False
+FACTURK-0281,YALAN,YALAN,RED,False,True,True,1,0.7144,False,False,False,True
+FACTURK-0282,DOĞRU,YALAN,RED,False,False,True,0,0.9448,False,False,True,False
+FACTURK-0283,YALAN,YALAN,RED,False,True,True,1,0.9062,False,False,False,True
+FACTURK-0284,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.936,False,False,False,False
+FACTURK-0285,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.583,False,False,False,False
+FACTURK-0286,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.6743,False,False,False,False
+FACTURK-0287,DOĞRU,YALAN,RED,False,False,True,1,0.9312,False,False,False,True
+FACTURK-0288,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.8081,False,False,False,False
+FACTURK-0289,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.8984,False,False,False,False
+FACTURK-0290,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.9268,False,False,False,False
+FACTURK-0291,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.9106,False,False,False,False
+FACTURK-0292,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9102,False,False,False,False
+FACTURK-0293,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.9473,False,False,False,False
+FACTURK-0294,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9341,False,False,False,False
+FACTURK-0295,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.9385,False,False,False,False
+FACTURK-0296,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.7397,False,False,True,False
+FACTURK-0297,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.8467,False,False,True,False
+FACTURK-0298,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.9609,False,False,False,False
+FACTURK-0299,YALAN,YALAN,UYARI,False,True,True,1,0.7637,False,False,False,True
+FACTURK-0300,YALAN,YALAN,RED,False,True,True,0,0.8599,False,False,True,False
+FACTURK-0301,YALAN,DOĞRU,ONAY,False,False,True,1,0.7583,False,False,True,False
+FACTURK-0302,YALAN,DOĞRU,ONAY,False,False,True,1,0.5645,False,False,False,False
+FACTURK-0303,YALAN,YALAN,RED,False,True,True,0,0.5239,False,False,False,False
+FACTURK-0304,DOĞRU,YALAN,RED,False,False,True,0,0.6641,False,False,False,False
+FACTURK-0305,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.5874,False,False,False,False
+FACTURK-0306,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.7573,False,False,False,False
+FACTURK-0307,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.541,False,False,False,False
+FACTURK-0308,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.7446,False,False,False,False
+FACTURK-0309,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.8496,False,False,False,False
+FACTURK-0310,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.9409,False,False,False,False
+FACTURK-0311,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.7817,False,False,True,False
+FACTURK-0312,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.6689,False,False,False,False
+FACTURK-0313,DOĞRU,YETERSİZ VERİ,KISMI,True,False,True,0,0.7314,False,False,False,False
+FACTURK-0314,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.9673,False,False,False,False
+FACTURK-0315,YALAN,YALAN,RED,False,True,True,0,0.7466,False,False,True,False
+FACTURK-0316,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.9233,False,False,True,False
+FACTURK-0317,DOĞRU,YALAN,RED,False,False,True,0,0.9429,False,False,True,False
+FACTURK-0318,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.7578,False,False,False,False
+FACTURK-0319,DOĞRU,DOĞRU,ONAY,False,True,True,0,0.6255,False,False,False,False
+FACTURK-0320,YALAN,DOĞRU,ONAY,False,False,True,1,0.9819,False,False,True,False
+FACTURK-0321,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9248,False,False,False,False
+FACTURK-0322,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.8916,False,False,False,False
+FACTURK-0323,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.6167,False,False,False,False
+FACTURK-0324,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.8125,False,False,True,False
+FACTURK-0325,YALAN,YALAN,RED,False,True,True,1,0.5684,False,False,False,False
+FACTURK-0326,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.791,False,False,False,False
+FACTURK-0327,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.8184,False,False,False,False
+FACTURK-0328,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.7563,False,False,True,False
+FACTURK-0329,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.9155,False,False,False,False
+FACTURK-0330,YALAN,YALAN,RED,False,True,True,1,0.8516,False,False,False,True
+FACTURK-0331,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.9199,False,False,False,False
+FACTURK-0332,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.6831,False,False,False,False
+FACTURK-0333,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.8223,False,False,False,False
+FACTURK-0334,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.958,False,False,True,False
+FACTURK-0335,YALAN,YALAN,RED,False,True,True,1,0.8398,False,False,False,True
+FACTURK-0336,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.7754,False,False,False,False
+FACTURK-0337,YALAN,YALAN,UYARI,False,True,True,1,0.9316,False,False,False,True
+FACTURK-0338,YALAN,YALAN,RED,False,True,True,0,0.9385,False,False,True,False
+FACTURK-0339,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.915,False,False,False,False
+FACTURK-0340,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.5791,False,False,False,False
+FACTURK-0341,DOĞRU,YALAN,RED,False,False,True,1,0.8413,False,False,False,True
+FACTURK-0342,YALAN,DOĞRU,ONAY,False,False,True,1,0.9009,False,False,True,False
+FACTURK-0343,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.5962,False,False,False,False
+FACTURK-0344,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.978,False,False,True,False
+FACTURK-0345,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.7075,False,False,False,False
+FACTURK-0346,YALAN,YALAN,UYARI,False,True,True,1,0.7031,False,False,False,True
+FACTURK-0347,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.9473,False,False,False,False
+FACTURK-0348,DOĞRU,DOĞRU,ONAY,False,True,True,0,0.9399,False,False,False,True
+FACTURK-0349,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.9966,False,False,False,False
+FACTURK-0350,DOĞRU,YALAN,RED,False,False,True,1,0.96,False,False,False,True
+FACTURK-0351,YALAN,DOĞRU,ONAY,False,False,True,1,0.5654,False,False,False,False
+FACTURK-0352,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.8818,False,False,True,False
+FACTURK-0353,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.6094,False,False,False,False
+FACTURK-0354,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.9956,False,False,True,False
+FACTURK-0355,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.8569,False,False,True,False
+FACTURK-0356,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.894,False,False,False,False
+FACTURK-0357,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9092,False,False,False,False
+FACTURK-0358,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9492,False,False,False,False
+FACTURK-0359,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.8877,False,False,True,False
+FACTURK-0360,DOĞRU,YALAN,RED,False,False,True,0,0.7563,False,False,True,False
+FACTURK-0361,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.9478,False,False,False,False
+FACTURK-0362,DOĞRU,YALAN,RED,False,False,True,0,0.9346,False,False,True,False
+FACTURK-0363,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9141,False,False,False,False
+FACTURK-0364,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.9062,False,False,False,False
+FACTURK-0365,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9219,False,False,False,False
+FACTURK-0366,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.8828,False,False,False,False
+FACTURK-0367,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.9824,False,False,True,False
+FACTURK-0368,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.9458,False,False,True,False
+FACTURK-0369,YALAN,DOĞRU,ONAY,False,False,True,0,0.9409,False,False,False,True
+FACTURK-0370,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.9971,False,False,False,False
+FACTURK-0371,DOĞRU,YALAN,RED,False,False,True,1,0.8223,False,False,False,True
+FACTURK-0372,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.9233,False,False,False,False
+FACTURK-0373,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.52,False,False,False,False
+FACTURK-0374,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.9312,False,False,False,False
+FACTURK-0375,YALAN,YALAN,RED,False,True,True,1,0.6265,False,False,False,False
+FACTURK-0376,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.9565,False,False,False,False
+FACTURK-0377,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.5918,False,False,False,False
+FACTURK-0378,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.73,False,False,False,False
+FACTURK-0379,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.9082,False,False,False,False
+FACTURK-0380,YALAN,YALAN,RED,False,True,True,0,0.9429,False,False,True,False
+FACTURK-0381,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.9966,False,False,False,False
+FACTURK-0382,YALAN,YALAN,RED,False,True,True,0,0.6416,False,False,False,False
+FACTURK-0383,DOĞRU,DOĞRU,ONAY,False,True,True,0,0.936,False,False,False,True
+FACTURK-0384,DOĞRU,DOĞRU,ONAY,False,True,True,0,0.5464,False,False,False,False
+FACTURK-0385,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.8638,False,False,False,False
+FACTURK-0386,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.606,False,False,False,False
+FACTURK-0387,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.9126,False,False,False,False
+FACTURK-0388,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.7241,False,False,False,False
+FACTURK-0389,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9512,False,False,False,False
+FACTURK-0390,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.7354,False,False,False,False
+FACTURK-0391,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.7798,False,False,False,False
+FACTURK-0392,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9526,False,False,False,False
+FACTURK-0393,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.9873,False,False,True,False
+FACTURK-0394,YALAN,YALAN,RED,False,True,True,1,0.7715,False,False,False,True
+FACTURK-0395,DOĞRU,YALAN,RED,False,False,True,1,0.8345,False,False,False,True
+FACTURK-0396,YALAN,YALAN,UYARI,False,True,True,1,0.7227,False,False,False,True
+FACTURK-0397,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.5869,False,False,False,False
+FACTURK-0398,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.7812,False,False,False,False
+FACTURK-0399,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9365,False,False,False,False
+FACTURK-0400,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.9058,False,False,False,False
+FACTURK-0401,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.937,False,False,False,False
+FACTURK-0402,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.9854,False,False,False,False
+FACTURK-0403,YALAN,YALAN,UYARI,False,True,True,0,0.9409,False,False,True,False
+FACTURK-0404,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.7178,False,False,False,False
+FACTURK-0405,YALAN,YALAN,RED,False,True,True,1,0.7656,False,False,False,True
+FACTURK-0406,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.9482,False,False,False,False
+FACTURK-0407,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.7715,False,False,False,False
+FACTURK-0408,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9307,False,False,False,False
+FACTURK-0409,YALAN,DOĞRU,ONAY,False,False,True,1,0.9463,False,False,True,False
+FACTURK-0410,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.8462,False,False,False,False
+FACTURK-0411,DOĞRU,YALAN,RED,False,False,True,1,0.8779,False,False,False,True
+FACTURK-0412,DOĞRU,YALAN,RED,False,False,True,1,0.8169,False,False,False,True
+FACTURK-0413,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.626,False,False,False,False
+FACTURK-0414,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.8882,False,False,False,False
+FACTURK-0415,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.5005,False,False,False,False
+FACTURK-0416,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.5815,False,False,False,False
+FACTURK-0417,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.936,False,False,False,False
+FACTURK-0418,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9111,False,False,False,False
+FACTURK-0419,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.7969,False,False,False,False
+FACTURK-0420,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9219,False,False,False,False
+FACTURK-0421,YALAN,YALAN,RED,False,True,True,1,0.8091,False,False,False,True
+FACTURK-0422,YALAN,YALAN,UYARI,False,True,True,1,0.9531,False,False,False,True
+FACTURK-0423,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.7021,False,False,True,False
+FACTURK-0424,DOĞRU,YALAN,RED,False,False,True,1,0.6475,False,False,False,False
+FACTURK-0425,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.9961,False,False,False,False
+FACTURK-0426,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.5527,False,False,False,False
+FACTURK-0427,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.8716,False,False,False,False
+FACTURK-0428,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.7979,False,False,False,False
+FACTURK-0429,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.7529,False,False,True,False
+FACTURK-0430,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.6807,False,False,False,False
+FACTURK-0431,DOĞRU,YALAN,RED,False,False,True,1,0.9365,False,False,False,True
+FACTURK-0432,DOĞRU,DOĞRU,ONAY,False,True,True,0,0.582,False,False,False,False
+FACTURK-0433,YALAN,YALAN,RED,False,True,True,0,0.5361,False,False,False,False
+FACTURK-0434,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.8755,False,False,False,False
+FACTURK-0435,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.5845,False,False,False,False
+FACTURK-0436,YALAN,YALAN,RED,False,True,True,0,0.8501,False,False,True,False
+FACTURK-0437,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.957,False,False,True,False
+FACTURK-0438,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.6411,False,False,False,False
+FACTURK-0439,DOĞRU,YALAN,RED,False,False,True,1,0.8662,False,False,False,True
+FACTURK-0440,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.5288,False,False,False,False
+FACTURK-0441,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9209,False,False,False,False
+FACTURK-0442,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.8965,False,False,False,False
+FACTURK-0443,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.8115,False,False,False,False
+FACTURK-0444,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.5854,False,False,False,False
+FACTURK-0445,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.8105,False,False,True,False
+FACTURK-0446,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.7373,False,False,False,False
+FACTURK-0447,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.5342,False,False,False,False
+FACTURK-0448,DOĞRU,YALAN,RED,False,False,True,1,0.9834,False,False,False,True
+FACTURK-0449,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.7061,False,False,False,False
+FACTURK-0450,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.9966,False,False,True,False
+FACTURK-0451,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.8574,False,False,True,False
+FACTURK-0452,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.5957,False,False,False,False
+FACTURK-0453,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.8848,False,False,True,False
+FACTURK-0454,DOĞRU,YALAN,RED,False,False,True,1,0.8877,False,False,False,True
+FACTURK-0455,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.9321,False,False,False,False
+FACTURK-0456,DOĞRU,YALAN,RED,False,False,True,0,0.9326,False,False,True,False
+FACTURK-0457,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.8994,False,False,True,False
+FACTURK-0458,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.6753,False,False,False,False
+FACTURK-0459,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.5605,False,False,False,False
+FACTURK-0460,DOĞRU,YALAN,RED,False,False,True,1,0.7871,False,False,False,True
+FACTURK-0461,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.7812,False,False,False,False
+FACTURK-0462,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.7729,False,False,False,False
+FACTURK-0463,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.9199,False,False,False,False
+FACTURK-0464,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.8311,False,False,True,False
+FACTURK-0465,DOĞRU,YALAN,RED,False,False,True,0,0.7109,False,False,True,False
+FACTURK-0466,YALAN,YALAN,RED,False,True,True,1,0.8164,False,False,False,True
+FACTURK-0467,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.6372,False,False,False,False
+FACTURK-0468,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9536,False,False,False,False
+FACTURK-0469,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.6323,False,False,False,False
+FACTURK-0470,DOĞRU,YALAN,RED,False,False,True,1,0.9849,False,False,False,True
+FACTURK-0471,YALAN,YALAN,RED,False,True,True,1,0.9683,False,False,False,True
+FACTURK-0472,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.8945,False,False,True,False
+FACTURK-0473,YALAN,YALAN,RED,False,True,True,1,0.8149,False,False,False,True
+FACTURK-0474,DOĞRU,YETERSİZ VERİ,KISMI,True,False,True,0,0.7476,False,False,False,False
+FACTURK-0475,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.647,False,False,False,False
+FACTURK-0476,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.9883,False,False,True,False
+FACTURK-0477,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9048,False,False,False,False
+FACTURK-0478,DOĞRU,YALAN,RED,False,False,True,0,0.7886,False,False,True,False
+FACTURK-0479,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.5718,False,False,False,False
+FACTURK-0480,DOĞRU,YETERSİZ VERİ,KISMI,True,False,True,1,0.8516,False,False,False,False
+FACTURK-0481,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.6577,False,False,False,False
+FACTURK-0482,DOĞRU,DOĞRU,ONAY,False,True,True,1,0.5527,False,False,False,False
+FACTURK-0483,YALAN,DOĞRU,ONAY,False,False,True,1,0.9609,False,False,True,False
+FACTURK-0484,DOĞRU,YETERSİZ VERİ,RET,True,False,True,1,0.8774,False,False,False,False
+FACTURK-0485,YALAN,DOĞRU,ONAY,False,False,True,1,0.9131,False,False,True,False
+FACTURK-0486,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9268,False,False,False,False
+FACTURK-0487,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.811,False,False,False,False
+FACTURK-0488,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.6587,False,False,False,False
+FACTURK-0489,YALAN,DOĞRU,ONAY,False,False,True,1,0.6475,False,False,False,False
+FACTURK-0490,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.8213,False,False,False,False
+FACTURK-0491,DOĞRU,DOĞRU,ONAY,False,True,True,0,0.8984,False,False,False,True
+FACTURK-0492,DOĞRU,YALAN,UYARI,False,False,True,1,0.9277,False,False,False,True
+FACTURK-0493,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.5029,False,False,False,False
+FACTURK-0494,YALAN,YALAN,RED,False,True,True,1,0.6899,False,False,False,False
+FACTURK-0495,YALAN,YALAN,RED,False,True,True,1,0.8252,False,False,False,True
+FACTURK-0496,DOĞRU,YALAN,RED,False,False,True,0,0.9229,False,False,True,False
+FACTURK-0497,YALAN,YETERSİZ VERİ,RET,True,False,True,1,0.6729,False,False,False,False
+FACTURK-0498,DOĞRU,YETERSİZ VERİ,RET,True,False,True,0,0.9419,False,False,False,False
+FACTURK-0499,YALAN,YETERSİZ VERİ,RET,True,False,True,0,0.9502,False,False,False,False
+FACTURK-0500,DOĞRU,YALAN,RED,False,False,True,0,0.9243,False,False,True,False

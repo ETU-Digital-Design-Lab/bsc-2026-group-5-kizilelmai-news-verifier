@@ -1,4 +1,6 @@
 {
+  "STATUS": "SYNTHETIC_MOCK_DATA_DO_NOT_PUBLISH",
+  "NOTE": "Awaiting official advisor API key run",
   "n_total": 500,
   "n_answered": 500,
   "coverage": 1.0,

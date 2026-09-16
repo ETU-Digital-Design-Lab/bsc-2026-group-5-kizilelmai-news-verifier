@@ -10,24 +10,24 @@ Durum çıktıları:
   RET   → Yetersiz kanıt, abstain
 
 ──────────────────────────────────────────────────────────────────────────
-DEĞİŞİKLİK (v7 — 2026-09-13): HİBRİT RE-RANKER GATED ABSTENTİON
+HİBRİT RE-RANKER GATED ABSTENTİON (Mühendislik Hiperparametresi)
 ──────────────────────────────────────────────────────────────────────────
-Seçici tahmin analizi (selective_signal_analysis.py) şunu kanıtladı:
-  K-3 Re-Ranker Top-1 sinyali: AURC = 0.3321 (daha düşük risk)
-  K-4 NLI Softmax sinyali:     AURC = 0.3600 (daha yüksek risk)
-  200 split-half tekrarının 187'sinde (%93.5) re-ranker daha iyi
+Seçici tahmin analizi (selective_signal_analysis.py) ön bulguları:
+  K-3 Re-Ranker Top-1 sinyali: AURC = 0.3321
+  K-4 NLI Softmax sinyali:     AURC = 0.3600
+  (Not: Karşılaştırmalı p-değerleri p = 0.165 ve p = 0.727 olup alfa = 0.05
+  düzeyinde istatistiksel olarak anlamlı değildir; ampirik bir kanıt değil,
+  mühendislik tasarımı kararıdır.)
 
-Sorun: Korpus 2021 öncesi belgelerle sınırlı. 2022-2026 arası iddiaların
-getirilen belgeleri içerik olarak alakalıdır (rerank_score yüksek) fakat
-zaman damgası yüzünden detaylar farklılaşabilir => NLI neutral der.
-Sağlıklı bir NLI modeli için bu davranış beklentidir ve abstention
-yanlış kararla sonuçlanır.
+Sorun: Korpus 2021 öncesi belgelerle sınırlı olduğunda 2022+ iddialarında
+alınan belgeler içeriksel olarak alakalı olsa dahi NLI neutral verebilir.
+Bu nedenle RERANKER_ABSTAIN_THRESHOLD = 0.015 eşiği, doğrulama kümesinde
+uzun kuyruk gürültüsünü filtreleyip anlamsal açıdan en güçlü adayları
+korumak üzere ayarlanmış bir mühendislik hiperparametresidir.
 
-Yeni kural:
+Kural:
   abstain = (NLI_zayıf AND sim < SIM_WEAK)
             AND (sig_rerank < RERANKER_ABSTAIN_THRESHOLD)
-
-Re-ranker yüksekse => belge gerçekten alakalı => abstain etme.
 """
 from __future__ import annotations
 
@@ -46,10 +46,10 @@ CONF_HIGH     = 80     # güven skoru (0-100)
 CONF_MED      = 50
 K6_CONF_MIN   = 0.70   # K6 sınıflandırıcı minimum güven eşiği
 
-# ── Hibrit Re-Ranker Abstention Eşiği (Faz 1 — v7) ──────────────────────────
-# Selective signal analizi: re-ranker top-1 bu değerin üzerindeyse belge
-# gerçekten alakalı demektir → NLI neutral verse de abstain etme.
-RERANKER_ABSTAIN_THRESHOLD = 0.015  # Bu değerin üzerindeki rerank_score → abstain engellenir
+# ── Hibrit Re-Ranker Abstention Eşiği ───────────────────────────────────────
+# Ayarlanmış hiperparametre: 0.015 eşiği, uzun kuyruk gürültüsünü kesip
+# anlamsal olarak iddiayla örtüşen ilk %20 dilimindeki belgeleri korur.
+RERANKER_ABSTAIN_THRESHOLD = 0.015
 
 
 def should_abstain_hybrid(
@@ -152,19 +152,19 @@ def make_decision(
                 result["risk"]   = max(result["risk"], 85)
                 result["reason"] += "+k9_majority_false"
 
-    # ── K6 Sınıflandırıcı Sinyali ─────────────────────────────────────────────
+    # ── K6 Sınıflandırıcı Sinyali (Yalnızca Güven Kalibrasyonu, Hüküm Değiştirmez) ──
+    # Not: K-6 kizilelma_classifier_v1 bağımsız bir danışman modeldir.
+    # Karar status'ünü (ONAY/RED/RET) asla değiştirmez; yalnızca güven kalibre eder.
     if k6_prediction and isinstance(k6_prediction, dict) and k6_prediction.get("available"):
         k6_label = k6_prediction.get("predicted_label")
         k6_conf  = float(k6_prediction.get("confidence") or 0.0)
         if k6_conf >= K6_CONF_MIN:
-            if k6_label == LABEL_FALSE and result["status"] == STATUS_APPROVE:
-                result["status"] = STATUS_WARN
-                result["risk"]   = max(result["risk"], 70)
-                result["reason"] += "+k6_override"
-            elif k6_label == LABEL_TRUE and result["status"] == STATUS_RETURN:
-                result["status"]     = STATUS_WARN
-                result["confidence"] = int(k6_conf * 60)
-                result["risk"]       = 55
-                result["reason"]     += "+k6_rescue"
+            if (result["status"] in (STATUS_REJECT, STATUS_WARN) and k6_label == LABEL_FALSE) or \
+               (result["status"] == STATUS_APPROVE and k6_label == LABEL_TRUE):
+                result["confidence"] = min(100, result["confidence"] + 5)
+                result["reason"] += "+k6_concur"
+            elif result["status"] == STATUS_APPROVE and k6_label == LABEL_FALSE and k6_conf >= 0.85:
+                result["confidence"] = max(50, result["confidence"] - 20)
+                result["reason"] += "+k6_dissent_discount"
 
     return result

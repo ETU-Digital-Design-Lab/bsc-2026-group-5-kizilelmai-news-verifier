@@ -151,10 +151,10 @@ def main():
             bold_end = "**" if row['coverage'] in (0.40, 0.402, 0.460) else ""
             f.write(f"| {bold_start}{cov_pct}{bold_end} | %{100*row['v12_accuracy']:.2f} | {row['v12_macro_f1']:.4f} | %{100*row['v17_accuracy']:.2f} | {row['v17_macro_f1']:.4f} | **{'+' if row['delta_f1']>=0 else ''}{row['delta_f1']:.4f}** |\n")
             
-        f.write("\n### Önemli Bulgular:\n")
-        f.write("- **Sabit %40 Kapsama Noktasında (200 İddia):** v12 macro-F1'i 0.6750 iken, v17 macro-F1'i 0.7235'e çıkmaktadır (+0.0485 F1 artışı).\n")
+        f.write("\n### Bulguların Değerlendirilmesi:\n")
+        f.write("- **Sabit %40 Kapsama Noktasında (200 İddia):** v12 Macro-F1'i 0.6732 iken, v17 Macro-F1'i 0.7126 olmaktadır (+0.0394 F1 artışı).\n")
         f.write("- **Doğal Çalışma Noktalarında:** v12 %40.2 kapsamada 0.6750 F1 üretirken, v17 %46.0 kapsamada 0.7078 F1 üretmektedir.\n")
-        f.write("- Bu analiz, v17'nin başarısının yapay bir kapsama düşüşünden kaynaklanmadığını, aynı kapsama noktasında da v12'den daha üstün ayrıştırma gücüne sahip olduğunu kesin olarak kanıtlamaktadır.\n")
+        f.write("- **Makale Anlatısı:** 170 ortak iddiadaki McNemar testi p = 1.0000 olup çekirdekte modeller başabaştır. v17 daha iyi akıl yürütmemekte, daha fazlasını kapsamaktadır.\n")
         
     print(f"[+] Selective analysis completed: {os.path.join(out_dir, 'selective_coverage_report.md')}")
 
