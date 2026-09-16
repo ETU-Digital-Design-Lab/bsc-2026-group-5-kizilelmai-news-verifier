@@ -1,0 +1,14 @@
+{
+  "n_common_answered": 170,
+  "v12_accuracy_on_common": 0.7294,
+  "v17_accuracy_on_common": 0.7353,
+  "contingency_matrix": {
+    "both_correct": 119,
+    "v12_correct_v17_wrong": 5,
+    "v12_wrong_v17_correct": 6,
+    "both_wrong": 40
+  },
+  "mcnemar_statistic_continuity_corrected": 0.0,
+  "p_value": 1.0,
+  "statistically_significant_005": false
+}

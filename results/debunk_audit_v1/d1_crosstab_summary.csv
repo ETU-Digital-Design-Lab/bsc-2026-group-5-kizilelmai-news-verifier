@@ -1,0 +1,5 @@
+source_type,debunk_triggered,n,correct,accuracy
+local,False,94,73,0.7766
+local,True,3,2,0.6667
+web,False,132,88,0.6667
+web,True,1,0,0.0

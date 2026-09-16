@@ -1,0 +1,6 @@
+claim_id,claim_text,max_cosine_sim,top_corpus_id,top_corpus_text
+FACTURK-0321,"Videonun Britanya’da uygulanan ""domuz terapisini"" gösterdiği",0.9564364552497864,25225,Paylaşılan videonun Britanya’da uygulanan ‘domuz terapisini’ gösterdiği iddia edildi.
+FACTURK-0344,Star TV'nin Etnospor Kültür Festivali için '16 ülkeden 10 sporcu katılıyor' şeklinde alt bant kullandığı,0.9501255750656128,21953,Sosyal medyada bir hesap tarafından paylaşılan iddiaya göre Star TV bülteni sırasında Etnospor Kültür Festivali için “16 ülkeden 10 sporcu katılıyor” şeklinde bir alt bant kullandı.
+FACTURK-0027,Kanada-Fas maçında TRT spikerinin devre arasında değiştirildiği,0.9402738213539124,15752,TRT Spor'da yayınlanan Fas - Kanada maçının devre arasında karşılaşmanın spikeri değiştirilmiş.
+FACTURK-0296,1954’te kurulan Tuzla Cip Fabrikası ile ilgili iddialar,0.9386072158813477,11532,Sosyal medyada ve haber sitelerinde 1954’te kurulan Tuzla Cip Fabrikası’yla ilgili iddialar yayıldı.
+FACTURK-0413,Kırılan tasarruflu ampullerin cıva zehirlenmesine sebep olabildiği,0.9384053945541382,2640,Bir süredir sosyal medyada dolaşan paylaşımlarda tasarruflu ampullerin cıva içerdiği ve kırılması durumunda zehirlenmeye sebep olabileceği iddia edildi.

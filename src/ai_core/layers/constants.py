@@ -19,18 +19,22 @@ STATUS_WARN    = "UYARI"
 STATUS_RETURN  = "RET"    # Abstain — yetersiz kanıt
 
 # ── K-8: Kaynak Otorite Tablosu ─────────────────────────────────────────────
+# NOT: teyit.org, malumatfurus.org, dogrulukpayi gibi teyit siteleri etiket sızıntısını
+# önlemek amacıyla kara listeye (BLACKLIST_DOMAINS) alınmıştır; birincil kanıt boru
+# hattında otorite puanı taşımazlar. En yüksek otorite resmi kurum ve haber ajanslarına aittir.
 SOURCE_AUTHORITY_TABLE: Dict[str, float] = {
-    "teyit.org": 0.98,
-    "malumatfurus.org": 0.97,
-    "dogruluk payi": 0.97,
-    "cumhurbaskanligi": 0.97,
-    "tbmm": 0.96,
-    "t.c. iletisim baskanligi": 0.96,
-    "iletisim baskanligi": 0.96,
-    "anadolu ajansi": 0.95,
-    "aa": 0.95,
-    "trt haber": 0.93,
-    "trt": 0.93,
+    "resmigazete": 0.99,
+    "cumhurbaskanligi": 0.98,
+    "tccb": 0.98,
+    "tbmm": 0.98,
+    "t.c. iletisim baskanligi": 0.97,
+    "iletisim baskanligi": 0.97,
+    "anadolu ajansi": 0.96,
+    "aa": 0.96,
+    "dha": 0.94,
+    "iha": 0.94,
+    "trt haber": 0.94,
+    "trt": 0.94,
     "ntv": 0.90,
     "haberturk": 0.88,
     "milliyet": 0.87,

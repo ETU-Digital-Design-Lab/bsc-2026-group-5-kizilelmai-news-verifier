@@ -16,6 +16,8 @@ Her koşum dizininde tekrarlanabilirlik (reproducibility) ilkesi gereğince **`m
 | **[`facturk_full_v14/`](facturk_full_v14/)** | Aday Sınırı 40 + Karar Modeli | `e5-large` + Web | Hatalı ML Karar Ezmesi | %57.00 (285/500) | %62.11 | 0.6197 | Analiz Edildi |
 | **[`facturk_full_v13/`](facturk_full_v13/)** | Zamana Duyarlı Hibrit Sistem (Web Fallback) | `e5-large` + Web | K-4 Doğrulanmış | %51.60 (258/500) | %65.12 | 0.6476 | Arşiv |
 | **[`facturk_full_v12/`](facturk_full_v12/)** | Kapalı Korpus Temiz Sistem (Kapalı RAG) | `e5-large` (1024d) | K-4 Gerçek NLI (premise/hyp) | %40.20 (201/500) | %67.66 | 0.6750 | Arşiv |
+| **[`facturk_full_v11/`](facturk_full_v11/)** | Tarihsiz Web Entegrasyon Denemesi | `e5-large` + Web (tarihsiz) | K-4 Doğrulanmış | — | — | — | İptal (Zaman sızıntısı riski nedeniyle erken durduruldu) |
+| **[`facturk_full_v10/`](facturk_full_v10/)** | Web Getirim Prototip / Chunking Denemesi | `e5-large` + Web | K-4 Doğrulanmış | — | — | — | İptal (RSS gecikmesi/chunking revizyonu nedeniyle durduruldu) |
 | **[`facturk_full_v8/`](facturk_full_v8/)** | Yüksek Kapsama Zorlama | `e5-large` (1024d) | Gevşek Eşikler | %80.40 (402/500) | %56.72 | 0.5647 | Arşiv |
 | **[`facturk_full_v6/`](facturk_full_v6/)** | K-4 Düzeltme Doğrulaması | `e5-small` (384d) | K-4 Düzeltilmiş | %54.60 (273/500) | %54.21 | 0.5275 | Arşiv |
 | **[`facturk_full_v5/`](facturk_full_v5/)** | Eski Temel Sistem (Baseline) | `e5-small` (384d) | Eski Sıfır-atış Mantık | %53.20 (266/500) | %55.26 | 0.5382 | Arşiv / Temel |

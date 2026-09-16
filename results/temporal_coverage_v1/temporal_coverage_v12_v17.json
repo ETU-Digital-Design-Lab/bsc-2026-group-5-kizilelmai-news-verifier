@@ -1,0 +1,322 @@
+{
+  "v12": {
+    "run_name": "facturk_full_v12",
+    "year_table": [
+      {
+        "year": "2012",
+        "total": 1,
+        "answered": 0,
+        "correct": 0,
+        "coverage_pct": 0.0,
+        "accuracy_pct": 0.0,
+        "neutral_pct": 100.0
+      },
+      {
+        "year": "2015",
+        "total": 2,
+        "answered": 1,
+        "correct": 1,
+        "coverage_pct": 50.0,
+        "accuracy_pct": 100.0,
+        "neutral_pct": 50.0
+      },
+      {
+        "year": "2016",
+        "total": 14,
+        "answered": 9,
+        "correct": 7,
+        "coverage_pct": 64.29,
+        "accuracy_pct": 77.78,
+        "neutral_pct": 64.29
+      },
+      {
+        "year": "2017",
+        "total": 16,
+        "answered": 11,
+        "correct": 10,
+        "coverage_pct": 68.75,
+        "accuracy_pct": 90.91,
+        "neutral_pct": 37.5
+      },
+      {
+        "year": "2018",
+        "total": 19,
+        "answered": 11,
+        "correct": 7,
+        "coverage_pct": 57.89,
+        "accuracy_pct": 63.64,
+        "neutral_pct": 42.11
+      },
+      {
+        "year": "2019",
+        "total": 29,
+        "answered": 15,
+        "correct": 15,
+        "coverage_pct": 51.72,
+        "accuracy_pct": 100.0,
+        "neutral_pct": 51.72
+      },
+      {
+        "year": "2020",
+        "total": 38,
+        "answered": 22,
+        "correct": 16,
+        "coverage_pct": 57.89,
+        "accuracy_pct": 72.73,
+        "neutral_pct": 55.26
+      },
+      {
+        "year": "2021",
+        "total": 72,
+        "answered": 30,
+        "correct": 13,
+        "coverage_pct": 41.67,
+        "accuracy_pct": 43.33,
+        "neutral_pct": 72.22
+      },
+      {
+        "year": "2022",
+        "total": 79,
+        "answered": 32,
+        "correct": 20,
+        "coverage_pct": 40.51,
+        "accuracy_pct": 62.5,
+        "neutral_pct": 72.15
+      },
+      {
+        "year": "2023",
+        "total": 94,
+        "answered": 41,
+        "correct": 29,
+        "coverage_pct": 43.62,
+        "accuracy_pct": 70.73,
+        "neutral_pct": 68.09
+      },
+      {
+        "year": "2024",
+        "total": 74,
+        "answered": 16,
+        "correct": 9,
+        "coverage_pct": 21.62,
+        "accuracy_pct": 56.25,
+        "neutral_pct": 87.84
+      },
+      {
+        "year": "2025",
+        "total": 47,
+        "answered": 8,
+        "correct": 5,
+        "coverage_pct": 17.02,
+        "accuracy_pct": 62.5,
+        "neutral_pct": 85.11
+      },
+      {
+        "year": "2026",
+        "total": 9,
+        "answered": 4,
+        "correct": 3,
+        "coverage_pct": 44.44,
+        "accuracy_pct": 75.0,
+        "neutral_pct": 55.56
+      },
+      {
+        "year": "Bilinmiyor",
+        "total": 6,
+        "answered": 1,
+        "correct": 1,
+        "coverage_pct": 16.67,
+        "accuracy_pct": 100.0,
+        "neutral_pct": 83.33
+      }
+    ],
+    "period_table": [
+      {
+        "period": "Kapsanan Dönem (2012-2021)",
+        "total": 191,
+        "answered": 99,
+        "correct": 69,
+        "coverage_pct": 51.83,
+        "accuracy_pct": 69.7,
+        "neutral_pct": 59.16
+      },
+      {
+        "period": "Kapsanmayan Dönem (2022-2026)",
+        "total": 303,
+        "answered": 101,
+        "correct": 66,
+        "coverage_pct": 33.33,
+        "accuracy_pct": 65.35,
+        "neutral_pct": 76.24
+      },
+      {
+        "period": "Bilinmiyor",
+        "total": 6,
+        "answered": 1,
+        "correct": 1,
+        "coverage_pct": 16.67,
+        "accuracy_pct": 100.0,
+        "neutral_pct": 83.33
+      }
+    ]
+  },
+  "v17": {
+    "run_name": "facturk_full_v17",
+    "year_table": [
+      {
+        "year": "2012",
+        "total": 1,
+        "answered": 0,
+        "correct": 0,
+        "coverage_pct": 0.0,
+        "accuracy_pct": 0.0,
+        "neutral_pct": 100.0
+      },
+      {
+        "year": "2015",
+        "total": 2,
+        "answered": 1,
+        "correct": 1,
+        "coverage_pct": 50.0,
+        "accuracy_pct": 100.0,
+        "neutral_pct": 50.0
+      },
+      {
+        "year": "2016",
+        "total": 14,
+        "answered": 10,
+        "correct": 9,
+        "coverage_pct": 71.43,
+        "accuracy_pct": 90.0,
+        "neutral_pct": 57.14
+      },
+      {
+        "year": "2017",
+        "total": 16,
+        "answered": 12,
+        "correct": 10,
+        "coverage_pct": 75.0,
+        "accuracy_pct": 83.33,
+        "neutral_pct": 37.5
+      },
+      {
+        "year": "2018",
+        "total": 19,
+        "answered": 11,
+        "correct": 9,
+        "coverage_pct": 57.89,
+        "accuracy_pct": 81.82,
+        "neutral_pct": 36.84
+      },
+      {
+        "year": "2019",
+        "total": 29,
+        "answered": 19,
+        "correct": 16,
+        "coverage_pct": 65.52,
+        "accuracy_pct": 84.21,
+        "neutral_pct": 44.83
+      },
+      {
+        "year": "2020",
+        "total": 38,
+        "answered": 23,
+        "correct": 17,
+        "coverage_pct": 60.53,
+        "accuracy_pct": 73.91,
+        "neutral_pct": 47.37
+      },
+      {
+        "year": "2021",
+        "total": 72,
+        "answered": 32,
+        "correct": 18,
+        "coverage_pct": 44.44,
+        "accuracy_pct": 56.25,
+        "neutral_pct": 75.0
+      },
+      {
+        "year": "2022",
+        "total": 79,
+        "answered": 35,
+        "correct": 24,
+        "coverage_pct": 44.3,
+        "accuracy_pct": 68.57,
+        "neutral_pct": 73.42
+      },
+      {
+        "year": "2023",
+        "total": 94,
+        "answered": 46,
+        "correct": 33,
+        "coverage_pct": 48.94,
+        "accuracy_pct": 71.74,
+        "neutral_pct": 64.89
+      },
+      {
+        "year": "2024",
+        "total": 74,
+        "answered": 18,
+        "correct": 10,
+        "coverage_pct": 24.32,
+        "accuracy_pct": 55.56,
+        "neutral_pct": 83.78
+      },
+      {
+        "year": "2025",
+        "total": 47,
+        "answered": 16,
+        "correct": 11,
+        "coverage_pct": 34.04,
+        "accuracy_pct": 68.75,
+        "neutral_pct": 74.47
+      },
+      {
+        "year": "2026",
+        "total": 9,
+        "answered": 4,
+        "correct": 3,
+        "coverage_pct": 44.44,
+        "accuracy_pct": 75.0,
+        "neutral_pct": 55.56
+      },
+      {
+        "year": "Bilinmiyor",
+        "total": 6,
+        "answered": 3,
+        "correct": 2,
+        "coverage_pct": 50.0,
+        "accuracy_pct": 66.67,
+        "neutral_pct": 66.67
+      }
+    ],
+    "period_table": [
+      {
+        "period": "Kapsanan Dönem (2012-2021)",
+        "total": 191,
+        "answered": 108,
+        "correct": 80,
+        "coverage_pct": 56.54,
+        "accuracy_pct": 74.07,
+        "neutral_pct": 56.54
+      },
+      {
+        "period": "Kapsanmayan Dönem (2022-2026)",
+        "total": 303,
+        "answered": 119,
+        "correct": 81,
+        "coverage_pct": 39.27,
+        "accuracy_pct": 68.07,
+        "neutral_pct": 72.94
+      },
+      {
+        "period": "Bilinmiyor",
+        "total": 6,
+        "answered": 3,
+        "correct": 2,
+        "coverage_pct": 50.0,
+        "accuracy_pct": 66.67,
+        "neutral_pct": 66.67
+      }
+    ]
+  }
+}
