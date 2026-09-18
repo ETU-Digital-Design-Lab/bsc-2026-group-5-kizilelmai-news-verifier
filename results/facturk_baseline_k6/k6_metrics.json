@@ -1,0 +1,70 @@
+{
+  "run_at_utc": "2026-09-18T14:11:56.590533+00:00",
+  "task": "claim_classification_k6_only",
+  "claim_file": "data\\external_benchmark\\facturk_binary_500.csv",
+  "n_claims": 500,
+  "checkpoint": "src\\ai_core\\models\\kizilelma_classifier_v1",
+  "checkpoint_config": {
+    "model_type": "bert",
+    "architectures": [
+      "BertForSequenceClassification"
+    ],
+    "hidden_size": 768,
+    "num_hidden_layers": 12,
+    "vocab_size": 32000
+  },
+  "metrics": {
+    "accuracy": 0.552,
+    "macro_f1": 0.551541,
+    "accuracy_95ci_bootstrap": [
+      0.51,
+      0.592
+    ],
+    "macro_f1_95ci_bootstrap": [
+      0.50834,
+      0.591941
+    ],
+    "per_class": {
+      "0": {
+        "precision": 0.555556,
+        "recall": 0.52,
+        "f1": 0.53719,
+        "support": 250
+      },
+      "1": {
+        "precision": 0.548872,
+        "recall": 0.584,
+        "f1": 0.565891,
+        "support": 250
+      }
+    }
+  },
+  "classification_report": {
+    "0": {
+      "precision": 0.5555555555555556,
+      "recall": 0.52,
+      "f1-score": 0.5371900826446281,
+      "support": 250.0
+    },
+    "1": {
+      "precision": 0.5488721804511278,
+      "recall": 0.584,
+      "f1-score": 0.5658914728682171,
+      "support": 250.0
+    },
+    "accuracy": 0.552,
+    "macro avg": {
+      "precision": 0.5522138680033417,
+      "recall": 0.552,
+      "f1-score": 0.5515407777564225,
+      "support": 500.0
+    },
+    "weighted avg": {
+      "precision": 0.5522138680033417,
+      "recall": 0.552,
+      "f1-score": 0.5515407777564226,
+      "support": 500.0
+    }
+  },
+  "warning": "This is a K-6-only classifier result. It is not an end-to-end retrieval/NLI pipeline result."
+}

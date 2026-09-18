@@ -1,0 +1,200 @@
+{
+  "benchmark": {
+    "n_claims": 500,
+    "cov_points": [
+      0.402,
+      0.46
+    ],
+    "system_file": "results\\facturk_full_v17\\predictions.csv",
+    "k6_file": "results\\facturk_baseline_k6\\k6_predictions.csv",
+    "corpus_file": "data\\corpus_snapshots\\local_csv_20260913_v2\\corpus.csv"
+  },
+  "baselines": {
+    "B0": {
+      "name": "B0 — Çoğunluk sınıfı",
+      "coverage": 1.0,
+      "n": 500,
+      "accuracy": 0.5,
+      "macro_f1": 0.3333
+    },
+    "B1_full": {
+      "name": "B1 — Yalnızca iddia metni (getirim yok)",
+      "coverage": 1.0,
+      "n": 500,
+      "accuracy": 0.552,
+      "macro_f1": 0.5515
+    },
+    "B1_cov_0.402": {
+      "name": "B1 — aynı, eşlenmiş kapsama %40.2",
+      "coverage": 0.402,
+      "n": 201,
+      "accuracy": 0.6418,
+      "macro_f1": 0.6416
+    },
+    "B1_cov_0.460": {
+      "name": "B1 — aynı, eşlenmiş kapsama %46.0",
+      "coverage": 0.46,
+      "n": 230,
+      "accuracy": 0.6478,
+      "macro_f1": 0.6473
+    },
+    "B2_full": {
+      "name": "B2 — En yakın korpus kaydı etiketi (100% kapsama)",
+      "coverage": 1.0,
+      "n": 500,
+      "accuracy": 0.614,
+      "macro_f1": 0.5955
+    },
+    "B2_system_matched": {
+      "name": "B2 — aynı, sistemin cevapladığı 230 iddia",
+      "coverage": 0.46,
+      "n": 230,
+      "accuracy": 0.6261,
+      "macro_f1": 0.6258
+    },
+    "B2_cov_0.402": {
+      "name": "B2 — kendi seçtiği en güvenli %40.2",
+      "coverage": 0.402,
+      "n": 201,
+      "accuracy": 0.8159,
+      "macro_f1": 0.8123
+    },
+    "B2_cov_0.460": {
+      "name": "B2 — kendi seçtiği en güvenli %46.0",
+      "coverage": 0.46,
+      "n": 230,
+      "accuracy": 0.7826,
+      "macro_f1": 0.7765
+    }
+  },
+  "paired_tests": {
+    "system_vs_b1": {
+      "n_claims": 230,
+      "system_correct": 163,
+      "b1_correct": 123,
+      "mcnemar": {
+        "n_correct_model_a": 163,
+        "n_correct_model_b": 123,
+        "contingency_table": {
+          "both_correct": 89,
+          "only_model_a_correct": 74,
+          "only_model_b_correct": 34,
+          "both_wrong": 33
+        },
+        "mcnemar_chi2_corrected": 14.0833,
+        "mcnemar_p_corrected": 0.000175,
+        "mcnemar_chi2_uncorrected": 14.8148,
+        "mcnemar_p_uncorrected": 0.000119
+      },
+      "delta_macro_f1": 0.2012,
+      "paired_bootstrap_95ci": [
+        0.1146,
+        0.2875
+      ]
+    },
+    "system_vs_b2": {
+      "n_claims": 230,
+      "system_correct": 163,
+      "b2_correct": 144,
+      "mcnemar": {
+        "n_correct_model_a": 163,
+        "n_correct_model_b": 144,
+        "contingency_table": {
+          "both_correct": 103,
+          "only_model_a_correct": 60,
+          "only_model_b_correct": 41,
+          "both_wrong": 26
+        },
+        "mcnemar_chi2_corrected": 3.2079,
+        "mcnemar_p_corrected": 0.073283,
+        "mcnemar_chi2_uncorrected": 3.5743,
+        "mcnemar_p_uncorrected": 0.058682
+      },
+      "delta_macro_f1": 0.0819,
+      "paired_bootstrap_95ci": [
+        -0.0017,
+        0.1673
+      ]
+    }
+  },
+  "table": [
+    {
+      "sistem": "B0 — Çoğunluk sınıfı",
+      "kapsama": "%100.0",
+      "n": 500,
+      "dogruluk": "%50.00",
+      "makro_f1": "0.3333"
+    },
+    {
+      "sistem": "B1 — Yalnızca iddia metni (getirim yok)",
+      "kapsama": "%100.0",
+      "n": 500,
+      "dogruluk": "%55.20",
+      "makro_f1": "0.5515"
+    },
+    {
+      "sistem": "B1 — aynı, eşlenmiş kapsama %40.2",
+      "kapsama": "%40.2",
+      "n": 201,
+      "dogruluk": "%64.18",
+      "makro_f1": "0.6416"
+    },
+    {
+      "sistem": "B1 — aynı, eşlenmiş kapsama %46.0",
+      "kapsama": "%46.0",
+      "n": 230,
+      "dogruluk": "%64.78",
+      "makro_f1": "0.6473"
+    },
+    {
+      "sistem": "KızılelmAI — kapalı korpus",
+      "kapsama": "%40.2",
+      "n": 201,
+      "dogruluk": "%67.66",
+      "makro_f1": "0.6750"
+    },
+    {
+      "sistem": "KızılelmAI — web destekli",
+      "kapsama": "%46.0",
+      "n": 230,
+      "dogruluk": "%70.87",
+      "makro_f1": "0.7078"
+    },
+    {
+      "sistem": "B2 — En yakın korpus kaydı (100% kapsama)",
+      "kapsama": "%100.0",
+      "n": 500,
+      "dogruluk": "%61.40",
+      "makro_f1": "0.5955"
+    },
+    {
+      "sistem": "B2 — aynı, sistem eşlenmiş kapsama",
+      "kapsama": "%46.0",
+      "n": 230,
+      "dogruluk": "%62.61",
+      "makro_f1": "0.6258"
+    },
+    {
+      "sistem": "B2 — kendi seçtiği en güvenli %40.2",
+      "kapsama": "%40.2",
+      "n": 201,
+      "dogruluk": "%81.59",
+      "makro_f1": "0.8123"
+    },
+    {
+      "sistem": "B2 — kendi seçtiği en güvenli %46.0",
+      "kapsama": "%46.0",
+      "n": 230,
+      "dogruluk": "%78.26",
+      "makro_f1": "0.7765"
+    }
+  ],
+  "system": {
+    "name": "KızılelmAI — web destekli (v17)",
+    "coverage": 0.46,
+    "n": 230,
+    "accuracy": 0.7087,
+    "macro_f1": 0.7078
+  },
+  "b2_claims_without_resolvable_record": 0
+}
