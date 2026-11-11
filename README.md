@@ -16,6 +16,15 @@
 
 ---
 
+> **Araştırma durumu (2026-11-11):** Bu README'deki FACTurk-500 sayıları
+> arşivlenmiş tek-korpus, ikili deney sonuçlarıdır; yayınlanabilir istatistiksel
+> üstünlük veya genellenebilirlik kanıtı değildir. Karar politikası artık
+> evidence-only çalışır ve yalnızca held-out geliştirme kümesinde ayarlanabilir.
+> Çok-korpus, nüanslı etiketli değerlendirme tamamlanmadan bu projeden
+> TJEECS düzeyinde performans iddiası çıkarılmamalıdır. Ayrıntı:
+> `docs/reports/2026-11-11_editorial_assessment_remediation.md`.
+
+
 ## 📌 Proje Hakkında ve Amaç
 
 **KızılelmAI**, internette ve sosyal medyada yayılan haber ve iddiaların **gerçek mi, yanıltıcı mı yoksa asılsız mı** olduğunu saniyeler içinde kanıtlarıyla analiz eden yapay zeka tabanlı bir doğrulama motorudur.

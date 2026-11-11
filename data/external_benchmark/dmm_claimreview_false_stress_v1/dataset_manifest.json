@@ -1,0 +1,18 @@
+{
+  "dataset_id": "dmm_claimreview_false_stress_v1",
+  "source": "T.C. Cumhurbaşkanlığı İletişim Başkanlığı DMM ClaimReview",
+  "upstream": "https://huggingface.co/datasets/iletisim/dezenformasyon-bultenleri",
+  "license": "CC-BY-4.0",
+  "source_count": 1,
+  "label_schema": [
+    "FALSE"
+  ],
+  "claim_types": [
+    "dezenformasyon_bulteni"
+  ],
+  "purpose": "False-claim contradiction and abstention-asymmetry stress test only; no balanced aggregate metric.",
+  "upstream_sha256": "33be72cca33d25b5c2a0bf9d27489c5ace4a0bbf42ebd5072b830fff76e50611",
+  "claims_sha256": "88b6a1b88bd9bc92034024acde9a7d981f707c78a0946313867956eff716c7f1",
+  "evidence_sha256": "8ce6d5e3ea20be0b095ccd70a3b93d3630ec42e66e0a82e2f504c479658701ed",
+  "n_records": 2546
+}

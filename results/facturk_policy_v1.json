@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "selection_split": "held_out_development",
+  "development_sha256": "3a99b894d5251ed6fab834e8777b0876a6467948254eae3db57dc39110d49d30",
+  "protected_test_path": "data\\evaluation_splits\\facturk_binary_500_v1\\test.csv",
+  "objective": "max development macro-F1 subject to minimum coverage",
+  "minimum_development_coverage": 0.1,
+  "development_metrics": {
+    "coverage": 0.14,
+    "macro_f1": 0.5906432748538011,
+    "accuracy": 0.6428571428571429,
+    "n": 14
+  },
+  "policy": {
+    "min_evidence_strength": 0.45,
+    "min_nli_probability": 0.4,
+    "min_nli_margin": 0.05,
+    "max_risk": 0.6,
+    "top_k": 3
+  }
+}

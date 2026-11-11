@@ -1,0 +1,10 @@
+{
+  "dataset_id": "facturk_binary_500_v1",
+  "source": "FACTurk (Altuncu 2026; six Turkish fact-checking organisations)",
+  "license": "MIT",
+  "source_count": 6,
+  "label_schema": ["TRUE", "FALSE"],
+  "claim_types": ["fact_check_claim"],
+  "split_manifest": "data/evaluation_splits/facturk_binary_500_v1/split_manifest.json",
+  "scope_warning": "Binary only; use as one corpus and never as evidence of nuanced-label generalisation."
+}

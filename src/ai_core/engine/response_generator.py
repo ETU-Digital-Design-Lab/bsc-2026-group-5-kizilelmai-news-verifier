@@ -66,7 +66,12 @@ class ResponseGeneratorMixin:
 
         cons = res.get('consensus', {})
         cons_text = ""
-        if cons.get('is_consensus'):
+        if cons.get('evidence_only'):
+            cons_text = (
+                f" (Kanıt kümesi: {cons.get('total_sources', 0)} pasaj, "
+                f"{cons.get('distinct_publishers', 0)} farklı yayıncı)"
+            )
+        elif cons.get('is_consensus'):
             cons_text = f" (Konsensüs: {cons.get('agreement_count')}/{cons.get('total_sources')} kaynak uyumlu)"
         else:
             cons_text = " (⚠️ Dikkat: Kaynaklar arasında çelişki tespit edildi!)"
@@ -108,5 +113,10 @@ class ResponseGeneratorMixin:
                 "p_false": None,
                 "p_true": None,
                 "confidence": None,
-            }
+            },
+            "decision": {
+                "reason": res.get("decision_reason"),
+                "evidence_scores": res.get("evidence_scores"),
+                "nli_margin": res.get("nli_margin"),
+            },
         }

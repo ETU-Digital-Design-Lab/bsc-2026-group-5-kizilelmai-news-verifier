@@ -1,0 +1,10 @@
+{
+  "dataset_id": "dmm_claimreview_false_stress_v1",
+  "source": "T.C. Cumhurbaşkanlığı İletişim Başkanlığı DMM ClaimReview",
+  "license": "CC-BY-4.0",
+  "source_count": 1,
+  "label_schema": ["FALSE"],
+  "claim_types": ["dezenformasyon_bulteni"],
+  "prepared_manifest": "data/external_benchmark/dmm_claimreview_false_stress_v1/dataset_manifest.json",
+  "scope_warning": "False-only contradiction and abstention-asymmetry stress set; it must not be used for balanced accuracy or macro-F1."
+}

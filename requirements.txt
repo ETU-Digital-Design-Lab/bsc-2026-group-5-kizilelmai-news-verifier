@@ -2,6 +2,7 @@ fastapi
 uvicorn
 pydantic
 pandas
+pyarrow
 openpyxl
 sentence-transformers
 torch

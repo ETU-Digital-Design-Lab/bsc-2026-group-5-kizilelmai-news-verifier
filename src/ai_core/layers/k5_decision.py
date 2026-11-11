@@ -1,170 +1,121 @@
-"""
-K5 — Karar Motoru (Decision Engine)
-NLI olasılıkları, benzerlik skoru, K6 sınıflandırıcı sinyali ve
-K9 konsensüs bilgisini birleştirerek nihai kararı üretir.
+"""Evidence-only selective decision policy.
 
-Durum çıktıları:
-  ONAY  → İddia doğrulandı
-  RED   → İddia yanlış / dezenformasyon
-  UYARI → Zayıf kanıt, dikkatli ol
-  RET   → Yetersiz kanıt, abstain
-
-──────────────────────────────────────────────────────────────────────────
-HİBRİT RE-RANKER GATED ABSTENTİON (Mühendislik Hiperparametresi)
-──────────────────────────────────────────────────────────────────────────
-Seçici tahmin analizi (selective_signal_analysis.py) ön bulguları:
-  K-3 Re-Ranker Top-1 sinyali: AURC = 0.3321
-  K-4 NLI Softmax sinyali:     AURC = 0.3600
-  (Not: Karşılaştırmalı p-değerleri p = 0.165 ve p = 0.727 olup alfa = 0.05
-  düzeyinde istatistiksel olarak anlamlı değildir; ampirik bir kanıt değil,
-  mühendislik tasarımı kararıdır.)
-
-Sorun: Korpus 2021 öncesi belgelerle sınırlı olduğunda 2022+ iddialarında
-alınan belgeler içeriksel olarak alakalı olsa dahi NLI neutral verebilir.
-Bu nedenle RERANKER_ABSTAIN_THRESHOLD = 0.015 eşiği, doğrulama kümesinde
-uzun kuyruk gürültüsünü filtreleyip anlamsal açıdan en güçlü adayları
-korumak üzere ayarlanmış bir mühendislik hiperparametresidir.
-
-Kural:
-  abstain = (NLI_zayıf AND sim < SIM_WEAK)
-            AND (sig_rerank < RERANKER_ABSTAIN_THRESHOLD)
+This module deliberately does *not* accept a retrieved record's verdict label.
+A corpus label can be useful for training or for a retrieval baseline, but using
+it at inference turns an evidence verifier into nearest-record label propagation.
+The only inputs here are claim--evidence inference scores and evidence quality
+metadata. Thresholds are selected on a held-out development set, never on the
+reported test set (see ``scripts/evaluation/fit_selective_policy.py``).
 """
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
+from dataclasses import dataclass
+from typing import Any, Dict, Iterable, List, Mapping, Optional
 
-from src.ai_core.layers.constants import (
-    STATUS_APPROVE, STATUS_REJECT, STATUS_WARN, STATUS_RETURN,
-    LABEL_TRUE, LABEL_FALSE,
-)
-from src.ai_core.layers.k4_nli import IDX_ENTAILMENT, IDX_CONTRADICTION, should_abstain
-
-# ── Eşik Değerleri ───────────────────────────────────────────────────────────
-SIM_STRONG    = 0.72   # benzerlik >= bu → güçlü eşleşme
-SIM_WEAK      = 0.40   # benzerlik < bu → zayıf eşleşme / RET
-CONF_HIGH     = 80     # güven skoru (0-100)
-CONF_MED      = 50
-K6_CONF_MIN   = 0.70   # K6 sınıflandırıcı minimum güven eşiği
-
-# ── Hibrit Re-Ranker Abstention Eşiği ───────────────────────────────────────
-# Ayarlanmış hiperparametre: 0.015 eşiği, uzun kuyruk gürültüsünü kesip
-# anlamsal olarak iddiayla örtüşen ilk %20 dilimindeki belgeleri korur.
-RERANKER_ABSTAIN_THRESHOLD = 0.015
+from src.ai_core.layers.constants import STATUS_APPROVE, STATUS_REJECT, STATUS_RETURN
+from src.ai_core.layers.k4_nli import IDX_CONTRADICTION, IDX_ENTAILMENT, IDX_NEUTRAL
 
 
-def should_abstain_hybrid(
-    nli_probs: List[float],
-    sim_score: float,
-    sig_rerank: float,
-) -> bool:
+@dataclass(frozen=True)
+class PolicyConfig:
+    """Operating point exported by the held-out-development fitting script."""
+
+    min_evidence_strength: float = 0.55
+    min_nli_probability: float = 0.50
+    min_nli_margin: float = 0.12
+    max_risk: float = 0.55
+    top_k: int = 3
+
+    @classmethod
+    def from_mapping(cls, value: Optional[Mapping[str, Any]]) -> "PolicyConfig":
+        if not value:
+            return cls()
+        names = {field: value[field] for field in cls.__dataclass_fields__ if field in value}
+        return cls(**names)
+
+
+def _clip(value: Any) -> float:
+    try:
+        return max(0.0, min(1.0, float(value)))
+    except (TypeError, ValueError):
+        return 0.0
+
+
+def _normalised_weights(evidence: Iterable[Mapping[str, Any]]) -> List[float]:
+    """Weight relevance and authority without allowing either to decide a label."""
+    raw = []
+    for item in evidence:
+        relevance = 0.65 * _clip(item.get("sig_rerank")) + 0.35 * _clip(item.get("sim"))
+        raw.append(max(0.01, relevance * (0.75 + 0.25 * _clip(item.get("authority", 0.60)))))
+    total = sum(raw)
+    return [weight / total for weight in raw] if total else []
+
+
+def aggregate_evidence(
+    evidence: Iterable[Mapping[str, Any]], *, critical_mismatch: bool = False,
+) -> Dict[str, float]:
+    """Aggregate NLI from several independently retrieved evidence passages.
+
+    ``critical_mismatch`` is only a tie-breaker for a detected number/date/entity
+    discrepancy in an otherwise relevant passage. It cannot create a verdict
+    without an NLI-supported, sufficiently strong evidence set.
     """
-    Hibrit abstention kararı: NLI + benzerlik + re-ranker sinyali.
+    rows = list(evidence)
+    weights = _normalised_weights(rows)
+    if not rows or not weights:
+        return {"entailment": 0.0, "contradiction": 0.0, "neutral": 1.0,
+                "strength": 0.0, "n_sources": 0.0}
 
-    Eski kural: abstain = NLI_zayıf AND sim < 0.40
-    Yeni kural: abstain = (NLI_zayıf AND sim < 0.40) AND (rerank < eşik)
+    entailment = contradiction = neutral = strength = 0.0
+    for row, weight in zip(rows, weights):
+        probs = row.get("nli_probs") or []
+        entailment += weight * _clip(probs[IDX_ENTAILMENT] if len(probs) > IDX_ENTAILMENT else 0.0)
+        neutral += weight * _clip(probs[IDX_NEUTRAL] if len(probs) > IDX_NEUTRAL else 1.0)
+        contradiction += weight * _clip(probs[IDX_CONTRADICTION] if len(probs) > IDX_CONTRADICTION else 0.0)
+        strength += weight * (0.65 * _clip(row.get("sig_rerank")) +
+                              0.20 * _clip(row.get("sim")) +
+                              0.15 * _clip(row.get("authority", 0.60)))
 
-    Re-ranker yüksekse => belge gerçekten alakalı => abstain etme.
-    """
-    if sig_rerank >= RERANKER_ABSTAIN_THRESHOLD:
-        # Re-ranker yüksek güven: NLI neutral dese bile bilgi var demektir
-        return False
-    # Hem NLI zayıf hem benzerlik zayıf hem re-ranker zayıf => gerçek abstain
-    return should_abstain(nli_probs) and sim_score < SIM_WEAK
+    if critical_mismatch and strength >= 0.55:
+        contradiction = min(1.0, contradiction + 0.08 * (1.0 - contradiction))
+
+    return {"entailment": entailment, "contradiction": contradiction,
+            "neutral": neutral, "strength": strength, "n_sources": float(len(rows))}
 
 
-def make_decision(
-    nli_probs: List[float],
-    sim_score: float,
-    db_label: Optional[int],
-    sig_rerank: float = 0.0,
-    k6_prediction: Optional[Dict[str, Any]] = None,
-    k9_consensus: Optional[Dict[str, Any]] = None,
+def make_evidence_decision(
+    evidence: Iterable[Mapping[str, Any]], *, critical_mismatch: bool = False,
+    policy: Optional[Mapping[str, Any]] = None,
 ) -> Dict[str, Any]:
-    """
-    Tüm sinyalleri birleştirerek nihai karar sözlüğünü döndürür.
+    """Return a selective verdict from evidence, without consulting corpus labels."""
+    config = PolicyConfig.from_mapping(policy)
+    rows = list(evidence)[:config.top_k]
+    scores = aggregate_evidence(rows, critical_mismatch=critical_mismatch)
+    support, refute = scores["entailment"], scores["contradiction"]
+    strongest = max(support, refute)
+    margin = abs(support - refute)
+    confidence = scores["strength"] * strongest * (1.0 - 0.35 * scores["neutral"])
+    risk = 1.0 - confidence
 
-    Returns
-    -------
-    dict with keys: status, confidence (0-100), risk (0-100), reason
-    """
-    result: Dict[str, Any] = {
-        "status": STATUS_RETURN,
-        "confidence": 0,
-        "risk": 50,
-        "reason": "abstain",
-    }
+    insufficient = (
+        scores["n_sources"] == 0 or scores["strength"] < config.min_evidence_strength
+        or strongest < config.min_nli_probability or margin < config.min_nli_margin
+        or risk > config.max_risk
+    )
+    if insufficient:
+        return {"status": STATUS_RETURN, "confidence": round(confidence * 100),
+                "risk": round(risk * 100), "reason": "insufficient_evidence_or_policy_risk",
+                "evidence": scores, "nli_margin": margin}
 
-    # ── Hibrit Abstention Kontrolü (Faz 1: Re-Ranker Gated) ──────────────────
-    if should_abstain_hybrid(nli_probs, sim_score, sig_rerank):
-        result["reason"] = "k4_abstain_hybrid_low_rerank_and_sim"
-        return result
+    status = STATUS_APPROVE if support > refute else STATUS_REJECT
+    return {"status": status, "confidence": round(confidence * 100),
+            "risk": round(risk * 100), "reason": "aggregated_nli_evidence",
+            "evidence": scores, "nli_margin": margin}
 
-    entail = nli_probs[IDX_ENTAILMENT] if len(nli_probs) > IDX_ENTAILMENT else 0.0
-    contra = nli_probs[IDX_CONTRADICTION] if len(nli_probs) > IDX_CONTRADICTION else 0.0
 
-    # Re-Ranker güçlüyse entailment/contradiction değerlerini yukarı ağırlıklandır
-    rerank_boost = min(1.0, sig_rerank * 5)  # 0.02 → 0.10 boost, 0.20 → 1.0 boost
-
-    effective_entail = min(1.0, entail + rerank_boost * 0.15)
-    effective_contra = min(1.0, contra + rerank_boost * 0.05)
-
-    # ── Temel NLI + benzerlik kararı ─────────────────────────────────────────
-    if effective_entail > effective_contra and sim_score >= SIM_WEAK:
-        if db_label == LABEL_TRUE:
-            result["status"]     = STATUS_APPROVE
-            result["confidence"] = int(min(100, effective_entail * 100 * (1 + 0.2 * sig_rerank)))
-            result["risk"]       = max(0, 100 - result["confidence"])
-            result["reason"]     = "nli_entailment_hybrid"
-        else:
-            result["status"]     = STATUS_WARN
-            result["confidence"] = int(effective_entail * 60)
-            result["risk"]       = 60
-            result["reason"]     = "nli_entailment_label_conflict"
-    elif effective_contra > effective_entail and sim_score >= SIM_WEAK:
-        result["status"]     = STATUS_REJECT
-        result["confidence"] = int(min(100, effective_contra * 100))
-        result["risk"]       = 90
-        result["reason"]     = "nli_contradiction_hybrid"
-    elif sim_score >= SIM_STRONG:
-        result["status"]     = STATUS_WARN
-        result["confidence"] = 45
-        result["risk"]       = 55
-        result["reason"]     = "sim_only_no_nli"
-    elif sig_rerank >= RERANKER_ABSTAIN_THRESHOLD:
-        # Sadece re-ranker sinyali var, NLI zayıf ama belge alakalı
-        result["status"]     = STATUS_WARN
-        result["confidence"] = int(min(60, sig_rerank * 300))
-        result["risk"]       = 65
-        result["reason"]     = "reranker_only_nli_neutral"
-
-    # ── K9 Konsensüs Geçişi ───────────────────────────────────────────────────
-    if k9_consensus and isinstance(k9_consensus, dict):
-        if k9_consensus.get("has_conflict"):
-            result["status"] = STATUS_WARN
-            result["risk"]   = max(result["risk"], 65)
-            result["reason"] += "+k9_conflict"
-        elif k9_consensus.get("total_sources", 1) >= 2:
-            maj = k9_consensus.get("label")
-            if maj == LABEL_TRUE and result["status"] == STATUS_APPROVE:
-                result["confidence"] = min(100, result["confidence"] + 10)
-            elif maj == LABEL_FALSE:
-                result["status"] = STATUS_REJECT
-                result["risk"]   = max(result["risk"], 85)
-                result["reason"] += "+k9_majority_false"
-
-    # ── K6 Sınıflandırıcı Sinyali (Yalnızca Güven Kalibrasyonu, Hüküm Değiştirmez) ──
-    # Not: K-6 kizilelma_classifier_v1 bağımsız bir danışman modeldir.
-    # Karar status'ünü (ONAY/RED/RET) asla değiştirmez; yalnızca güven kalibre eder.
-    if k6_prediction and isinstance(k6_prediction, dict) and k6_prediction.get("available"):
-        k6_label = k6_prediction.get("predicted_label")
-        k6_conf  = float(k6_prediction.get("confidence") or 0.0)
-        if k6_conf >= K6_CONF_MIN:
-            if (result["status"] in (STATUS_REJECT, STATUS_WARN) and k6_label == LABEL_FALSE) or \
-               (result["status"] == STATUS_APPROVE and k6_label == LABEL_TRUE):
-                result["confidence"] = min(100, result["confidence"] + 5)
-                result["reason"] += "+k6_concur"
-            elif result["status"] == STATUS_APPROVE and k6_label == LABEL_FALSE and k6_conf >= 0.85:
-                result["confidence"] = max(50, result["confidence"] - 20)
-                result["reason"] += "+k6_dissent_discount"
-
-    return result
+# Compatibility wrapper. ``db_label`` is intentionally ignored; it remains only
+# to avoid silently breaking external callers that used the old function.
+def make_decision(nli_probs: List[float], sim_score: float, db_label: Optional[int] = None,
+                  sig_rerank: float = 0.0, **_: Any) -> Dict[str, Any]:
+    return make_evidence_decision([{"nli_probs": nli_probs, "sim": sim_score,
+                                    "sig_rerank": sig_rerank, "authority": 0.60}])

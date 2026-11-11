@@ -131,6 +131,16 @@ class KizilelmaEngine(TextAnalysisMixin, KnowledgeStoreMixin, ResponseGeneratorM
         self.MAX_CONTEXT = 3
         
         self.decision_classifier = LearnedDecisionClassifier()
+        # Serving receives only policy parameters fitted on a held-out dev set.
+        # Corpus verdict labels are not decision features.
+        self.decision_policy = {}
+        policy_path = self.model_paths.get("decision_policy")
+        if policy_path and os.path.isfile(policy_path):
+            try:
+                with open(policy_path, encoding="utf-8") as policy_file:
+                    self.decision_policy = json.load(policy_file).get("policy", {})
+            except (OSError, ValueError, TypeError):
+                print("[System] Karar politikası okunamadı; varsayılanlar kullanılacak.")
 
         # --- Thread Safety ---
         self._model_lock = threading.Lock()
@@ -494,9 +504,43 @@ class KizilelmaEngine(TextAnalysisMixin, KnowledgeStoreMixin, ResponseGeneratorM
         res["desc"] = desc
         return res
 
-    def karar_motoru(self, user_query, db_record, nli_probs, sim_score, sig_rerank=0.0, k6_prediction=None, k9_consensus=None):
-        res = self._raw_karar_motoru(user_query, db_record, nli_probs, sim_score, sig_rerank)
-        return self._calibrate_decision(res, k6_prediction, k9_consensus, db_record.get('label'), sim_score)
+    def karar_motoru(self, user_query, db_record, nli_probs, sim_score, sig_rerank=0.0,
+                     k6_prediction=None, k9_consensus=None, evidence_signals=None,
+                     critical_mismatch=False):
+        """Make a verdict from evidence relations, never from a corpus record label.
+
+        ``db_record['label']`` used to route this method into separate true/false
+        branches. That was a nearest-record label-copying shortcut, so the legacy
+        implementation is retained below only for archaeology and is no longer
+        reachable from the serving or evaluation paths.
+        """
+        from src.ai_core.layers.k5_decision import make_evidence_decision
+
+        evidence_signals = evidence_signals or [{
+            "nli_probs": nli_probs, "sim": sim_score,
+            "sig_rerank": sig_rerank, "authority": db_record.get("authority", 0.60),
+        }]
+        decision = make_evidence_decision(
+            evidence_signals, critical_mismatch=critical_mismatch,
+            policy=getattr(self, "decision_policy", None),
+        )
+        status = decision["status"]
+        category = "KANIT_YETERSIZ" if status == "RET" else (
+            "KANIT_DESTEKLI" if status == "ONAY" else "KANIT_CELISKISI"
+        )
+        messages = {
+            "ONAY": ("✅ **KANITLA DESTEKLENDİ**",
+                     "Birden fazla kanıt parçasının NLI analizi iddiayı destekliyor."),
+            "RED": ("❌ **KANITLA ÇELİŞİYOR**",
+                    "Birden fazla kanıt parçasının NLI analizi iddiayla çelişiyor."),
+            "RET": ("ℹ️ **YETERSİZ KANIT / ÇEKİMSER**",
+                    "Kanıt gücü veya çıkarım marjı karar eşiğini karşılamıyor."),
+        }
+        msg, desc = messages[status]
+        return {"status": status, "msg": msg, "desc": desc,
+                "conf": decision["confidence"], "risk": decision["risk"],
+                "cat": category, "decision_reason": decision["reason"],
+                "evidence_scores": decision["evidence"], "nli_margin": decision["nli_margin"]}
 
     def _raw_karar_motoru(self, user_query, db_record, nli_probs, sim_score, sig_rerank=0.0):
         db_text = db_record['text']
@@ -870,7 +914,6 @@ class KizilelmaEngine(TextAnalysisMixin, KnowledgeStoreMixin, ResponseGeneratorM
                     candidates.append({
                         'id': int(self.df.iloc[idx]['id']) if 'id' in self.df.columns else idx,
                         'text': self.df.iloc[idx]['text'], 
-                        'label': int(self.df.iloc[idx]['label']), 
                         'sim': cand['dense_sim'],
                         'rerank_score': cand['rerank_score'],
                         'authority': cand['authority'],
@@ -914,21 +957,12 @@ class KizilelmaEngine(TextAnalysisMixin, KnowledgeStoreMixin, ResponseGeneratorM
         stage_start = time.perf_counter()
         top_k = min(3, len(candidates))
         top_sources = candidates[:top_k]
-        labels = [c['label'] for c in top_sources]
-        
-        most_common_label = max(set(labels), key=labels.count)
-        agreement_count = labels.count(most_common_label)
-        is_consensus = agreement_count == len(labels) if len(labels) >= 2 else True
-        has_conflict = not is_consensus and len(labels) >= 2
-        
         best_cand = top_sources[0]
         
         consensus_info = {
-            "is_consensus": is_consensus,
-            "has_conflict": has_conflict,
             "total_sources": len(top_sources),
-            "agreement_count": agreement_count,
-            "label": most_common_label
+            "distinct_publishers": len({str(c.get("publisher") or c.get("id")) for c in top_sources}),
+            "evidence_only": True,
         }
         trace_elapsed("K9_advisory_consensus", stage_start)
         stage_start = time.perf_counter()
@@ -943,7 +977,7 @@ class KizilelmaEngine(TextAnalysisMixin, KnowledgeStoreMixin, ResponseGeneratorM
         # Fark yoksa, semantik uyuşma çok yüksekse ve kaynak yalanlama içermiyorsa NLI bypass et
         cand_text_lower = best_cand['text'].lower()
         has_debunk_kw = any(w in cand_text_lower for w in ["yalan", "iddia", "asılsız", "sahte", "montaj", "şüphe", "iddiası"])
-        if diff_user is None and diff_source is None and best_cand['sim'] >= 0.88 and not has_debunk_kw and best_cand.get('label') == 1:
+        if False:  # NLI bypass removed: a retrieval score must not create a verdict.
             print("⚡ NLP Mantıksal Bypass: Eşleşmede fark tespit edilmedi, NLI modeli atlandı (Bypass).")
             probs = np.array([1.0, 0.0, 0.0], dtype=np.float32)  # Kanonik: [entailment=1, neutral=0, contradiction=0]
             if trace is not None:
@@ -957,6 +991,21 @@ class KizilelmaEngine(TextAnalysisMixin, KnowledgeStoreMixin, ResponseGeneratorM
                 trace["nli_probs"] = [float(p) for p in probs]
             print(f"🔍 Kaynak: {best_cand['text']} | Sim: {best_cand['sim']:.2f} | NLI: {probs}")
 
+        # Aggregate NLI across the top evidence set. This intentionally happens
+        # even for a near-duplicate retrieval: retrieval relevance is not proof.
+        from src.ai_core.layers.k4_nli import run_nli_batch
+        nli_rows = run_nli_batch(
+            [(clean_query, candidate['text']) for candidate in top_sources], self.nli_model
+        )
+        evidence_signals = [{
+            "nli_probs": candidate_probs, "sim": candidate["sim"],
+            "sig_rerank": candidate.get("sig_rerank", 0.0),
+            "authority": candidate.get("authority", 0.60), "source_id": candidate["id"],
+        } for candidate, candidate_probs in zip(top_sources, nli_rows)]
+        probs = np.array(nli_rows[0], dtype=np.float32)
+        if trace is not None:
+            trace["nli_probs"] = [float(p) for p in probs]
+
         # Karar
         trace_elapsed("K4_nli_and_bypass_check", stage_start)
         if trace is not None:
@@ -966,7 +1015,8 @@ class KizilelmaEngine(TextAnalysisMixin, KnowledgeStoreMixin, ResponseGeneratorM
             raw_query, best_cand, probs,
             best_cand['sim'], best_cand.get('sig_rerank', 0.0),
             k6_prediction=classifier_prediction,
-            k9_consensus=consensus_info
+            k9_consensus=consensus_info, evidence_signals=evidence_signals,
+            critical_mismatch=(diff_cat in {"SAYI", "ZAMAN AŞIMI", "YER", "KİŞİ", "KRİTİK UNVAN", "KİŞİ/YER/UNVAN"}),
         )
         trace_elapsed("K5_decision", stage_start)
         res['consensus'] = consensus_info # Konsensüs verisini ekle

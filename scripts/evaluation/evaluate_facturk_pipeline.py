@@ -69,15 +69,23 @@ def main():
     p.add_argument("--corpus-dir", type=Path, required=True)
     p.add_argument("--models", type=Path, default=Path(".runtime/evaluation_models/models.json"))
     p.add_argument("--checkpoint", type=Path, default=Path("src/ai_core/models/kizilelma_classifier_v1"))
+    p.add_argument("--decision-policy", type=Path,
+                   help="K5 policy exported by fit_selective_policy.py from a held-out development split")
+    p.add_argument("--development-feature-export", action="store_true",
+                   help="Run a development split only to export evidence features before fitting K5; cannot report test metrics")
     p.add_argument("--output-dir", type=Path, required=True)
     p.add_argument("--seed", type=int, default=20260908)
     p.add_argument("--bootstrap-resamples", type=int, default=2000)
     p.add_argument("--resume", action="store_true", help="Resume from existing partial run")
     p.add_argument("--overwrite", action="store_true", help="Overwrite existing output directory")
     p.add_argument("--status", type=str, default="COMPLETED_WITH_PROVENANCE_LIMITATIONS", help="Final status to set in run manifest if completed")
-    p.add_argument("--publication-eligible", action="store_true", help="Mark publication_eligible as True in manifest")
+    p.add_argument("--publication-eligible", action="store_true", help="Rejected: a single binary run is not publication eligible")
     p.add_argument("--enable-web-retrieval", action="store_true", help="Enable K-2 temporal web retrieval fallback for uncovered claims")
     args = p.parse_args()
+    if args.publication_eligible:
+        raise ValueError("A single binary FACTurk run cannot be marked publication eligible; use evaluate_multicorpus.py after all registered runs.")
+    if bool(args.decision_policy) == bool(args.development_feature_export):
+        raise ValueError("Provide --decision-policy for a test run, or --development-feature-export for the development-only feature run.")
     if args.overwrite and args.output_dir.exists():
         for item in args.output_dir.iterdir():
             if item.is_file() or item.is_symlink():
@@ -91,7 +99,7 @@ def main():
         out = fresh_dir(args.output_dir)
     corpus_path = args.corpus_dir / "corpus.csv"
     inputs = [args.claims, corpus_path, args.corpus_dir / "snapshot_report.json", args.models,
-              ROOT / "data/processed/knowledge_base.json"]
+              ROOT / "data/processed/knowledge_base.json"] + ([args.decision_policy] if args.decision_policy else [])
     record = manifest(__file__, inputs, {"seed": args.seed, "bootstrap_resamples": args.bootstrap_resamples,
                       "task": "FACTurk external claim-only full engine with fixed local corpus",
                       "retrieval_backend": "in_memory_cosine_and_BM25", "cache": "bypassed; engine entry point",
@@ -99,10 +107,16 @@ def main():
                       "status_mapping": {"ONAY": LABELS[0], "RED": LABELS[1], "UYARI": LABELS[1], "RET": LABELS[2], "KISMI": LABELS[2],
                                          "ABOUT/GREETING": LABELS[2]},
                       "mapping_note": "KISMI is not a binary verdict and is conservatively counted as abstention; raw status retained.",
-                      "threshold_selection": "existing engine thresholds; no test tuning"})
+                      "threshold_selection": ("held-out development policy supplied through --decision-policy; test labels are not used for tuning"
+                                              if args.decision_policy else "development-only evidence feature export; no policy fitting or test claim" )})
     record["status"] = "PREFLIGHT"
     write_json(out / "run_manifest.json", record)
     try:
+        policy_document = None
+        if args.decision_policy:
+            policy_document = json.loads(args.decision_policy.read_text(encoding="utf-8"))
+            if policy_document.get("selection_split") != "held_out_development" or not policy_document.get("policy"):
+                raise ValueError("Decision policy must be fitted on a declared held-out development split.")
         rows, corpus = read_csv(args.claims), read_csv(corpus_path)
         snapshot = json.loads((args.corpus_dir / "snapshot_report.json").read_text(encoding="utf-8"))
         if sha256(corpus_path) != snapshot["corpus_sha256"]:
@@ -113,7 +127,8 @@ def main():
         separation = audit(normalized_rows, corpus, [], claim_only=True)
         write_json(out / "separation_report.json", separation)
         record["corpus_sha256"] = sha256(corpus_path)
-        record["limitations"] = ["This is external claim-only evaluation, not B2's frozen human evidence-gold experiment.",
+        record["limitations"] = ["This is one binary external claim-only evaluation, not a multi-corpus publication evaluation.",
+                                  "This is external claim-only evaluation, not B2's frozen human evidence-gold experiment.",
                                   "Historical checkpoint training lineage is not verified.",
                                   "Corpus URL omissions prevent certifying URL disjointness.",
                                   "In-memory retrieval is used; this is not a PostgreSQL/HTTP/container latency benchmark.",
@@ -144,8 +159,11 @@ def main():
             torch.use_deterministic_algorithms(True)
         with (out / "engine_stdout.log").open("w", encoding="utf-8") as log, contextlib.redirect_stdout(log):
             start = time.perf_counter()
-            engine = KizilelmaEngine(corpus_path=corpus_path, model_paths={**{role: item["path"] for role, item in models.items()},
-                                                                        "classifier": str(args.checkpoint.resolve())},
+            engine_paths = {**{role: item["path"] for role, item in models.items()},
+                            "classifier": str(args.checkpoint.resolve())}
+            if args.decision_policy:
+                engine_paths["decision_policy"] = str(args.decision_policy.resolve())
+            engine = KizilelmaEngine(corpus_path=corpus_path, model_paths=engine_paths,
                                      enable_web_retrieval=args.enable_web_retrieval)
             record["engine_initialization_ms"] = (time.perf_counter() - start) * 1000
             if engine.classifier_model is None or engine.classifier_tokenizer is None:
@@ -155,6 +173,7 @@ def main():
             record["config"]["authority_weight"] = engine.AUTHORITY_WEIGHT
             record["config"]["retrieval_threshold"] = engine.RETRIEVAL_THRESHOLD
             record["config"]["enable_web_retrieval"] = args.enable_web_retrieval
+            record["config"]["decision_policy"] = policy_document or {"mode": "development_feature_export"}
             record["status"] = "RUNNING"
             write_json(out / "run_manifest.json", record)
             # Semantic overlap scan uses the very embeddings/index used for inference.
@@ -177,7 +196,7 @@ def main():
                     nearest.append({"claim_id": r["benchmark_id"], "record_id": corpus[idx]["id"], "cosine_similarity": float(scores[idx])})
             write_json(out / "nearest_neighbors.json", {"threshold": .95, "neighbors": nearest,
                                                          "flagged_claim_ids": [r["claim_id"] for r in nearest if r["cosine_similarity"] >= .95]})
-            fields = ["claim_id", "gold_verdict", "retrieved_source_ids", "rerank_scores", "nli_probs", "decision_probs", "nli_bypassed",
+            fields = ["claim_id", "gold_verdict", "claim_type", "source_dataset", "retrieved_source_ids", "rerank_scores", "nli_probs", "decision_probs", "decision_evidence", "nli_margin", "nli_bypassed",
                       "final_verdict", "raw_status", "abstained", "cache_hit", "latency_ms", "layer_latency_ms", "selected_source_id"]
             truths, predictions = [], []
             done_ids = set()
@@ -211,10 +230,14 @@ def main():
                     gold = LABELS[0] if row["gold_label"] == "1" else LABELS[1]
                     truths.append(gold)
                     predictions.append(pred)
-                    item = {"claim_id": row["benchmark_id"], "gold_verdict": gold, "final_verdict": pred,
+                    item = {"claim_id": row["benchmark_id"], "gold_verdict": gold,
+                            "claim_type": row.get("claim_type", "unspecified"),
+                            "source_dataset": row.get("source_dataset", "unknown"), "final_verdict": pred,
                             "raw_status": response["status"], "abstained": pred == LABELS[2], "cache_hit": False,
                             "latency_ms": trace["latency_ms"], "selected_source_id": trace.get("selected_source_id"),
-                            "nli_bypassed": trace["nli_bypassed"]}
+                            "nli_bypassed": trace["nli_bypassed"],
+                            "decision_evidence": json.dumps(response.get("decision", {}).get("evidence_scores"), ensure_ascii=False),
+                            "nli_margin": response.get("decision", {}).get("nli_margin")}
                     for key in ("retrieved_source_ids", "rerank_scores", "nli_probs", "decision_probs", "layer_latency_ms"):
                         item[key] = json.dumps(trace[key], ensure_ascii=False, allow_nan=False)
                     writer.writerow(item)
@@ -229,16 +252,16 @@ def main():
         if sha256(corpus_path) != record["corpus_sha256"]:
             raise ValueError("Corpus changed during evaluation.")
         write_json(out / "metrics.json", bootstrap_metrics(truths, predictions, args.seed, args.bootstrap_resamples, selective=True))
-        record["status"] = args.status
+        record["status"] = "DEVELOPMENT_FEATURES_ONLY" if args.development_feature_export else args.status
         record["completed_claims"] = len(predictions)
-        record["publication_eligible"] = bool(args.publication_eligible)
+        record["publication_eligible"] = False
     except Exception as exc:
         record["status"] = "BLOCKED_OR_FAILED"
         record["failure"] = {"type": type(exc).__name__, "message": str(exc)}
         write_json(out / "failure.json", record["failure"])
     finish_manifest(out, record)
     print(f"Full-pipeline run artifacts: {out} ({record['status']})")
-    return 0 if record["status"] in {"COMPLETED_WITH_PROVENANCE_LIMITATIONS", "COMPLETED"} else 2
+    return 0 if record["status"] in {"COMPLETED_WITH_PROVENANCE_LIMITATIONS", "COMPLETED", "DEVELOPMENT_FEATURES_ONLY"} else 2
 
 
 if __name__ == "__main__":

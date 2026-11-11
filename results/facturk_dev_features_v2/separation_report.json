@@ -1,0 +1,9 @@
+{
+  "status": "FAIL",
+  "errors": [
+    "Historical training input not supplied; training disjointness unknown."
+  ],
+  "overlaps": [],
+  "corpus_records_without_url": 0,
+  "training_scope": "Only the supplied training export; historical checkpoint lineage requires separate verification."
+}

@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "input_sha256": "835ff48cbbcb6e0b8c20823c0e5ca2e8375d38384dd0882b682e9e9408b3da1c",
+  "seed": 20261111,
+  "cluster_column": "source_claim_cluster",
+  "dev_per_class_target": 50,
+  "development_count": 100,
+  "test_count": 400,
+  "development_sha256": "1a62ac6d6b4a37b636b2276278abb34651f3babacff39e3f3cc6f0e1cb4fd325",
+  "test_sha256": "7ae12080ad66655859e54de34ffd85c6f4ca000da738f4329bae7f8f895797cb",
+  "cluster_overlap_count": 0,
+  "scope_warning": "This split controls tuning leakage but remains a single-source FACTurk evaluation."
+}
